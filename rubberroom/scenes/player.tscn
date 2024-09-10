@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://cdra3qby8c8bm"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_p3382"]
+[ext_resource type="Script" path="res://scripts/spring_arm_3d.gd" id="2_shcln"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_miivl"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tds2k"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_p3382")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_miivl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_tds2k")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+spring_length = 7.0
+margin = 0.2
+script = ExtResource("2_shcln")
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
