@@ -1,6 +1,59 @@
-[gd_scene format=3 uid="uid://dwkqo1g7fog0c"]
+[gd_scene load_steps=7 format=3 uid="uid://dwkqo1g7fog0c"]
+
+[ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="1_bjml5"]
+[ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="1_nfkgg"]
+[ext_resource type="Material" uid="uid://bje11o171j0bm" path="res://assets/materials/basic materials/yellow.tres" id="2_n31g5"]
+[ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="3_gyf1m"]
+[ext_resource type="Material" uid="uid://otsc4ndmv37v" path="res://assets/materials/basic materials/purple.tres" id="5_1f6r5"]
+[ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="6_6870n"]
 
 [node name="World" type="Node3D"]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-size = Vector3(50, 0.25, 50)
+[node name="Base World" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Base World"]
+material_override = ExtResource("1_nfkgg")
+size = Vector3(100, 0.25, 100)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Base World"]
+transform = Transform3D(0.441334, 0.897343, 0, -0.897343, 0.441334, 0, 0, 0, 1, -1.99142, 2.16918, 1.50073)
+material_override = ExtResource("2_n31g5")
+size = Vector3(7.50342, 1.39246, 4.00146)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Base World"]
+transform = Transform3D(-0.104719, 0.994502, 0, -0.994502, -0.104719, 0, 0, 0, 1, 30.4238, 6.70307, -13.5551)
+material_override = ExtResource("3_gyf1m")
+size = Vector3(16.6213, 1.39246, 4.00146)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Base World"]
+transform = Transform3D(-0.396347, 0.918101, 0, -0.918101, -0.396347, 0, 0, 0, 1, -21.9735, -0.366513, 24.8124)
+material_override = ExtResource("1_bjml5")
+size = Vector3(6.61938, 6.30475, 12.3346)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Base World"]
+transform = Transform3D(-0.397679, -0.124188, -0.909081, -0.835423, -0.360655, 0.414725, -0.379368, 0.924395, 0.0396754, -25.7759, -0.158872, -8.13774)
+material_override = ExtResource("5_1f6r5")
+size = Vector3(8.9635, 6.23915, 12.3346)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Base World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6041, 49.334)
+material_override = ExtResource("6_6870n")
+size = Vector3(100, 5, 1.5)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Base World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6041, -49.6816)
+material_override = ExtResource("6_6870n")
+size = Vector3(100, 5, 1.5)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Base World"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -50.7426, 2.6041, -0.118092)
+material_override = ExtResource("6_6870n")
+size = Vector3(99.5043, 5, 1.5)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Base World"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 50.2662, 2.6041, 0.0251427)
+material_override = ExtResource("6_6870n")
+size = Vector3(99.7697, 5, 1.5)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.599943, 0.551019, 0.58004, -0.307647, -0.510372, 0.80304, 0.738527, -0.660226, -0.136675, 0, 173.503, 0)

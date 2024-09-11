@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://bhbea0gs5pplh"]
+
+[ext_resource type="Shader" path="res://assets/materials/shaders/Cel_Shader.gdshader" id="1_n15y7"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_k7fmn"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_n15y7")
+shader_parameter/base_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 0.02
+shader_parameter/outline_color = Vector4(0, 0, 0, 1)
+shader_parameter/toon_steps = 4
+shader_parameter/fresnel_power = 4.0
+shader_parameter/fresnel_color = Vector4(1, 1, 1, 1)
+shader_parameter/color_ramp = SubResource("GradientTexture1D_k7fmn")
