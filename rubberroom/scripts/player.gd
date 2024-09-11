@@ -21,32 +21,30 @@ var is_crouched = false
 # This is our model variable, currently a placeholder.
 @onready var _model : MeshInstance3D = $MeshInstance3D
 
+
+
 # I am not putting anything into separate functions right now, I just want it to work. Be organized, but optimize later.
 func _physics_process(delta: float) -> void:
-	#move_and_slide()
-	
 	# Sets our direcitonal vector to [0, 0, 0] so we can clearly move around effectively.
 	var move_direction = Vector3.ZERO
 	
 	# We are using get_action_strength here, because I added controller input mapping, will help us later.
 	move_direction.x = Input.get_action_strength("right") - Input.get_action_strength("left")
-	move_direction.z = Input.get_action_strength("back") - Input.get_action_strength("forward")
-	# Normalizing to make diagonal vectors the same length as all other possible vectors.
-	move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
+	move_direction.z = Input.get_action_strength("backward") - Input.get_action_strength("forward")
+	# Normalizing to prevent diagonal speed boost
+	move_direction = move_direction.normalized()
+	#move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
 	
 	# Setting _velocity to new values depending on the player's stance
 	if Input.is_action_pressed("run") and not is_crouched:
-		_velocity.x = move_direction.x * RUN_SPEED
-		_velocity.z = move_direction.z * RUN_SPEED
+		_velocity = move_direction * RUN_SPEED
 		print("The Player is Running")
 	elif Input.is_action_pressed("crouch"):
-		_velocity.x = move_direction.x * CROUCH_SPEED
-		_velocity.z = move_direction.z * CROUCH_SPEED
+		_velocity = move_direction * CROUCH_SPEED
 		print("The Player is Crouching")
 		is_crouched = !is_crouched
 	else:
-		_velocity.x = move_direction.x * SPEED
-		_velocity.z = move_direction.z * SPEED
+		_velocity = move_direction * SPEED
 		print("The Player is Walking")
 		
 	

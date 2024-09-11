@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="RubberRoom"
-run/main_scene="res://scenes/player.tscn"
+run/main_scene="res://scenes/world.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -67,3 +67,4 @@ right={
 [layer_names]
 
 3d_physics/layer_1="Player"
+3d_physics/layer_2="Environment"
