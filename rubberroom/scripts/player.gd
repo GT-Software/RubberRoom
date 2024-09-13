@@ -5,9 +5,9 @@ extends CharacterBody3D
 @export var SPEED = 5.0
 @export var RUN_SPEED = 8.5
 @export var CROUCH_SPEED = 2.5
-@export var JUMP_VELOCITY = 4.5
-# In case we want custom gravity
-@export var gravity = 50.0
+@export var JUMP_VELOCITY = 20.0
+# In case we want gravity
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var _velocity = Vector3.ZERO
 # Points to the ground to ground our character
@@ -32,8 +32,7 @@ func _physics_process(delta: float) -> void:
 	move_direction.x = Input.get_action_strength("right") - Input.get_action_strength("left")
 	move_direction.z = Input.get_action_strength("backward") - Input.get_action_strength("forward")
 	# Normalizing to prevent diagonal speed boost
-	move_direction = move_direction.normalized()
-	#move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
+	move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
 	
 	# Setting _velocity to new values depending on the player's stance
 	if Input.is_action_pressed("run") and not is_crouched:
@@ -47,23 +46,14 @@ func _physics_process(delta: float) -> void:
 		_velocity = move_direction * SPEED
 		print("The Player is Walking")
 		
-	
-	
-	_velocity.y -= gravity * delta
-	# Use this line (vvv) instead of (^^^) if you want system defined gravity
-	#velocity += get_gravity() * delta
-	
+	_velocity.y -= gravity * delta * 17
 	# We use the is_on_floor() method and the snap vector to check if the player landed
 	# These are boolean variables being set to true/false based on these conditions
-	var just_landed = is_on_floor() and _snap_vector == Vector3.ZERO
+	var just_landed = is_on_floor()
 	var is_jumping = is_on_floor() and Input.is_action_just_pressed("jump")
 	# If the player is jumping, set y-velocity to the jump velocity, and the snap vector to a zero vector
-	# Else, set the snap vector to a down vector
 	if is_jumping:
-		_velocity.y = JUMP_VELOCITY
-		_snap_vector = Vector3.ZERO
-	elif just_landed:
-		_snap_vector = Vector3.DOWN
+		_velocity.y += JUMP_VELOCITY
 		
 	velocity = _velocity
 	move_and_slide()

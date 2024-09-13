@@ -68,3 +68,7 @@ right={
 
 3d_physics/layer_1="Player"
 3d_physics/layer_2="Environment"
+
+[physics]
+
+3d/physics_engine="JoltPhysics3D"

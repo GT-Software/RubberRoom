@@ -80,5 +80,7 @@ transform = Transform3D(0.599943, 0.551019, 0.58004, -0.307647, -0.510372, 0.803
 [node name="Player" parent="." instance=ExtResource("7_qqmnw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5787, 3.93057, 22.5258)
 collision_mask = 2
-SPEED = 100.0
-JUMP_VELOCITY = 10.5
+SPEED = 15.0
+RUN_SPEED = 25.0
+CROUCH_SPEED = 10.0
+JUMP_VELOCITY = 200.0
