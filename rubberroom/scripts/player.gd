@@ -53,7 +53,7 @@ func _physics_process(delta: float) -> void:
 	var is_jumping = is_on_floor() and Input.is_action_just_pressed("jump")
 	# If the player is jumping, set y-velocity to the jump velocity, and the snap vector to a zero vector
 	if is_jumping:
-		_velocity.y += JUMP_VELOCITY
+		_velocity.y = JUMP_VELOCITY
 		
 	velocity = _velocity
 	move_and_slide()
