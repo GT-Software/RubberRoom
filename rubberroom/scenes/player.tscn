@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cdra3qby8c8bm"]
+[gd_scene load_steps=5 format=3 uid="uid://cdra3qby8c8bm"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_p3382"]
 [ext_resource type="Script" path="res://scripts/spring_arm_3d.gd" id="2_shcln"]
@@ -6,9 +6,6 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_miivl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tds2k"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_cu01s"]
-radius = 0.07
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_p3382")
@@ -20,9 +17,7 @@ mesh = SubResource("CapsuleMesh_miivl")
 shape = SubResource("CapsuleShape3D_tds2k")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="."]
-collision_mask = 2
-shape = SubResource("SphereShape3D_cu01s")
-spring_length = 3.0
+spring_length = 7.0
 margin = 0.2
 script = ExtResource("2_shcln")
 
