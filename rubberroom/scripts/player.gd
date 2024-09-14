@@ -50,16 +50,16 @@ func _physics_process(delta):
 	if Input.is_action_pressed("run") and not is_crouched:
 		velocity.x = move_direction.x * RUN_SPEED
 		velocity.z = move_direction.z * SPEED
-		print("The Player is Running")
+		#print("The Player is Running")
 	elif Input.is_action_pressed("crouch"):
 		velocity.x = move_direction.x * CROUCH_SPEED
 		velocity.z = move_direction.z * CROUCH_SPEED
-		print("The Player is Crouching")
+		#print("The Player is Crouching")
 		is_crouched = !is_crouched
 	else:
 		velocity.x = move_direction.x * SPEED
 		velocity.z = move_direction.z * SPEED
-		print("The Player is Walking")
+		#print("The Player is Walking")
 		
 	move_and_slide()
 	
