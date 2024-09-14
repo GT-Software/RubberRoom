@@ -5,7 +5,7 @@ extends CharacterBody3D
 @export var SPEED = 5.0
 @export var RUN_SPEED = 8.5
 @export var CROUCH_SPEED = 2.5
-@export var JUMP_VELOCITY = 20.0
+@export var JUMP_VELOCITY = 5.0
 # In case we want gravity
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -24,10 +24,10 @@ var move_direction = Vector3.ZERO
 
 
 # I am not putting anything into separate functions right now, I just want it to work. Be organized, but optimize later.
-func _physics_process(delta: float) -> void:
+func _physics_process(delta):
 	
 	if not is_on_floor():
-		velocity.y -= gravity * delta * 20
+		velocity.y -= gravity * delta
 	
 	# We use the is_on_floor() method and the snap vector to check if the player landed
 	# These are boolean variables being set to true/false based on these condition
@@ -36,11 +36,15 @@ func _physics_process(delta: float) -> void:
 	if is_jumping:
 		velocity.y = JUMP_VELOCITY
 	
-	# We are using get_action_strength here, because I added controller input mapping, will help us later.
-	move_direction.x = Input.get_action_strength("right") - Input.get_action_strength("left")
-	move_direction.z = Input.get_action_strength("backward") - Input.get_action_strength("forward")
-	# Normalizing to prevent diagonal speed boost
-	move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
+	## We are using get_action_strength here, because I added controller input mapping, will help us later.
+	#move_direction.x = Input.get_action_strength("right") - Input.get_action_strength("left")
+	#move_direction.z = Input.get_action_strength("backward") - Input.get_action_strength("forward")
+	## Normalizing to prevent diagonal speed boost
+	#move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
+	
+	var input_dir = Input.get_vector("left", "right", "forward", "backward")
+	move_direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y)
 	
 	# Setting _velocity to new values depending on the player's stance
 	if Input.is_action_pressed("run") and not is_crouched:
@@ -48,7 +52,7 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_direction.z * SPEED
 		print("The Player is Running")
 	elif Input.is_action_pressed("crouch"):
-		velocity.x = move_direction.y * CROUCH_SPEED
+		velocity.x = move_direction.x * CROUCH_SPEED
 		velocity.z = move_direction.z * CROUCH_SPEED
 		print("The Player is Crouching")
 		is_crouched = !is_crouched
