@@ -7,11 +7,37 @@
 [ext_resource type="Material" uid="uid://otsc4ndmv37v" path="res://assets/materials/basic materials/purple.tres" id="5_1f6r5"]
 [ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="6_6870n"]
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/player.tscn" id="7_qqmnw"]
-[ext_resource type="Script" path="res://scripts/player.gd" id="8_iwjk0"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_3yqwc"]
+height = 2.09808
+radius = 1.5
 
 [node name="World" type="Node3D"]
 
 [node name="Base World" type="Node3D" parent="."]
+
+[node name="Debug Buttons" type="Node3D" parent="Base World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.6601, 0, -42.7887)
+
+[node name="Heal" type="CSGCylinder3D" parent="Base World/Debug Buttons"]
+transform = Transform3D(0.99993, 0, 0.011868, 0, 1, 0, -0.011868, 0, 0.99993, -1.27248, 0, -0.413723)
+material_override = ExtResource("1_nfkgg")
+radius = 1.5
+
+[node name="HealBox" type="Area3D" parent="Base World/Debug Buttons/Heal"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Base World/Debug Buttons/Heal/HealBox"]
+shape = SubResource("CylinderShape3D_3yqwc")
+
+[node name="Hurt" type="CSGCylinder3D" parent="Base World/Debug Buttons"]
+transform = Transform3D(0.99993, 0, 0.011868, 0, 1, 0, -0.011868, 0, 0.99993, 4.08059, 0, -0.413723)
+material_override = ExtResource("1_bjml5")
+radius = 1.5
+
+[node name="HurtBox" type="Area3D" parent="Base World/Debug Buttons/Hurt"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Base World/Debug Buttons/Hurt/HurtBox"]
+shape = SubResource("CylinderShape3D_3yqwc")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Base World"]
 material_override = ExtResource("1_nfkgg")
@@ -81,8 +107,6 @@ transform = Transform3D(0.599943, 0.551019, 0.58004, -0.307647, -0.510372, 0.803
 [node name="Player" parent="." instance=ExtResource("7_qqmnw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5787, 3.93057, 22.5258)
 collision_mask = 2
-script = ExtResource("8_iwjk0")
 SPEED = 15.0
 RUN_SPEED = 25.0
 CROUCH_SPEED = 10.0
-JUMP_VELOCITY = 5.0
