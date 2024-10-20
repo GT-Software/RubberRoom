@@ -1,66 +1,83 @@
 class_name Enemy
 extends CharacterBody3D
 
+# AMONGUS?????
+
+
 # Enemy States: Chase, Patrol, Alert, Attack, Idle
 enum enemy_states {
-	IDLE,
-	PATROL,
-	ALERT,
-	CHASE,
-	ATTACK,
-	STUNNED,
-	PAUSED
+	IDLE = 0,
+	PATROL = 1,
+	ALERT = 2,
+	CHASE = 3,
+	ATTACK = 4,
+	STUNNED = 5,
+	PAUSED = 6
 }
 
 @onready var nav_agent = $NavigationAgent3D
+
 @onready var detection_area = $DetectionArea
 @onready var player = %Player
+@onready var eyes = $Eyes
+@onready var raycast = $"Line of Sight"
+
 @onready var patrol_timer = $PatrolTimer
 @onready var huh_timer = $HuhTimer
+@onready var alert_timer = $AlertTimer
+
 # Numbers should be borders of the map, but that would change depending on the room the enemy is in
 @onready var random_position = Vector3(randf_range(-45, 45), position.y, randf_range(-45, 45))
 
-@export var SPEED = 3
+@export var SPEED = 3.0
+@export var RUN_SPEED = 60.0
+@export var TURN_SPEED = 2.0
 @export var current_speed : float
 @export var is_idle : bool
-var state : enemy_states
+
+@export var state : enemy_states
 var is_chasing : bool
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+var target
 
 func _ready():
 	current_speed = SPEED
 	is_chasing = false
 
 func _process(delta):
+	print(state)
 	
-	# For animations when needed
+	# animations when needed
 	match state:
 		enemy_states.IDLE:
 			pass
 		enemy_states.ALERT:
-			pass
+			alert()
 		enemy_states.PATROL:
-			pass
+			patrol()
 		enemy_states.CHASE:
-			pass
+			chase()
 		enemy_states.ATTACK:
 			pass
 		enemy_states.STUNNED:
 			pass
 		enemy_states.PAUSED:
-			pass
+			paused(huh_timer.wait_time)
 
 
 func _physics_process(delta: float):
-	# If the is_idle variable is true, don't do nuffin
-	# If the enemy state is paused, don't do nuffin
-	if is_idle or state == enemy_states.PAUSED:
+	# Idle state
+	if is_idle:
 		return
-		
-	# Once the player is detected in the detection_area, chase the player
-	if detection_area.detected:
-		state = enemy_states.CHASE
-		current_speed = SPEED
-		chase()
+	# Pause state
+	if state == enemy_states.PAUSED:
+		paused(huh_timer.wait_time)
+	
+	if detection_area.detected and state != enemy_states.CHASE:
+		# Alert
+		state = 2
+
 	# If the player is no longer detected and the enemy is still chasing,
 	# Tell the enemy to stop chasing and set a timer for a brief pause
 	elif !detection_area.detected and is_chasing:
@@ -68,32 +85,71 @@ func _physics_process(delta: float):
 		is_chasing = false
 		current_speed = 0
 		nav_agent.target_position = global_position
-		huh_timer.start(huh_timer.wait_time)
+	# Patrol state
 	else:
 		current_speed = SPEED
 		state = enemy_states.PATROL
 		patrol()
 		
+		
+	velocity.y -= gravity * delta
 	update_nav_agent()
 	
+
+func paused(pause_time : float):
+	huh_timer.start(pause_time)
 
 # If the enemy detects you, it'll start chasing you (enemy state)
 func chase():
 	is_chasing = true
+	current_speed = RUN_SPEED
+	# Look at the player
 	look_at(player.position)
+	# Set the nav agent's target to the player
 	nav_agent.target_position = player.global_position
+	# Update the nav agent
 	update_nav_agent()
 
 # Default enemy state, enemy is patrolling the area (right now does nothing)
 func patrol():
+	# Look at the direction it is moving
 	look_at(global_transform.origin + velocity)
-	nav_agent.target_position = random_position
+	# Set target to random position
+	update_target_location(random_position)
+	# Update the nav agent
 	update_nav_agent()
+	# This math decides when and where the enemy is patrolling
 	if (abs(random_position.x - global_position.x) <= 5 and abs(random_position.z - global_position.z) <= 5 or patrol_timer.time_left == 0):
+		# Choose a random position relative to the player, so it does not seem like the enemy is actually chasing the player.
 		random_position = Vector3(randf_range(player.position.x - 40, player.global_position.x + 40), position.y, randf_range(player.position.z - 40, player.global_position.z + 40))
+		# Clamps the random position to the boundaries of the world (currently 100, 100 subtract by 5 for wiggle room)
 		clamp(random_position.x, -45, 45)
 		clamp(random_position.z, -45, 45)
 	patrol_timer.start(patrol_timer.wait_time)
+
+
+func alert():
+	state = enemy_states.ALERT
+	
+	alert_timer.start()
+	# Stop MOVING here
+	update_target_location(global_position)
+	current_speed = 0
+	update_nav_agent()
+	
+	target = detection_area.target
+	look_at(target.global_transform.origin, Vector3.ZERO)
+	rotate_y(deg_to_rad(rotation.y * TURN_SPEED))
+	#eyes.look_at(target.global_transform.origin, Vector3.ZERO)
+	#rotate_y(deg_to_rad(eyes.rotation.y * TURN_SPEED))
+	
+	var hit = raycast.get_collider()
+	
+	if hit == player:
+		print("My name is Inigo Montoya! You killed my father! Prepare to die!")
+		state = enemy_states.CHASE
+	
+
 
 # Update the current path and velocity
 func update_nav_agent():
@@ -101,6 +157,7 @@ func update_nav_agent():
 	var current_location = global_transform.origin
 	var new_velocity = (next_location - current_location).normalized() * current_speed
 	
+	# Sets the velocity value for the nav_agent to calculate a safe direction (see _on_navigation_agent_3d_velocity_computed
 	nav_agent.set_velocity(new_velocity)
 	
 # Updates the Navigation Agent's targetted vector position
@@ -120,3 +177,7 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 func _on_huh_timer_timeout() -> void:
 	print("Confusion Escalating to patrol")
 	state = enemy_states.PATROL
+
+
+func _on_alert_timer_timeout() -> void:
+	print("I have been alerted to your position!")

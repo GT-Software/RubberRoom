@@ -22,6 +22,7 @@ project/assembly_name="RubberRoom"
 [global_group]
 
 enemies=""
+player=""
 
 [input]
 
