@@ -21,6 +21,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_oeyls")
+TURN_SPEED = 0.5
 state = 1
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -44,15 +45,15 @@ script = ExtResource("2_qbqrk")
 [node name="DetectionCollision" type="CollisionShape3D" parent="DetectionArea"]
 shape = SubResource("SphereShape3D_4p5us")
 
+[node name="Eyes" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.540668, 0)
+
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 target_desired_distance = 2.0
 path_max_distance = 10.01
 avoidance_enabled = true
 radius = 5.0
 debug_enabled = true
-
-[node name="Eyes" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.540668, 0)
 
 [node name="PatrolTimer" type="Timer" parent="."]
 wait_time = 10.0
