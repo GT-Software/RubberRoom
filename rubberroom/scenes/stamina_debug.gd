@@ -1,23 +1,24 @@
 extends Area3D
-@onready var player = %Player
 
 
 func _on_hurt_entered(body):
-	print("StaminaHurtBox Enter, Taking Stamina Damage")
-	var attack = Attack.new()
-	attack.stamina_damage = 2.5
-	player.stamina_component.damage(attack)
-	print(player.stamina_component.stamina)
-	player.stamina_bar._on_stamina_changed(player.stamina_component.stamina)
+	if body.is_in_group("Player"):
+		print("StaminaHurtBox Enter, Taking Stamina Damage")
+		var attack = Attack.new()
+		attack.stamina_damage = 2.5
+		body.stamina_component.damage(attack)
+		print(body.stamina_component.stamina)
+		body.stamina_bar._on_stamina_changed(body.stamina_component.stamina)
 	
 	
 
 
 func _on_heal_entered(body):
-	print("StunHealBox Enter")
-	player.stamina_component.stamina_heal()
-	print(player.stamina_component.stamina)
-	player.stamina_bar._on_stamina_changed(player.stamina_component.stamina)
+	if body.is_in_group("Player"):
+		print("StunHealBox Enter")
+		body.stamina_component.stamina_heal()
+		print(body.stamina_component.stamina)
+		body.stamina_bar._on_stamina_changed(body.stamina_component.stamina)
 
 
 

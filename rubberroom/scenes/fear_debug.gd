@@ -1,6 +1,5 @@
 extends Area3D
-@onready var player = %Player
-
+@onready var player: CharacterBody3D = %Player
 
 func _on_hurt_entered(body):
 	print("FearHurtBox Enter, Taking Fear Damage")
