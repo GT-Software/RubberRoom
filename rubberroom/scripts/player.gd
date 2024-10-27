@@ -49,7 +49,7 @@ func _physics_process(delta):
 	# Setting _velocity to new values depending on the player's stance
 	if Input.is_action_pressed("run") and not is_crouched:
 		velocity.x = move_direction.x * RUN_SPEED
-		velocity.z = move_direction.z * SPEED
+		velocity.z = move_direction.z * RUN_SPEED
 		#print("The Player is Running")
 	elif Input.is_action_pressed("crouch"):
 		velocity.x = move_direction.x * CROUCH_SPEED
