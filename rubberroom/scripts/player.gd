@@ -24,10 +24,10 @@ var stamina_component : StaminaComponent = StaminaComponent.new()
 var fear_component : FearComponent = FearComponent.new()
 
 
-@export var SPEED = 5.0
-@export var RUN_SPEED = 8.5
-@export var CROUCH_SPEED = 2.5
-@export var JUMP_VELOCITY = 5.0
+const SPEED = 5.0
+const RUN_SPEED = 15.0
+const CROUCH_SPEED = 1.0
+const JUMP_VELOCITY = 5.0
 
 var current_speed = 0.0
 
@@ -102,7 +102,7 @@ func _physics_process(delta):
 		#print("The Player is Walking")
 		
 	move_and_slide()
-	#print(current_speed)
+	print(current_speed)
 	# Allows the player to turn around realistically (Placeholder does not show that, must test)
 	if _velocity.length() > 0.2:
 		var look_direction = Vector2(_velocity.z, _velocity.x)
