@@ -1,6 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://bylllje5jrwx"]
+[gd_scene load_steps=19 format=3 uid="uid://bylllje5jrwx"]
 
 [ext_resource type="Script" path="res://scripts/health_bar.gd" id="1_46p4v"]
+[ext_resource type="PackedScene" uid="uid://db2hw210kvdra" path="res://scenes/components/health_component.tscn" id="2_0bpps"]
+[ext_resource type="Script" path="res://scripts/stun_bar.gd" id="2_r1d5k"]
+[ext_resource type="PackedScene" uid="uid://dw6tcg3tronaq" path="res://scenes/components/stamina_component.tscn" id="3_0st6l"]
+[ext_resource type="PackedScene" uid="uid://virm5wv3qtc4" path="res://scenes/components/stun_component.tscn" id="4_yh4kl"]
+[ext_resource type="PackedScene" uid="uid://dvjrdg22hthe6" path="res://scenes/components/fear_component.tscn" id="5_fopgf"]
+[ext_resource type="Script" path="res://scripts/stamina_bar.gd" id="7_060th"]
+[ext_resource type="Script" path="res://scenes/fear_bar.gd" id="8_1jugu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qvep8"]
 
@@ -19,6 +26,21 @@ shadow_offset = Vector2(0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1c8cb"]
 bg_color = Color(1, 0.790893, 0.756161, 1)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wcfn2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xa5j8"]
+bg_color = Color(0.778321, 0.711544, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_onrgi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nth6p"]
+bg_color = Color(0.164449, 0.616794, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gdq67"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6c8p6"]
+bg_color = Color(0.808188, 0.404143, 1, 1)
+
 [node name="Player Stat Bars" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -27,6 +49,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Components" type="Node3D" parent="."]
+
+[node name="HealthComponent" parent="Components" instance=ExtResource("2_0bpps")]
+
+[node name="stamina_component" parent="Components" instance=ExtResource("3_0st6l")]
+
+[node name="stun_component" parent="Components" instance=ExtResource("4_yh4kl")]
+
+[node name="fear_component" parent="Components" instance=ExtResource("5_fopgf")]
+
 [node name="HealthBar" type="ProgressBar" parent="."]
 z_index = 1
 layout_mode = 1
@@ -34,20 +66,22 @@ anchors_preset = -1
 anchor_left = 0.761
 anchor_top = 0.042
 anchor_right = 0.96
-anchor_bottom = 0.12
+anchor_bottom = 0.081
 offset_left = 0.327942
 offset_top = -0.216002
-offset_right = 0.0799561
-offset_bottom = 0.239998
+offset_right = 1.07996
+offset_bottom = 5.512
 theme_override_styles/background = SubResource("StyleBoxEmpty_qvep8")
 theme_override_styles/fill = SubResource("StyleBoxFlat_od5wq")
+max_value = 10.0
+step = 1.0
 show_percentage = false
 script = ExtResource("1_46p4v")
 
 [node name="HealthDamageBar" type="ProgressBar" parent="HealthBar"]
 z_index = -1
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -60,4 +94,109 @@ show_percentage = false
 wait_time = 0.45
 one_shot = true
 
+[node name="StunBar" type="ProgressBar" parent="."]
+z_index = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.762
+anchor_top = 0.116
+anchor_right = 0.96
+anchor_bottom = 0.168
+offset_left = 0.175964
+offset_top = -0.167999
+offset_right = 0.0799561
+offset_bottom = 0.135994
+theme_override_styles/background = SubResource("StyleBoxEmpty_wcfn2")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xa5j8")
+max_value = 10.0
+step = 1.0
+show_percentage = false
+script = ExtResource("2_r1d5k")
+
+[node name="StunDamageBar" type="ProgressBar" parent="StunBar"]
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_c6rvb")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1c8cb")
+step = 1.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="StunBar"]
+
+[node name="StaminaBar" type="ProgressBar" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.761
+anchor_top = 0.193
+anchor_right = 0.961
+anchor_bottom = 0.241
+offset_left = 0.327942
+offset_top = -0.064003
+offset_right = -0.0720215
+offset_bottom = -0.168015
+theme_override_styles/background = SubResource("StyleBoxEmpty_onrgi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_nth6p")
+max_value = 10.0
+step = 1.0
+show_percentage = false
+script = ExtResource("7_060th")
+
+[node name="StaminaDamageBar" type="ProgressBar" parent="StaminaBar"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -6.10352e-05
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_c6rvb")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1c8cb")
+max_value = 10.0
+step = 1.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="StaminaBar/StaminaDamageBar"]
+
+[node name="FearBar" type="ProgressBar" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.761
+anchor_top = 0.27
+anchor_right = 0.961
+anchor_bottom = 0.318
+offset_left = 0.327942
+offset_top = 0.0399933
+offset_right = -0.0720215
+offset_bottom = -0.0640259
+theme_override_styles/background = SubResource("StyleBoxEmpty_gdq67")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6c8p6")
+show_percentage = false
+script = ExtResource("8_1jugu")
+
+[node name="FearDamageBar" type="ProgressBar" parent="FearBar"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -6.10352e-05
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_c6rvb")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1c8cb")
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="FearBar/FearDamageBar"]
+
 [connection signal="timeout" from="HealthBar/Timer" to="HealthBar" method="_on_timer_timeout"]
+[connection signal="timeout" from="StunBar/Timer" to="StunBar" method="_on_timer_timeout"]
+[connection signal="timeout" from="StaminaBar/StaminaDamageBar/Timer" to="StaminaBar" method="_on_timer_timeout"]
+[connection signal="timeout" from="FearBar/FearDamageBar/Timer" to="FearBar" method="_on_timer_timeout"]

@@ -40,6 +40,8 @@ script = ExtResource("2_shcln")
 
 [node name="Player Stat Bars" parent="." instance=ExtResource("7_xs3ib")]
 
-[connection signal="stamina_change" from="." to="Player Stat Bars/StaminaBar" method="_on_stamina_changed"]
+[node name="FearDamageBar" parent="Player Stat Bars/FearBar" index="0"]
+grow_horizontal = 2
+grow_vertical = 2
 
 [editable path="Player Stat Bars"]
