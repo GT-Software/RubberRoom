@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dw6tcg3tronaq" path="res://scenes/components/stamina_component.tscn" id="5_3ai3b"]
 [ext_resource type="PackedScene" uid="uid://virm5wv3qtc4" path="res://scenes/components/stun_component.tscn" id="6_sag70"]
 [ext_resource type="PackedScene" uid="uid://dvjrdg22hthe6" path="res://scenes/components/fear_component.tscn" id="7_5kv8f"]
-[ext_resource type="PackedScene" uid="uid://bylllje5jrwx" path="res://scenes/player_stat_bars.tscn" id="7_xs3ib"]
+[ext_resource type="PackedScene" path="res://scenes/player_stat_bars.tscn" id="7_xs3ib"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_miivl"]
 

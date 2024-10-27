@@ -1,36 +1,13 @@
-[gd_scene load_steps=18 format=3 uid="uid://bbcojlsg6u4g2"]
+[gd_scene load_steps=9 format=3 uid="uid://bbcojlsg6u4g2"]
 
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="1_bjml5"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="1_nfkgg"]
-[ext_resource type="Script" path="res://scripts/heal_debug.gd" id="2_h13qb"]
+[ext_resource type="PackedScene" uid="uid://c5ctnxwkly676" path="res://scenes/debug_buttons.tscn" id="2_5shem"]
 [ext_resource type="Material" uid="uid://bje11o171j0bm" path="res://assets/materials/basic materials/yellow.tres" id="2_n31g5"]
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="3_gyf1m"]
 [ext_resource type="Material" uid="uid://otsc4ndmv37v" path="res://assets/materials/basic materials/purple.tres" id="5_1f6r5"]
 [ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="6_6870n"]
-[ext_resource type="Script" path="res://scripts/stun_debug.gd" id="7_3y6dw"]
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/player.tscn" id="7_qqmnw"]
-[ext_resource type="Script" path="res://scenes/fear_debug.gd" id="8_0e45m"]
-[ext_resource type="Script" path="res://scenes/stamina_debug.gd" id="10_ia066"]
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_3yqwc"]
-height = 2.32076
-radius = 1.59544
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_gyaca"]
-height = 2.24902
-radius = 1.51864
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_awg8c"]
-radius = 1.5
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_hx5f4"]
-radius = 1.5
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_e2uue"]
-radius = 1.5
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_kayyw"]
-radius = 1.5
 
 [node name="World" type="Node3D"]
 
@@ -47,106 +24,7 @@ CROUCH_SPEED = 10.0
 
 [node name="Base World" type="Node3D" parent="."]
 
-[node name="Debug Buttons" type="Node3D" parent="Base World"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.6601, 0, -42.7887)
-
-[node name="Health" type="Node3D" parent="Base World/Debug Buttons"]
-
-[node name="Heal" type="CSGCylinder3D" parent="Base World/Debug Buttons/Health"]
-transform = Transform3D(0.99993, 0, 0.011868, 0, 1, 0, -0.011868, 0, 0.99993, -1.27248, 0, -0.413723)
-material_override = ExtResource("1_nfkgg")
-radius = 1.5
-
-[node name="HealBox" type="Area3D" parent="Base World/Debug Buttons/Health/Heal"]
-script = ExtResource("2_h13qb")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Base World/Debug Buttons/Health/Heal/HealBox"]
-shape = SubResource("CylinderShape3D_3yqwc")
-
-[node name="Hurt" type="CSGCylinder3D" parent="Base World/Debug Buttons/Health"]
-transform = Transform3D(0.99993, 0, 0.011868, 0, 1, 0, -0.011868, 0, 0.99993, 4.08059, 0, -0.413723)
-material_override = ExtResource("1_bjml5")
-radius = 1.5
-
-[node name="HurtBox" type="Area3D" parent="Base World/Debug Buttons/Health/Hurt"]
-script = ExtResource("2_h13qb")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Base World/Debug Buttons/Health/Hurt/HurtBox"]
-transform = Transform3D(0.999994, 0, 0, 0, 0.999994, 0, 0, 0, 0.999994, 0, 0, 0)
-shape = SubResource("CylinderShape3D_gyaca")
-
-[node name="Stun" type="Node3D" parent="Base World/Debug Buttons"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2385, 0, 0)
-
-[node name="StunHeal" type="CSGCylinder3D" parent="Base World/Debug Buttons/Stun"]
-transform = Transform3D(0.99993, 0, 0.011868, 0, 1, 0, -0.011868, 0, 0.99993, -1.27248, 0, -0.413723)
-material_override = ExtResource("5_1f6r5")
-radius = 1.5
-
-[node name="StunHealBox" type="Area3D" parent="Base World/Debug Buttons/Stun/StunHeal"]
-script = ExtResource("7_3y6dw")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Base World/Debug Buttons/Stun/StunHeal/StunHealBox"]
-shape = SubResource("CylinderShape3D_3yqwc")
-
-[node name="StunHurt" type="CSGCylinder3D" parent="Base World/Debug Buttons/Stun"]
-transform = Transform3D(0.99993, 0, 0.011868, 0, 1, 0, -0.011868, 0, 0.99993, 4.08059, 0, -0.413723)
-material_override = ExtResource("1_bjml5")
-radius = 1.5
-
-[node name="StunHurtBox" type="Area3D" parent="Base World/Debug Buttons/Stun/StunHurt"]
-script = ExtResource("7_3y6dw")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Base World/Debug Buttons/Stun/StunHurt/StunHurtBox"]
-transform = Transform3D(0.999994, 0, 0, 0, 0.999994, 0, 0, 0, 0.999994, 0, 0, 0)
-shape = SubResource("CylinderShape3D_gyaca")
-
-[node name="Stamina" type="Node3D" parent="Base World/Debug Buttons"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.4693, 0, 0)
-
-[node name="StaminaHeal" type="CSGCylinder3D" parent="Base World/Debug Buttons/Stamina"]
-material_override = ExtResource("2_n31g5")
-radius = 1.5
-
-[node name="StaminaHealBox" type="Area3D" parent="Base World/Debug Buttons/Stamina/StaminaHeal"]
-script = ExtResource("10_ia066")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Base World/Debug Buttons/Stamina/StaminaHeal/StaminaHealBox"]
-shape = SubResource("CylinderShape3D_awg8c")
-
-[node name="StaminaHurt" type="CSGCylinder3D" parent="Base World/Debug Buttons/Stamina"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.95282, 0, 0)
-material_override = ExtResource("1_bjml5")
-radius = 1.5
-
-[node name="StaminaHurtBox" type="Area3D" parent="Base World/Debug Buttons/Stamina/StaminaHurt"]
-script = ExtResource("10_ia066")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Base World/Debug Buttons/Stamina/StaminaHurt/StaminaHurtBox"]
-shape = SubResource("CylinderShape3D_hx5f4")
-
-[node name="Fear" type="Node3D" parent="Base World/Debug Buttons"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.9858, 0, 0)
-
-[node name="FearHeal" type="CSGCylinder3D" parent="Base World/Debug Buttons/Fear"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.07427, 0, 0)
-radius = 1.5
-
-[node name="FearHealBox" type="Area3D" parent="Base World/Debug Buttons/Fear/FearHeal"]
-script = ExtResource("8_0e45m")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Base World/Debug Buttons/Fear/FearHeal/FearHealBox"]
-shape = SubResource("CylinderShape3D_e2uue")
-
-[node name="FearHurt" type="CSGCylinder3D" parent="Base World/Debug Buttons/Fear"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.46621, 0, 0)
-radius = 1.5
-
-[node name="FearHurtBox" type="Area3D" parent="Base World/Debug Buttons/Fear/FearHurt"]
-script = ExtResource("8_0e45m")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Base World/Debug Buttons/Fear/FearHurt/FearHurtBox"]
-shape = SubResource("CylinderShape3D_kayyw")
+[node name="Debug Buttons" parent="Base World" instance=ExtResource("2_5shem")]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Base World"]
 material_override = ExtResource("1_nfkgg")
@@ -209,18 +87,3 @@ material_override = ExtResource("6_6870n")
 use_collision = true
 collision_layer = 2
 size = Vector3(99.7697, 5, 1.5)
-
-[connection signal="body_entered" from="Base World/Debug Buttons/Health/Heal/HealBox" to="Base World/Debug Buttons/Health/Heal/HealBox" method="_on_heal_entered"]
-[connection signal="body_exited" from="Base World/Debug Buttons/Health/Heal/HealBox" to="Base World/Debug Buttons/Health/Heal/HealBox" method="_on_body_exited"]
-[connection signal="body_entered" from="Base World/Debug Buttons/Health/Hurt/HurtBox" to="Base World/Debug Buttons/Health/Hurt/HurtBox" method="_on_hurt_entered"]
-[connection signal="body_exited" from="Base World/Debug Buttons/Health/Hurt/HurtBox" to="Base World/Debug Buttons/Health/Hurt/HurtBox" method="_on_body_exited"]
-[connection signal="body_entered" from="Base World/Debug Buttons/Stun/StunHeal/StunHealBox" to="Base World/Debug Buttons/Stun/StunHeal/StunHealBox" method="_on_heal_entered"]
-[connection signal="body_exited" from="Base World/Debug Buttons/Stun/StunHeal/StunHealBox" to="Base World/Debug Buttons/Stun/StunHeal/StunHealBox" method="_on_body_exited"]
-[connection signal="body_entered" from="Base World/Debug Buttons/Stun/StunHurt/StunHurtBox" to="Base World/Debug Buttons/Stun/StunHurt/StunHurtBox" method="_on_hurt_entered"]
-[connection signal="body_exited" from="Base World/Debug Buttons/Stun/StunHurt/StunHurtBox" to="Base World/Debug Buttons/Stun/StunHurt/StunHurtBox" method="_on_body_exited"]
-[connection signal="body_entered" from="Base World/Debug Buttons/Stamina/StaminaHeal/StaminaHealBox" to="Base World/Debug Buttons/Stamina/StaminaHeal/StaminaHealBox" method="_on_heal_entered"]
-[connection signal="body_exited" from="Base World/Debug Buttons/Stamina/StaminaHeal/StaminaHealBox" to="Base World/Debug Buttons/Stamina/StaminaHeal/StaminaHealBox" method="_on_body_exited"]
-[connection signal="body_entered" from="Base World/Debug Buttons/Stamina/StaminaHurt/StaminaHurtBox" to="Base World/Debug Buttons/Stamina/StaminaHurt/StaminaHurtBox" method="_on_hurt_entered"]
-[connection signal="body_exited" from="Base World/Debug Buttons/Stamina/StaminaHurt/StaminaHurtBox" to="Base World/Debug Buttons/Stamina/StaminaHurt/StaminaHurtBox" method="_on_body_exited"]
-[connection signal="body_entered" from="Base World/Debug Buttons/Fear/FearHeal/FearHealBox" to="Base World/Debug Buttons/Fear/FearHeal/FearHealBox" method="_on_heal_entered"]
-[connection signal="body_entered" from="Base World/Debug Buttons/Fear/FearHurt/FearHurtBox" to="Base World/Debug Buttons/Fear/FearHurt/FearHurtBox" method="_on_hurt_entered"]
