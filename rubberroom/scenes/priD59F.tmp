@@ -1,0 +1,73 @@
+[gd_scene load_steps=7 format=3 uid="uid://4d1h3rxw87wm"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_oeyls"]
+[ext_resource type="Script" path="res://scripts/detection_area.gd" id="2_qbqrk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4mguh"]
+albedo_color = Color(0.674125, 0.0686359, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_65lmn"]
+material = SubResource("StandardMaterial3D_4mguh")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kso6w"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4p5us"]
+radius = 10.0
+
+[node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_oeyls")
+state = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_65lmn")
+
+[node name="BodyCollision" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_kso6w")
+
+[node name="DetectionArea" type="Area3D" parent="."]
+collision_layer = 4
+monitorable = false
+script = ExtResource("2_qbqrk")
+
+[node name="DetectionCollision" type="CollisionShape3D" parent="DetectionArea"]
+shape = SubResource("SphereShape3D_4p5us")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+target_desired_distance = 2.0
+avoidance_enabled = true
+radius = 5.0
+
+[node name="Eyes" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0.540668, 0)
+
+[node name="Line of Sight" type="RayCast3D" parent="Eyes"]
+transform = Transform3D(-0.00755721, -0.999971, 0, 0.999971, -0.00755721, 0, 0, 0, 1, 0, -0.00333905, 0)
+enabled = false
+target_position = Vector3(0, 10, 0)
+collision_mask = 7
+debug_shape_custom_color = Color(0.912271, 4.71681e-06, 6.73831e-07, 1)
+debug_shape_thickness = 5
+
+[node name="PatrolTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="StunTimer" type="Timer" parent="."]
+
+[node name="HuhTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 2.5
+one_shot = true
+
+[node name="AlertTimer" type="Timer" parent="."]
+wait_time = 5.0
+
+[connection signal="body_entered" from="DetectionArea" to="DetectionArea" method="_on_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="DetectionArea" method="_on_body_exited"]
+[connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
+[connection signal="timeout" from="HuhTimer" to="." method="_on_huh_timer_timeout"]
+[connection signal="timeout" from="AlertTimer" to="." method="_on_alert_timer_timeout"]

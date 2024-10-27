@@ -19,6 +19,11 @@ config/icon="res://icon.svg"
 
 project/assembly_name="RubberRoom"
 
+[global_group]
+
+enemies=""
+player=""
+
 [input]
 
 run={
@@ -68,6 +73,7 @@ right={
 
 3d_physics/layer_1="Player"
 3d_physics/layer_2="Environment"
+3d_physics/layer_3="Enemy"
 
 [physics]
 
