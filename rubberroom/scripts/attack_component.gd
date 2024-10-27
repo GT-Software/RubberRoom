@@ -1,6 +1,8 @@
 class_name Attack
+extends Area3D
 
-var attack_damage : float
+
+var health_damage : float
 var stamina_damage : float
 var stun_damage : float
 var fear_damage : float
