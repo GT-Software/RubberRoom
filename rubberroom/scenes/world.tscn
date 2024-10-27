@@ -206,8 +206,8 @@ transform = Transform3D(0.599943, 0.551019, 0.58004, -0.307647, -0.510372, 0.803
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5787, 3.93057, 22.5258)
 collision_mask = 2
-SPEED = 15.0
-CROUCH_SPEED = 10.0
+RUN_SPEED = 10.0
+CROUCH_SPEED = 3.0
 
 [connection signal="body_entered" from="Base World/Debug Buttons/Health/Heal/HealBox" to="Base World/Debug Buttons/Health/Heal/HealBox" method="_on_heal_entered"]
 [connection signal="body_exited" from="Base World/Debug Buttons/Health/Heal/HealBox" to="Base World/Debug Buttons/Health/Heal/HealBox" method="_on_body_exited"]
