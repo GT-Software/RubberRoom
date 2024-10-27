@@ -18,8 +18,8 @@ func _set_stamina(new_stamina):
 func init_stamina(stamina_component):
 	max_value = stamina_component.MAX_STAMINA
 	value = stamina_component.stamina
-	stamina_damage_bar.max_value = stamina_component.MAX_STAMINA
-	stamina_damage_bar.value = stamina_component.stamina
+	max_value = stamina_component.MAX_STAMINA
+	value = stamina_component.stamina
 
 func _on_timer_timeout():
 	stamina_damage_bar.value = value

@@ -8,12 +8,13 @@ signal stun_change
 signal fear_change
 
 # TODO: Set up camera rotation for controller
+@onready var canvas_layer = $"../CanvasLayer"
 
-@onready var player_stat_bars = $"Player Stat Bars"
-@onready var health_bar = $"Player Stat Bars/HealthBar"
-@onready var stun_bar = $"Player Stat Bars/StunBar"
-@onready var stamina_bar = $"Player Stat Bars/StaminaBar"
-@onready var fear_bar = $"Player Stat Bars/FearBar"
+@onready var player_stat_bars = $"../CanvasLayer/Player Stat Bars"
+@onready var health_bar = $"../CanvasLayer/Player Stat Bars/HealthBar"
+@onready var stun_bar = $"../CanvasLayer/Player Stat Bars/StunBar"
+@onready var stamina_bar = $"../CanvasLayer/Player Stat Bars/StaminaBar"
+@onready var fear_bar = $"../CanvasLayer/Player Stat Bars/FearBar"
 
 
 #Component Data
@@ -87,21 +88,21 @@ func _physics_process(delta):
 		stamina_component.stamina_drain()
 		emit_signal("stamina_change", stamina_component.stamina)
 		#print(stamina_component.stamina)
-		print("The Player is Running")
+		#print("The Player is Running")
 	if Input.is_action_pressed("crouch"):
 		current_speed = CROUCH_SPEED
 		velocity.x = move_direction.x * CROUCH_SPEED
 		velocity.z = move_direction.z * CROUCH_SPEED
-		print("The Player is Crouching")
+		#print("The Player is Crouching")
 		is_crouched = !is_crouched
 	if !Input.is_action_pressed("run") and !Input.is_action_pressed("crouch"):
 		current_speed = SPEED
 		velocity.x = move_direction.x * SPEED
 		velocity.z = move_direction.z * SPEED
-		print("The Player is Walking")
+		#print("The Player is Walking")
 		
 	move_and_slide()
-	print(current_speed)
+	#print(current_speed)
 	# Allows the player to turn around realistically (Placeholder does not show that, must test)
 	if _velocity.length() > 0.2:
 		var look_direction = Vector2(_velocity.z, _velocity.x)

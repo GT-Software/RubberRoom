@@ -18,8 +18,8 @@ func _set_fear(new_fear):
 func init_fear(fear_component):
 	max_value = fear_component.MAX_FEAR
 	value = fear_component.fear
-	fear_damage_bar.max_value = fear_component.MAX_FEAR
-	fear_damage_bar.value = fear_component.fear
+	max_value = fear_component.MAX_FEAR
+	value = fear_component.fear
 
 func _on_timer_timeout():
 	fear_damage_bar.value = value

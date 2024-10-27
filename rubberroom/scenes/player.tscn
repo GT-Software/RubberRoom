@@ -1,29 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://cdra3qby8c8bm"]
+[gd_scene load_steps=5 format=3 uid="uid://cdra3qby8c8bm"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_p3382"]
 [ext_resource type="Script" path="res://scripts/spring_arm_3d.gd" id="2_shcln"]
-[ext_resource type="PackedScene" path="res://scenes/components/health_component.tscn" id="4_ae6rk"]
-[ext_resource type="PackedScene" path="res://scenes/components/stamina_component.tscn" id="5_3ai3b"]
-[ext_resource type="PackedScene" path="res://scenes/components/stun_component.tscn" id="6_sag70"]
-[ext_resource type="PackedScene" path="res://scenes/components/fear_component.tscn" id="7_5kv8f"]
-[ext_resource type="PackedScene" path="res://scenes/player_stat_bars.tscn" id="7_xs3ib"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_miivl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tds2k"]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_p3382")
-
-[node name="Components" type="Node3D" parent="."]
-
-[node name="HealthComponent" parent="Components" instance=ExtResource("4_ae6rk")]
-
-[node name="stamina_component" parent="Components" instance=ExtResource("5_3ai3b")]
-
-[node name="stun_component" parent="Components" instance=ExtResource("6_sag70")]
-
-[node name="fear_component" parent="Components" instance=ExtResource("7_5kv8f")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_miivl")
@@ -37,9 +22,3 @@ margin = 0.2
 script = ExtResource("2_shcln")
 
 [node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
-
-[node name="Player Stat Bars" parent="." instance=ExtResource("7_xs3ib")]
-
-[connection signal="stamina_change" from="." to="Player Stat Bars/StaminaBar" method="_on_stamina_changed"]
-
-[editable path="Player Stat Bars"]

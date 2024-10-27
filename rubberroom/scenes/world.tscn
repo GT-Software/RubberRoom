@@ -1,13 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://bbcojlsg6u4g2"]
+[gd_scene load_steps=10 format=3 uid="uid://bbcojlsg6u4g2"]
 
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="1_bjml5"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="1_nfkgg"]
-[ext_resource type="PackedScene" uid="uid://b6s24sjxgnuoo" path="res://scenes/debug_buttons.tscn" id="2_5shem"]
+[ext_resource type="PackedScene" uid="uid://c5ctnxwkly676" path="res://scenes/debug_buttons.tscn" id="2_5shem"]
 [ext_resource type="Material" uid="uid://bje11o171j0bm" path="res://assets/materials/basic materials/yellow.tres" id="2_n31g5"]
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="3_gyf1m"]
 [ext_resource type="Material" uid="uid://otsc4ndmv37v" path="res://assets/materials/basic materials/purple.tres" id="5_1f6r5"]
 [ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="6_6870n"]
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/player.tscn" id="7_qqmnw"]
+[ext_resource type="PackedScene" uid="uid://bm8fdgmjoqbtp" path="res://scenes/player_stat_bars.tscn" id="9_ejbb6"]
 
 [node name="World" type="Node3D"]
 
@@ -87,3 +88,59 @@ material_override = ExtResource("6_6870n")
 use_collision = true
 collision_layer = 2
 size = Vector3(99.7697, 5, 1.5)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Player Stat Bars" parent="CanvasLayer" instance=ExtResource("9_ejbb6")]
+
+[node name="HealthBar" parent="CanvasLayer/Player Stat Bars" index="0"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.868
+anchor_right = 1.0
+anchor_bottom = 0.073
+offset_left = 0.0639648
+offset_right = 0.0
+offset_bottom = -0.304005
+grow_horizontal = 0
+
+[node name="StunBar" parent="CanvasLayer/Player Stat Bars" index="1"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.869
+anchor_top = 0.09
+anchor_right = 0.999
+anchor_bottom = 0.167
+offset_left = -1.08801
+offset_top = -0.320004
+offset_right = 0.151855
+offset_bottom = -0.216003
+grow_horizontal = 0
+
+[node name="StaminaBar" parent="CanvasLayer/Player Stat Bars" index="2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.868
+anchor_top = 0.19
+anchor_right = 1.0
+anchor_bottom = 0.269
+offset_left = 0.0639648
+offset_top = -0.12001
+offset_right = -1.0
+offset_bottom = -0.312012
+grow_horizontal = 0
+
+[node name="FearBar" parent="CanvasLayer/Player Stat Bars" index="3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.865
+anchor_top = 0.29
+anchor_right = 0.997
+anchor_bottom = 0.364
+offset_left = 0.519897
+offset_top = 0.0799866
+offset_right = 0.455933
+offset_bottom = 0.127991
+grow_horizontal = 0
+
+[editable path="CanvasLayer/Player Stat Bars"]

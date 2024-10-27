@@ -1,6 +1,6 @@
 extends ProgressBar
 
-@onready var health_damage_bar = $HealthDamageBar
+@onready var health_damage_bar = %HealthDamageBar
 @onready var timer = $Timer
 
 func _on_health_changed(new_health):
@@ -17,8 +17,8 @@ func _set_health(new_health):
 func init_health(health_component):
 	max_value = health_component.MAX_HEALTH
 	value = health_component.health
-	health_damage_bar.max_value = health_component.MAX_HEALTH
-	health_damage_bar.value = health_component.health
+	max_value = health_component.MAX_HEALTH
+	value = health_component.health
 
 func _on_timer_timeout():
 	health_damage_bar.value = value

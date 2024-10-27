@@ -17,8 +17,8 @@ func _set_stun(new_stun):
 func init_stun(stun_component):
 	max_value = stun_component.MAX_STUN
 	value = stun_component.stun
-	stun_damage_bar.max_value = stun_component.MAX_STUN
-	stun_damage_bar.value = stun_component.stun
+	max_value = stun_component.MAX_STUN
+	value = stun_component.stun
 
 func _on_timer_timeout():
 	stun_damage_bar.value = value
