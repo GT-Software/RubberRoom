@@ -45,7 +45,6 @@ func _ready():
 	is_chasing = false
 
 func _process(delta):
-	print(state)
 	
 	# animations when needed
 	match state:
