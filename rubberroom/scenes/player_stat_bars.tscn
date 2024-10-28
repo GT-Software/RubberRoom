@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://bm8fdgmjoqbtp"]
+
+[ext_resource type="PackedScene" uid="uid://cgft77d68v3dp" path="res://scenes/health_bar.tscn" id="1_nt77q"]
+[ext_resource type="PackedScene" uid="uid://vu8ybnpoof71" path="res://scenes/stun_bar.tscn" id="2_lnj0j"]
+[ext_resource type="PackedScene" uid="uid://myfhvas27nn7" path="res://scenes/stamina_bar.tscn" id="3_pjdeq"]
+[ext_resource type="PackedScene" uid="uid://dvwu5ny3mg0kv" path="res://scenes/fear_bar.tscn" id="4_ywo2p"]
+
+[node name="Player Stat Bars" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealthBar" parent="." instance=ExtResource("1_nt77q")]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 27.0
+
+[node name="StunBar" parent="." instance=ExtResource("2_lnj0j")]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 27.0
+
+[node name="StaminaBar" parent="." instance=ExtResource("3_pjdeq")]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 27.0
+
+[node name="FearBar" parent="." instance=ExtResource("4_ywo2p")]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 27.0

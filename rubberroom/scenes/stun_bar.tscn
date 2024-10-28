@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://vu8ybnpoof71"]
+
+[ext_resource type="Script" path="res://scripts/stun_bar.gd" id="1_s7gld"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wcfn2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xa5j8"]
+bg_color = Color(0.778321, 0.711544, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c6rvb"]
+bg_color = Color(0.252028, 0.252028, 0.252028, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_color = Color(0, 0, 0, 0.27451)
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1c8cb"]
+bg_color = Color(1, 0.790893, 0.756161, 1)
+
+[node name="StunBar" type="ProgressBar"]
+z_index = 2
+anchors_preset = -1
+anchor_left = 0.762
+anchor_top = 0.116
+anchor_right = 0.96
+anchor_bottom = 0.168
+offset_left = 0.175964
+offset_top = -0.167999
+offset_right = 0.0799561
+offset_bottom = 0.135994
+theme_override_styles/background = SubResource("StyleBoxEmpty_wcfn2")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xa5j8")
+max_value = 10.0
+step = 1.0
+show_percentage = false
+script = ExtResource("1_s7gld")
+
+[node name="StunDamageBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_c6rvb")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1c8cb")
+step = 1.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

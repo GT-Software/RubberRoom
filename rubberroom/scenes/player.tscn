@@ -19,7 +19,7 @@ shape = SubResource("CapsuleShape3D_tds2k")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="."]
 collision_mask = 3
-spring_length = 3.0
+spring_length = 7.0
 margin = 0.2
 script = ExtResource("2_shcln")
 

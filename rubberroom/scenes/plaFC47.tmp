@@ -1,0 +1,47 @@
+[gd_scene load_steps=10 format=3 uid="uid://cdra3qby8c8bm"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_p3382"]
+[ext_resource type="Script" path="res://scripts/spring_arm_3d.gd" id="2_shcln"]
+[ext_resource type="PackedScene" uid="uid://db2hw210kvdra" path="res://scenes/components/health_component.tscn" id="4_ae6rk"]
+[ext_resource type="PackedScene" uid="uid://dw6tcg3tronaq" path="res://scenes/components/stamina_component.tscn" id="5_3ai3b"]
+[ext_resource type="PackedScene" uid="uid://virm5wv3qtc4" path="res://scenes/components/stun_component.tscn" id="6_sag70"]
+[ext_resource type="PackedScene" uid="uid://dvjrdg22hthe6" path="res://scenes/components/fear_component.tscn" id="7_5kv8f"]
+[ext_resource type="PackedScene" uid="uid://bylllje5jrwx" path="res://scenes/player_stat_bars.tscn" id="7_xs3ib"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_miivl"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tds2k"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_p3382")
+
+[node name="Components" type="Node3D" parent="."]
+
+[node name="HealthComponent" parent="Components" instance=ExtResource("4_ae6rk")]
+
+[node name="stamina_component" parent="Components" instance=ExtResource("5_3ai3b")]
+
+[node name="stun_component" parent="Components" instance=ExtResource("6_sag70")]
+
+[node name="fear_component" parent="Components" instance=ExtResource("7_5kv8f")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_miivl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_tds2k")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+spring_length = 7.0
+margin = 0.2
+script = ExtResource("2_shcln")
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
+
+[node name="Player Stat Bars" parent="." instance=ExtResource("7_xs3ib")]
+
+[node name="FearDamageBar" parent="Player Stat Bars/FearBar" index="0"]
+grow_horizontal = 2
+grow_vertical = 2
+
+[editable path="Player Stat Bars"]
