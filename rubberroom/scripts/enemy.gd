@@ -22,6 +22,7 @@ extends CharacterBody3D
 @export var TURN_SPEED = 2.0
 @export var current_speed : float
 @export var is_idle : bool
+var is_spotted : bool = false
 
 # Enemy States: Chase, Patrol, Alert, Attack, Idle
 enum {
@@ -44,7 +45,9 @@ func _ready():
 	current_speed = SPEED
 	is_chasing = false
 
-func _process(delta):
+func _physics_process(delta: float):
+	#print(state)
+	print(current_speed)
 	
 	# animations when needed
 	match state:
@@ -62,13 +65,12 @@ func _process(delta):
 			pass
 		PAUSED: # 6
 			paused()
-
-
-func _physics_process(delta: float):
+	
+	
 	# Idle state (TODO)
 	
 	# Once the player is in the detection collision sphere, this condition is true
-	if detection_area.detected:
+	if detection_area.detected and not is_spotted:
 		# Alert
 		state = 2
 	# If the player is no longer detected and the enemy is still chasing,
@@ -76,13 +78,15 @@ func _physics_process(delta: float):
 	elif !detection_area.detected and is_chasing:
 		state = PAUSED
 		is_chasing = false
+		is_spotted = false
 		current_speed = 0
 		nav_agent.target_position = global_position
 	# Patrol state
-	else:
+	elif !detection_area.detected and not is_spotted:
 		current_speed = SPEED
 		state = PATROL
-		
+	
+
 	velocity.y -= gravity * delta
 	update_nav_agent()
 	
@@ -123,7 +127,7 @@ func alert():
 	alert_timer.start()
 	# Stop MOVING here
 	update_target_location(global_position)
-	current_speed = 0
+	current_speed = 0.5
 	update_nav_agent()
 	
 	target = detection_area.target
@@ -135,6 +139,7 @@ func alert():
 	if hit == player:
 		print("My name is Inigo Montoya! You killed my father! Prepare to die!")
 		state = CHASE
+		is_spotted = true
 	
 
 

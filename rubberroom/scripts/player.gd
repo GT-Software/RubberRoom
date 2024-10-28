@@ -102,7 +102,7 @@ func _physics_process(delta):
 		#print("The Player is Walking")
 		
 	move_and_slide()
-	print(current_speed)
+	#print(current_speed)
 	# Allows the player to turn around realistically (Placeholder does not show that, must test)
 	if _velocity.length() > 0.2:
 		var look_direction = Vector2(_velocity.z, _velocity.x)
