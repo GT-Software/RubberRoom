@@ -5,17 +5,20 @@ class_name HealthComponent
 var health : float : set = set_health, get = get_heatlh
 
 func _init(init_health = 10.0):
+	MAX_HEALTH = init_health
 	health = init_health
 	
-
+####### SETTERS #######
 func set_max_health(new_max : float):
 	MAX_HEALTH = new_max
 
-func get_max_health() -> float:
-	return MAX_HEALTH
-	
 func set_health(new_health : float):
 	health = new_health
+
+
+####### GETTERS ########
+func get_max_health() -> float:
+	return MAX_HEALTH
 
 func get_heatlh():
 	return health
