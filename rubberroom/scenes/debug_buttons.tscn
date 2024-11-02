@@ -6,8 +6,8 @@
 [ext_resource type="Material" uid="uid://otsc4ndmv37v" path="res://assets/materials/basic materials/purple.tres" id="4_t5ewl"]
 [ext_resource type="Script" path="res://scripts/stun_debug.gd" id="5_wahp8"]
 [ext_resource type="Material" uid="uid://bje11o171j0bm" path="res://assets/materials/basic materials/yellow.tres" id="6_5qd38"]
-[ext_resource type="Script" path="res://scenes/stamina_debug.gd" id="7_7sjxx"]
-[ext_resource type="Script" path="res://scenes/fear_debug.gd" id="8_6sp1s"]
+[ext_resource type="Script" path="res://scripts/stamina_debug.gd" id="7_7sjxx"]
+[ext_resource type="Script" path="res://scripts/fear_debug.gd" id="8_6sp1s"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_3yqwc"]
 height = 2.32076

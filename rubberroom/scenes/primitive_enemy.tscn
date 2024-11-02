@@ -54,28 +54,23 @@ avoidance_enabled = true
 radius = 5.0
 debug_enabled = true
 
-[node name="PatrolTimer" type="Timer" parent="."]
-wait_time = 10.0
-one_shot = true
-
-[node name="StunTimer" type="Timer" parent="."]
-
-[node name="HuhTimer" type="Timer" parent="."]
-process_callback = 0
-wait_time = 2.5
-one_shot = true
-
-[node name="AlertTimer" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
-
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.000504553, 0.534119, -0.505969)
 mesh = SubResource("BoxMesh_q47s4")
+
+[node name="PatrolTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="HuhTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AlertTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="body_entered" from="DetectionArea" to="DetectionArea" method="_on_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="DetectionArea" method="_on_body_exited"]
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
+[connection signal="timeout" from="PatrolTimer" to="." method="_on_patrol_timer_timeout"]
 [connection signal="timeout" from="HuhTimer" to="." method="_on_huh_timer_timeout"]
 [connection signal="timeout" from="AlertTimer" to="." method="_on_alert_timer_timeout"]

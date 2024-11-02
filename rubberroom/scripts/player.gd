@@ -46,19 +46,23 @@ var is_crouched = false
 # Sets our direcitonal vector to [0, 0, 0] so we can clearly move around effectively.
 var move_direction = Vector3.ZERO
 
+# Melee Range check variable
+var is_in_range = false
+
+var enemy
+
 
 func _ready():
-	
-	
 	health_bar.init_health(health_component)
 	stun_bar.init_stun(stun_component)
 	stamina_bar.init_stamina(stamina_component)
 	fear_bar.init_fear(fear_component)
-	#Should set Health to MAX
 
 
 # I am not putting anything into separate functions right now, I just want it to work. Be organized, but optimize later.
 func _physics_process(delta):
+	if health_component.get_health() <= 0:
+		queue_free()
 	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -101,6 +105,10 @@ func _physics_process(delta):
 		velocity.z = move_direction.z * SPEED
 		#print("The Player is Walking")
 		
+	if Input.is_action_just_pressed("attack") and is_in_range:
+		enemy.state = enemy.DAMAGED
+		
+	
 	move_and_slide()
 	#print(current_speed)
 	# Allows the player to turn around realistically (Placeholder does not show that, must test)
@@ -113,3 +121,20 @@ func _process(delta: float) -> void:
 	_spring_arm.position = position
 	
 	
+
+func _on_range_body_entered(body: Node3D) -> void:
+	if body.is_in_group("enemies"):
+		is_in_range = true
+		enemy = body
+		print("INIGO MONTOYA ACTIVATED")
+
+
+func _on_range_body_exited(body: Node3D) -> void:
+	is_in_range = false
+	print("INIGO MONTOYA DEACTIVATED")
+	
+
+
+func _on_enemy_attacking(attack: Attack) -> void:
+	health_component.damage(attack)
+	print("Current Health: ", health_component.get_health())
