@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bbcojlsg6u4g2"]
+[gd_scene load_steps=15 format=3 uid="uid://bbcojlsg6u4g2"]
 
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="1_bjml5"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="1_nfkgg"]
@@ -11,7 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://ciewpcasdaoc" path="res://scenes/Interact/Button.tscn" id="8_hiq1q"]
 [ext_resource type="PackedScene" uid="uid://4d1h3rxw87wm" path="res://scenes/primitive_enemy.tscn" id="9_b1s5g"]
 [ext_resource type="PackedScene" uid="uid://bm8fdgmjoqbtp" path="res://scenes/player_stat_bars.tscn" id="9_ejbb6"]
-[ext_resource type="Texture2D" uid="uid://dtmdw20q6ap87" path="res://assets/crosshair (1).png" id="10_sjp5a"]
+[ext_resource type="AudioStream" uid="uid://vewyng63c4pm" path="res://assets/sounds/MANGOMANGO.wav" id="10_56fwe"]
+[ext_resource type="Texture2D" uid="uid://dtmdw20q6ap87" path="res://assets/images/crosshair (1).png" id="10_sjp5a"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_lylq3"]
 vertices = PackedVector3Array(-49.9926, 5.41415, -49.6816, 49.7574, 5.41415, -49.4316, 49.5074, 5.41415, -49.9316, 50.5074, 5.41415, -49.4316, 49.7574, 5.41415, 49.0684, 50.5074, 5.41415, 49.5684, -49.9926, 5.41415, 49.0684, -50.9926, 5.41415, 49.3184, -49.9926, 5.41415, -49.4316, -50.9926, 5.41415, -49.4316, -49.2426, 0.414147, -11.4316, -32.9926, 0.414147, -11.1816, -32.7426, 0.414147, -12.9316, -28.4926, 0.414147, -48.1816, -49.2426, 0.414147, -48.1816, -28.7426, 0.414147, -12.4316, -21.2426, 0.414147, -11.4316, -20.9926, 0.414147, -48.1816, -17.4926, 0.414147, -10.1816, -17.9926, 0.414147, -4.9316, -2.7426, 0.414147, -1.1816, -18.9926, 0.414147, -11.1816, -0.242603, 0.414147, -1.1816, 28.5074, 0.414147, -15.9316, 29.7574, 0.414147, -48.1816, 29.7574, 0.414147, -16.1816, 28.5074, 0.414147, -11.4316, 31.2574, 0.414147, -15.9316, 31.2574, 0.414147, -14.4316, 49.0074, 0.414147, -14.6816, 49.0074, 0.414147, -48.1816, 31.0074, 15.4141, -15.1816, 31.0074, 15.4141, -11.9316, 31.5074, 15.4141, -11.9316, 31.5074, 15.4141, -15.1816, 31.2574, 0.414147, -12.6816, 49.0074, 0.414147, -12.4316, -17.2426, 0.414147, 31.3184, -19.4926, 0.414147, 31.5684, -19.4926, 0.414147, 48.0684, 31.0074, 0.414147, -10.9316, 0.257397, 0.414147, 3.8184, -2.7426, 0.414147, 4.0684, -17.2426, 0.414147, 18.5684, 29.0074, 0.414147, -10.9316, 0.257397, 0.414147, -0.681599, 49.0074, 0.414147, 48.0684, -49.2426, 0.414147, -6.9316, -32.9926, 0.414147, -7.1816, -22.2426, 0.414147, -4.9316, -19.4926, 0.414147, -7.9316, -19.7426, 0.414147, -9.4316, -31.2426, 0.414147, -10.9316, -30.9926, 0.414147, -5.9316, -30.2426, 0.414147, -5.6816, -19.2426, 0.914147, -4.1816, -18.7426, 0.914147, -4.6816, -18.4926, 2.91415, -9.1816, -28.9926, 7.66415, -8.6816, -29.4926, 5.66415, -3.6816, -19.9925, 2.16415, -6.95166, -27.5075, 5.16415, -5.44068, -32.7426, 0.414147, -4.9316, -31.9926, 0.414147, -4.1816, -49.2426, 0.414147, 20.3184, -25.7426, 0.414147, 20.3184, -25.7426, 0.414147, 18.3184, -23.7426, 0.414147, 18.0684, -23.4926, 0.414147, -2.9316, -3.2426, 0.414147, -0.681599, -18.2426, 0.414147, -4.6816, -19.2426, 0.414147, -3.1816, -3.2426, 0.414147, 3.8184, -17.4926, 0.414147, 18.0684, -20.7426, 0.414147, -3.1816, -20.4926, 0.414147, 18.0684, -3.9926, 5.91415, -0.181599, -3.9926, 5.91415, 3.0684, -3.4926, 6.16415, 3.0684, -3.4926, 6.16415, -0.181599, -23.2426, 4.16415, 19.0684, -23.2426, 4.16415, 30.5684, -18.2426, 2.16415, 30.5684, -18.2426, 2.16415, 19.0684, -23.9926, 0.414147, 19.3184, -23.9926, 0.414147, 30.3184, -18.9926, 0.414147, 30.3184, -18.9926, 0.414147, 19.3184, -49.2426, 0.414147, 29.3184, -25.7426, 0.414147, 29.3184, -23.4926, 0.414147, 48.0684, -23.4926, 0.414147, 31.5684, -25.7426, 0.414147, 31.3184, -49.2426, 0.414147, 48.0684)
@@ -94,16 +95,17 @@ size = Vector3(99.7697, 5, 1.5)
 [node name="Interactables" type="Node3D" parent="NavigationRegion3D/Base World"]
 
 [node name="Button" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_hiq1q")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 2.80507, 2.90242, 48.4715)
-prompt_msg = "Hello"
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 1.51404, 48.5349)
+prompt_msg = "MANGO"
+
+[node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Button" index="3"]
+stream = ExtResource("10_56fwe")
 
 [node name="Button2" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_hiq1q")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 4.97304, 2.90242, 48.7033)
-prompt_msg = "MANGO MANGO MANGO"
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, -0.789408, 1.51404, 48.5349)
 
 [node name="Button3" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_hiq1q")]
-transform = Transform3D(-1, -8.74228e-08, -3.82137e-15, 0, -4.37114e-08, 1, -8.74228e-08, 1, 4.37114e-08, -19.3185, 1.49016, 30.8721)
-prompt_msg = "Your mom ha ha >:)"
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, -1.48078, 1.51404, 48.5349)
 
 [node name="Base World#Debug Buttons" parent="." instance=ExtResource("2_5shem")]
 
@@ -201,4 +203,5 @@ expand_mode = 1
 [node name="Enemy" parent="." instance=ExtResource("9_b1s5g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0291, 1.125, -28.6753)
 
+[editable path="NavigationRegion3D/Base World/Interactables/Button"]
 [editable path="CanvasLayer/Player Stat Bars"]

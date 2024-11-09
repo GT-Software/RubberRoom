@@ -47,7 +47,7 @@ func _ready():
 
 func _physics_process(delta: float):
 	#print(state)
-	print(current_speed)
+	#print(current_speed)
 	
 	# animations when needed
 	match state:
