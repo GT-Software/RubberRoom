@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://ciewpcasdaoc"]
+
+[ext_resource type="Material" uid="uid://b0s23es7vfhre" path="res://assets/materials/basic materials/orange.tres" id="1_foyna"]
+[ext_resource type="Script" path="res://interactable.gd" id="1_he853"]
+[ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="2_r2knu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_kxlij"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ooacm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jme3l"]
+size = Vector3(0.363159, 0.488468, 0.381111)
+
+[node name="Button" type="StaticBody3D"]
+script = ExtResource("1_he853")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.35, 0, 0, 0, 0.4, 0, 0, 0, 0.35, 0, 0, 0)
+material_override = ExtResource("1_foyna")
+mesh = SubResource("BoxMesh_kxlij")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, 0.05, 0, 0, 0, 0.25, 0, 0.207389, 0)
+material_override = ExtResource("2_r2knu")
+mesh = SubResource("CylinderMesh_ooacm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00335693, 0.0268116, 0.00292587)
+shape = SubResource("BoxShape3D_jme3l")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
