@@ -66,7 +66,7 @@ func _physics_process(delta: float):
 	# animations when needed
 	match state:
 		IDLE:	# 0
-			pass
+			idle()
 		ALERT: # 2
 			alert()
 		PATROL: # 1
@@ -109,6 +109,11 @@ func _physics_process(delta: float):
 
 	velocity.y -= gravity * delta
 	update_nav_agent()
+
+# Idle state
+func idle():
+	# Stop moving
+	current_speed = 0
 	
 
 func paused():
