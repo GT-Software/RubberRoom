@@ -1,7 +1,7 @@
 extends CollisionObject3D
 class_name Interactable
 
-signal interacted(body)
+#signal interacted(body)
 
 @export var prompt_msg = "Interact"
 @export var prompt_input ="interact"
@@ -16,7 +16,7 @@ func get_prompt():
 	return prompt_msg + "\n[" +key_name + "]"
 
 func interact(body):
-	interacted.emit(body)
+	#interacted.emit(body)
 	print("Interacted")
 	$AudioStreamPlayer3D.play()
 	

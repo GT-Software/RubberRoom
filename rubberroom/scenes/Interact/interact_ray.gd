@@ -9,7 +9,7 @@ func _physics_process(delta: float) -> void:
 	if is_colliding():
 		var collider = get_collider()
 		
-		if collider is Interactable:
+		if collider.is_in_group("interactable"):
 			prompt.text = collider.get_prompt()
 			
 			if Input.is_action_just_pressed(collider.prompt_input):

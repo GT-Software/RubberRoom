@@ -11,7 +11,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_jme3l"]
 size = Vector3(0.363159, 0.488468, 0.381111)
 
-[node name="Button" type="StaticBody3D"]
+[node name="Button" type="StaticBody3D" groups=["interactable"]]
 script = ExtResource("1_he853")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
