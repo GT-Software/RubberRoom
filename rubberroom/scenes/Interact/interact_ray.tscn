@@ -4,7 +4,8 @@
 
 [node name="InteractRay" type="RayCast3D"]
 target_position = Vector3(0, 0, -4)
-collision_mask = 15
+collision_mask = 14
+hit_from_inside = true
 script = ExtResource("1_x0jt2")
 
 [node name="Prompt" type="Label" parent="."]

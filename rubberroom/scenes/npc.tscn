@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6vnjd3q4sltt"]
+[gd_scene load_steps=5 format=3 uid="uid://btbaptkkqquu8"]
 
 [ext_resource type="Script" path="res://scripts/npc.gd" id="1_nppts"]
 
@@ -9,9 +9,10 @@ albedo_color = Color(0, 0.919383, 0.986624, 1)
 material = SubResource("StandardMaterial3D_j1xu6")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kr26l"]
+radius = 0.55
 
 [node name="NPC" type="RigidBody3D" groups=["interactable"]]
-collision_layer = 8
+collision_layer = 9
 collision_mask = 3
 script = ExtResource("1_nppts")
 

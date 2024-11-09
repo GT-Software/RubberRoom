@@ -4,7 +4,7 @@ class_name NPC
 var prompt_msg = "Interact"
 var prompt_input ="interact"
 @onready var canvas_layer = %CanvasLayer
-@onready var dialogue_box = get_node("res://scenes/dialogue_box.tscn")
+@onready var dialogue_box = load("res://scenes/dialogue_box.tscn")
 #Assign specific NPC value 
 #Init movement 
 
