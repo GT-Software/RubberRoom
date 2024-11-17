@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://4d1h3rxw87wm"]
+[gd_scene load_steps=11 format=3 uid="uid://4d1h3rxw87wm"]
 
-[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_oeyls"]
-[ext_resource type="Script" path="res://scripts/detection_area.gd" id="2_qbqrk"]
+[ext_resource type="Script" path="res://scripts/Enemy/enemy.gd" id="1_oeyls"]
+[ext_resource type="Script" path="res://scripts/Enemy/detection_area.gd" id="2_qbqrk"]
+[ext_resource type="PackedScene" uid="uid://cnimo05tpvkf2" path="res://scenes/Behaviors/enemy_behavior_tree.tscn" id="2_uejd4"]
+[ext_resource type="Script" path="res://scripts/Enemy/melee_range.gd" id="4_vbh6f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4mguh"]
 albedo_color = Color(0.674125, 0.0686359, 0, 1)
@@ -14,6 +16,9 @@ material = SubResource("StandardMaterial3D_4mguh")
 [sub_resource type="SphereShape3D" id="SphereShape3D_4p5us"]
 radius = 10.0
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_sb6fc"]
+radius = 2.5
+
 [sub_resource type="BoxMesh" id="BoxMesh_q47s4"]
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
@@ -21,7 +26,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_oeyls")
-state = 1
+
+[node name="BeehaveTree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_uejd4")]
+actor_node_path = NodePath("..")
+blackboard = NodePath("@Node@21255")
+actor = NodePath("..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_65lmn")
@@ -44,6 +53,12 @@ script = ExtResource("2_qbqrk")
 [node name="DetectionCollision" type="CollisionShape3D" parent="DetectionArea"]
 shape = SubResource("SphereShape3D_4p5us")
 
+[node name="MeleeRange" type="Area3D" parent="."]
+script = ExtResource("4_vbh6f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeleeRange"]
+shape = SubResource("SphereShape3D_sb6fc")
+
 [node name="Eyes" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.540668, 0)
 
@@ -58,19 +73,9 @@ debug_enabled = true
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.000504553, 0.534119, -0.505969)
 mesh = SubResource("BoxMesh_q47s4")
 
-[node name="PatrolTimer" type="Timer" parent="."]
-one_shot = true
-
-[node name="HuhTimer" type="Timer" parent="."]
-one_shot = true
-
-[node name="AlertTimer" type="Timer" parent="."]
-one_shot = true
-
 [connection signal="body_entered" from="DetectionArea" to="DetectionArea" method="_on_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="DetectionArea" method="_on_body_exited"]
+[connection signal="body_entered" from="MeleeRange" to="MeleeRange" method="_on_body_entered"]
+[connection signal="body_exited" from="MeleeRange" to="MeleeRange" method="_on_body_exited"]
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
-[connection signal="timeout" from="PatrolTimer" to="." method="_on_patrol_timer_timeout"]
-[connection signal="timeout" from="HuhTimer" to="." method="_on_huh_timer_timeout"]
-[connection signal="timeout" from="AlertTimer" to="." method="_on_alert_timer_timeout"]

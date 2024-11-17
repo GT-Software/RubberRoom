@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://chuef2tsgf287"]
+
+[ext_resource type="Script" path="res://scripts/npc.gd" id="1_nppts"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j1xu6"]
+albedo_color = Color(0, 0.919383, 0.986624, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ra3yp"]
+material = SubResource("StandardMaterial3D_j1xu6")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kr26l"]
+radius = 0.55
+
+[node name="NPC" type="RigidBody3D" groups=["interactable"]]
+collision_layer = 9
+collision_mask = 3
+script = ExtResource("1_nppts")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_ra3yp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_kr26l")

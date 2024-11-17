@@ -4,6 +4,8 @@ class_name HealthComponent
 @export var MAX_HEALTH = 10.0 : set = set_max_health, get = get_max_health
 var health : float : set = set_health, get = get_health
 
+
+
 func _init(init_health = 10.0):
 	MAX_HEALTH = init_health
 	health = init_health

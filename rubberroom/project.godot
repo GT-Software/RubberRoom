@@ -15,14 +15,38 @@ run/main_scene="res://scenes/world.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+BeehaveGlobalMetrics="*res://addons/beehave-2.8.1/addons/beehave/metrics/beehave_global_metrics.gd"
+BeehaveGlobalDebugger="*res://addons/beehave-2.8.1/addons/beehave/debug/global_debugger.gd"
+
+[display]
+
+window/stretch/mode="canvas_items"
+
 [dotnet]
 
 project/assembly_name="RubberRoom"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/beehave-2.8.1/addons/beehave/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://addons/": "yellow",
+"res://assets/": "red",
+"res://data/": "teal",
+"res://scenes/": "blue",
+"res://scripts/": "green"
+}
 
 [global_group]
 
 enemies=""
 player=""
+interactable=""
 
 [input]
 
@@ -86,6 +110,7 @@ interact={
 3d_physics/layer_1="Player"
 3d_physics/layer_2="Environment"
 3d_physics/layer_3="Enemy"
+3d_physics/layer_4="NPC"
 
 [physics]
 
