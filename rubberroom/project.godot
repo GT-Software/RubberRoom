@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-BeehaveGlobalMetrics="*res://addons/beehave-2.8.1/addons/beehave/metrics/beehave_global_metrics.gd"
-BeehaveGlobalDebugger="*res://addons/beehave-2.8.1/addons/beehave/debug/global_debugger.gd"
+BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
+BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 
 [display]
 
@@ -30,7 +30,7 @@ project/assembly_name="RubberRoom"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/beehave-2.8.1/addons/beehave/plugin.cfg")
+enabled=PackedStringArray("res://addons/beehave/plugin.cfg")
 
 [file_customization]
 

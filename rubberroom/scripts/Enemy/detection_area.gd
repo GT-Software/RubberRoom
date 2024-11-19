@@ -1,8 +1,7 @@
 extends Area3D
 
-@onready var player = %Player
+signal is_detected(target)
 
-var detected = false
 var last_position
 var random_position
 var target
@@ -10,8 +9,8 @@ var target
 func _on_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		print("Player is Detected!")
-		detected = true
 		target = body
+		is_detected.emit(target)
 	
 	
 	## Handle raycast query
@@ -30,5 +29,4 @@ func _on_body_entered(body: Node3D) -> void:
 
 func _on_body_exited(body: Node3D) -> void:
 	print("Player is Lost!")
-	detected = false
 	last_position = body.global_position

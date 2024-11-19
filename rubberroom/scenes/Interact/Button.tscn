@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://ciewpcasdaoc"]
 
-[ext_resource type="Material" uid="uid://b0s23es7vfhre" path="res://assets/materials/basic materials/orange.tres" id="1_foyna"]
-[ext_resource type="Script" path="res://interactable.gd" id="1_he853"]
+[ext_resource type="Material" path="res://assets/materials/basic materials/orange.tres" id="1_foyna"]
+[ext_resource type="Script" path="res://scripts/interactable.gd" id="1_he853"]
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="2_r2knu"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_kxlij"]
