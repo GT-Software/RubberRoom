@@ -7,9 +7,9 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	var hit = actor.raycast.get_collider()
 	
 	if hit:
-		if !hit.is_in_group('Player'):
+		if hit.is_in_group('Player'):
 			return SUCCESS
-		elif hit.is_in_group('Player'):
+		elif !hit.is_in_group('Player'):
 			return FAILURE
 	
 	return SUCCESS

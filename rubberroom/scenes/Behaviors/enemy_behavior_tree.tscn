@@ -16,7 +16,7 @@
 
 [node name="BeehaveTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_snbe8")
-blackboard = NodePath("@Node@17378")
+blackboard = NodePath("@Node@17379")
 actor = NodePath("..")
 
 [node name="SelectorComposite" type="Node" parent="."]
@@ -24,7 +24,7 @@ script = ExtResource("2_fbtfx")
 
 [node name="DelayDecorator" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_hg82i")
-wait_time = 5.0
+wait_time = 2.0
 
 [node name="Patrol" type="Node" parent="SelectorComposite/DelayDecorator"]
 script = ExtResource("4_48w4r")
@@ -53,15 +53,6 @@ script = ExtResource("11_q6i0p")
 [node name="Hostile" type="Node" parent="SelectorComposite"]
 script = ExtResource("2_fbtfx")
 
-[node name="Attack" type="Node" parent="SelectorComposite/Hostile"]
-script = ExtResource("4_48w4r")
-
-[node name="Check if in Range" type="Node" parent="SelectorComposite/Hostile/Attack"]
-script = ExtResource("9_3l641")
-
-[node name="Attack" type="Node" parent="SelectorComposite/Hostile/Attack"]
-script = ExtResource("10_fvfcj")
-
 [node name="Chase" type="Node" parent="SelectorComposite/Hostile"]
 script = ExtResource("4_48w4r")
 
@@ -73,3 +64,12 @@ script = ExtResource("7_3hufy")
 
 [node name="Await Arrival" type="Node" parent="SelectorComposite/Hostile/Chase"]
 script = ExtResource("8_jp1w0")
+
+[node name="Attack" type="Node" parent="SelectorComposite/Hostile"]
+script = ExtResource("4_48w4r")
+
+[node name="Check if in Range" type="Node" parent="SelectorComposite/Hostile/Attack"]
+script = ExtResource("9_3l641")
+
+[node name="Attack" type="Node" parent="SelectorComposite/Hostile/Attack"]
+script = ExtResource("10_fvfcj")

@@ -29,4 +29,5 @@ func _on_body_entered(body: Node3D) -> void:
 
 func _on_body_exited(body: Node3D) -> void:
 	print("Player is Lost!")
-	last_position = body.global_position
+	target = null
+	is_detected.emit(target)
