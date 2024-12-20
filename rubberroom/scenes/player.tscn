@@ -31,7 +31,7 @@ v_offset = 0.75
 [node name="InteractRay" parent="SpringArm3D/Camera3D" instance=ExtResource("3_84h4p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.75, 0)
 target_position = Vector3(0, 0, -6)
-collision_mask = 3
+collision_mask = 11
 collide_with_areas = true
 
 [node name="AudioListener3D" type="AudioListener3D" parent="."]
