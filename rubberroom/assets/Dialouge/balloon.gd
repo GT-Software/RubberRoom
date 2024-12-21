@@ -5,6 +5,7 @@ extends CanvasLayer
 @export var next_action: StringName = &"ui_accept"
 
 @onready var portrait: TextureRect = %Portrait
+@onready var talk_sound = $TalkSound
 
 ## The action to use to skip typing the dialogue
 @export var skip_action: StringName = &"ui_cancel"
@@ -170,3 +171,9 @@ func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
 
 
 #endregion
+
+
+func _on_dialogue_label_spoke(letter, letter_index, speed):
+	if not letter in ["." , " "]:
+		talk_sound.pitch_scale = randf_range(0.9, 1.1)
+		talk_sound.play()
