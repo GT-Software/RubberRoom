@@ -2,11 +2,9 @@ extends ActionLeaf
 
 
 func tick(actor, _blackboard):
-	if actor.target:
+	if actor.is_in_range:
 		return FAILURE
-	
-	if actor.nav_agent.is_target_reached():
-		return SUCCESS
 	else:
+		actor.update_target_location(actor.target.global_position)
 		actor.update_nav_agent()
 		return RUNNING

@@ -4,26 +4,35 @@ class_name Enemy
 # AMONGUS?????
 signal attacking(attack : Attack)
 
+# Scene reference variables
+
 @onready var nav_agent = $NavigationAgent3D
 @onready var detection_area = $DetectionArea
 @onready var player = %Player
 @onready var eyes = $Eyes
 @onready var raycast = $"Line of Sight"
-@onready var random_position = Vector3(randf_range(-45, 45), position.y, randf_range(-45, 45))
+
+# Export variables
 
 @export var SPEED = 3.0
 @export var RUN_SPEED = 60.0
 @export var TURN_SPEED = 2.0
 @export var current_speed : float
 
+# Boolean variables
+
 var is_spotted : bool = false
 var is_chasing : bool = false
 var is_in_range : bool = false
 var is_alive : bool = true
 var on_attack_cooldown : bool = false
+var rotate_self : bool = true
+
 var health_component : HealthComponent
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var target = null
+var rotate_node : Node3D = null
+var rotate_target : Vector3 = Vector3.ZERO
 
 
 func _ready():
@@ -38,6 +47,13 @@ func _physics_process(delta: float):
 		return
 		
 	velocity.y -= gravity * delta
+	
+	if rotate_self:
+		if rotate_node != null:
+			rotate_target = rotate_node.global_position
+		else:
+			rotate_target = nav_agent.get_next_path_position()
+		rotate_to_look(rotate_target, delta)
 
 # Idle state
 func idle():
@@ -45,21 +61,21 @@ func idle():
 	current_speed = 0
 
 # Rotate eyes to target position
-func rotate_to_look():
-	var random_direction = Vector3(
-		randf_range(-1.0, 1.0),  # Random x direction
-		randf_range(-1.0, 1.0),  # Random y direction
-		randf_range(-1.0, 1.0)   # Random z direction
-	).normalized()  # Normalize to make sure the vector has length 1
+func rotate_to_look(pos : Vector3, _delta : float):
+	# optional, makes the enemy not rotate vertically
+	pos.y = global_position.y
 	
-	# Get the target position relative to eyes
-	var target_position = eyes.global_transform.origin + random_direction * 10.0  # Scale to make sure the target is far enough
+	# If the rotation is reached, return
+	if global_transform.origin.is_equal_approx(pos) or pos == Vector3.ZERO:
+		return
+		
 	
-	eyes.look_at(target_position, Vector3.UP)
-	rotate_y(deg_to_rad(eyes.rotation.y * TURN_SPEED))
+	# Smoothly rotate to look at next path position
+	global_transform.basis = global_transform.basis.slerp(global_transform.looking_at(pos, Vector3.UP).basis, _delta * TURN_SPEED)
 
-
-func new_random_position():
+func new_random_position() -> Vector3:
+	var random_position : Vector3
+	
 	if (abs(random_position.x - global_position.x) <= 5 and abs(random_position.z - global_position.z) <= 5):
 		# Choose a random position relative to the player, so it does not seem like the enemy is actually chasing the player.
 		# TODO I want to change this so it is not going long distances, only staying within a certain area
@@ -67,6 +83,8 @@ func new_random_position():
 		# Clamps the random position to the boundaries of the world (currently 100, 100 subtract by 5 for wiggle room)
 		clamp(random_position.x, -40, 40)
 		clamp(random_position.z, -40, 40)
+		
+	return random_position
 
 
 func alert(new_target):

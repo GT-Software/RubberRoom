@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bhylj4udi1r8n"]
+[gd_scene load_steps=15 format=3 uid="uid://bhylj4udi1r8n"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_snbe8"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_fbtfx"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/attack.gd" id="10_fvfcj"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Alert/look_around.gd" id="11_q6i0p"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/set_destination_to_enemy.gd" id="11_x1jp1"]
+[ext_resource type="Script" path="res://scenes/Behaviors/face_enemy.gd" id="14_1x3th"]
 
 [node name="BeehaveTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_snbe8")
@@ -53,6 +54,15 @@ script = ExtResource("11_q6i0p")
 [node name="Hostile" type="Node" parent="SelectorComposite"]
 script = ExtResource("2_fbtfx")
 
+[node name="Attack" type="Node" parent="SelectorComposite/Hostile"]
+script = ExtResource("4_48w4r")
+
+[node name="Check if in Range" type="Node" parent="SelectorComposite/Hostile/Attack"]
+script = ExtResource("9_3l641")
+
+[node name="Attack" type="Node" parent="SelectorComposite/Hostile/Attack"]
+script = ExtResource("10_fvfcj")
+
 [node name="Chase" type="Node" parent="SelectorComposite/Hostile"]
 script = ExtResource("4_48w4r")
 
@@ -62,14 +72,8 @@ script = ExtResource("11_x1jp1")
 [node name="Go to Destination" type="Node" parent="SelectorComposite/Hostile/Chase"]
 script = ExtResource("7_3hufy")
 
+[node name="Face Enemy" type="Node" parent="SelectorComposite/Hostile/Chase"]
+script = ExtResource("14_1x3th")
+
 [node name="Await Arrival" type="Node" parent="SelectorComposite/Hostile/Chase"]
 script = ExtResource("8_jp1w0")
-
-[node name="Attack" type="Node" parent="SelectorComposite/Hostile"]
-script = ExtResource("4_48w4r")
-
-[node name="Check if in Range" type="Node" parent="SelectorComposite/Hostile/Attack"]
-script = ExtResource("9_3l641")
-
-[node name="Attack" type="Node" parent="SelectorComposite/Hostile/Attack"]
-script = ExtResource("10_fvfcj")
