@@ -8,6 +8,10 @@ extends ActionLeaf
 # Set target to player, look at player
 func tick(actor, _blackboard):
 	print("Enemy: Chasing Player")
-	actor.update_target_location(actor.target.position)
+	if actor.target:
+		actor.update_target_location(actor.target.global_position)
+	else:
+		return FAILURE
+		
 	actor.update_nav_agent()
 	return SUCCESS
