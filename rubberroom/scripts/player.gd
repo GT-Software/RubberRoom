@@ -1,13 +1,16 @@
 extends CharacterBody3D
 
-
-#signals
+# -------------------------------
+# Signals
+# -------------------------------
 signal stamina_change(new_stamina)
 signal health_change
 signal stun_change
 signal fear_change
 
-# TODO: Set up camera rotation for controller
+# -------------------------------
+# Node references
+# -------------------------------
 @onready var canvas_layer = $"../CanvasLayer"
 
 @onready var player_stat_bars = $"../CanvasLayer/Player Stat Bars"
@@ -15,9 +18,19 @@ signal fear_change
 @onready var stun_bar = $"../CanvasLayer/Player Stat Bars/StunBar"
 @onready var stamina_bar = $"../CanvasLayer/Player Stat Bars/StaminaBar"
 @onready var fear_bar = $"../CanvasLayer/Player Stat Bars/FearBar"
+@onready var _player_pcam = $"../Camera Controller/PhantomCamera3D"
 
+@export var mouse_sensitivity: float = 0.05
 
-#Component Data
+@export var min_pitch: float = -89.9
+@export var max_pitch: float = 50
+
+@export var min_yaw: float = 0
+@export var max_yaw: float = 360
+
+# -------------------------------
+# Components
+# -------------------------------
 var health_component : HealthComponent = HealthComponent.new()
 var stun_component : StunComponent = StunComponent.new()
 var stamina_component : StaminaComponent = StaminaComponent.new()
@@ -61,12 +74,14 @@ func _ready():
 
 # I am not putting anything into separate functions right now, I just want it to work. Be organized, but optimize later.
 func _physics_process(delta):
+		# --- Death check ---
 	if health_component.get_health() <= 0:
 		queue_free()
-	
+		# --- Gravity ---
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
+	# --- Jump ---
 	# We use the is_on_floor() method and the snap vector to check if the player landed
 	# These are boolean variables being set to true/false based on these condition
 	var is_jumping = is_on_floor() and Input.is_action_just_pressed("jump")
@@ -80,11 +95,12 @@ func _physics_process(delta):
 	## Normalizing to prevent diagonal speed boost
 	#move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
 	
+	# --- Movement ---
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 	move_direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y)
+	#move_direction = move_direction.rotated(Vector3.UP, _player_pcam.rotation.y)
 	
-	# Setting _velocity to new values depending on the player's stance
+	# Setting _velocity to new values depending on the player's state
 	if Input.is_action_pressed("run") and not is_crouched:
 		current_speed = RUN_SPEED
 		velocity.x = move_direction.x * RUN_SPEED
@@ -105,22 +121,59 @@ func _physics_process(delta):
 		velocity.z = move_direction.z * SPEED
 		#print("The Player is Walking")
 		
+	# --- Attack logic ---
 	if Input.is_action_just_pressed("attack") and is_in_range:
 		enemy.state = enemy.DAMAGED
 		
 	
+	# --- Move the player ---
 	move_and_slide()
 	#print(current_speed)
 	# Allows the player to turn around realistically (Placeholder does not show that, must test)
+	# OPTIONAL: Rotate the player model to face movement direction
+	# If you only want the camera to move, you can remove or tweak this
 	if _velocity.length() > 0.2:
 		var look_direction = Vector2(_velocity.z, _velocity.x)
 		_model.rotation.y = look_direction.angle()
 	
+	
+func _input(event: InputEvent) -> void:
+	# -----------------------------------------------------
+	# MOUSE LOOK: PhantomCamera rotation logic goes here
+	# -----------------------------------------------------
+	if event is InputEventMouseMotion:
+	# Grab the current rotation_degrees of the PhantomCamera
+		var cam_rot = _player_pcam.rotation_degrees
+		# Pitch (X-axis)
+		cam_rot.x -= event.relative.y * mouse_sensitivity
+		cam_rot.x = clamp(cam_rot.x, min_pitch, max_pitch)
+		# Yaw (Y-axis)
+		cam_rot.y -= event.relative.x * mouse_sensitivity
+		cam_rot.y = wrapf(cam_rot.y, min_yaw, max_yaw)
+		# Reapply the rotation
+		_player_pcam.rotation_degrees = cam_rot
+
+
+
 func _process(delta: float) -> void:
 	# Update the spring arm to move with the character every frame
-	_spring_arm.position = position
+	#_spring_arm.position = position
 	
 	
+	# 1. Get the camera's global transform
+	var cam_transform: Transform3D = _player_pcam.global_transform
+	# 2. Extract the camera's Euler angles
+	#    get_euler() returns (x, y, z) in radians for pitch, yaw, roll
+	var cam_euler: Vector3 = cam_transform.basis.get_euler()
+	# 3. Apply ONLY the camera’s Y rotation (yaw) to the player
+	#    This way, the player spins left/right with the camera
+	#    ignoring pitch (x) and roll (z).
+	rotation.y = lerp_angle(rotation.y, cam_euler.y, 0.1)
+
+	
+
+	# If you want to ensure the player faces exactly where the camera is looking,
+	# you can also zero out small pitch/roll offsets in the player's basis if needed
 
 func _on_range_body_entered(body: Node3D) -> void:
 	if body.is_in_group("enemies"):

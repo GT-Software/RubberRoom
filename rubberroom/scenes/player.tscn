@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://cdra3qby8c8bm"]
+[gd_scene load_steps=7 format=3 uid="uid://cdra3qby8c8bm"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_p3382"]
 [ext_resource type="Script" path="res://scripts/spring_arm_3d.gd" id="2_shcln"]
-[ext_resource type="PackedScene" uid="uid://drosn1nk8a1wt" path="res://scenes/Interact/interact_ray.tscn" id="3_84h4p"]
+[ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="4_slfkg"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_miivl"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_7wlru"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tds2k"]
 
@@ -15,6 +17,11 @@ script = ExtResource("1_p3382")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_miivl")
 
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.587306, 0, 0, 0, 0.417346, 0, 0, 0, 0.535235, 0, 0.5, -0.387483)
+material_override = ExtResource("4_slfkg")
+mesh = SubResource("BoxMesh_7wlru")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_tds2k")
 
@@ -23,16 +30,6 @@ collision_mask = 3
 spring_length = 2.5
 margin = 0.2
 script = ExtResource("2_shcln")
-
-[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
-h_offset = 1.0
-v_offset = 0.75
-
-[node name="InteractRay" parent="SpringArm3D/Camera3D" instance=ExtResource("3_84h4p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.75, 0)
-target_position = Vector3(0, 0, -6)
-collision_mask = 11
-collide_with_areas = true
 
 [node name="AudioListener3D" type="AudioListener3D" parent="."]
 current = true
