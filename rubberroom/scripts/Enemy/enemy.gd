@@ -81,8 +81,8 @@ func new_random_position() -> Vector3:
 		# TODO I want to change this so it is not going long distances, only staying within a certain area
 		random_position = Vector3(randf_range(player.position.x - 40, player.global_position.x + 40), position.y, randf_range(player.position.z - 40, player.global_position.z + 40))
 		# Clamps the random position to the boundaries of the world (currently 100, 100 subtract by 5 for wiggle room)
-		clamp(random_position.x, -40, 40)
-		clamp(random_position.z, -40, 40)
+		random_position.x = clamp(random_position.x, -40, 40)
+		random_position.z = clamp(random_position.z, -40, 40)
 		
 	return random_position
 

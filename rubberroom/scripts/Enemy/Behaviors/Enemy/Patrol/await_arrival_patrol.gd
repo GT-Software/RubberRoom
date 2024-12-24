@@ -1,8 +1,8 @@
 extends ActionLeaf
 
-
+# Await the arrival of the actor to it's target position, return state depending on the conditions.
 func tick(actor, _blackboard):
-	if actor.is_in_range or actor.nav_agent.is_target_reached():
+	if actor.nav_agent.is_target_reached():
 		return SUCCESS
 	if actor.target:
 		return FAILURE
