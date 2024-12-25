@@ -76,14 +76,12 @@ func rotate_to_look(pos : Vector3, _delta : float):
 func new_random_position() -> Vector3:
 	var random_position : Vector3
 	
-	if (abs(random_position.x - global_position.x) <= 5 and abs(random_position.z - global_position.z) <= 5):
-		# Choose a random position relative to the player, so it does not seem like the enemy is actually chasing the player.
-		# TODO I want to change this so it is not going long distances, only staying within a certain area
-		random_position = Vector3(randf_range(player.position.x - 40, player.global_position.x + 40), position.y, randf_range(player.position.z - 40, player.global_position.z + 40))
-		# Clamps the random position to the boundaries of the world (currently 100, 100 subtract by 5 for wiggle room)
-		random_position.x = clamp(random_position.x, -40, 40)
-		random_position.z = clamp(random_position.z, -40, 40)
-		
+	# Choose a random position relative to the player, so it does not seem like the enemy is actually chasing the player.
+	random_position = Vector3(randf_range(player.position.x - 40, player.global_position.x + 40), position.y, randf_range(player.position.z - 40, player.global_position.z + 40))
+	# Clamps the random position to the boundaries of the world (currently 100, 100 subtract by 5 for wiggle room)
+	random_position.x = clamp(random_position.x, -40, 40)
+	random_position.z = clamp(random_position.z, -40, 40)
+	
 	return random_position
 
 
