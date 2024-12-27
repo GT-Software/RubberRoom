@@ -62,7 +62,7 @@ collision_mask = 2
 min_pitch = -30.0
 
 [node name="Camera Anchor" type="Node3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.25, 3.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 1.5)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_lylq3")
@@ -256,7 +256,7 @@ shape = SubResource("CapsuleShape3D_65qa0")
 [node name="Camera Controller" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Camera Controller"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.0787, 5.18057, 25.7758)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.0787, 4.93057, 25.0258)
 attributes = SubResource("CameraAttributesPhysical_s2yjt")
 
 [node name="PhantomCameraHost" type="Node" parent="Camera Controller/Camera3D"]
@@ -265,10 +265,9 @@ process_physics_priority = 300
 script = ExtResource("17_ol8bq")
 
 [node name="PhantomCamera3D" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.0787, 5.18057, 25.7758)
-top_level = true
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 18.0787, 4.93057, 25.0258)
 script = ExtResource("18_ajtbg")
-follow_mode = 2
+follow_mode = 6
 follow_target = NodePath("../../Player/Camera Anchor")
 tween_resource = SubResource("Resource_32f37")
 tween_on_load = false
