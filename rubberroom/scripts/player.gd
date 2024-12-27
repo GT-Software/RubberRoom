@@ -20,6 +20,8 @@ signal fear_change
 @onready var stamina_bar    = $"../CanvasLayer/Player Stat Bars/StaminaBar"
 @onready var fear_bar       = $"../CanvasLayer/Player Stat Bars/FearBar"
 @onready var _player_pcam   = $"../Camera Controller/PhantomCamera3D"
+@onready var camera_anchor: Node3D = $"RotationPoint/Camera Anchor"
+@onready var rotation_point: Node3D = $RotationPoint
 
 @export var mouse_sensitivity: float = 0.05
 @export var min_pitch: float = -89.9
@@ -70,9 +72,13 @@ func _ready():
 	stun_bar.init_stun(stun_component)
 	stamina_bar.init_stamina(stamina_component)
 	fear_bar.init_fear(fear_component)
+	rotation_point.set_as_top_level(true)
 
 
 func _physics_process(delta):
+	rotation_point.position = position
+	
+	
 	#---------------------------------
 	# 1) Gravity + Death check
 	#---------------------------------
@@ -147,6 +153,12 @@ func _physics_process(delta):
 	#---------------------------------
 	animation_updates(current_speed, move_direction)
 	
+	
+	if velocity.length() > 0.2:
+		var cam_euler: Vector3 = _player_pcam.global_transform.basis.get_euler()
+		rotation.y = lerp_angle(rotation.y, cam_euler.y, 0.1)
+		
+	
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -154,20 +166,20 @@ func _input(event: InputEvent) -> void:
 		
 		# Pitch (X-axis)
 		cam_rot.x -= event.relative.y * mouse_sensitivity
-		cam_rot.x = clamp(cam_rot.x, min_pitch, max_pitch)
+		cam_rot.x = clampf(cam_rot.x, min_pitch, max_pitch)
 
 		# Yaw (Y-axis)
 		cam_rot.y -= event.relative.x * mouse_sensitivity
 		cam_rot.y = wrapf(cam_rot.y, min_yaw, max_yaw)
 
 		_player_pcam.set_third_person_rotation_degrees(cam_rot)
+		rotation_point.rotation_degrees = cam_rot
 
 
 func _process(delta: float) -> void:
-	# We just rotate the player’s Y to match camera yaw
-	var cam_euler: Vector3 = _player_pcam.global_transform.basis.get_euler()
-	rotation.y = lerp_angle(rotation.y, cam_euler.y, 0.2)
+	## We just rotate the player’s Y to match camera yaw
 
+	pass
 
 func _on_range_body_entered(body: Node3D) -> void:
 	if body.is_in_group("enemies"):

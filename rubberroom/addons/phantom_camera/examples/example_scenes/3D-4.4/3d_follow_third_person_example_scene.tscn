@@ -185,3 +185,5 @@ modulate = Color(0.294118, 1, 0.631373, 1)
 text = "[Space] to toggle PCam"
 font = ExtResource("7_kg7u1")
 font_size = 48
+
+[editable path="PlayerCharacterBody3D"]
