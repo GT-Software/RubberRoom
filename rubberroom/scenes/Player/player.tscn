@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cdra3qby8c8bm"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_p3382"]
-[ext_resource type="Script" path="res://scripts/spring_arm_3d.gd" id="2_shcln"]
+[ext_resource type="Script" path="res://scripts/Player/player.gd" id="1_p3382"]
+[ext_resource type="Script" path="res://scripts/Player/spring_arm_3d.gd" id="2_shcln"]
 [ext_resource type="PackedScene" uid="uid://drosn1nk8a1wt" path="res://scenes/Interact/interact_ray.tscn" id="3_84h4p"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_miivl"]

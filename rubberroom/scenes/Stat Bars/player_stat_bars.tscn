@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://bm8fdgmjoqbtp"]
 
-[ext_resource type="PackedScene" uid="uid://cgft77d68v3dp" path="res://scenes/health_bar.tscn" id="1_nt77q"]
-[ext_resource type="PackedScene" uid="uid://vu8ybnpoof71" path="res://scenes/stun_bar.tscn" id="2_lnj0j"]
-[ext_resource type="PackedScene" uid="uid://myfhvas27nn7" path="res://scenes/stamina_bar.tscn" id="3_pjdeq"]
-[ext_resource type="PackedScene" uid="uid://dvwu5ny3mg0kv" path="res://scenes/fear_bar.tscn" id="4_ywo2p"]
+[ext_resource type="PackedScene" uid="uid://cgft77d68v3dp" path="res://scenes/Stat Bars/health_bar.tscn" id="1_nt77q"]
+[ext_resource type="PackedScene" uid="uid://vu8ybnpoof71" path="res://scenes/Stat Bars/stun_bar.tscn" id="2_lnj0j"]
+[ext_resource type="PackedScene" uid="uid://myfhvas27nn7" path="res://scenes/Stat Bars/stamina_bar.tscn" id="3_pjdeq"]
+[ext_resource type="PackedScene" uid="uid://dvwu5ny3mg0kv" path="res://scenes/Stat Bars/fear_bar.tscn" id="4_ywo2p"]
 
 [node name="Player Stat Bars" type="Control"]
 layout_mode = 3

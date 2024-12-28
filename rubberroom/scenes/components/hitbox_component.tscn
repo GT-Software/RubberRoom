@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://08maoyfde03a"]
 
-[ext_resource type="Script" path="res://scripts/heal_debug.gd" id="1_rf83x"]
+[ext_resource type="Script" path="res://scripts/Stat Bars/heal_debug.gd" id="1_rf83x"]
 
 [node name="HealboxComponent" type="Area3D"]
 script = ExtResource("1_rf83x")
