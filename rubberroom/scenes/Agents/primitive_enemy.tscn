@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://4d1h3rxw87wm"]
+[gd_scene load_steps=12 format=3 uid="uid://c0v2sw5je2gxt"]
 
 [ext_resource type="Script" path="res://scripts/Enemy/enemy.gd" id="1_oeyls"]
 [ext_resource type="Script" path="res://scripts/Enemy/detection_area.gd" id="2_qbqrk"]
@@ -28,9 +28,10 @@ collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_oeyls")
 
-[node name="BeehaveTree" parent="." node_paths=PackedStringArray("blackboard") instance=ExtResource("2_uejd4")]
+[node name="BeehaveTree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_uejd4")]
 actor_node_path = NodePath("..")
 blackboard = NodePath("../Blackboard")
+actor = NodePath("..")
 
 [node name="Blackboard" type="Node" parent="."]
 script = ExtResource("3_kbc4j")
