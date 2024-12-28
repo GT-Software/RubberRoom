@@ -18,7 +18,7 @@ func get_prompt():
 func interact(body):
 	interacted.emit(body)
 	print("Interacted")
-	$AudioStreamPlayer3D.play()
+	#$AudioStreamPlayer3D.play()
 	
 
 

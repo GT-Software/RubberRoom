@@ -93,7 +93,6 @@ func attack():
 	var attack : Attack = Attack.new()
 	emit_signal("attacking", attack)
 
-
 func take_damage(attack : Attack):
 	health_component.damage(attack)
 

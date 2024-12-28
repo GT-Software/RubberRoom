@@ -19,10 +19,18 @@ config/icon="res://icon.svg"
 
 BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
 BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
+
+[dialogue_manager]
+
+general/balloon_path="res://assets/Dialouge/balloon.tscn"
 
 [display]
 
 window/stretch/mode="canvas_items"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 
 [dotnet]
 
@@ -30,7 +38,7 @@ project/assembly_name="RubberRoom"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/beehave/plugin.cfg")
+enabled=PackedStringArray("res://addons/beehave/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [file_customization]
 
@@ -105,12 +113,16 @@ interact={
 ]
 }
 
+[internationalization]
+
+locale/translations_pot_files=PackedStringArray("res://assets/Dialouge/dialogue.dialogue")
+
 [layer_names]
 
 3d_physics/layer_1="Player"
 3d_physics/layer_2="Environment"
 3d_physics/layer_3="Enemy"
-3d_physics/layer_4="NPC"
+3d_physics/layer_4="Actionable"
 
 [physics]
 

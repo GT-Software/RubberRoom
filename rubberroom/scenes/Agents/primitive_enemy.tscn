@@ -28,9 +28,10 @@ collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_oeyls")
 
-[node name="BeehaveTree" parent="." node_paths=PackedStringArray("blackboard") instance=ExtResource("2_uejd4")]
+[node name="BeehaveTree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_uejd4")]
 actor_node_path = NodePath("..")
 blackboard = NodePath("../Blackboard")
+actor = NodePath("..")
 
 [node name="Blackboard" type="Node" parent="."]
 script = ExtResource("3_kbc4j")
