@@ -60,7 +60,6 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _velocity = Vector3.ZERO
 
 @onready var _spring_arm : SpringArm3D     = $SpringArm3D
-@onready var _model      : MeshInstance3D  = $MeshInstance3D
 
 var move_direction = Vector3.ZERO
 
