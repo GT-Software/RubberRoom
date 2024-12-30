@@ -5,7 +5,7 @@
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="3_j3ne2"]
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="4_gfh3t"]
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="5_4j2g0"]
-[ext_resource type="Material" path="res://assets/materials/basic materials/orange.tres" id="6_nctqr"]
+[ext_resource type="Material" uid="uid://b0s23es7vfhre" path="res://assets/materials/basic materials/orange.tres" id="6_nctqr"]
 [ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="7_g51bx"]
 [ext_resource type="PackedScene" uid="uid://ciewpcasdaoc" path="res://scenes/Interact/Button.tscn" id="8_2h87f"]
 [ext_resource type="AudioStream" uid="uid://vewyng63c4pm" path="res://assets/sounds/MANGOMANGO.wav" id="9_2cpws"]
@@ -135,10 +135,66 @@ size = Vector3(99.7697, 5, 1.5)
 [node name="Interactables" type="Node3D" parent="NavigationRegion3D/Base World"]
 
 [node name="Button" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
-transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 1.51404, 48.5349)
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, -0.084744, 1.51404, 48.5349)
 prompt_msg = "MANGO"
 
 [node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Button" index="3"]
+stream = ExtResource("9_2cpws")
+
+[node name="Fear Decrease Button" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 3.24284, 1.51404, 48.5349)
+prompt_msg = "Fear Down"
+
+[node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Fear Decrease Button" index="3"]
+stream = ExtResource("9_2cpws")
+
+[node name="Fear Increase Button" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 3.83334, 1.51404, 48.5349)
+prompt_msg = "Fear Up"
+
+[node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Fear Increase Button" index="3"]
+stream = ExtResource("9_2cpws")
+
+[node name="Stamina Damage Button" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 4.94843, 1.51404, 48.5349)
+prompt_msg = "Stamina Down"
+
+[node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Stamina Damage Button" index="3"]
+stream = ExtResource("9_2cpws")
+
+[node name="Stamina Heal Button" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 5.53894, 1.51404, 48.5349)
+prompt_msg = "Stamina Up"
+
+[node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Stamina Heal Button" index="3"]
+stream = ExtResource("9_2cpws")
+
+[node name="Stun Decrease Button" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 6.86355, 1.51404, 48.5349)
+prompt_msg = "Stun Down"
+
+[node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Stun Decrease Button" index="3"]
+stream = ExtResource("9_2cpws")
+
+[node name="Stun Increase Button" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 7.45406, 1.51404, 48.5349)
+prompt_msg = "Stun Up"
+
+[node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Stun Increase Button" index="3"]
+stream = ExtResource("9_2cpws")
+
+[node name="Health Damage Button" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 8.4547, 1.51404, 48.5349)
+prompt_msg = "Health Down"
+
+[node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Health Damage Button" index="3"]
+stream = ExtResource("9_2cpws")
+
+[node name="Health Heal Button" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 9.04521, 1.51404, 48.5349)
+prompt_msg = "Health Up"
+
+[node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Health Heal Button" index="3"]
 stream = ExtResource("9_2cpws")
 
 [node name="Button2" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
@@ -161,8 +217,6 @@ size = Vector3(7.50342, 1.39246, 4.00146)
 [node name="Player Stat Bars" parent="CanvasLayer" instance=ExtResource("11_pyio3")]
 
 [node name="HealthBar" parent="CanvasLayer/Player Stat Bars" index="0"]
-layout_mode = 1
-anchors_preset = -1
 anchor_left = 0.868
 anchor_right = 1.0
 anchor_bottom = 0.073
@@ -172,8 +226,6 @@ offset_bottom = -0.304005
 grow_horizontal = 0
 
 [node name="StunBar" parent="CanvasLayer/Player Stat Bars" index="1"]
-layout_mode = 1
-anchors_preset = -1
 anchor_left = 0.869
 anchor_top = 0.09
 anchor_right = 0.999
@@ -185,8 +237,6 @@ offset_bottom = -0.216003
 grow_horizontal = 0
 
 [node name="StaminaBar" parent="CanvasLayer/Player Stat Bars" index="2"]
-layout_mode = 1
-anchors_preset = -1
 anchor_left = 0.868
 anchor_top = 0.19
 anchor_right = 1.0
@@ -198,16 +248,14 @@ offset_bottom = -0.312012
 grow_horizontal = 0
 
 [node name="FearBar" parent="CanvasLayer/Player Stat Bars" index="3"]
-layout_mode = 1
-anchors_preset = -1
 anchor_left = 0.865
 anchor_top = 0.29
 anchor_right = 0.997
 anchor_bottom = 0.364
-offset_left = 0.519897
-offset_top = 0.0799866
-offset_right = 0.455933
-offset_bottom = 0.127991
+offset_left = 3.52002
+offset_top = 0.0800018
+offset_right = 3.45605
+offset_bottom = 0.128006
 grow_horizontal = 0
 
 [node name="PlayerInteraction" type="Control" parent="CanvasLayer"]
@@ -285,7 +333,23 @@ target_position = Vector3(0, 0, -8)
 collision_mask = 11
 collide_with_areas = true
 
+[connection signal="Fear_Down" from="NavigationRegion3D/Base World/Interactables/Fear Decrease Button" to="NavigationRegion3D/Base World/Interactables/Fear Decrease Button" method="_on_fear_down"]
+[connection signal="Fear_Up" from="NavigationRegion3D/Base World/Interactables/Fear Increase Button" to="NavigationRegion3D/Base World/Interactables/Fear Increase Button" method="_on_fear_up"]
+[connection signal="Stamina_Hurt" from="NavigationRegion3D/Base World/Interactables/Stamina Damage Button" to="NavigationRegion3D/Base World/Interactables/Stamina Damage Button" method="_on_stamina_hurt"]
+[connection signal="Stamina_Heal" from="NavigationRegion3D/Base World/Interactables/Stamina Heal Button" to="NavigationRegion3D/Base World/Interactables/Stamina Heal Button" method="_on_stamina_heal"]
+[connection signal="Stun_Down" from="NavigationRegion3D/Base World/Interactables/Stun Decrease Button" to="NavigationRegion3D/Base World/Interactables/Stun Decrease Button" method="_on_stun_down"]
+[connection signal="Stun_Up" from="NavigationRegion3D/Base World/Interactables/Stun Increase Button" to="NavigationRegion3D/Base World/Interactables/Stun Increase Button" method="_on_stun_up"]
+[connection signal="Health_Hurt" from="NavigationRegion3D/Base World/Interactables/Health Damage Button" to="NavigationRegion3D/Base World/Interactables/Health Damage Button" method="_on_health_hurt"]
+[connection signal="Health_Heal" from="NavigationRegion3D/Base World/Interactables/Health Heal Button" to="NavigationRegion3D/Base World/Interactables/Health Heal Button" method="_on_health_heal"]
 [connection signal="attacking" from="Enemy" to="Player" method="_on_enemy_attacking"]
 
 [editable path="NavigationRegion3D/Base World/Interactables/Button"]
+[editable path="NavigationRegion3D/Base World/Interactables/Fear Decrease Button"]
+[editable path="NavigationRegion3D/Base World/Interactables/Fear Increase Button"]
+[editable path="NavigationRegion3D/Base World/Interactables/Stamina Damage Button"]
+[editable path="NavigationRegion3D/Base World/Interactables/Stamina Heal Button"]
+[editable path="NavigationRegion3D/Base World/Interactables/Stun Decrease Button"]
+[editable path="NavigationRegion3D/Base World/Interactables/Stun Increase Button"]
+[editable path="NavigationRegion3D/Base World/Interactables/Health Damage Button"]
+[editable path="NavigationRegion3D/Base World/Interactables/Health Heal Button"]
 [editable path="CanvasLayer/Player Stat Bars"]
