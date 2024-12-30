@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://4d1h3rxw87wm"]
+[gd_scene load_steps=14 format=3 uid="uid://4d1h3rxw87wm"]
 
 [ext_resource type="Script" path="res://scripts/Enemy/enemy.gd" id="1_oeyls"]
 [ext_resource type="Script" path="res://scripts/Enemy/detection_area.gd" id="2_qbqrk"]
 [ext_resource type="PackedScene" uid="uid://bhylj4udi1r8n" path="res://scenes/Behaviors/enemy_behavior_tree.tscn" id="2_uejd4"]
 [ext_resource type="Script" path="res://addons/beehave/blackboard.gd" id="3_kbc4j"]
 [ext_resource type="Script" path="res://scripts/Enemy/melee_range.gd" id="4_vbh6f"]
+[ext_resource type="PackedScene" uid="uid://bcgmp2a6a1ahj" path="res://EnemyStatUI.tscn" id="6_5vrk1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4mguh"]
 albedo_color = Color(0.674125, 0.0686359, 0, 1)
@@ -21,6 +22,9 @@ radius = 10.0
 radius = 2.5
 
 [sub_resource type="BoxMesh" id="BoxMesh_q47s4"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ebycv"]
+viewport_path = NodePath("SubViewport")
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -77,7 +81,8 @@ debug_enabled = true
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.000504553, 0.534119, -0.505969)
 mesh = SubResource("BoxMesh_q47s4")
 
-[node name="SubViewport" type="SubViewport" parent="."]
+[node name="Sprite3D" parent="." instance=ExtResource("6_5vrk1")]
+texture = SubResource("ViewportTexture_ebycv")
 
 [connection signal="body_entered" from="DetectionArea" to="DetectionArea" method="_on_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="DetectionArea" method="_on_body_exited"]

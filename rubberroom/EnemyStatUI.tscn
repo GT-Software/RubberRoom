@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcgmp2a6a1ahj"]
+
+[ext_resource type="PackedScene" uid="uid://cgft77d68v3dp" path="res://scenes/Stat Bars/health_bar.tscn" id="1_66luv"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_c1ip4"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fnqdj"]
+
+[node name="Sprite3D" type="Sprite3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_c1ip4")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(250, 80)
+
+[node name="Panel" type="Panel" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_fnqdj")
+
+[node name="HealthBar" parent="SubViewport/Panel" instance=ExtResource("1_66luv")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -25.0
+offset_right = -10.0
+offset_bottom = 25.0
+value = 10.0
