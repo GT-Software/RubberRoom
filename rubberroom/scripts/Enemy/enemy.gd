@@ -8,6 +8,7 @@ signal attacking(attack : Attack)
 
 @onready var nav_agent = $NavigationAgent3D
 @onready var detection_area = $DetectionArea
+@onready var melee_range: Area3D = $MeleeRange
 @onready var player = %Player
 @onready var eyes = $Eyes
 @onready var raycast = $"Line of Sight"
@@ -40,6 +41,7 @@ func _ready():
 	is_chasing = false
 	health_component = HealthComponent.new()
 	detection_area.connect('is_detected', alert)
+	melee_range.connect('range', on_in_melee_range)
 
 
 func _physics_process(delta: float):
@@ -95,6 +97,9 @@ func attack():
 
 func take_damage(attack : Attack):
 	health_component.damage(attack)
+	
+func on_in_melee_range(in_range : bool):
+	is_in_range = in_range
 
 # Update the current path and velocity
 func update_nav_agent():
