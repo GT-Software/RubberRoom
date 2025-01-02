@@ -35,6 +35,8 @@ signal fear_change
 @export var aim_max_pitch: float = 25
 @export var aim_min_yaw: float = 0
 @export var aim_max_yaw: float = 360
+@export var lock_on_button = "lock_on"  # Name of your input action (e.g., "middle mouse")
+
 
 
 # -------------------------------
@@ -59,6 +61,9 @@ var is_walking  = false
 var is_running  = false
 var locked_on   = false
 var is_crouched = false
+
+var locked_on_enemy: Enemy = null  # Reference to the currently locked-on enemy
+
 
 var current_speed = 0.0
 
@@ -169,9 +174,43 @@ func _physics_process(delta):
 		if _player_pcam.get_priority() < _aim_pcam.get_priority():
 			var aim_cam_euler: Vector3 = _aim_pcam.global_transform.basis.get_euler()
 			rotation.y = lerp_angle(rotation.y, aim_cam_euler.y, 0.1)
+	
+	
+	##Lock on Master Logic
+	if locked_on and locked_on_enemy:
+		# Get the position of the enemy
+		var enemy_pos = locked_on_enemy.global_transform.origin
+		# We want to rotate rotation_point so the camera points at the enemy.
+		# a) Compute direction from rotation_point to enemy
+		var my_pos = rotation_point.global_transform.origin
+		var direction = (enemy_pos - my_pos).normalized()
 		
+		# b) Compute desired yaw & pitch from direction
+		var desired_yaw = rad_to_deg(atan2(direction.x, direction.z))
+		# For pitch, you'd do something like:
+		var horizontal_dist = Vector2(direction.x, direction.z).length()
+		var desired_pitch = -rad_to_deg(atan2(direction.y, horizontal_dist))
+		# c) Lerp the current rotation to that yaw/pitch
+		#    (rotation_degrees is a Vector3(x=Pitch, y=Yaw, z=Roll))
+		var current_rot = rotation_point.rotation_degrees
+		current_rot.y = lerp_angle(current_rot.y, desired_yaw, 0.1)
+		current_rot.x = lerp_angle(current_rot.x, desired_pitch, 0.1)
+		# d) Optionally clamp pitch, etc.
+		current_rot.x = clampf(current_rot.x, min_pitch, max_pitch)
+		rotation_point.rotation_degrees = current_rot
+	else:
+		# Normal camera logic when not locked on
+		pass
 		
-		
+	
+	if locked_on and locked_on_enemy:
+		# If enemy is out of range or dead, unlock
+		var dist = global_position.distance_to(locked_on_enemy.global_position)
+		if dist > 50 or locked_on_enemy.is_alive == false:
+			unlock_enemy()
+			return
+
+
 
 
 func _input(event: InputEvent) -> void:
@@ -209,7 +248,20 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_pressed("Aim_Toggle"):
 		_toggle_aim_pcam(event)
 	
-	
+	if Input.is_action_just_pressed(lock_on_button):
+		print("locking-on!")
+		if locked_on == false:
+			# 1) Lock onto the nearest or the currently “in_range” enemy
+			if enemy and is_in_range:
+				lock_on_to_enemy(enemy)
+			else:
+				 # Optionally, pick an enemy from a global list or based on detection
+				var nearest_enemy = get_nearest_enemy()
+				if nearest_enemy:
+					lock_on_to_enemy(nearest_enemy)
+		else:
+			 # 2) Already locked on -> unlock
+			unlock_enemy()
 
 func _process(delta: float) -> void:
 	## We just rotate the player’s Y to match camera yaw
@@ -253,3 +305,36 @@ func _toggle_aim_pcam(event: InputEvent) -> void:
 			_aim_pcam.set_priority(30)
 		else:
 			_aim_pcam.set_priority(0)
+
+
+func get_nearest_enemy() -> Enemy:
+	var nearest_distance := INF
+	var nearest_enemy: Enemy = null
+	 # Gather all nodes in the "enemies" group.
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for node in enemies:
+		if node is Enemy:
+			# Optionally skip dead or hidden enemies
+			if not node.is_alive:
+				continue
+			# Calculate distance from the player's position
+			var dist = global_position.distance_to(node.global_position)
+			if dist < nearest_distance:
+				nearest_distance = dist
+				nearest_enemy = node
+	return nearest_enemy
+
+func lock_on_to_enemy(enemy_obj: Enemy) -> void:
+	locked_on_enemy = enemy_obj
+	locked_on = true
+	# Tell the enemy it’s locked on
+	enemy_obj.is_locked_on = true
+	enemy_obj.lock_on_marker.show()
+
+
+func unlock_enemy() -> void:
+	if locked_on_enemy:
+		locked_on_enemy.is_locked_on = false
+		locked_on_enemy.lock_on_marker.hide()
+	locked_on_enemy = null
+	locked_on = false

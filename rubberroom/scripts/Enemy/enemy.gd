@@ -13,6 +13,7 @@ signal attacking(attack : Attack)
 @onready var raycast = $"Line of Sight"
 @onready var lock_on_point = $"Lock-On Point"
 @onready var lock_on_marker = $"Lock-On Point/Lock On Marker"
+@onready var enemy_stats = $"Stat Bars Enemy"
 
 # Export variables
 
@@ -59,8 +60,10 @@ func _physics_process(delta: float):
 	
 	if is_locked_on == false:
 		lock_on_marker.hide()
+		enemy_stats.hide()
 	elif is_locked_on == true:
 		lock_on_marker.show()
+		enemy_stats.show()
 
 # Idle state
 func idle():
