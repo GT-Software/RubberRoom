@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://4d1h3rxw87wm"]
+[gd_scene load_steps=15 format=3 uid="uid://4d1h3rxw87wm"]
 
 [ext_resource type="Script" path="res://scripts/Enemy/enemy.gd" id="1_oeyls"]
 [ext_resource type="Script" path="res://scripts/Enemy/detection_area.gd" id="2_qbqrk"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://addons/beehave/blackboard.gd" id="3_kbc4j"]
 [ext_resource type="Script" path="res://scripts/Enemy/melee_range.gd" id="4_vbh6f"]
 [ext_resource type="PackedScene" uid="uid://bcgmp2a6a1ahj" path="res://EnemyStatUI.tscn" id="6_5vrk1"]
+[ext_resource type="Texture2D" uid="uid://c8j20vq5rpvyl" path="res://assets/images/icon.svg" id="7_37w1x"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4mguh"]
 albedo_color = Color(0.674125, 0.0686359, 0, 1)
@@ -83,6 +84,13 @@ mesh = SubResource("BoxMesh_q47s4")
 
 [node name="Sprite3D" parent="." instance=ExtResource("6_5vrk1")]
 texture = SubResource("ViewportTexture_ebycv")
+
+[node name="Lock-On Point" type="Node3D" parent="."]
+
+[node name="Lock On Marker" type="Sprite3D" parent="Lock-On Point"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.60693, 0)
+billboard = 1
+texture = ExtResource("7_37w1x")
 
 [connection signal="body_entered" from="DetectionArea" to="DetectionArea" method="_on_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="DetectionArea" method="_on_body_exited"]

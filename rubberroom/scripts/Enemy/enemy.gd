@@ -11,6 +11,8 @@ signal attacking(attack : Attack)
 @onready var player = %Player
 @onready var eyes = $Eyes
 @onready var raycast = $"Line of Sight"
+@onready var lock_on_point = $"Lock-On Point"
+@onready var lock_on_marker = $"Lock-On Point/Lock On Marker"
 
 # Export variables
 
@@ -20,7 +22,7 @@ signal attacking(attack : Attack)
 @export var current_speed : float
 
 # Boolean variables
-
+var is_locked_on : bool = false
 var is_spotted : bool = false
 var is_chasing : bool = false
 var is_in_range : bool = false
@@ -54,6 +56,11 @@ func _physics_process(delta: float):
 		else:
 			rotate_target = nav_agent.get_next_path_position()
 		rotate_to_look(rotate_target, delta)
+	
+	if is_locked_on == false:
+		lock_on_marker.hide()
+	elif is_locked_on == true:
+		lock_on_marker.show()
 
 # Idle state
 func idle():
@@ -119,3 +126,9 @@ func _on_navigation_agent_3d_target_reached() -> void:
 func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
 	velocity = velocity.move_toward(safe_velocity, .25)
 	move_and_slide()
+	
+func update_lock_on_status():
+	#Once "Locked On" Signal Received Via Player Hitting Middle Mouse
+	#Turn is_locked_on to true
+	#same "Locked On Signal Should change state for player as well
+	pass

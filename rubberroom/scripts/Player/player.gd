@@ -20,6 +20,9 @@ signal fear_change
 @onready var stamina_bar    = $"../CanvasLayer/Player Stat Bars/StaminaBar"
 @onready var fear_bar       = $"../CanvasLayer/Player Stat Bars/FearBar"
 @onready var _player_pcam   = $"../Camera Controller/PhantomCamera3D"
+@onready var _aim_pcam = $"../Camera Controller/PhantomCamera Zoom In"
+
+
 @onready var camera_anchor: Node3D = $"RotationPoint/Camera Anchor"
 @onready var rotation_point: Node3D = $RotationPoint
 
@@ -28,6 +31,11 @@ signal fear_change
 @export var max_pitch: float = 50
 @export var min_yaw: float = 0
 @export var max_yaw: float = 360
+@export var aim_min_pitch: float = -44.9
+@export var aim_max_pitch: float = 25
+@export var aim_min_yaw: float = 0
+@export var aim_max_yaw: float = 360
+
 
 # -------------------------------
 # Components
@@ -119,6 +127,8 @@ func _physics_process(delta):
 	#---------------------------------
 	var cam_yaw = _player_pcam.global_transform.basis.get_euler().y
 	move_direction = Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, cam_yaw)
+	var aim_cam_yaw = _aim_pcam.global_transform.basis.get_euler().y
+	move_direction = Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, cam_yaw)
 
 	#---------------------------------
 	# 5) Set velocity
@@ -156,24 +166,50 @@ func _physics_process(delta):
 	if velocity.length() > 0.2:
 		var cam_euler: Vector3 = _player_pcam.global_transform.basis.get_euler()
 		rotation.y = lerp_angle(rotation.y, cam_euler.y, 0.1)
+		if _player_pcam.get_priority() < _aim_pcam.get_priority():
+			var aim_cam_euler: Vector3 = _aim_pcam.global_transform.basis.get_euler()
+			rotation.y = lerp_angle(rotation.y, aim_cam_euler.y, 0.1)
 		
-	
+		
+		
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		var cam_rot = _player_pcam.get_third_person_rotation_degrees()
+		if _player_pcam.get_priority() > _aim_pcam.get_priority():
+			var cam_rot = _player_pcam.get_third_person_rotation_degrees()
+			
+			# Pitch (X-axis)
+			cam_rot.x -= event.relative.y * mouse_sensitivity
+			cam_rot.x = clampf(cam_rot.x, min_pitch, max_pitch)
+
+			# Yaw (Y-axis)
+			cam_rot.y -= event.relative.x * mouse_sensitivity
+			cam_rot.y = wrapf(cam_rot.y, min_yaw, max_yaw)
+
+			_player_pcam.set_third_person_rotation_degrees(cam_rot)
+			rotation_point.rotation_degrees = cam_rot
+			
+		elif _player_pcam.get_priority() < _aim_pcam.get_priority():
+			var slow_mouse_sensitivity = mouse_sensitivity * 0.5
+			var aim_cam_rot = _aim_pcam.get_third_person_rotation_degrees()
+			
+			# Pitch (X-axis)
+			aim_cam_rot.x -= event.relative.y * slow_mouse_sensitivity
+			aim_cam_rot.x = clampf(aim_cam_rot.x, aim_min_pitch, aim_max_pitch)
+
+			# Yaw (Y-axis)
+			aim_cam_rot.y -= event.relative.x * slow_mouse_sensitivity
+			aim_cam_rot.y = wrapf(aim_cam_rot.y, aim_min_yaw, aim_max_yaw)
+
+			_aim_pcam.set_third_person_rotation_degrees(aim_cam_rot)
+			rotation_point.rotation_degrees = aim_cam_rot
+			
 		
-		# Pitch (X-axis)
-		cam_rot.x -= event.relative.y * mouse_sensitivity
-		cam_rot.x = clampf(cam_rot.x, min_pitch, max_pitch)
-
-		# Yaw (Y-axis)
-		cam_rot.y -= event.relative.x * mouse_sensitivity
-		cam_rot.y = wrapf(cam_rot.y, min_yaw, max_yaw)
-
-		_player_pcam.set_third_person_rotation_degrees(cam_rot)
-		rotation_point.rotation_degrees = cam_rot
-
+	if Input.is_action_pressed("Aim_Toggle"):
+		_toggle_aim_pcam(event)
+	
+	
 
 func _process(delta: float) -> void:
 	## We just rotate the player’s Y to match camera yaw
@@ -204,3 +240,16 @@ func animation_updates(current_speed, move_direction):
 		ap.play("Walking(2)0")
 	elif is_running:
 		ap.play("Running(1)0")
+		
+		
+func _toggle_aim_pcam(event: InputEvent) -> void:
+	if Input.is_action_pressed("Aim_Toggle") \
+		and event.is_pressed() \
+		and event.button_index == 2 \
+		and (_player_pcam.is_active() or _aim_pcam.is_active()):
+		print("Switching To Aim")
+		_aim_pcam.set_third_person_rotation_degrees(_player_pcam.get_third_person_rotation_degrees())
+		if _player_pcam.get_priority() > _aim_pcam.get_priority():
+			_aim_pcam.set_priority(30)
+		else:
+			_aim_pcam.set_priority(0)
