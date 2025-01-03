@@ -167,13 +167,13 @@ func _physics_process(delta):
 	#---------------------------------
 	animation_updates(current_speed, move_direction)
 	
-	
-	if velocity.length() > 0.2:
-		var cam_euler: Vector3 = _player_pcam.global_transform.basis.get_euler()
-		rotation.y = lerp_angle(rotation.y, cam_euler.y, 0.1)
-		if _player_pcam.get_priority() < _aim_pcam.get_priority():
-			var aim_cam_euler: Vector3 = _aim_pcam.global_transform.basis.get_euler()
-			rotation.y = lerp_angle(rotation.y, aim_cam_euler.y, 0.1)
+	if not locked_on:
+		if velocity.length() > 0.2:
+			var cam_euler: Vector3 = _player_pcam.global_transform.basis.get_euler()
+			rotation.y = lerp_angle(rotation.y, cam_euler.y, 0.1)
+			if _player_pcam.get_priority() < _aim_pcam.get_priority():
+				var aim_cam_euler: Vector3 = _aim_pcam.global_transform.basis.get_euler()
+				rotation.y = lerp_angle(rotation.y, aim_cam_euler.y, 0.1)
 	
 	
 	##Lock on Master Logic
@@ -187,14 +187,13 @@ func _physics_process(delta):
 		
 		# b) Compute desired yaw & pitch from direction
 		var desired_yaw = rad_to_deg(atan2(direction.x, direction.z))
-		# For pitch, you'd do something like:
 		var horizontal_dist = Vector2(direction.x, direction.z).length()
 		var desired_pitch = -rad_to_deg(atan2(direction.y, horizontal_dist))
 		# c) Lerp the current rotation to that yaw/pitch
 		#    (rotation_degrees is a Vector3(x=Pitch, y=Yaw, z=Roll))
 		var current_rot = rotation_point.rotation_degrees
-		current_rot.y = lerp_angle(current_rot.y, desired_yaw, 0.1)
-		current_rot.x = lerp_angle(current_rot.x, desired_pitch, 0.1)
+		current_rot.y = lerp_angle(current_rot.y, desired_yaw, 0.3)
+		current_rot.x = lerp_angle(current_rot.x, desired_pitch, 0.3)
 		# d) Optionally clamp pitch, etc.
 		current_rot.x = clampf(current_rot.x, min_pitch, max_pitch)
 		rotation_point.rotation_degrees = current_rot
