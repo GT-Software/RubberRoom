@@ -24,7 +24,7 @@
 [ext_resource type="Material" uid="uid://b0s23es7vfhre" path="res://assets/materials/basic materials/orange.tres" id="6_bo24q"]
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/player.tscn" id="7_qqmnw"]
 [ext_resource type="PackedScene" uid="uid://ciewpcasdaoc" path="res://scenes/Interact/Button.tscn" id="8_hiq1q"]
-[ext_resource type="PackedScene" uid="uid://4d1h3rxw87wm" path="res://scenes/primitive_enemy.tscn" id="9_b1s5g"]
+[ext_resource type="PackedScene" uid="uid://btna66oslh06o" path="res://scenes/primitive_enemy.tscn" id="9_b1s5g"]
 [ext_resource type="PackedScene" uid="uid://bm8fdgmjoqbtp" path="res://scenes/player_stat_bars.tscn" id="9_ejbb6"]
 [ext_resource type="AudioStream" uid="uid://vewyng63c4pm" path="res://assets/sounds/MANGOMANGO.wav" id="10_56fwe"]
 [ext_resource type="Texture2D" uid="uid://dtmdw20q6ap87" path="res://assets/images/crosshair (1).png" id="10_sjp5a"]
@@ -144,6 +144,7 @@ size = Vector3(7.50342, 1.39246, 4.00146)
 [node name="Player Stat Bars" parent="CanvasLayer" instance=ExtResource("11_cjipp")]
 
 [node name="HealthBar" parent="CanvasLayer/Player Stat Bars" index="0"]
+physics_interpolation_mode = 0
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.868
@@ -152,9 +153,10 @@ anchor_bottom = 0.073
 offset_left = 0.0639648
 offset_right = 0.0
 offset_bottom = -0.304005
-grow_horizontal = 0
+script = null
 
 [node name="StunBar" parent="CanvasLayer/Player Stat Bars" index="1"]
+physics_interpolation_mode = 0
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.869
@@ -165,9 +167,10 @@ offset_left = -1.08801
 offset_top = -0.320004
 offset_right = 0.151855
 offset_bottom = -0.216003
-grow_horizontal = 0
+script = null
 
 [node name="StaminaBar" parent="CanvasLayer/Player Stat Bars" index="2"]
+physics_interpolation_mode = 0
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.868
@@ -178,9 +181,10 @@ offset_left = 0.0639648
 offset_top = -0.12001
 offset_right = -1.0
 offset_bottom = -0.312012
-grow_horizontal = 0
+script = null
 
 [node name="FearBar" parent="CanvasLayer/Player Stat Bars" index="3"]
+physics_interpolation_mode = 0
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.865
@@ -191,7 +195,7 @@ offset_left = 0.519897
 offset_top = 0.0799866
 offset_right = 0.455933
 offset_bottom = 0.127991
-grow_horizontal = 0
+script = null
 
 [node name="PlayerInteraction" type="Control" parent="CanvasLayer"]
 layout_mode = 3

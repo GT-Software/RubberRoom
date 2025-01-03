@@ -40,6 +40,9 @@ actor = NodePath("..")
 
 [node name="Blackboard" type="Node" parent="."]
 script = ExtResource("3_kbc4j")
+blackboard = {
+"attacking": false
+}
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_65lmn")
@@ -63,6 +66,7 @@ script = ExtResource("2_qbqrk")
 shape = SubResource("SphereShape3D_4p5us")
 
 [node name="MeleeRange" type="Area3D" parent="."]
+collision_layer = 4
 script = ExtResource("4_vbh6f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeleeRange"]
