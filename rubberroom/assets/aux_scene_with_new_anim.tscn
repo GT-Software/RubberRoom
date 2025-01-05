@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://q7nk134wqqb0"]
+
+[ext_resource type="PackedScene" uid="uid://b2qhx4wv3j625" path="res://assets/Animation/cac-1736099111738.gltf" id="1_ut8sm"]
+
+[node name="AuxScene" instance=ExtResource("1_ut8sm")]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
