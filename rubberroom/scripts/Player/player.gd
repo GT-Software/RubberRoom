@@ -89,8 +89,6 @@ func _ready():
 
 
 func _physics_process(delta):
-	rotation_point.position = position
-	
 	
 	#---------------------------------
 	# 1) Gravity + Death check
@@ -153,6 +151,7 @@ func _physics_process(delta):
 	# 6) Move
 	#---------------------------------
 	move_and_slide()
+	rotation_point.position = position
 	print(velocity)
 	
 	#---------------------------------
