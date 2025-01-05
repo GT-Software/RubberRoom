@@ -71,6 +71,7 @@ var current_speed = 0.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var _velocity = Vector3.ZERO
+var added_velocity : Vector3 = Vector3(100, 100, 100)
 
 @onready var _spring_arm : SpringArm3D     = $SpringArm3D
 
@@ -140,20 +141,31 @@ func _physics_process(delta):
 	#---------------------------------
 	velocity.x = move_direction.x * current_speed
 	velocity.z = move_direction.z * current_speed
+	
+	#---------------------------------
+	# 8) Defense logic
+	#---------------------------------
+	if Input.is_action_just_pressed("dodge"):
+		print("Dodging")
+		velocity = velocity + (added_velocity * move_direction)
 
 	#---------------------------------
 	# 6) Move
 	#---------------------------------
 	move_and_slide()
+	print(velocity)
 	
 	#---------------------------------
 	# 7) Attack logic
 	#---------------------------------
 	if Input.is_action_just_pressed("attack") and is_in_range:
 		enemy.state = enemy.DAMAGED
+	
+
+		
 
 	#---------------------------------
-	# 8) Idle/walking/running detection
+	# 9) Idle/walking/running detection
 	#---------------------------------
 	if move_direction.x == 0 and move_direction.z == 0:
 		is_idle     = true
