@@ -13,6 +13,7 @@ signal fear_change
 # -------------------------------
 @onready var canvas_layer = $"../CanvasLayer"
 @onready var ap = $AuxScene/AnimationPlayer
+@onready var ap_tree = $"Animation Control/AnimationTree"
 
 @onready var player_stat_bars = $"../CanvasLayer/Player Stat Bars"
 @onready var health_bar     = $"../CanvasLayer/Player Stat Bars/HealthBar"
@@ -61,6 +62,14 @@ var is_walking  = false
 var is_running  = false
 var locked_on   = false
 var is_crouched = false
+var is_in_combat= true
+var can_jump    = false
+var in_light_combo= false
+var in_heavy_combo= false
+
+var combo_index = 0
+var combo_timer = 0.0
+const MAX_COMBO_WINDOW = 0.4  # 400 ms window for the next attack
 
 var locked_on_enemy: Enemy = null  # Reference to the currently locked-on enemy
 
@@ -88,7 +97,10 @@ func _ready():
 
 
 func _physics_process(delta):
-	rotation_point.position = position
+	print("States: is_idle: ", is_idle)
+	print("States: is_walking: ", is_walking)
+	print("States: can_jump: ", can_jump)
+	print("States: combat: ", is_in_combat)
 	
 	
 	#---------------------------------
@@ -99,11 +111,15 @@ func _physics_process(delta):
 	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+		
+	if is_on_floor():
+		can_jump = false
 
 	#---------------------------------
 	# 2) Jump
 	#---------------------------------
-	if is_on_floor() and Input.is_action_just_pressed("jump"):
+	if is_on_floor() and Input.is_action_just_pressed("jump") and can_jump:
+		can_jump = true
 		velocity.y = JUMP_VELOCITY
 
 	#---------------------------------
@@ -118,14 +134,16 @@ func _physics_process(delta):
 		is_running    = true
 		stamina_component.stamina_drain()
 		emit_signal("stamina_change", stamina_component.stamina)
-	elif Input.is_action_pressed("crouch"):
-		current_speed = CROUCH_SPEED
-		# If you intend to toggle crouch:
-		is_crouched = !is_crouched
+	#elif Input.is_action_pressed("crouch"):
+		#current_speed = CROUCH_SPEED
+		## If you intend to toggle crouch:
+		#is_crouched = !is_crouched
+		#can_jump      = false
 	else:
 		current_speed = SPEED
 		is_walking    = true
 		is_running    = false
+		can_jump      = false
 	
 	#---------------------------------
 	# 4) Rotate input by camera yaw
@@ -145,12 +163,13 @@ func _physics_process(delta):
 	# 6) Move
 	#---------------------------------
 	move_and_slide()
+	rotation_point.position = position
 	
 	#---------------------------------
 	# 7) Attack logic
 	#---------------------------------
-	if Input.is_action_just_pressed("attack") and is_in_range:
-		enemy.state = enemy.DAMAGED
+	#if Input.is_action_just_pressed("light_attack") and is_in_range:
+		#enemy.state = enemy.DAMAGED
 
 	#---------------------------------
 	# 8) Idle/walking/running detection
@@ -165,8 +184,31 @@ func _physics_process(delta):
 	#---------------------------------
 	# 9) Animations
 	#---------------------------------
-	animation_updates(current_speed, move_direction)
-	
+	if Input.is_action_just_pressed("light_attack"):
+		in_light_combo = true
+		if combo_index == 0:
+			# First hit in a light combo
+			combo_index = 1
+			combo_timer = MAX_COMBO_WINDOW
+			# Tell the animation tree to transition:
+			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Light Combo 1")
+			print("light_attack1")
+			
+		elif combo_index == 1:
+			# Already in Light Combo 1, user pressed again in time:
+			combo_index = 2
+			combo_timer = MAX_COMBO_WINDOW
+			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Light Combo 2")
+			print("light_attack2")
+			
+		elif combo_index == 2:
+			# Already in Light Combo 2
+			combo_index = 3
+			combo_timer = MAX_COMBO_WINDOW
+			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Light Combo 3")
+			print("light_attack3")
+			
+	print(ap_tree.tree_root)
 	if not locked_on:
 		if velocity.length() > 0.2:
 			var cam_euler: Vector3 = _player_pcam.global_transform.basis.get_euler()
@@ -244,8 +286,8 @@ func _input(event: InputEvent) -> void:
 			rotation_point.rotation_degrees = aim_cam_rot
 			
 		
-	if Input.is_action_pressed("Aim_Toggle"):
-		_toggle_aim_pcam(event)
+
+	_toggle_aim_pcam(event)
 	
 	if Input.is_action_just_pressed(lock_on_button):
 		print("locking-on!")
@@ -263,9 +305,12 @@ func _input(event: InputEvent) -> void:
 			unlock_enemy()
 
 func _process(delta: float) -> void:
-	## We just rotate the player’s Y to match camera yaw
-
-	pass
+# Decrease combo_timer if it’s > 0
+	if combo_timer > 0:
+		combo_timer -= delta
+		if combo_timer <= 0:
+			# Time’s up, reset the combo
+			combo_index = 0
 
 func _on_range_body_entered(body: Node3D) -> void:
 	if body.is_in_group("enemies"):
@@ -284,19 +329,18 @@ func _on_enemy_attacking(attack: Attack) -> void:
 	print("Current Health: ", health_component.get_health())
 
 
-func animation_updates(current_speed, move_direction):
-	if is_idle:
-		ap.play("Idle(1)0")
-	elif is_walking:
-		ap.play("Walking(2)0")
-	elif is_running:
-		ap.play("Running(1)0")
-		
+#func animation_updates(current_speed, move_direction):
+	#if is_idle:
+		#ap.play("Idle(1)0")
+	#elif is_walking:
+		#ap.play("Walking(2)0")
+	#elif is_running:
+		#ap.play("Running(1)0")
+	
 		
 func _toggle_aim_pcam(event: InputEvent) -> void:
-	if Input.is_action_pressed("Aim_Toggle") \
+	if Input.is_action_pressed("aim_toggle") \
 		and event.is_pressed() \
-		and event.button_index == 2 \
 		and (_player_pcam.is_active() or _aim_pcam.is_active()):
 		print("Switching To Aim")
 		_aim_pcam.set_third_person_rotation_degrees(_player_pcam.get_third_person_rotation_degrees())
@@ -337,3 +381,13 @@ func unlock_enemy() -> void:
 		locked_on_enemy.lock_on_marker.hide()
 	locked_on_enemy = null
 	locked_on = false
+	
+func reset_combo():
+	combo_index = 0
+	combo_timer = 0.0
+	# Possibly force the AnimationTree state back to “Start” or “Idle”
+	ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Start")
+
+func _on_animation_tree_animation_finished(anim_name):
+	if anim_name == "Light Combo 3":
+		reset_combo()
