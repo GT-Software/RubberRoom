@@ -8,8 +8,8 @@ var stamina: float
 func _init(init_stamina = 10.0):
 	stamina = init_stamina
 	
-func stamina_drain():
-	stamina -= 0.1
+func stamina_drain(drain = 0.1):
+	stamina -= drain
 
 func stamina_heal():
 	stamina += 2.5

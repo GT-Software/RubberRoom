@@ -25,3 +25,8 @@ current = true
 
 [node name="AuxScene" parent="." instance=ExtResource("3_64lg6")]
 transform = Transform3D(-0.01, 0, 8.74228e-10, 0, 0.01, 0, -8.74228e-10, 0, -0.01, 0, 0, 0)
+
+[node name="Dodge Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Dodge Timer" to="." method="_on_dodge_end"]

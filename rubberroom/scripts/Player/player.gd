@@ -35,7 +35,7 @@ signal fear_change
 @export var aim_max_pitch: float = 25
 @export var aim_min_yaw: float = 0
 @export var aim_max_yaw: float = 360
-@export var lock_on_button = "lock_on"  # Name of your input action (e.g., "middle mouse")
+#@export var lock_on_button = "lock_on"  # Name of your input action (e.g., "middle mouse")
 
 
 
@@ -62,6 +62,20 @@ var is_running  = false
 var locked_on   = false
 var is_crouched = false
 
+
+# -------------------------------
+# Timers/Cooldowns
+# -------------------------------
+@onready var dodge_timer: Timer = $"Dodge Timer"
+
+# -------------------------------
+# Dodge Configuration
+# -------------------------------
+var dodge_speed = 20.0
+var is_dodging = false
+var dodge_direction = Vector3.ZERO
+var dodge_stamina_drain = 2.0
+
 var locked_on_enemy: Enemy = null  # Reference to the currently locked-on enemy
 
 
@@ -86,6 +100,7 @@ func _ready():
 	stamina_bar.init_stamina(stamina_component)
 	fear_bar.init_fear(fear_component)
 	rotation_point.set_as_top_level(true)
+	
 
 
 func _physics_process(delta):
@@ -139,30 +154,29 @@ func _physics_process(delta):
 	#---------------------------------
 	velocity.x = move_direction.x * current_speed
 	velocity.z = move_direction.z * current_speed
+	if is_dodging:
+		velocity = dodge_direction * dodge_speed
 	
 	#---------------------------------
 	# 8) Defense logic
 	#---------------------------------
-	if Input.is_action_just_pressed("dodge"):
-		print("Dodging")
-		velocity = velocity + (added_velocity * move_direction)
+	if Input.is_action_just_pressed("dodge") and not is_dodging and stamina_component.stamina >= 0:
+		#print("Dodging")
+		#velocity = velocity + (added_velocity * move_direction)
+		start_dodge(move_direction)
 
 	#---------------------------------
 	# 6) Move
 	#---------------------------------
 	move_and_slide()
 	rotation_point.position = position
-	print(velocity)
 	
 	#---------------------------------
 	# 7) Attack logic
 	#---------------------------------
 	if Input.is_action_just_pressed("attack") and is_in_range:
 		enemy.state = enemy.DAMAGED
-	
-
 		
-
 	#---------------------------------
 	# 9) Idle/walking/running detection
 	#---------------------------------
@@ -258,7 +272,7 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_pressed("Aim_Toggle"):
 		_toggle_aim_pcam(event)
 	
-	if Input.is_action_just_pressed(lock_on_button):
+	if Input.is_action_just_pressed("lock_on"):
 		print("locking-on!")
 		if locked_on == false:
 			# 1) Lock onto the nearest or the currently “in_range” enemy
@@ -307,7 +321,6 @@ func animation_updates(current_speed, move_direction):
 func _toggle_aim_pcam(event: InputEvent) -> void:
 	if Input.is_action_pressed("Aim_Toggle") \
 		and event.is_pressed() \
-		and event.button_index == 2 \
 		and (_player_pcam.is_active() or _aim_pcam.is_active()):
 		print("Switching To Aim")
 		_aim_pcam.set_third_person_rotation_degrees(_player_pcam.get_third_person_rotation_degrees())
@@ -348,3 +361,20 @@ func unlock_enemy() -> void:
 		locked_on_enemy.lock_on_marker.hide()
 	locked_on_enemy = null
 	locked_on = false
+
+# Timeout function for Dodge Timer
+func _on_dodge_end() -> void:
+	pass # Replace with function body.
+
+# Function that handles dodge mechanic
+func start_dodge(move_direction : Vector3):
+	is_dodging = true
+	
+	# Use direction player is going as dodge direction
+	if move_direction != Vector3.ZERO:
+		dodge_direction = (transform.basis * move_direction).normalized()
+	else:
+		dodge_direction = -transform.basis.z.normalized()	# Default to dodging backward
+	
+	stamina_component.stamina_drain(dodge_stamina_drain)
+	dodge_timer.start()
