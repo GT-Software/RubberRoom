@@ -66,6 +66,7 @@ var is_in_combat= true
 var can_jump    = false
 var in_light_combo= false
 var in_heavy_combo= false
+var is_blocking   = false
 
 var combo_index = 0
 var combo_timer = 0.0
@@ -101,6 +102,9 @@ func _physics_process(delta):
 	print("States: is_walking: ", is_walking)
 	print("States: can_jump: ", can_jump)
 	print("States: combat: ", is_in_combat)
+	print("States: combo: ", in_light_combo, in_heavy_combo)
+	print("Combo Timer: ", combo_timer)
+	print("Combo Index: ", combo_index)
 	
 	
 	#---------------------------------
@@ -184,6 +188,10 @@ func _physics_process(delta):
 	#---------------------------------
 	# 9) Animations
 	#---------------------------------
+	if combo_timer == 0:
+		in_heavy_combo = false
+		in_light_combo = false
+	
 	if Input.is_action_just_pressed("light_attack"):
 		in_light_combo = true
 		if combo_index == 0:
@@ -207,8 +215,38 @@ func _physics_process(delta):
 			combo_timer = MAX_COMBO_WINDOW
 			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Light Combo 3")
 			print("light_attack3")
+			#reset_combo()
 			
-	print(ap_tree.tree_root)
+			
+			
+			# Similarly for “heavy_attack”
+	if Input.is_action_just_pressed("heavy_attack"):
+		in_heavy_combo = true
+		if combo_index == 0:
+			combo_index = 1
+			combo_timer = MAX_COMBO_WINDOW
+			print("Heavy_attack1")
+			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Heavy Combo 1")
+		elif combo_index == 1:
+			# Already in Heavy Combo 1
+			combo_index = 2
+			combo_timer = MAX_COMBO_WINDOW
+			print("Heavy_attack2")
+			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Heavy Combo 2")
+			##Note to self, combos work now i need to "queue" them so they all play out in order
+			
+	if Input.is_action_pressed("block"):
+		is_blocking = true
+		ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "StandingBlockIdle")
+		print("Blocking!")
+	else:
+		is_blocking = false
+		 # If your state machine’s “StandingBlockIdle” anim leads to “LeftBlock0” on code or user input, that’s fine,
+		# or you can do something else here if you want a dedicated “block” release.
+		ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Start")  # or “Idle”
+			
+			
+	# etc.
 	if not locked_on:
 		if velocity.length() > 0.2:
 			var cam_euler: Vector3 = _player_pcam.global_transform.basis.get_euler()
@@ -305,12 +343,18 @@ func _input(event: InputEvent) -> void:
 			unlock_enemy()
 
 func _process(delta: float) -> void:
+	##MOVE TO OTHER PROCESS YOU SILLY FUCK
 # Decrease combo_timer if it’s > 0
 	if combo_timer > 0:
 		combo_timer -= delta
 		if combo_timer <= 0:
 			# Time’s up, reset the combo
 			combo_index = 0
+		#Reset Combo States after Timer Clears
+	if combo_timer == 0:
+		in_light_combo = false
+		in_heavy_combo = false
+		print("Combos Reset!")
 
 func _on_range_body_entered(body: Node3D) -> void:
 	if body.is_in_group("enemies"):
@@ -323,10 +367,6 @@ func _on_range_body_exited(body: Node3D) -> void:
 	is_in_range = false
 	print("INIGO MONTOYA DEACTIVATED")
 
-
-func _on_enemy_attacking(attack: Attack) -> void:
-	health_component.damage(attack)
-	print("Current Health: ", health_component.get_health())
 
 
 #func animation_updates(current_speed, move_direction):
@@ -391,3 +431,18 @@ func reset_combo():
 func _on_animation_tree_animation_finished(anim_name):
 	if anim_name == "Light Combo 3":
 		reset_combo()
+
+
+func _on_enemy_attacking(attack: Attack) -> void:
+	if is_blocking:
+		 # Maybe partial damage or no damage
+		print("Blocked!")
+	else:
+		health_component.damage(attack)
+		print("Current Health: ", health_component.get_health())
+		# Trigger an appropriate get-hit animation 
+		 # e.g. light or heavy depending on attack
+		if attack.is_heavy:
+			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "GettingHit2 Heavy")
+		else:
+			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "GettingHit1 Light")
