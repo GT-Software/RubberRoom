@@ -33,8 +33,7 @@ offset_bottom = -0.168015
 theme_override_styles/background = SubResource("StyleBoxEmpty_onrgi")
 theme_override_styles/fill = SubResource("StyleBoxFlat_nth6p")
 max_value = 10.0
-step = 1.0
-show_percentage = false
+allow_greater = true
 script = ExtResource("1_ybccs")
 
 [node name="StaminaDamageBar" type="ProgressBar" parent="."]

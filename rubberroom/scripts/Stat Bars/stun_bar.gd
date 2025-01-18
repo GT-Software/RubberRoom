@@ -3,6 +3,7 @@ extends ProgressBar
 @onready var stun_damage_bar = $StunDamageBar
 @onready var timer = $Timer
 
+
 func _on_stun_changed(new_stun):
 	_set_stun(new_stun)
 

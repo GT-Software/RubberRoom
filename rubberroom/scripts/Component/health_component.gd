@@ -12,10 +12,14 @@ func _init(init_health = 10.0):
 	
 ####### SETTERS #######
 func set_max_health(new_max : float):
-	MAX_HEALTH = new_max
+	MAX_HEALTH += 2.5
+	
 
 func set_health(new_health : float):
 	health = new_health
+	
+func health_drain():
+	health -= 0.05
 
 
 ####### GETTERS ########

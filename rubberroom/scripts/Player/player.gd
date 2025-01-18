@@ -132,17 +132,19 @@ func _physics_process(delta):
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 
 	# Decide if run, crouch, or normal speed
-	if Input.is_action_pressed("run") and not is_crouched:
+	if Input.is_action_pressed("run") and not is_crouched and stamina_component.stamina >= 0:
 		current_speed = RUN_SPEED
 		is_walking    = false
 		is_running    = true
+		##For Stamina
 		stamina_component.stamina_drain()
 		emit_signal("stamina_change", stamina_component.stamina)
-	#elif Input.is_action_pressed("crouch"):
-		#current_speed = CROUCH_SPEED
-		## If you intend to toggle crouch:
-		#is_crouched = !is_crouched
-		#can_jump      = false
+		stamina_bar._on_stamina_changed(stamina_component.stamina)
+
+	elif Input.is_action_pressed("crouch"):
+		current_speed = CROUCH_SPEED
+		# If you intend to toggle crouch:
+		is_crouched = !is_crouched
 	else:
 		current_speed = SPEED
 		is_walking    = true

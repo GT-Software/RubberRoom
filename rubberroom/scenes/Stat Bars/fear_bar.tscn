@@ -32,7 +32,6 @@ offset_right = -0.0720215
 offset_bottom = -0.0640259
 theme_override_styles/background = SubResource("StyleBoxEmpty_gdq67")
 theme_override_styles/fill = SubResource("StyleBoxFlat_6c8p6")
-show_percentage = false
 script = ExtResource("1_724tt")
 
 [node name="FearDamageBar" type="ProgressBar" parent="."]
