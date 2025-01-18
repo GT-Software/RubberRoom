@@ -33,8 +33,6 @@ offset_bottom = 0.135994
 theme_override_styles/background = SubResource("StyleBoxEmpty_wcfn2")
 theme_override_styles/fill = SubResource("StyleBoxFlat_xa5j8")
 max_value = 10.0
-step = 1.0
-show_percentage = false
 script = ExtResource("1_s7gld")
 
 [node name="StunDamageBar" type="ProgressBar" parent="."]
