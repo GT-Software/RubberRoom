@@ -70,7 +70,7 @@ var is_blocking   = false
 
 var combo_index = 0
 var combo_timer = 0.0
-const MAX_COMBO_WINDOW = 0.4  # 400 ms window for the next attack
+const MAX_COMBO_WINDOW = 1.35 # 400 ms window for the next attack
 
 var locked_on_enemy: Enemy = null  # Reference to the currently locked-on enemy
 
@@ -190,9 +190,19 @@ func _physics_process(delta):
 	#---------------------------------
 	# 9) Animations
 	#---------------------------------
-	if combo_timer == 0:
-		in_heavy_combo = false
+	
+	##MOVE TO OTHER PROCESS YOU SILLY FUCK
+# Decrease combo_timer if it’s > 0
+	if combo_timer > 0:
+		combo_timer -= delta
+		if combo_timer <= 0:
+			# Time’s up, reset the combo
+			combo_index = 0
+		#Reset Combo States after Timer Clears
+	if combo_index == 0:
 		in_light_combo = false
+		in_heavy_combo = false
+		print("Combos Reset!")
 	
 	if Input.is_action_just_pressed("light_attack"):
 		in_light_combo = true
@@ -343,20 +353,6 @@ func _input(event: InputEvent) -> void:
 		else:
 			 # 2) Already locked on -> unlock
 			unlock_enemy()
-
-func _process(delta: float) -> void:
-	##MOVE TO OTHER PROCESS YOU SILLY FUCK
-# Decrease combo_timer if it’s > 0
-	if combo_timer > 0:
-		combo_timer -= delta
-		if combo_timer <= 0:
-			# Time’s up, reset the combo
-			combo_index = 0
-		#Reset Combo States after Timer Clears
-	if combo_timer == 0:
-		in_light_combo = false
-		in_heavy_combo = false
-		print("Combos Reset!")
 
 func _on_range_body_entered(body: Node3D) -> void:
 	if body.is_in_group("enemies"):
