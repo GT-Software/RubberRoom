@@ -67,12 +67,14 @@ var is_crouched = false
 # Timers/Cooldowns
 # -------------------------------
 @onready var dodge_timer: Timer = $"Dodge Timer"
+@onready var dodge_cooldown: Timer = $"Dodge Cooldown"
 
 # -------------------------------
 # Dodge Configuration
 # -------------------------------
 var dodge_speed = 20.0
 var is_dodging = false
+var dodging_on_cooldown = false
 var dodge_direction = Vector3.ZERO
 var dodge_stamina_drain = 2.0
 
@@ -85,7 +87,6 @@ var current_speed = 0.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var _velocity = Vector3.ZERO
-var added_velocity : Vector3 = Vector3(100, 100, 100)
 
 @onready var _spring_arm : SpringArm3D     = $SpringArm3D
 
@@ -160,10 +161,10 @@ func _physics_process(delta):
 	#---------------------------------
 	# 8) Defense logic
 	#---------------------------------
-	if Input.is_action_just_pressed("dodge") and not is_dodging and stamina_component.stamina >= 0:
+	if Input.is_action_just_pressed("dodge") and not is_dodging and stamina_component.stamina >= 0 and not dodging_on_cooldown:
 		#print("Dodging")
 		#velocity = velocity + (added_velocity * move_direction)
-		start_dodge(move_direction)
+		start_dodge(velocity)
 
 	#---------------------------------
 	# 6) Move
@@ -364,17 +365,30 @@ func unlock_enemy() -> void:
 
 # Timeout function for Dodge Timer
 func _on_dodge_end() -> void:
-	pass # Replace with function body.
+	is_dodging = false
 
 # Function that handles dodge mechanic
 func start_dodge(move_direction : Vector3):
 	is_dodging = true
 	
+	# Get the directional input
+	var input_direction = Vector3(
+		Input.get_action_strength("right") - Input.get_action_strength("left"),
+		0,
+		Input.get_action_strength("backward") - Input.get_action_strength("forward")
+	).normalized()
+	
 	# Use direction player is going as dodge direction
 	if move_direction != Vector3.ZERO:
-		dodge_direction = (transform.basis * move_direction).normalized()
+		dodge_direction = (transform.basis * input_direction).normalized()
 	else:
 		dodge_direction = -transform.basis.z.normalized()	# Default to dodging backward
 	
 	stamina_component.stamina_drain(dodge_stamina_drain)
+	dodging_on_cooldown = true
 	dodge_timer.start()
+	dodge_cooldown.start()
+
+
+func _on_dodge_cooldown_timeout() -> void:
+	dodging_on_cooldown = false

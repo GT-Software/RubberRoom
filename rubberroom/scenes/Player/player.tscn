@@ -27,6 +27,10 @@ current = true
 transform = Transform3D(-0.01, 0, 8.74228e-10, 0, 0.01, 0, -8.74228e-10, 0, -0.01, 0, 0, 0)
 
 [node name="Dodge Timer" type="Timer" parent="."]
+wait_time = 0.2
 one_shot = true
 
+[node name="Dodge Cooldown" type="Timer" parent="."]
+
 [connection signal="timeout" from="Dodge Timer" to="." method="_on_dodge_end"]
+[connection signal="timeout" from="Dodge Cooldown" to="." method="_on_dodge_cooldown_timeout"]
