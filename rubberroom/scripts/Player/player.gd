@@ -161,11 +161,17 @@ func _physics_process(delta):
 	#---------------------------------
 	# 8) Defense logic
 	#---------------------------------
+	
+	# Dodge
 	if Input.is_action_just_pressed("dodge") and not is_dodging and stamina_component.stamina >= 0 and not dodging_on_cooldown:
 		#print("Dodging")
 		#velocity = velocity + (added_velocity * move_direction)
 		start_dodge(velocity)
-
+	
+	# Block
+	if Input.is_action_just_pressed("block"):
+		start_block()
+	
 	#---------------------------------
 	# 6) Move
 	#---------------------------------
@@ -389,6 +395,25 @@ func start_dodge(move_direction : Vector3):
 	dodge_timer.start()
 	dodge_cooldown.start()
 
-
+# Timeout out function to prevent dodge from being spammed
 func _on_dodge_cooldown_timeout() -> void:
 	dodging_on_cooldown = false
+
+
+# Function that handles block mechanic
+func start_block():
+	# Conditions:
+	# Is block on cooldown?
+	
+	# Is player doing another action? If so what action?
+	
+	# Does player have enough stamina?
+	
+	# Holding Melee Weapon? If so, is it a shield?
+	
+	# Perform block based on conditionals
+	
+	# Is player still blocking?
+	
+	# End Block
+	pass
