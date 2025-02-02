@@ -32,5 +32,8 @@ one_shot = true
 
 [node name="Dodge Cooldown" type="Timer" parent="."]
 
+[node name="Block Cooldown" type="Timer" parent="."]
+
 [connection signal="timeout" from="Dodge Timer" to="." method="_on_dodge_end"]
 [connection signal="timeout" from="Dodge Cooldown" to="." method="_on_dodge_cooldown_timeout"]
+[connection signal="timeout" from="Block Cooldown" to="." method="_on_block_cooldown_timeout"]

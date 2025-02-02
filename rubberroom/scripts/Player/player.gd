@@ -68,6 +68,7 @@ var is_crouched = false
 # -------------------------------
 @onready var dodge_timer: Timer = $"Dodge Timer"
 @onready var dodge_cooldown: Timer = $"Dodge Cooldown"
+@onready var block_cooldown: Timer = $"Block Cooldown"
 
 # -------------------------------
 # Dodge Configuration
@@ -77,6 +78,15 @@ var is_dodging = false
 var dodging_on_cooldown = false
 var dodge_direction = Vector3.ZERO
 var dodge_stamina_drain = 2.0
+
+# -------------------------------
+# Block Configuration
+# -------------------------------
+var is_blocking = false
+var blocking_on_cooldown = false
+var cannot_take_damage = false
+var take_chip_damage = false
+var chip_damage_percent = 0.20
 
 var locked_on_enemy: Enemy = null  # Reference to the currently locked-on enemy
 
@@ -404,12 +414,18 @@ func _on_dodge_cooldown_timeout() -> void:
 func start_block():
 	# Conditions:
 	# Is block on cooldown?
+	if blocking_on_cooldown:
+		return
 	
 	# Is player doing another action? If so what action?
+	if current_action() != "running" or current_action() != "walking" or current_action() != "no action":
+		return
 	
 	# Does player have enough stamina?
+	if stamina_component.stamina <= 0:
+		take_chip_damage = true
 	
-	# Holding Melee Weapon? If so, is it a shield?
+	# Holding Melee Weapon? If so, is it a shield (implemented when weapons are?
 	
 	# Perform block based on conditionals
 	
@@ -417,3 +433,21 @@ func start_block():
 	
 	# End Block
 	pass
+
+
+func _on_block_cooldown_timeout() -> void:
+	blocking_on_cooldown = false
+
+func current_action() -> String:
+	if is_blocking:
+		return "blocking"
+	elif is_crouched:
+		return "crouched"
+	elif is_dodging:
+		return "dodging"
+	elif is_running:
+		return "running"
+	elif is_walking:
+		return "walking"
+	else:
+		return "no action"
