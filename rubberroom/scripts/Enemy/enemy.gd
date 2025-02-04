@@ -15,6 +15,7 @@ signal attacking(attack : Attack)
 @onready var lock_on_point = $"Lock-On Point"
 @onready var lock_on_marker = $"Lock-On Point/Lock On Marker"
 @onready var enemy_stats = $"Stat Bars Enemy"
+@onready var enemy_health_bar = $"Stat Bars Enemy/SubViewport/Panel/HealthBar"
 
 # Export variables
 
@@ -140,3 +141,15 @@ func update_lock_on_status():
 	#Turn is_locked_on to true
 	#same "Locked On Signal Should change state for player as well
 	pass
+
+
+func _on_player_attacking(attack: Attack, in_range : bool):
+	take_damage(attack)
+	print("Received player_attacking signal with: ", attack, ", in_range: ", in_range)
+	enemy_health_bar._on_health_changed(health_component.health)
+	print("Current Enemy Health: ", health_component.get_health())
+		
+
+
+func _on_enemy_melee_range_exited(body):
+	pass # Replace with function body.

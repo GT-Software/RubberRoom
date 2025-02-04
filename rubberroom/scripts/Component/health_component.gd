@@ -29,8 +29,8 @@ func get_max_health() -> float:
 func get_health() -> float:
 	return health
 
-func heal():
-	health += 2.5
+func heal(heal_health = 2.5):
+	health += heal_health
 
 func damage(attack: Attack):
 	health -= attack.health_damage

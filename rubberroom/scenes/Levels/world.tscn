@@ -360,6 +360,7 @@ follow_target = NodePath("../../Player/RotationPoint/Camera Anchor")
 tween_resource = SubResource("Resource_gbq6i")
 camera_3d_resource = SubResource("Resource_84ql2")
 
+[connection signal="player_attacking" from="Player" to="Enemy" method="_on_player_attacking"]
 [connection signal="Fear_Down" from="NavigationRegion3D/Base World/Interactables/Fear Decrease Button" to="NavigationRegion3D/Base World/Interactables/Fear Decrease Button" method="_on_fear_down"]
 [connection signal="Fear_Up" from="NavigationRegion3D/Base World/Interactables/Fear Increase Button" to="NavigationRegion3D/Base World/Interactables/Fear Increase Button" method="_on_fear_up"]
 [connection signal="Stamina_Hurt" from="NavigationRegion3D/Base World/Interactables/Stamina Damage Button" to="NavigationRegion3D/Base World/Interactables/Stamina Damage Button" method="_on_stamina_hurt"]

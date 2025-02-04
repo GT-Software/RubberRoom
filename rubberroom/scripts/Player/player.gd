@@ -7,7 +7,7 @@ signal stamina_change(new_stamina)
 signal health_change
 signal stun_change
 signal fear_change
-
+signal player_attacking(attack : Attack, in_range : bool)
 # -------------------------------
 # Node references
 # -------------------------------
@@ -22,6 +22,8 @@ signal fear_change
 @onready var fear_bar       = $"../CanvasLayer/Player Stat Bars/FearBar"
 @onready var _player_pcam   = $"../Camera Controller/PhantomCamera3D"
 @onready var _aim_pcam = $"../Camera Controller/PhantomCamera Zoom In"
+@onready var right_arm_collision = $AuxScene/Node/Skeleton3D/RightArm/Area3D/RightArmCollision
+@onready var left_arm_collision = $AuxScene/Node/Skeleton3D/LeftArm/Area3D/LeftArmCollision
 
 
 @onready var camera_anchor: Node3D = $"RotationPoint/Camera Anchor"
@@ -98,13 +100,13 @@ func _ready():
 
 
 func _physics_process(delta):
-	print("States: is_idle: ", is_idle)
-	print("States: is_walking: ", is_walking)
-	print("States: can_jump: ", can_jump)
-	print("States: combat: ", is_in_combat)
-	print("States: combo: ", in_light_combo, in_heavy_combo)
-	print("Combo Timer: ", combo_timer)
-	print("Combo Index: ", combo_index)
+	#print("States: is_idle: ", is_idle)
+	#print("States: is_walking: ", is_walking)
+	#print("States: can_jump: ", can_jump)
+	#print("States: combat: ", is_in_combat)
+	#print("States: combo: ", in_light_combo, in_heavy_combo)
+	#print("Combo Timer: ", combo_timer)
+	#print("Combo Index: ", combo_index)
 	
 	
 	#---------------------------------
@@ -138,7 +140,7 @@ func _physics_process(delta):
 		is_running    = true
 		##For Stamina
 		stamina_component.stamina_drain()
-		emit_signal("stamina_change", stamina_component.stamina)
+		#emit_signal("stamina_change", stamina_component.stamina)
 		stamina_bar._on_stamina_changed(stamina_component.stamina)
 
 	elif Input.is_action_pressed("crouch"):
@@ -171,11 +173,17 @@ func _physics_process(delta):
 	move_and_slide()
 	rotation_point.position = position
 	
+	#health_component.heal(2)
+	
 	#---------------------------------
 	# 7) Attack logic
 	#---------------------------------
-	#if Input.is_action_just_pressed("light_attack") and is_in_range:
-		#enemy.state = enemy.DAMAGED
+	if (in_light_combo or in_heavy_combo) and is_in_range:
+		var attack_instance = Attack.new(2.0, 0.0, 0.0, 0.0, 0.0, global_position)
+		print("Emitting player_attacking signal with: ", attack_instance)
+		player_attacking.emit(attack_instance, is_in_range)
+		
+	
 
 	#---------------------------------
 	# 8) Idle/walking/running detection
@@ -202,7 +210,7 @@ func _physics_process(delta):
 	if combo_index == 0:
 		in_light_combo = false
 		in_heavy_combo = false
-		print("Combos Reset!")
+		#print("Combos Reset!")
 	
 	if Input.is_action_just_pressed("light_attack"):
 		in_light_combo = true
@@ -210,26 +218,22 @@ func _physics_process(delta):
 			# First hit in a light combo
 			combo_index = 1
 			combo_timer = MAX_COMBO_WINDOW
-			# Tell the animation tree to transition:
-			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Light Combo 1")
 			print("light_attack1")
 			
 		elif combo_index == 1:
 			# Already in Light Combo 1, user pressed again in time:
 			combo_index = 2
 			combo_timer = MAX_COMBO_WINDOW
-			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Light Combo 2")
 			print("light_attack2")
 			
 		elif combo_index == 2:
 			# Already in Light Combo 2
 			combo_index = 3
 			combo_timer = MAX_COMBO_WINDOW
-			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Light Combo 3")
 			print("light_attack3")
 			#reset_combo()
 			
-			
+		
 			
 			# Similarly for “heavy_attack”
 	if Input.is_action_just_pressed("heavy_attack"):
@@ -256,7 +260,6 @@ func _physics_process(delta):
 		 # If your state machine’s “StandingBlockIdle” anim leads to “LeftBlock0” on code or user input, that’s fine,
 		# or you can do something else here if you want a dedicated “block” release.
 		ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Start")  # or “Idle”
-			
 			
 	# etc.
 	if not locked_on:
@@ -366,15 +369,6 @@ func _on_range_body_exited(body: Node3D) -> void:
 	print("INIGO MONTOYA DEACTIVATED")
 
 
-
-#func animation_updates(current_speed, move_direction):
-	#if is_idle:
-		#ap.play("Idle(1)0")
-	#elif is_walking:
-		#ap.play("Walking(2)0")
-	#elif is_running:
-		#ap.play("Running(1)0")
-	
 		
 func _toggle_aim_pcam(event: InputEvent) -> void:
 	if Input.is_action_pressed("aim_toggle") \
@@ -420,15 +414,15 @@ func unlock_enemy() -> void:
 	locked_on_enemy = null
 	locked_on = false
 	
-func reset_combo():
-	combo_index = 0
-	combo_timer = 0.0
-	# Possibly force the AnimationTree state back to “Start” or “Idle”
-	ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Start")
-
-func _on_animation_tree_animation_finished(anim_name):
-	if anim_name == "Light Combo 3":
-		reset_combo()
+#func reset_combo():
+	#combo_index = 0
+	#combo_timer = 0.0
+	## Possibly force the AnimationTree state back to “Start” or “Idle”
+	#ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Start")
+#
+#func _on_animation_tree_animation_finished(anim_name):
+	#if anim_name == "Light Combo 3":
+		#reset_combo()
 
 
 func _on_enemy_attacking(attack: Attack) -> void:
@@ -437,10 +431,20 @@ func _on_enemy_attacking(attack: Attack) -> void:
 		print("Blocked!")
 	else:
 		health_component.damage(attack)
+		health_bar._on_health_changed(health_component.health)
 		print("Current Health: ", health_component.get_health())
 		# Trigger an appropriate get-hit animation 
 		 # e.g. light or heavy depending on attack
-		if attack.is_heavy:
+		if attack:
 			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "GettingHit2 Heavy")
 		else:
 			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "GettingHit1 Light")
+
+
+func _on_enemy_melee_range_entered(body):
+	is_in_range = true
+	
+
+
+func _on_enemy_melee_range_exited(body):
+	is_in_range = false
