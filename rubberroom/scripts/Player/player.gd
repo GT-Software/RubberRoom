@@ -88,7 +88,7 @@ var _velocity = Vector3.ZERO
 
 var move_direction = Vector3.ZERO
 
-var is_in_range = false
+var is_in_range = true
 var enemy
 
 func _ready():
@@ -100,13 +100,14 @@ func _ready():
 
 
 func _physics_process(delta):
-	#print("States: is_idle: ", is_idle)
-	#print("States: is_walking: ", is_walking)
-	#print("States: can_jump: ", can_jump)
-	#print("States: combat: ", is_in_combat)
-	#print("States: combo: ", in_light_combo, in_heavy_combo)
-	#print("Combo Timer: ", combo_timer)
-	#print("Combo Index: ", combo_index)
+	print("States: is_idle: ", is_idle)
+	print("States: is_walking: ", is_walking)
+	print("States: can_jump: ", can_jump)
+	print("States: combat: ", is_in_combat)
+	print("States: Is_In_Range: ", is_in_range)
+	print("States: combo: ", in_light_combo, in_heavy_combo)
+	print("Combo Timer: ", combo_timer)
+	print("Combo Index: ", combo_index)
 	
 	
 	#---------------------------------

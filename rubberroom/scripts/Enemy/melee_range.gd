@@ -1,4 +1,5 @@
 extends Area3D
+@onready var player = %Player
 
 signal range(in_range : bool)
 

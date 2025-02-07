@@ -49,8 +49,12 @@ func _ready():
 
 
 func _physics_process(delta: float):
+	if health_component.health <= 0:
+		is_alive = false
+	
+	
 	if !is_alive:
-		return
+		queue_free()
 		
 	velocity.y -= gravity * delta
 	
