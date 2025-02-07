@@ -322,6 +322,14 @@ func _on_range_body_exited(body: Node3D) -> void:
 
 
 func _on_enemy_attacking(attack: Attack) -> void:
+	# Check for blocking and do modifications to attack if there is chip damage enabled
+	# Figure out animations
+	if is_blocking:
+		if take_chip_damage:
+			attack.health_damage = attack.health_damage * chip_damage_percent
+		else:
+			return
+	
 	health_component.damage(attack)
 	print("Current Health: ", health_component.get_health())
 
