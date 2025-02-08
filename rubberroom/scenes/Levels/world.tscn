@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://dtmdw20q6ap87" path="res://assets/images/crosshair (1).png" id="12_sl72j"]
 [ext_resource type="PackedScene" uid="uid://4d1h3rxw87wm" path="res://scenes/Agents/primitive_enemy.tscn" id="13_vaew6"]
 [ext_resource type="PackedScene" uid="uid://3e3pvfdco7mt" path="res://scenes/Agents/basic_npc.tscn" id="14_ec1jr"]
-[ext_resource type="PackedScene" uid="uid://brt856gi83iuc" path="res://scenes/Interact/actionable.tscn" id="15_p00jr"]
+[ext_resource type="PackedScene" path="res://scenes/Interact/actionable.tscn" id="15_p00jr"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="17_kaabt"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="18_10yq7"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="19_8auu5"]

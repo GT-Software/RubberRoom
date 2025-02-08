@@ -68,7 +68,6 @@ var is_in_combat= true
 var can_jump    = false
 var in_light_combo= false
 var in_heavy_combo= false
-var is_blocking   = false
 
 var combo_index = 0
 var combo_timer = 0.0
@@ -539,7 +538,7 @@ func start_block():
 	# Holding Melee Weapon? If so, is it a shield (implemented when weapons are?
 	
 	# Perform block based on conditionals
-	#print("Is Blocking Retard!")
+	print("Is Blocking Retard!")
 	is_blocking = true
 	# Is player still blocking?
 	

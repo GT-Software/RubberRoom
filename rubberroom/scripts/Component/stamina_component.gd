@@ -17,8 +17,8 @@ func set_max_stamina(new_max : float):
 func set_stamina(new_stamina : float):
 	stamina = new_stamina
 	
-func stamina_drain():
-	stamina -= 0.05
+func stamina_drain(drain = 0.1):
+	stamina -= drain
 
 
 ####### GETTERS ########
