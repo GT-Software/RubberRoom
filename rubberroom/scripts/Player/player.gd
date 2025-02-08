@@ -179,8 +179,11 @@ func _physics_process(delta):
 		start_dodge(velocity)
 	
 	# Block
-	if Input.is_action_just_pressed("block"):
+	if Input.is_action_pressed("block"):
 		start_block()
+	else:
+		is_blocking = false
+		#print("Not Blocking!")
 	
 	#---------------------------------
 	# 6) Move
@@ -324,11 +327,17 @@ func _on_range_body_exited(body: Node3D) -> void:
 func _on_enemy_attacking(attack: Attack) -> void:
 	# Check for blocking and do modifications to attack if there is chip damage enabled
 	# Figure out animations
-	if is_blocking:
-		if take_chip_damage:
-			attack.health_damage = attack.health_damage * chip_damage_percent
-		else:
-			return
+	if is_blocking and not take_chip_damage:
+		block_cooldown.start()
+		is_blocking = false
+		blocking_on_cooldown = true
+		print("Blocked Attack!")
+		return
+	elif is_blocking and take_chip_damage:
+		attack.health_damage *= chip_damage_percent
+		block_cooldown.start()
+		is_blocking = false
+		blocking_on_cooldown = true
 	
 	health_component.damage(attack)
 	print("Current Health: ", health_component.get_health())
@@ -423,24 +432,28 @@ func start_block():
 	# Conditions:
 	# Is block on cooldown?
 	if blocking_on_cooldown:
+		print("Blocking on Cooldown!")
 		return
 	
 	# Is player doing another action? If so what action?
-	if current_action() != "running" or current_action() != "walking" or current_action() != "no action":
+	if current_action() != "running" and current_action() != "walking" and current_action() != "blocking":
+		print(current_action())
+		print("Action Conflict!")
 		return
 	
 	# Does player have enough stamina?
 	if stamina_component.stamina <= 0:
+		print("TAKE CHIP DAMAGE RETARD")
 		take_chip_damage = true
 	
 	# Holding Melee Weapon? If so, is it a shield (implemented when weapons are?
 	
 	# Perform block based on conditionals
-	
+	#print("Is Blocking Retard!")
+	is_blocking = true
 	# Is player still blocking?
 	
 	# End Block
-	pass
 
 
 func _on_block_cooldown_timeout() -> void:
