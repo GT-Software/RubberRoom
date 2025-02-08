@@ -38,7 +38,7 @@ signal player_attacking(attack : Attack, in_range : bool)
 @export var aim_max_pitch: float = 25
 @export var aim_min_yaw: float = 0
 @export var aim_max_yaw: float = 360
-@export var lock_on_button = "lock_on"  # Name of your input action (e.g., "middle mouse")
+#@export var lock_on_button = "lock_on"  # Name of your input action (e.g., "middle mouse")
 
 
 
@@ -74,6 +74,32 @@ var combo_index = 0
 var combo_timer = 0.0
 const MAX_COMBO_WINDOW = 1.35 # 400 ms window for the next attack
 
+
+# -------------------------------
+# Timers/Cooldowns
+# -------------------------------
+@onready var dodge_timer: Timer = $"Dodge Timer"
+@onready var dodge_cooldown: Timer = $"Dodge Cooldown"
+@onready var block_cooldown: Timer = $"Block Cooldown"
+
+# -------------------------------
+# Dodge Configuration
+# -------------------------------
+var dodge_speed = 20.0
+var is_dodging = false
+var dodging_on_cooldown = false
+var dodge_direction = Vector3.ZERO
+var dodge_stamina_drain = 2.0
+
+# -------------------------------
+# Block Configuration
+# -------------------------------
+var is_blocking = false
+var blocking_on_cooldown = false
+var cannot_take_damage = false
+var take_chip_damage = false
+var chip_damage_percent = 0.20
+
 var locked_on_enemy: Enemy = null  # Reference to the currently locked-on enemy
 
 
@@ -97,6 +123,7 @@ func _ready():
 	stamina_bar.init_stamina(stamina_component)
 	fear_bar.init_fear(fear_component)
 	rotation_point.set_as_top_level(true)
+	
 
 
 func _physics_process(delta):
@@ -167,14 +194,31 @@ func _physics_process(delta):
 	#---------------------------------
 	velocity.x = move_direction.x * current_speed
 	velocity.z = move_direction.z * current_speed
-
+	if is_dodging:
+		velocity = dodge_direction * dodge_speed
+	
+	#---------------------------------
+	# 8) Defense logic
+	#---------------------------------
+	
+	# Dodge
+	if Input.is_action_just_pressed("dodge") and not is_dodging and stamina_component.stamina >= 0 and not dodging_on_cooldown:
+		#print("Dodging")
+		#velocity = velocity + (added_velocity * move_direction)
+		start_dodge(velocity)
+	
+	# Block
+	if Input.is_action_pressed("block"):
+		start_block()
+	else:
+		is_blocking = false
+		#print("Not Blocking!")
+	
 	#---------------------------------
 	# 6) Move
 	#---------------------------------
 	move_and_slide()
 	rotation_point.position = position
-	
-	#health_component.heal(2)
 	
 	#---------------------------------
 	# 7) Attack logic
@@ -187,7 +231,7 @@ func _physics_process(delta):
 	
 
 	#---------------------------------
-	# 8) Idle/walking/running detection
+	# 9) Idle/walking/running detection
 	#---------------------------------
 	if move_direction.x == 0 and move_direction.z == 0:
 		is_idle     = true
@@ -343,7 +387,7 @@ func _input(event: InputEvent) -> void:
 
 	_toggle_aim_pcam(event)
 	
-	if Input.is_action_just_pressed(lock_on_button):
+	if Input.is_action_just_pressed("lock_on"):
 		print("locking-on!")
 		if locked_on == false:
 			# 1) Lock onto the nearest or the currently “in_range” enemy
@@ -370,6 +414,33 @@ func _on_range_body_exited(body: Node3D) -> void:
 	print("INIGO MONTOYA DEACTIVATED")
 
 
+func _on_enemy_attacking(attack: Attack) -> void:
+	# Check for blocking and do modifications to attack if there is chip damage enabled
+	# Figure out animations
+	if is_blocking and not take_chip_damage:
+		block_cooldown.start()
+		is_blocking = false
+		blocking_on_cooldown = true
+		print("Blocked Attack!")
+		return
+	elif is_blocking and take_chip_damage:
+		attack.health_damage *= chip_damage_percent
+		block_cooldown.start()
+		is_blocking = false
+		blocking_on_cooldown = true
+	
+	health_component.damage(attack)
+	print("Current Health: ", health_component.get_health())
+
+
+func animation_updates(current_speed, move_direction):
+	if is_idle:
+		ap.play("Idle(1)0")
+	elif is_walking:
+		ap.play("Walking(2)0")
+	elif is_running:
+		ap.play("Running(1)0")
+		
 		
 func _toggle_aim_pcam(event: InputEvent) -> void:
 	if Input.is_action_pressed("aim_toggle") \
@@ -414,38 +485,80 @@ func unlock_enemy() -> void:
 		locked_on_enemy.lock_on_marker.hide()
 	locked_on_enemy = null
 	locked_on = false
+
+# Timeout function for Dodge Timer
+func _on_dodge_end() -> void:
+	is_dodging = false
+
+# Function that handles dodge mechanic
+func start_dodge(move_direction : Vector3):
+	is_dodging = true
 	
-#func reset_combo():
-	#combo_index = 0
-	#combo_timer = 0.0
-	## Possibly force the AnimationTree state back to “Start” or “Idle”
-	#ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Start")
-#
-#func _on_animation_tree_animation_finished(anim_name):
-	#if anim_name == "Light Combo 3":
-		#reset_combo()
-
-
-func _on_enemy_attacking(attack: Attack) -> void:
-	if is_blocking:
-		 # Maybe partial damage or no damage
-		print("Blocked!")
+	# Get the directional input
+	var input_direction = Vector3(
+		Input.get_action_strength("right") - Input.get_action_strength("left"),
+		0,
+		Input.get_action_strength("backward") - Input.get_action_strength("forward")
+	).normalized()
+	
+	# Use direction player is going as dodge direction
+	if move_direction != Vector3.ZERO:
+		dodge_direction = (transform.basis * input_direction).normalized()
 	else:
-		health_component.damage(attack)
-		health_bar._on_health_changed(health_component.health)
-		print("Current Health: ", health_component.get_health())
-		# Trigger an appropriate get-hit animation 
-		 # e.g. light or heavy depending on attack
-		if attack:
-			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "GettingHit2 Heavy")
-		else:
-			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "GettingHit1 Light")
-
-
-func _on_enemy_melee_range_entered(body):
-	is_in_range = true
+		dodge_direction = -transform.basis.z.normalized()	# Default to dodging backward
 	
+	stamina_component.stamina_drain(dodge_stamina_drain)
+	dodging_on_cooldown = true
+	dodge_timer.start()
+	dodge_cooldown.start()
+
+# Timeout out function to prevent dodge from being spammed
+func _on_dodge_cooldown_timeout() -> void:
+	dodging_on_cooldown = false
 
 
-func _on_enemy_melee_range_exited(body):
-	is_in_range = false
+# Function that handles block mechanic
+func start_block():
+	# Conditions:
+	# Is block on cooldown?
+	if blocking_on_cooldown:
+		print("Blocking on Cooldown!")
+		return
+	
+	# Is player doing another action? If so what action?
+	if current_action() != "running" and current_action() != "walking" and current_action() != "blocking":
+		print(current_action())
+		print("Action Conflict!")
+		return
+	
+	# Does player have enough stamina?
+	if stamina_component.stamina <= 0:
+		print("TAKE CHIP DAMAGE RETARD")
+		take_chip_damage = true
+	
+	# Holding Melee Weapon? If so, is it a shield (implemented when weapons are?
+	
+	# Perform block based on conditionals
+	#print("Is Blocking Retard!")
+	is_blocking = true
+	# Is player still blocking?
+	
+	# End Block
+
+
+func _on_block_cooldown_timeout() -> void:
+	blocking_on_cooldown = false
+
+func current_action() -> String:
+	if is_blocking:
+		return "blocking"
+	elif is_crouched:
+		return "crouched"
+	elif is_dodging:
+		return "dodging"
+	elif is_running:
+		return "running"
+	elif is_walking:
+		return "walking"
+	else:
+		return "no action"
