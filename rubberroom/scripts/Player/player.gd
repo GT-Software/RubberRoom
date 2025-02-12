@@ -427,7 +427,7 @@ func _on_enemy_attacking(attack: Attack) -> void:
 		block_cooldown.start()
 		is_blocking = false
 		blocking_on_cooldown = true
-	
+		
 	health_component.damage(attack)
 	print("Current Health: ", health_component.get_health())
 
