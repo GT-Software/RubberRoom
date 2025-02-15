@@ -1,0 +1,541 @@
+[gd_scene load_steps=49 format=4 uid="uid://dvlycd7lcn4ko"]
+
+[ext_resource type="Material" uid="uid://otsc4ndmv37v" path="res://assets/materials/basic materials/purple.tres" id="1_bgv3r"]
+[ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="2_0lc2l"]
+[ext_resource type="Material" uid="uid://b0s23es7vfhre" path="res://assets/materials/basic materials/orange.tres" id="3_ror7c"]
+[ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="4_wc4vx"]
+[ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="5_6wnny"]
+[ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="6_1s60j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y2j3t"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_rb6n3"]
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"format": 34896613377,
+"index_count": 42,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEAAgAEAAYAAgAAAAQABwABAAMABwAFAAEABQADAAcABQABAAMA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_qn2eb"]
+resource_name = "Super Primitive Rubber Rooms_Cube_016"
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"attribute_data": PackedByteArray("/18AAP8f/z//X////58AAAAA////n////5////9f/7//H/9//1//v/+f/78AAP///5//v/+f/7//X/8//1//P/9f/z//n/8/AAD///+f/z//n/8//1//f/9f/3//X/9//5//fwAA////n/9//5//fw=="),
+"format": 34896613399,
+"index_count": 42,
+"index_data": PackedByteArray("AgANAAYAAgAJAA0ABwAYAAoABwAVABgAFwAUABsAFwAQABQADgADABEADgAAAAMACAAPABYACAABAA8AGgAFAAwAGgATAAUAEgALABkAEgAEAAsA"),
+"material": SubResource("StandardMaterial3D_y2j3t"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 28,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA////vwAAAAD//1TVAAD//////78AAP//////PwAA//////8/AAD/////VNUAAAAAAAD//wAAAAAAAP+/AAAAAAAAVNUAAP//AAD//wAA//8AAP8/AAD//wAA/z8AAP//AABU1f//AAD///+///8AAP///7///wAA//9U1f////////+//////////z//////////P////////1TV//8AAAAA/////wAAAAD/v///AAAAAFTV/////wAA////////AAD/P/////8AAP8//////wAAVNX/////AAD/f1TVVNX/////////f////39U1VTV/7//vwAA/39U1VTV/7//v////3////9/VNVU1f////8AAP9/qiqqKv////////9/////f6oqqir/v/+/AAD/f6oqqir/v/+/////f////3+qKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_rb6n3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_irxxh"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_yb5po"]
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"format": 34896613377,
+"index_count": 42,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEAAgAEAAYAAgAAAAQABwABAAMABwAFAAEABQADAAcABQABAAMA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_0ur0q"]
+resource_name = "Super Primitive Rubber Rooms_Cube_017"
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"attribute_data": PackedByteArray("/18AAP8f/z//X////58AAAAA////n////5////9f/7//H/9//1//v/+f/78AAP///5//v/+f/7//X/8//1//P/9f/z//n/8/AAD///+f/z//n/8//1//f/9f/3//X/9//5//fwAA////n/9//5//fw=="),
+"format": 34896613399,
+"index_count": 42,
+"index_data": PackedByteArray("AgANAAYAAgAJAA0ABwAYAAoABwAVABgAFwAUABsAFwAQABQADgADABEADgAAAAMACAAPABYACAABAA8AGgAFAAwAGgATAAUAEgALABkAEgAEAAsA"),
+"material": SubResource("StandardMaterial3D_irxxh"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 28,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA////vwAAAAD//1TVAAD//////78AAP//////PwAA//////8/AAD/////VNUAAAAAAAD//wAAAAAAAP+/AAAAAAAAVNUAAP//AAD//wAA//8AAP8/AAD//wAA/z8AAP//AABU1f//AAD///+///8AAP///7///wAA//9U1f////////+//////////z//////////P////////1TV//8AAAAA/////wAAAAD/v///AAAAAFTV/////wAA////////AAD/P/////8AAP8//////wAAVNX/////AAD/f1TVVNX/////////f////39U1VTV/7//vwAA/39U1VTV/7//v////3////9/VNVU1f////8AAP9/qiqqKv////////9/////f6oqqir/v/+/AAD/f6oqqir/v/+/////f////3+qKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_yb5po")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_da3q7"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_lgcj0"]
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"format": 34896613377,
+"index_count": 42,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEAAgAEAAYAAgAAAAQABwABAAMABwAFAAEABQADAAcABQABAAMA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_b2jna"]
+resource_name = "Super Primitive Rubber Rooms_Cube_018"
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"attribute_data": PackedByteArray("/18AAP8f/z//X////58AAAAA////n////5////9f/7//H/9//1//v/+f/78AAP///5//v/+f/7//X/8//1//P/9f/z//n/8/AAD///+f/z//n/8//1//f/9f/3//X/9//5//fwAA////n/9//5//fw=="),
+"format": 34896613399,
+"index_count": 42,
+"index_data": PackedByteArray("AgANAAYAAgAJAA0ABwAYAAoABwAVABgAFwAUABsAFwAQABQADgADABEADgAAAAMACAAPABYACAABAA8AGgAFAAwAGgATAAUAEgALABkAEgAEAAsA"),
+"material": SubResource("StandardMaterial3D_da3q7"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 28,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA////vwAAAAD//1TVAAD//////78AAP//////PwAA//////8/AAD/////VNUAAAAAAAD//wAAAAAAAP+/AAAAAAAAVNUAAP//AAD//wAA//8AAP8/AAD//wAA/z8AAP//AABU1f//AAD///+///8AAP///7///wAA//9U1f////////+//////////z//////////P////////1TV//8AAAAA/////wAAAAD/v///AAAAAFTV/////wAA////////AAD/P/////8AAP8//////wAAVNX/////AAD/f1TVVNX/////////f////39U1VTV/7//vwAA/39U1VTV/7//v////3////9/VNVU1f////8AAP9/qiqqKv////////9/////f6oqqir/v/+/AAD/f6oqqir/v/+/////f////3+qKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_lgcj0")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tkn4d"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ha5ur"]
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"format": 34896613377,
+"index_count": 42,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEAAgAEAAYAAgAAAAQABwABAAMABwAFAAEABQADAAcABQABAAMA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_i0ker"]
+resource_name = "Super Primitive Rubber Rooms_Cube_019"
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"attribute_data": PackedByteArray("/18AAP8f/z//XwAA/58AAAAA////nwAA/58AAP9f/7//H/9//1//v/+f/78AAP///5//v//f/3//X/8//1//P/9f/z//n/8/AAD///+f/z//n/8//1//f/9f/3//X/9//5//fwAA////n/9//5//fw=="),
+"format": 34896613399,
+"index_count": 42,
+"index_data": PackedByteArray("AgANAAYAAgAJAA0ABwAYAAoABwAVABgAFwAUABsAFwAQABQADgADABEADgAAAAMACAAPABYACAABAA8AGgAFAAwAGgATAAUAEgALABkAEgAEAAsA"),
+"material": SubResource("StandardMaterial3D_tkn4d"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 28,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA////vwAAAAD//48qAAD//////78AAP//////PwAA//////8/AAD/////qioAAAAAAAD//wAAAAAAAP+/AAAAAAAAmgAAAP//AAD//wAA//8AAP8/AAD//wAA/z8AAP//AAC7AP//AAD///+///8AAP///7///wAA//9U1f////////+//////////z//////////P////////1TV//8AAAAA/////wAAAAD/v///AAAAAFTV/////wAA////////AAD/P/////8AAP8//////wAAVNX/////AAD/f3XVRNX/////////f////39U1VTV/7//vwAA/39T/1TA/7//v////3////9/MP9mwP////8AAP9/qiqqKv////////9/////f6oqqir/v/+/AAD/f6oqqir/v/+/////f////3+qKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_ha5ur")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pbuwc"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_tkgfa"]
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEAAgAEAAYAAgAAAAQABQADAAcABQABAAMA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_g7xkg"]
+resource_name = "Super Primitive Rubber Rooms_Cube_020"
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"attribute_data": PackedByteArray("/18AAP8f/z//XwAA/58AAAAA////nwAA/1//v/8f/3//X/+//5//vwAA////3/9//1//P/9f/z//X/8//5//PwAA////n/8//1//f/9f/3//X/9//5//fwAA////n/9/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AgALAAUAAgAIAAsABgAVAAkABgASABUAFAARABcAFAAOABEADAADAA8ADAAAAAMABwANABMABwABAA0AEAAKABYAEAAEAAoA"),
+"material": SubResource("StandardMaterial3D_pbuwc"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA////vwAAAAD//48qAAD//////78AAP//////PwAA/////6oqAAAAAAAA//8AAAAAAAD/vwAAAAAAAJoAAAD//wAA//8AAP//AAD/PwAA//8AALsA//8AAP///7///wAA////v///AAD//1TV/////////7//////////P////////1TV//8AAAAA/////wAAAAD/v///AAAAAFTV/////wAA////////AAD/P/////8AAFTV/////wAA/3911UTV/////////39U1VTV/7//vwAA/39T/1TA/7//v////38w/2bA/////wAA/3+qKqoq/////////3+qKqoq/7//vwAA/3+qKqoq/7//v////3+qKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_tkgfa")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lqq4x"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_kvn6q"]
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEAAgAEAAYAAgAAAAQABQADAAcABQABAAMA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_731pd"]
+resource_name = "Super Primitive Rubber Rooms_Cube_021"
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"attribute_data": PackedByteArray("/18AAP8f/z//XwAA/58AAAAA////nwAA/1//v/8f/3//X/+//5//vwAA////3/9//1//P/9f/z//X/8//5//PwAA////n/8//1//f/9f/3//X/9//5//fwAA////n/9/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AgALAAUAAgAIAAsABgAVAAkABgASABUAFAARABcAFAAOABEADAADAA8ADAAAAAMABwANABMABwABAA0AEAAKABYAEAAEAAoA"),
+"material": SubResource("StandardMaterial3D_lqq4x"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA////vwAAAAD//48qAAD//////78AAP//////PwAA/////6oqAAAAAAAA//8AAAAAAAD/vwAAAAAAAJoAAAD//wAA//8AAP//AAD/PwAA//8AALsA//8AAP///7///wAA////v///AAD//1TV/////////7//////////P////////1TV//8AAAAA/////wAAAAD/v///AAAAAFTV/////wAA////////AAD/P/////8AAFTV/////wAA/3911UTV/////////39U1VTV/7//vwAA/39T/1TA/7//v////38w/2bA/////wAA/3+qKqoq/////////3+qKqoq/7//vwAA/3+qKqoq/7//v////3+qKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_kvn6q")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xat57"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_tdf4x"]
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEAAgAEAAYAAgAAAAQABQADAAcABQABAAMA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_81tio"]
+resource_name = "Super Primitive Rubber Rooms_Cube_028"
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"attribute_data": PackedByteArray("/18AAP8f/z//XwAA/58AAAAA////nwAA/1//v/8f/3//X/+//5//vwAA////3/9//1//P/9f/z//X/8//5//PwAA////n/8//1//f/9f/3//X/9//5//fwAA////n/9/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AgALAAUAAgAIAAsABgAVAAkABgASABUAFAARABcAFAAOABEADAADAA8ADAAAAAMABwANABMABwABAA0AEAAKABYAEAAEAAoA"),
+"material": SubResource("StandardMaterial3D_xat57"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA////vwAAAAD//48qAAD//////78AAP//////PwAA/////6oqAAAAAAAA//8AAAAAAAD/vwAAAAAAAJoAAAD//wAA//8AAP//AAD/PwAA//8AALsA//8AAP///7///wAA////v///AAD//1TV/////////7//////////P////////1TV//8AAAAA/////wAAAAD/v///AAAAAFTV/////wAA////////AAD/P/////8AAFTV/////wAA/3911UTV/////////39U1VTV/7//vwAA/39T/1TA/7//v////38w/2bA/////wAA/3+qKqoq/////////3+qKqoq/7//vwAA/3+qKqoq/7//v////3+qKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_tdf4x")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yadq4"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_m1xa0"]
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEAAgAEAAYAAgAAAAQABQADAAcABQABAAMA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_syd4o"]
+resource_name = "Super Primitive Rubber Rooms_Cube_029"
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"attribute_data": PackedByteArray("/18AAP8f/z//XwAA/58AAAAA////nwAA/1//v/8f/3//X/+//5//vwAA////3/9//1//P/9f/z//X/8//5//PwAA////n/8//1//f/9f/3//X/9//5//fwAA////n/9/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AgALAAUAAgAIAAsABgAVAAkABgASABUAFAARABcAFAAOABEADAADAA8ADAAAAAMABwANABMABwABAA0AEAAKABYAEAAEAAoA"),
+"material": SubResource("StandardMaterial3D_yadq4"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA////vwAAAAD//48qAAD//////78AAP//////PwAA/////6oqAAAAAAAA//8AAAAAAAD/vwAAAAAAAJoAAAD//wAA//8AAP//AAD/PwAA//8AALsA//8AAP///7///wAA////v///AAD//1TV/////////7//////////P////////1TV//8AAAAA/////wAAAAD/v///AAAAAFTV/////wAA////////AAD/P/////8AAFTV/////wAA/3911UTV/////////39U1VTV/7//vwAA/39T/1TA/7//v////38w/2bA/////wAA/3+qKqoq/////////3+qKqoq/7//vwAA/3+qKqoq/7//v////3+qKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_m1xa0")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lc4fa"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_hgmq2"]
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEAAgAEAAYAAgAAAAQABQADAAcABQABAAMA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_4ltvk"]
+resource_name = "Super Primitive Rubber Rooms_Cube_030"
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"attribute_data": PackedByteArray("/18AAP8f/z//XwAA/58AAAAA////nwAA/1//v/8f/3//X/+//5//vwAA////3/9//1//P/9f/z//X/8//5//PwAA////n/8//1//f/9f/3//X/9//5//fwAA////n/9/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AgALAAUAAgAIAAsABgAVAAkABgASABUAFAARABcAFAAOABEADAADAA8ADAAAAAMABwANABMABwABAA0AEAAKABYAEAAEAAoA"),
+"material": SubResource("StandardMaterial3D_lc4fa"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA////vwAAAAD//48qAAD//////78AAP//////PwAA/////6oqAAAAAAAA//8AAAAAAAD/vwAAAAAAAJoAAAD//wAA//8AAP//AAD/PwAA//8AALsA//8AAP///7///wAA////v///AAD//1TV/////////7//////////P////////1TV//8AAAAA/////wAAAAD/v///AAAAAFTV/////wAA////////AAD/P/////8AAFTV/////wAA/3911UTV/////////39U1VTV/7//vwAA/39T/1TA/7//v////38w/2bA/////wAA/3+qKqoq/////////3+qKqoq/7//vwAA/3+qKqoq/7//v////3+qKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_hgmq2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7kiws"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_m2tg6"]
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEAAgAEAAYAAgAAAAQABQADAAcABQABAAMA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_gcek0"]
+resource_name = "Super Primitive Rubber Rooms_Cube_031"
+_surfaces = [{
+"aabb": AABB(-12.4619, -0.0725396, -10.3715, 24.9237, 0.145079, 20.7431),
+"attribute_data": PackedByteArray("/18AAP8f/z//XwAA/58AAAAA////nwAA/1//v/8f/3//X/+//5//vwAA////3/9//1//P/9f/z//X/8//5//PwAA////n/8//1//f/9f/3//X/9//5//fwAA////n/9/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AgALAAUAAgAIAAsABgAVAAkABgASABUAFAARABcAFAAOABEADAADAA8ADAAAAAMABwANABMABwABAA0AEAAKABYAEAAEAAoA"),
+"material": SubResource("StandardMaterial3D_7kiws"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA////vwAAAAD//48qAAD//////78AAP//////PwAA/////6oqAAAAAAAA//8AAAAAAAD/vwAAAAAAAJoAAAD//wAA//8AAP//AAD/PwAA//8AALsA//8AAP///7///wAA////v///AAD//1TV/////////7//////////P////////1TV//8AAAAA/////wAAAAD/v///AAAAAFTV/////wAA////////AAD/P/////8AAFTV/////wAA/3911UTV/////////39U1VTV/7//vwAA/39T/1TA/7//v////38w/2bA/////wAA/3+qKqoq/////////3+qKqoq/7//vwAA/3+qKqoq/7//v////3+qKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_m2tg6")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0qncl"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_41doa"]
+_surfaces = [{
+"aabb": AABB(-1.49341, -0.191855, -3.34358, 2.98683, 0.383711, 6.68717),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEAAgAEAAYAAgAAAAQABwABAAMABwAFAAEA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_uyguc"]
+resource_name = "Super Primitive Rubber Rooms_Cube_026"
+_surfaces = [{
+"aabb": AABB(-1.49341, -0.191855, -3.34358, 2.98683, 0.383711, 6.68717),
+"attribute_data": PackedByteArray("/18AAP9fAAD/X////58AAP/f/z//n////1//v/9f/7//X/+//5//v//f/3//n/+//1//P/9f/z//X/8//5//P/+f/z//n/8//1//f/9f/3//X/9//5//f/+f/3//n/9/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AgALAAUAAgAIAAsABgAVAAkABgASABUAFAARABcAFAAOABEADAADAA8ADAAAAAMABwANABMABwABAA0AFgAEAAoAFgAQAAQA"),
+"material": SubResource("StandardMaterial3D_0qncl"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA////PwAAAAD//1TVAAD//////78AAP///////wAA/////1TVAAAAAAAA//8AAAAAAAD/PwAAAAAAAFTVAAD//wAA//8AAP//AAD//wAA//8AAFTV//8AAP///7///wAA////P///AAD//1TV/////////7///////////////////1TV//8AAAAA/////wAAAAD/P///AAAAAFTV/////wAA////////AAD///////8AAFTV/////wAA/39U1VTV//////9//79U1VTV/7//vwAA/39U1VTV/7//v/9//79U1VTV/////wAA/3+qKqoq//////9//7+qKqoq/7//vwAA/3+qKqoq/7//v/9//7+qKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_41doa")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m0sew"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_0ndno"]
+_surfaces = [{
+"aabb": AABB(-2, -2, -2, 4, 4, 4),
+"format": 34359742465,
+"index_count": 216,
+"index_data": PackedByteArray("GQABABgAGQACAAEAFwAAABYADwACABkAGAAAABcAGAABAAAAAgAEAAEAAgAFAAQAAAADABYADwAFAAIAAQADAAAAAQAEAAMABQAHAAQABQAIAAcAAwAGABYADwAIAAUABAAGAAMABAAHAAYACAAKAAcACAALAAoABgAJABYADwALAAgABwAJAAYABwAKAAkACgAMAAkACgANAAwACwANAAoACwAOAA0ACQAMABYADwAOAAsADwASAA4ADQAQAAwADQARABAADgARAA0ADgASABEADAAQABYADwAVABIAEQATABAAEQAUABMAEgAUABEAEgAVABQAEAATABYADwAZABUAFAAXABMAFAAYABcAFQAYABQAFQAZABgAEwAXABYADwAVAAgAGQACAAUACwAVAA8AEgAVAAsAFAASAA4AEQAKAA0AEAARAAwABgAJABMACQARABAAFAAVABIAFAAZABUACgAUAAcACQAKABEAAwAGABYABgAKAAkACgAZABQAAgAEAAEAAgAYAAQACgACABkAAwAKAAYAAAADABcACgAYAAIAGAADAAAAGAAKAAMA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 26,
+"vertex_data": PackedByteArray("//9/P/MEtT///3+/8wS1PwAAAADzBLW///9/P/MEtb///3+/8gS1P/MEtT8AAACA////PwAAAAAAAACA8gS1P/MEtb8AAACA/v9/P/MEtT/+/38/8gS1PwAAAADyBLU//v9/P/MEtb/+/38/AAAAAPMEtT/yBLU/AAAAAAAAAAD+//8/AAAAAPMEtb/yBLU//v9/v/MEtT/+/38/8gS1vwAAAADyBLU//v9/v/MEtb/+/38/AAAAAAAAAMAAAACA8gS1v/MEtT8AAACA/v//vwAAAAAAAACA8gS1v/MEtb8AAACA/v9/v/MEtT/+/3+/8gS1vwAAAADyBLW//v9/v/MEtb/+/3+/AAAAAAAAAEAAAACAAAAAAPMEtT/yBLW/AAAAAAAAAAD+//+/AAAAAPMEtb/yBLW/")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_twtav"]
+resource_name = "Super Primitive Rubber Rooms_Sphere_002"
+_surfaces = [{
+"aabb": AABB(-2, -2, -2, 4, 4, 4),
+"attribute_data": PackedByteArray("AAAgP/z/fz4AACA//P9/PgAAID/8/38+AAAgP/z/fz4AACA//P9/PgAAID8AAAA/AAAgPwAAAD8AACA/AAAAPwAAID8AAAA/AAAgPwAAAD8AACA/AABAPwAAID8AAEA/AAAgPwAAQD8AACA/AABAPwAAID8AAEA/AAAAP/z/fz4AAAA//P9/PgAAAD/8/38+AAAAP/z/fz4AAAA//P9/PgAAAD8AAAA/AAAAPwAAAD8AAAA/AAAAPwAAAD8AAAA/AAAAPwAAAD8AAAA/AABAPwAAAD8AAEA/AAAAPwAAQD8AAAA/AABAPwAAAD8AAEA/AADAPvz/fz4AAMA+/P9/PgAAwD78/38+AADAPvz/fz4AAMA+/P9/PgAAwD4AAAA/AADAPgAAAD8AAMA+AAAAPwAAwD4AAAA/AADAPgAAAD8AAMA+AABAPwAAwD4AAEA/AADAPgAAQD8AAMA+AABAPwAAwD4AAEA/AACAPvz/fz4AAIA+/P9/PgAAAAAAAIA/AACAPvz/fz4AAIA+/P9/PgAAgD4AAAA/AACAPgAAAD8AAIA+AAAAPwAAgD4AAAA/AACAPgAAAD8AAIA+AABAPwAAgD4AAEA/AACAPgAAQD8AAIA+AABAPwAAgD4AAEA/AAAAPvz/fz4AAAA+/P9/PgAAAD78/38+AAAAPvz/fz4AAAA+/P9/PgAAAD4AAAA/AAAAPgAAAD8AAAA+AAAAPwAAAD4AAAA/AAAAPgAAAD8AAAA+AABAPwAAAD4AAEA/AAAAPgAAQD8AAAA+AABAPwAAAD4AAEA/AACgPgAAgD8AADA/AACAPwAA4D4AAIA/AAAQPwAAgD8AAOA+AACAPwAAQD4AAIA/AABQPwAAgD8EAIA9AACAPwAAcD8AAIA/AAAAAPz/fz4AAAAA/P9/PgAAgD/8/38+AAAAAPz/fz4AAIA//P9/PgAAAAAAAAA/AAAAAAAAAD8AAIA/AAAAPwAAAAAAAAA/AACAPwAAAD8AAAAAAABAPwAAAAAAAEA/AACAPwAAQD8AAAAAAABAPwAAgD8AAEA/AAAAAAAAgD8AAGA//P9/PgAAYD/8/38+AABgP/z/fz4AAGA//P9/PgAAAAAAAIA/AABgPwAAAD8AAGA/AAAAPwAAYD8AAAA/AABgPwAAAD8AAGA/AABAPwAAYD8AAEA/AABgPwAAQD8AAGA/AABAPwAAYD8AAEA/AACgPgAAAAAAADA/AAAAAAAA4D4AAAAAAAAQPwAAAAAAABA/AAAAAAAAQD4AAAAAAABQPwAAAAAEAIA9AAAAAAAAcD8AAAAAAABAP/z/fz4AAEA//P9/PgAAQD/8/38+AABAP/z/fz4AAEA//P9/PgAAQD8AAAA/AABAPwAAAD8AAAAAAACAPwAAQD8AAAA/AABAPwAAAD8AAEA/AABAPwAAQD8AAEA/AABAPwAAQD8AAEA/AABAPwAAQD8AAEA/"),
+"format": 34359742487,
+"index_count": 216,
+"index_data": PackedByteArray("hgAGAIEAhgALAAYAewAAAHMATAAKAIUAgAABAHwAgAAFAAEADgAYAAkADgAdABgAAgAQAHUATgAaAAwACAATAAQACAAWABMAHAAnABcAHAAsACcADwAgAHQATQAqABkAFQAiABIAFQAmACIAKQAzACQAKQA4ADMAHgAtAHIASwA3ACgAIwAuAB8AIwAyAC4ANQA+ADEANQBCAD4AOwBDADYAOwBIAEMAMAA9AHcAUABHADoAUgBfAEkARABXAEAARABaAFcASgBcAEUASgBhAFwAPwBVAHkAUwBwAGAAWwBnAFgAWwBrAGcAYgBsAF0AYgBxAGwAVgBmAHoAUQCIAG4AaQB/AGUAaQCDAH8AbwCEAGoAbwCJAIQAZAB+AHgATwBtACsAhwANABsAOQBtAE8AXgBtADkAaABeAEYAWQA0AEEAVABZADwAIQAvAGMALwBZAFQAaABtAF4AaACHAG0ANABoACUALwA0AFkAEQAhAHYAIQA0AC8ANACHAGgADQAUAAcADQCCABQANAANAIcAEQA0ACEAAwARAH0ANACCAA0AggARAAMAggA0ABEA"),
+"material": SubResource("StandardMaterial3D_m0sew"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 138,
+"vertex_data": PackedByteArray("//9/P/MEtT///3+///9/P/MEtT///3+///9/P/MEtT///3+///9/P/MEtT///3+///9/P/MEtT///3+/8wS1PwAAAADzBLW/8wS1PwAAAADzBLW/8wS1PwAAAADzBLW/8wS1PwAAAADzBLW/8wS1PwAAAADzBLW///9/P/MEtb///3+///9/P/MEtb///3+///9/P/MEtb///3+///9/P/MEtb///3+///9/P/MEtb///3+/8gS1P/MEtT8AAACA8gS1P/MEtT8AAACA8gS1P/MEtT8AAACA8gS1P/MEtT8AAACA8gS1P/MEtT8AAACA////PwAAAAAAAACA////PwAAAAAAAACA////PwAAAAAAAACA////PwAAAAAAAACA////PwAAAAAAAACA8gS1P/MEtb8AAACA8gS1P/MEtb8AAACA8gS1P/MEtb8AAACA8gS1P/MEtb8AAACA8gS1P/MEtb8AAACA/v9/P/MEtT/+/38//v9/P/MEtT/+/38//v9/P/MEtT/+/38//v9/P/MEtT/+/38//v9/P/MEtT/+/38/8gS1PwAAAADyBLU/8gS1PwAAAADyBLU/8gS1PwAAAADyBLU/8gS1PwAAAADyBLU/8gS1PwAAAADyBLU//v9/P/MEtb/+/38//v9/P/MEtb/+/38//v9/P/MEtb/+/38//v9/P/MEtb/+/38//v9/P/MEtb/+/38/AAAAAPMEtT/yBLU/AAAAAPMEtT/yBLU/AAAAAPMEtT/yBLU/AAAAAPMEtT/yBLU/AAAAAPMEtT/yBLU/AAAAAAAAAAD+//8/AAAAAAAAAAD+//8/AAAAAAAAAAD+//8/AAAAAAAAAAD+//8/AAAAAAAAAAD+//8/AAAAAPMEtb/yBLU/AAAAAPMEtb/yBLU/AAAAAPMEtb/yBLU/AAAAAPMEtb/yBLU/AAAAAPMEtb/yBLU//v9/v/MEtT/+/38//v9/v/MEtT/+/38//v9/v/MEtT/+/38//v9/v/MEtT/+/38//v9/v/MEtT/+/38/8gS1vwAAAADyBLU/8gS1vwAAAADyBLU/8gS1vwAAAADyBLU/8gS1vwAAAADyBLU/8gS1vwAAAADyBLU//v9/v/MEtb/+/38//v9/v/MEtb/+/38//v9/v/MEtb/+/38//v9/v/MEtb/+/38//v9/v/MEtb/+/38/AAAAAAAAAMAAAACAAAAAAAAAAMAAAACAAAAAAAAAAMAAAACAAAAAAAAAAMAAAACAAAAAAAAAAMAAAACAAAAAAAAAAMAAAACAAAAAAAAAAMAAAACAAAAAAAAAAMAAAACAAAAAAAAAAMAAAACA8gS1v/MEtT8AAACA8gS1v/MEtT8AAACA8gS1v/MEtT8AAACA8gS1v/MEtT8AAACA8gS1v/MEtT8AAACA/v//vwAAAAAAAACA/v//vwAAAAAAAACA/v//vwAAAAAAAACA/v//vwAAAAAAAACA/v//vwAAAAAAAACA8gS1v/MEtb8AAACA8gS1v/MEtb8AAACA8gS1v/MEtb8AAACA8gS1v/MEtb8AAACA8gS1v/MEtb8AAACA/v9/v/MEtT/+/3+//v9/v/MEtT/+/3+//v9/v/MEtT/+/3+//v9/v/MEtT/+/3+//v9/v/MEtT/+/3+/8gS1vwAAAADyBLW/8gS1vwAAAADyBLW/8gS1vwAAAADyBLW/8gS1vwAAAADyBLW/8gS1vwAAAADyBLW//v9/v/MEtb/+/3+//v9/v/MEtb/+/3+//v9/v/MEtb/+/3+//v9/v/MEtb/+/3+//v9/v/MEtb/+/3+/AAAAAAAAAEAAAACAAAAAAAAAAEAAAACAAAAAAAAAAEAAAACAAAAAAAAAAEAAAACAAAAAAAAAAEAAAACAAAAAAAAAAEAAAACAAAAAAAAAAEAAAACAAAAAAAAAAEAAAACAAAAAAAAAAEAAAACAAAAAAPMEtT/yBLW/AAAAAPMEtT/yBLW/AAAAAPMEtT/yBLW/AAAAAPMEtT/yBLW/AAAAAPMEtT/yBLW/AAAAAAAAAAD+//+/AAAAAAAAAAD+//+/AAAAAAAAAAD+//+/AAAAAAAAAAD+//+/AAAAAAAAAAD+//+/AAAAAPMEtb/yBLW/AAAAAPMEtb/yBLW/AAAAAPMEtb/yBLW/AAAAAPMEtb/yBLW/AAAAAPMEtb/yBLW/SK8l8gAAvtIA4wDjAABArUivj94AAL6S0KdEn8+9gvgA4/25AABA7QDjAOMAAECtAOP+HAAAvdLQp0Sfz72C+ADj/bkAAEDtAOMBRgAAvZJIr9kNAABArQDj/hwAAL3SSK9vIQAAQO3Qp0SfecwsYQDjAUYAAL2SbqG10P7/QO1Ir4/eAAC+ktCnRJ/8zznwAcb+nP7/vZIA4/25AABA7dCnRJ9u9JzfAcb+nP7/vZIA4/25AABA7QHGAGP+/0DtAOMBRgAAvZJuoUkv/v++kkivbyEAAEDt0KdEn////z8BxgBj/v9A7QDjAUYAAL2S2Y210P7/QK3+nP6c/v+90m6htdD+/0Dt0KdEn0742N0Bxv6c/v+9kv6c/pz+/73S/pwAY/7/QK3Qp0SfxPhMWwHG/pz+/72SAcYAY/7/QO3ZjUkv/v++0v6cAGP+/0CtbqFJL/7/vpLQp0SfbUmuFwHGAGP+/0Dt2Y210P7/QK3+nP6c/v+90tCnRJ8RabpcJXK10IHa/78AY/6cgdr/v/6c/pz+/73S/pwAY/7/QK3Qp0SfRYHQlgBj/pyB2v+/AGMAY4Ha/7/ZjUkv/v++0v6cAGP+/0Ct0KdEn8+9gvglckkvgdr+vwBjAGOB2v+/0KdEnwZxF2ElcrXQgdr/vwBj/pyB2v+/kF610Hyl/r/9Of6cfKX/v9CnRJ////8/AGP+nIHa/78AYwBjgdr/v/05/px8pf+//TkAY3yl/7/Qp0SfBnHnniVySS+B2v6/AGMAY4Ha/7+QXkkvfKX/v/05AGN8pf+/2Y1JL/7/vtJIr9kNAABArW6hSS/+/76SSK9vIQAAQO3Qp0Sfz72C+CVySS+B2v6/tlDZDX0l/7+QXkkvfKX/v7ZQbyGCWv6/0KdEnwZxF2GQXrXQfKX+v7ZQj96CWv+//Tn+nHyl/7/+HP25glr/v9CnRJ8trexk/Tn+nHyl/7/+HP25glr/v/05AGN8pf+//hwBRoJa/7/Qp0SfkO1BHZBeSS98pf+/tlBvIYJa/r/9OQBjfKX/v/4cAUaCWv+/0KdEn////z+2UCXyfSX+v/4cAON9Jf+/tlCP3oJa/7/+HP25glr/v9CnRJ8IxShi/hwA430l/7/+HP4cfSX/v/4c/bmCWv+//hwBRoJa/7/Qp0Sfmjacw7ZQ2Q19Jf+//hz+HH0l/7+2UG8hglr+v/4cAUaCWv+/2Y210P7/QK1IryXyAAC+0m6htdD+/0DtSK+P3gAAvpLQp0SfkO294iVytdCB2v+/tlAl8n0l/r+QXrXQfKX+v7ZQj96CWv+/SK8l8gAAvtIA4wDjAABArdCnRJ////8/tlAl8n0l/r/+HADjfSX/vwDjAOMAAECtAOP+HAAAvdLQp0SfSNfl7P4cAON9Jf+//hz+HH0l/79Ir9kNAABArQDj/hwAAL3S0KdEnxY/ntO2UNkNfSX/v/4c/hx9Jf+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_0ndno")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w3dye"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_jmf4n"]
+_surfaces = [{
+"aabb": AABB(-1.49341, -0.191855, -3.34358, 2.98683, 0.383711, 6.68717),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAADAAEAAAACAAMAAgAHAAMAAgAGAAcABgAFAAcABgAEAAUABAABAAUABAAAAAEAAgAEAAYAAgAAAAQABwABAAMABwAFAAEA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAD//wAAAAD//wAA//8AAP///////wAA//8AAAAAAAD/////AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_wearr"]
+resource_name = "Super Primitive Rubber Rooms_Cube_027"
+_surfaces = [{
+"aabb": AABB(-1.49341, -0.191855, -3.34358, 2.98683, 0.383711, 6.68717),
+"attribute_data": PackedByteArray("/18AAP8f/z//X////58AAP/f/z//n////1//v/8f/3//X/+//5//v//f/3//n/+//1//P/9f/z//X/8//5//P/+f/z//n/8//1//f/9f/3//X/9//5//f/+f/3//n/9/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AgALAAUAAgAIAAsABgAVAAkABgASABUAFAARABcAFAAOABEADAADAA8ADAAAAAMABwANABMABwABAA0AFgAEAAoAFgAQAAQA"),
+"material": SubResource("StandardMaterial3D_w3dye"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAP///78AAAAA////vwAAAAD//1TVAAD//////78AAP///////wAA/////1TVAAAAAAAA//8AAAAAAAD/vwAAAAAAAFTVAAD//wAA//8AAP//AAD//wAA//8AAFTV//8AAP///7///wAA////v///AAD//1TV/////////7///////////////////1TV//8AAAAA/////wAAAAD/v///AAAAAFTV/////wAA////////AAD///////8AAFTV/////wAA/39U1VTV//////9//79U1VTV/7//vwAA/39U1VTV/7//v/9//79U1VTV/////wAA/3+qKqoq//////9//7+qKqoq/7//vwAA/3+qKqoq/7//v/9//7+qKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_jmf4n")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wqxxk"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_2jf6w"]
+_surfaces = [{
+"aabb": AABB(-2, -2, -2, 4, 4, 4),
+"format": 34896613377,
+"index_count": 144,
+"index_data": PackedByteArray("GQABABgAGQACAAEAFwAAABYADwACABkAGAAAABcAGAABAAAAAgAEAAEAAgAFAAQAAAADABYADwAFAAIAAQADAAAAAQAEAAMABQAHAAQABQAIAAcAAwAGABYADwAIAAUABAAGAAMABAAHAAYACAAKAAcACAALAAoABgAJABYADwALAAgABwAJAAYABwAKAAkACgAMAAkACgANAAwACwANAAoACwAOAA0ACQAMABYADwAOAAsADwASAA4ADQAQAAwADQARABAADgARAA0ADgASABEADAAQABYADwAVABIAEQATABAAEQAUABMAEgAUABEAEgAVABQAEAATABYADwAZABUAFAAXABMAFAAYABcAFQAYABQAFQAZABgAEwAXABYA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 26,
+"vertex_data": PackedByteArray("/7+B2v8/AACB2v9/fSUAAP+/fSX/PwAAgdqB2v9/AAD///9//38AAIHafSX/fwAA/7+B2v+/AACB2v9/gdoAAP+/fSX/vwAA/3+B2oHaAAD/f/9///8AAP9/fSWB2gAA/z+B2v+/AAB9Jf9/gdoAAP8/fSX/vwAA/38AAP9/AAB9JYHa/38AAAAA/3//fwAAfSV9Jf9/AAD/P4Ha/z8AAH0l/399JQAA/z99Jf8/AAD/f////38AAP9/gdp9JQAA/3//fwAAAAD/f30lfSUAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_8cgub"]
+resource_name = "Super Primitive Rubber Rooms_Sphere_003"
+_surfaces = [{
+"aabb": AABB(-2, -2, -2, 4, 4, 4),
+"attribute_data": PackedByteArray("/5//P/+f/z//n/8//5//P/+f/3//n/9//5//f/+f/3//n/+//5//v/+f/7//n/+//3//P/9//z//f/8//3//P/9//3//f/9//3//f/9//3//f/+//3//v/9//7//f/+//1//P/9f/z//X/8//1//P/9f/3//X/9//1//f/9f/3//X/+//1//v/9f/7//X/+//z//P/8//z//P/8//z//P/8//3//P/9//z//f/8//3//P/+//z//v/8//7//P/+//x//P/8f/z//H/8//x//P/8f/3//H/9//x//f/8f/3//H/+//x//v/8f/7//H/+//0////+v////b////4////8v////z////w/////v//8AAP8/////PwAA/z////8/AAD/f////38AAP9/////fwAA/7////+/AAD/v////7//3/8//9//P//f/z//3/8//9//f//f/3//3/9//9//f//f/7//3/+//9//v//f/7//TwAA/68AAP9vAAD/jwAA/y8AAP/PAAD/DwAA/+8AAP+//z//v/8//7//P/+//z//v/9//7//f/+//3//v/9//7//v/+//7//v/+//7//vw=="),
+"format": 34896613399,
+"index_count": 144,
+"index_data": PackedByteArray("bQAFAGkAbQAJAAUAZAAAAF0APQAIAGwAaAABAGUAaAAEAAEACwATAAcACwAXABMAAgANAF8APwAVAAoABgAPAAMABgARAA8AFgAfABIAFgAjAB8ADAAaAF4APgAiABQAEAAbAA4AEAAeABsAIQApAB0AIQAtACkAGAAkAFwAPAAsACAAHAAlABkAHAAoACUAKgAxACcAKgA0ADEALwA1ACsALwA5ADUAJgAwAGAAQAA4AC4AQgBMADoANgBGADMANgBIAEYAOwBKADcAOwBOAEoAMgBEAGIAQwBaAE0ASQBTAEcASQBWAFMATwBXAEsATwBbAFcARQBSAGMAQQBuAFgAVABnAFEAVABqAGcAWQBrAFUAWQBvAGsAUABmAGEA"),
+"material": SubResource("StandardMaterial3D_wqxxk"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 112,
+"vertex_data": PackedByteArray("/7+B2v8/l/L/v4Ha/z9E8P+/gdr/P3bY/7+B2v8/5tCB2v9/fSVE8IHa/399JUTwgdr/f30l5tCB2v9/fSXm0P+/fSX/P5fy/799Jf8/RPD/v30l/z922P+/fSX/P+bQgdqB2v9/DMGB2oHa/3922IHagdr/f/2xgdqB2v9/5tD///9//3/9sf///3//f+bQ////f/9//bH///9//3/m0IHafSX/fwzBgdp9Jf9/dtiB2n0l/3/9sYHafSX/f+bQ/7+B2v+/MLH/v4Ha/7/Jlf+/gdr/vwzB/7+B2v+//bGB2v9/gdrJlYHa/3+B2smVgdr/f4Ha/bGB2v9/gdr9sf+/fSX/vzCx/799Jf+/yZX/v30l/78Mwf+/fSX/v/2x/3+B2oHaMLH/f4HagdrJlf9/gdqB2jCx/3+B2oHayZX/f/9////Jlf9//3///8mV/3//f///yZX/f/9////Jlf9/fSWB2jCx/399JYHayZX/f30lgdowsf9/fSWB2smV/z+B2v+/MLH/P4Ha/7/Jlf8/gdr/vwzB/z+B2v+//bF9Jf9/gdrJlX0l/3+B2smVfSX/f4Ha/bF9Jf9/gdr9sf8/fSX/vzCx/z99Jf+/yZX/P30l/78Mwf8/fSX/v/2x/38AAP9/MLH/fwAA/3+X8v9/AAD/fwzB/38AAP9/dtj/fwAA/38wsf9/AAD/f5fy/38AAP9/DMH/fwAA/3922H0lgdr/fwzBfSWB2v9/dth9JYHa/3/9sX0lgdr/f+bQAAD/f/9//bEAAP9//3/m0AAA/3//f/2xAAD/f/9/5tB9JX0l/38MwX0lfSX/f3bYfSV9Jf9//bF9JX0l/3/m0P8/gdr/P5fy/z+B2v8/RPD/P4Ha/z922P8/gdr/P+bQfSX/f30lRPB9Jf9/fSVE8H0l/399JebQfSX/f30l5tD/P30l/z+X8v8/fSX/P0Tw/z99Jf8/dtj/P30l/z/m0P9/////fzCx/3////9/l/L/f////38Mwf9/////f3bY/3////9/MLH/f////3+X8v9/////fwzB/3////9/dtj/f4HafSWX8v9/gdp9JUTw/3+B2n0ll/L/f4HafSVE8P9//38AAETw/3//fwAARPD/f/9/AABE8P9//38AAETw/399JX0ll/L/f30lfSVE8P9/fSV9JZfy/399JX0lRPDwt0cJNpfaA3bCnxoonhQMNpfaAyV8NxconhQM6nMpHrd28DclfDcXYGV3QupzKR4Uz2cvdsKfGmioORgonhQMaKg5GCieFAzGZ2go6nMpHpdQFE9gZXdCxmdoKOpzKR7j5fxUccNBOBTPZy9oqDkYccNBOL1HckNoqDkYxmdoKAMr42W9R3JDl1AUT8ZnaCjj5fxUccNBOPvUG5pBuIy8ccNBOL1HckNBuIy8jTy9xwMr42W9R3JDGxoCq408vcf71BuaQbiMvGev6rA4mJbXQbiMvI08vcc4mJbXllfF5xsaAquNPL3H6jCX0JZXxecDK+Nlt3bwN5dQFE9gZXdCGxoCqw5It/bqMJfQiD1f5Wev6rCemoe9OJiW1xSM1eE4mJbXFIzV4ZZXxefWYerz6jCX0Ig9X+WWV8Xn1mHq80eJDsjZg8fonpqHvRSM1eHZg8foyGgk/BSM1eHWYerzDki39shoJPyIPV/l1mHq8+Pl/FTwt0cJFM9nL3bCnxr71BuaR4kOyGev6rCemoe98LdHCTaX2gNHiQ7I2YPH6DaX2gMlfDcX2YPH6MhoJPy3dvA3JXw3Fw5It/bIaCT8")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_2jf6w")
+
+[node name="Super Primitive Rubber Rooms" type="Node3D"]
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.59693, 0, 0, 0, 1, 0, 0, 0, 1.48775, -1.23513, 1.28007, 0.559002)
+material_override = ExtResource("1_bgv3r")
+mesh = SubResource("ArrayMesh_qn2eb")
+skeleton = NodePath("")
+
+[node name="Right Wall" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.60296, 0, 0, 0, -1.03116e-05, -0.527446, 0, 1, -5.43882e-06, -1.23513, 6.69082, 15.9682)
+material_override = ExtResource("2_0lc2l")
+mesh = SubResource("ArrayMesh_0ur0q")
+skeleton = NodePath("")
+
+[node name="Left Wall" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.58548, -0.000520853, -0.000162405, 0.00048933, -0.00138386, -0.527446, -0.00082512, 0.999999, -0.000729996, -1.23513, 6.69082, -14.9953)
+material_override = ExtResource("2_0lc2l")
+mesh = SubResource("ArrayMesh_b2jna")
+skeleton = NodePath("")
+
+[node name="Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.59262, 0, 0, 0, 1, 0, 0, 0, 1.50447, -1.23513, 12.343, 0.499001)
+mesh = SubResource("ArrayMesh_i0ker")
+skeleton = NodePath("")
+
+[node name="Back Panel 1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0.27791, 0, -0.173773, 0, 0, 0, 0, 0.204869, 18.1262, 10.107, 0.78038)
+material_override = ExtResource("3_ror7c")
+mesh = SubResource("ArrayMesh_g7xkg")
+skeleton = NodePath("")
+
+[node name="Back Panel 2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0.976838, 0, -0.445842, 0, 0, 0, 0, 0.668343, 18.0702, 6.79583, -8.25626)
+material_override = ExtResource("4_wc4vx")
+mesh = SubResource("ArrayMesh_731pd")
+skeleton = NodePath("")
+
+[node name="Back Panel 3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0.976838, 0, -0.445842, 0, 0, 0, 0, 0.644683, 18.0702, 6.79583, 9.31553)
+material_override = ExtResource("4_wc4vx")
+mesh = SubResource("ArrayMesh_81tio")
+skeleton = NodePath("")
+
+[node name="Front Panel 1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0.27791, 0, -0.173773, 0, 0, 0, 0, 0.204869, -21.0838, 10.107, 0.78038)
+material_override = ExtResource("3_ror7c")
+mesh = SubResource("ArrayMesh_syd4o")
+skeleton = NodePath("")
+
+[node name="Front Panel 2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0.976838, 0, -0.445842, 0, 0, 0, 0, 0.668343, -21.1398, 6.79583, -8.25626)
+material_override = ExtResource("4_wc4vx")
+mesh = SubResource("ArrayMesh_4ltvk")
+skeleton = NodePath("")
+
+[node name="Front Panel 3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0.976838, 0, -0.445842, 0, 0, 0, 0, 0.644683, -21.1398, 6.79583, 9.31553)
+material_override = ExtResource("4_wc4vx")
+mesh = SubResource("ArrayMesh_gcek0")
+skeleton = NodePath("")
+
+[node name="Back Door" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0023059, -0.999998, -0.00124649, -0.00692833, 0.00123773, -0.999986, 1.34998, 0.00171443, -0.00512998, 18.1284, 4.64443, 0.712734)
+material_override = ExtResource("5_6wnny")
+mesh = SubResource("ArrayMesh_uyguc")
+skeleton = NodePath("")
+
+[node name="Back Door Knob" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.255402, 0, 0, 0, 0.16689, 0, 0, 0, 0.16689, 18.1486, 4.59698, -0.958431)
+material_override = ExtResource("6_1s60j")
+mesh = SubResource("ArrayMesh_twtav")
+skeleton = NodePath("")
+
+[node name="Front Door" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, -1, 0, 0, 0, -1, 1.44961, 0, 0, -20.9103, 4.64443, 0.712734)
+material_override = ExtResource("5_6wnny")
+mesh = SubResource("ArrayMesh_wearr")
+skeleton = NodePath("")
+
+[node name="Front Door Knob" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.255402, 2.88452e-05, -8.74792e-05, -4.44438e-05, 0.16689, -0.000376282, 0.000133775, 0.000376297, 0.16689, -20.8901, 4.59698, -1.13843)
+material_override = ExtResource("6_1s60j")
+mesh = SubResource("ArrayMesh_8cgub")
+skeleton = NodePath("")
