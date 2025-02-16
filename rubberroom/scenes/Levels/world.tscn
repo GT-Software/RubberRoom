@@ -1,6 +1,7 @@
-[gd_scene load_steps=29 format=3 uid="uid://bbcojlsg6u4g2"]
+[gd_scene load_steps=30 format=3 uid="uid://bbcojlsg6u4g2"]
 
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="1_7wmbq"]
+[ext_resource type="Script" path="res://scripts/Levels/world.gd" id="1_ot05e"]
 [ext_resource type="PackedScene" path="res://scenes/Interact/debug_buttons.tscn" id="2_brydc"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="3_j3ne2"]
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="4_gfh3t"]
@@ -68,6 +69,7 @@ near = 0.05
 far = 4000.0
 
 [node name="World" type="Node3D"]
+script = ExtResource("1_ot05e")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.599943, 0.551019, 0.58004, -0.307647, -0.510372, 0.80304, 0.738527, -0.660226, -0.136675, 0, 173.503, 0)
@@ -220,6 +222,13 @@ transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 
 
 [node name="Button3" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, -1.48078, 1.51404, 48.5349)
+
+[node name="Change Room Button" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, -3.08474, 1.51404, 48.5349)
+prompt_msg = "Proceed"
+
+[node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Change Room Button" index="3"]
+stream = ExtResource("9_2cpws")
 
 [node name="Base World#Debug Buttons" parent="." instance=ExtResource("2_brydc")]
 
@@ -380,4 +389,5 @@ camera_3d_resource = SubResource("Resource_84ql2")
 [editable path="NavigationRegion3D/Base World/Interactables/Stun Increase Button"]
 [editable path="NavigationRegion3D/Base World/Interactables/Health Damage Button"]
 [editable path="NavigationRegion3D/Base World/Interactables/Health Heal Button"]
+[editable path="NavigationRegion3D/Base World/Interactables/Change Room Button"]
 [editable path="CanvasLayer/Player Stat Bars"]

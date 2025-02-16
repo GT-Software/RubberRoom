@@ -16,6 +16,7 @@ signal Stamina_Heal(body)
 signal Stamina_Hurt(body)
 signal Fear_Up(body)
 signal Fear_Down(body)
+signal change_room()
 ##   #NoMoreSignals (for now)
 
 
@@ -52,9 +53,9 @@ func interact(body):
 		emit_signal("Health_Hurt", body)
 	elif prompt_msg == "Health Up":
 		emit_signal("Health_Heal", body)
-		
-		
-		
+	elif prompt_msg == "Proceed":
+		emit_signal("change_room")
+	
 	interacted.emit(body)
 	print("Interacted")
 	#$AudioStreamPlayer3D.play()

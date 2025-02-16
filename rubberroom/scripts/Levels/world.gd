@@ -1,12 +1,21 @@
 extends Node3D
 
 @onready var player = %Player
+@onready var change_room_button: Interactable = $"NavigationRegion3D/Base World/Interactables/Change Room Button"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	change_room_button.connect("change_room", spawn_room)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+
+func spawn_room():
+	var new_room_scene = RoomManager.get_random_room(false)  # Pick a room and remove it from the sack
+	if new_room_scene:
+		var new_room = new_room_scene.instantiate()
+		add_child(new_room)  # Add it to the scene tree
+		new_room.global_transform.origin = Vector3(110, 0, 0)  # Adjust position if needed
