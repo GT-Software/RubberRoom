@@ -43,15 +43,24 @@ func get_random_room(remove_after_selection : bool = false, weight_limit : int =
 	# If the sack is empty, return a null value (This should not happen unless there are no rooms preloaded!)
 	if room_sack.is_empty():
 		return null
+	if weight_limit < 0:
+		return null
+	
+	var break_loop = false
+	var room
+	while(!break_loop):
+		var index = randi_range(0, room_sack.size() - 1)
 		
-	var index = randi_range(0, room_sack.size() - 1)
-	var room = room_sack[index]
-	
-	# Remove the room if needed
-	if remove_after_selection:
-		room_sack.remove_at(index)
-	
+		if room_sack[index]["weight"] >= weight_limit:
+			room = room_sack[index]["scene"]
+		
+			# Remove the room if needed
+			if remove_after_selection:
+				room_sack.remove_at(index)
+			break_loop = true
 	return room
+	
+	
 
 
 ## [method RoomManager.room_event_trigger()]
