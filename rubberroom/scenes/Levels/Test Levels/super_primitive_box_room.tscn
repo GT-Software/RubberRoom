@@ -539,3 +539,6 @@ transform = Transform3D(0.255402, 2.88452e-05, -8.74792e-05, -4.44438e-05, 0.166
 material_override = ExtResource("6_1s60j")
 mesh = SubResource("ArrayMesh_8cgub")
 skeleton = NodePath("")
+
+[node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, 1)
