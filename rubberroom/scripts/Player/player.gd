@@ -38,6 +38,7 @@ signal player_attacking(attack : Attack, in_range : bool)
 @export var aim_max_pitch: float = 25
 @export var aim_min_yaw: float = 0
 @export var aim_max_yaw: float = 360
+@export var stamina_regen_rate: float = 0.05
 #@export var lock_on_button = "lock_on"  # Name of your input action (e.g., "middle mouse")
 
 
@@ -169,6 +170,7 @@ func _physics_process(delta):
 		stamina_component.stamina_drain()
 		#emit_signal("stamina_change", stamina_component.stamina)
 		stamina_bar._on_stamina_changed(stamina_component.stamina)
+		
 
 	elif Input.is_action_pressed("crouch"):
 		current_speed = CROUCH_SPEED
@@ -179,6 +181,18 @@ func _physics_process(delta):
 		is_walking    = true
 		is_running    = false
 		can_jump      = false
+	
+	
+		# Stamina Regeneration Logic:
+	# Only regenerate when the player is not running
+	#Need to find correct way to trigger
+	#if not Input.is_action_pressed("run"): 
+	# Increase stamina by regen rate scaled by delta time
+	stamina_component.stamina += stamina_regen_rate * delta
+		# Clamp stamina to its maximum value. Ensure you have a 'max_stamina' property in your StaminaComponent.
+	stamina_component.stamina = clamp(stamina_component.stamina, 0, stamina_component.MAX_STAMINA)
+		# Update the stamina bar UI to reflect the new stamina value
+	stamina_bar._on_stamina_changed(stamina_component.stamina)
 	
 	#---------------------------------
 	# 4) Rotate input by camera yaw
