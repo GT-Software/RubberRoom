@@ -31,6 +31,9 @@ func _ready() -> void:
 	room_sack = [
 		{ "scene": preload("res://scenes/Levels/Test Levels/primitive_old_boy.tscn"), "weight": 0},
 		{ "scene": preload("res://scenes/Levels/Test Levels/super_primitive_box_room.tscn"), "weight": 0},
+		{ "scene": preload("res://scenes/Levels/Test Levels/large_room.tscn"), "weight": 0},
+		{ "scene": preload("res://scenes/Levels/Test Levels/L_room.tscn"), "weight": 0},
+		{ "scene": preload("res://scenes/Levels/Test Levels/reverse_l_room.tscn"), "weight": 0},
 	]
 
 ## [method RoomManager.get_random_room(remove_after_selection : bool = false, weight_limit : int = 0)] 
