@@ -22,6 +22,7 @@ BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 RoomManager="*res://scripts/Managers/RoomManager.gd"
+SceneManager="*res://scripts/Managers/SceneManager.gd"
 
 [dialogue_manager]
 

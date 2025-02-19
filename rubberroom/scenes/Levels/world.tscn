@@ -230,6 +230,13 @@ prompt_msg = "Proceed"
 [node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Change Room Button" index="3"]
 stream = ExtResource("9_2cpws")
 
+[node name="Load Scene Button" parent="NavigationRegion3D/Base World/Interactables" instance=ExtResource("8_2h87f")]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, -4.08474, 1.51404, 48.5349)
+prompt_msg = "Load Scene"
+
+[node name="AudioStreamPlayer3D" parent="NavigationRegion3D/Base World/Interactables/Load Scene Button" index="3"]
+stream = ExtResource("9_2cpws")
+
 [node name="Base World#Debug Buttons" parent="." instance=ExtResource("2_brydc")]
 
 [node name="Base World#CSGBox3D2" type="CSGBox3D" parent="."]
@@ -390,4 +397,5 @@ camera_3d_resource = SubResource("Resource_84ql2")
 [editable path="NavigationRegion3D/Base World/Interactables/Health Damage Button"]
 [editable path="NavigationRegion3D/Base World/Interactables/Health Heal Button"]
 [editable path="NavigationRegion3D/Base World/Interactables/Change Room Button"]
+[editable path="NavigationRegion3D/Base World/Interactables/Load Scene Button"]
 [editable path="CanvasLayer/Player Stat Bars"]

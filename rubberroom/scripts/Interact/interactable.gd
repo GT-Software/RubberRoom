@@ -16,7 +16,8 @@ signal Stamina_Heal(body)
 signal Stamina_Hurt(body)
 signal Fear_Up(body)
 signal Fear_Down(body)
-signal change_room()
+signal change_room
+signal load_scene
 ##   #NoMoreSignals (for now)
 
 
@@ -55,6 +56,8 @@ func interact(body):
 		emit_signal("Health_Heal", body)
 	elif prompt_msg == "Proceed":
 		emit_signal("change_room")
+	elif prompt_msg == "Load Scene":
+		emit_signal("load_scene")
 	
 	interacted.emit(body)
 	print("Interacted")

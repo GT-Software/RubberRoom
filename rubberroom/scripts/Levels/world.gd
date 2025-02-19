@@ -2,10 +2,12 @@ extends Node3D
 
 @onready var player = %Player
 @onready var change_room_button: Interactable = $"NavigationRegion3D/Base World/Interactables/Change Room Button"
+@onready var load_scene_button: Interactable = $"NavigationRegion3D/Base World/Interactables/Load Scene Button"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	change_room_button.connect("change_room", spawn_room)
+	load_scene_button.connect("load_scene", load_new_level)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -26,3 +28,6 @@ func spawn_room():
 		player.global_position = spawnpoint.global_position
 		player.global_position.y += 1
 		print('Room generated!')
+
+func load_new_level():
+	SceneManager.load_scene("res://scenes/Levels/Test Levels/primitive_old_boy.tscn")
