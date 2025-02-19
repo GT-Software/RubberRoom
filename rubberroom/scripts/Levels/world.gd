@@ -24,7 +24,6 @@ func spawn_room():
 		
 		# Get Spawnpoint debug marker, place player at marker
 		var spawnpoint = new_room.find_child('Spawn Point Debug Marker')
-		print('Spawnpoint Position: ', spawnpoint.global_position)
 		player.global_position = spawnpoint.global_position
 		player.global_position.y += 1
 		print('Room generated!')

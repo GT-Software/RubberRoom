@@ -198,3 +198,6 @@ transform = Transform3D(1.77003, 0, 0, 0, 1, 0, 0, 0, 1, -24.9635, 3.39736, -1.7
 material_override = ExtResource("3_jheqi")
 mesh = SubResource("ArrayMesh_coveo")
 skeleton = NodePath("")
+
+[node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.174, 2.09264, 0.025921)

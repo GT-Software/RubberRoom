@@ -200,6 +200,9 @@ material_override = ExtResource("2_xbvs2")
 mesh = SubResource("ArrayMesh_fcpwe")
 skeleton = NodePath("")
 
+[node name="Spawn Point Debug Marker" type="Marker3D" parent="Door 1" groups=["spawnpoint"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.362738, 4.27859, 0.0259216)
+
 [node name="Cube" type="MeshInstance3D" parent="."]
 transform = Transform3D(-31.4265, 0, 0, 0, 0.177701, 0, 0, 0, 7.80075, 0, 0, 0)
 material_override = ExtResource("3_1p3pp")
