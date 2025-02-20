@@ -152,7 +152,7 @@ func _physics_process(delta):
 	#---------------------------------
 	# 2) Jump
 	#---------------------------------
-	if is_on_floor() and Input.is_action_just_pressed("jump") and can_jump:
+	if is_on_floor() and Input.is_action_just_pressed("jump") and can_jump and not locked_on:
 		can_jump = true
 		velocity.y = JUMP_VELOCITY
 
@@ -215,7 +215,7 @@ func _physics_process(delta):
 	#---------------------------------
 	
 	# Dodge
-	if Input.is_action_just_pressed("dodge") and not is_dodging and stamina_component.stamina >= 0 and not dodging_on_cooldown:
+	if Input.is_action_just_pressed("dodge") and not is_dodging and stamina_component.stamina >= 0 and not dodging_on_cooldown and locked_on:
 		#print("Dodging")
 		#velocity = velocity + (added_velocity * move_direction)
 		start_dodge(velocity)
