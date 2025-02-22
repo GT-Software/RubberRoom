@@ -210,6 +210,7 @@ mesh = SubResource("ArrayMesh_t33ok")
 skeleton = NodePath("")
 
 [node name="Collision Area" type="Area3D" parent="Cube"]
+collision_layer = 2
 
 [node name="Floor 1" type="CollisionShape3D" parent="Cube/Collision Area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999942, -0.00227356, -0.529141, 0.0158871)
