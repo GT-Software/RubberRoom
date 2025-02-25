@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=4 uid="uid://dvlycd7lcn4ko"]
+[gd_scene load_steps=52 format=4 uid="uid://dvlycd7lcn4ko"]
 
 [ext_resource type="Material" uid="uid://otsc4ndmv37v" path="res://assets/materials/basic materials/purple.tres" id="1_bgv3r"]
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="2_0lc2l"]
@@ -455,6 +455,15 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_2jf6w")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_01ria"]
+size = Vector3(39.8377, 1, 32.4134)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_osnk4"]
+size = Vector3(40, 11.9872, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sul3n"]
+size = Vector3(0.816132, 11.6179, 31.6087)
+
 [node name="Super Primitive Rubber Rooms" type="Node3D"]
 
 [node name="Floor" type="MeshInstance3D" parent="."]
@@ -542,3 +551,30 @@ skeleton = NodePath("")
 
 [node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, 1)
+
+[node name="Collision" type="Area3D" parent="."]
+collision_layer = 2
+
+[node name="Floor" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35617, 1.25898, 0.975384)
+shape = SubResource("BoxShape3D_01ria")
+
+[node name="Top" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35617, 12.2199, 0.975384)
+shape = SubResource("BoxShape3D_01ria")
+
+[node name="Right Wall" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 7, -15)
+shape = SubResource("BoxShape3D_osnk4")
+
+[node name="Left Wall" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 6.49359, 15.6866)
+shape = SubResource("BoxShape3D_osnk4")
+
+[node name="Front" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.6321, 6.74622, 0.798645)
+shape = SubResource("BoxShape3D_sul3n")
+
+[node name="Back" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.9134, 6.74622, 0.685516)
+shape = SubResource("BoxShape3D_sul3n")

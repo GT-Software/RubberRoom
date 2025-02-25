@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://bkenununs8me7"]
+[gd_scene load_steps=21 format=4 uid="uid://bkenununs8me7"]
 
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="1_ahh3g"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="2_q7fpr"]
@@ -37,6 +37,12 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_yh15w")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0raoo"]
+size = Vector3(2.02826, 3.60547, 2.02657)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4s4sh"]
+size = Vector3(2.02249, 143.184, 0.0571289)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ujxd2"]
 
@@ -174,6 +180,29 @@ transform = Transform3D(24.9762, 0, 0, 0, -0.0839851, 0, 0, 0, 14.4693, 0, 0, 0)
 material_override = ExtResource("1_ahh3g")
 mesh = SubResource("ArrayMesh_yj412")
 skeleton = NodePath("")
+
+[node name="Collision" type="Area3D" parent="Main Room"]
+collision_layer = 2
+
+[node name="Floor" type="CollisionShape3D" parent="Main Room/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00253296, -1.30273, 0.00603106)
+shape = SubResource("BoxShape3D_0raoo")
+
+[node name="Right Wall" type="CollisionShape3D" parent="Main Room/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00790404, -71.0918, -0.978422)
+shape = SubResource("BoxShape3D_4s4sh")
+
+[node name="Left Wall" type="CollisionShape3D" parent="Main Room/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00428773, -71.0918, 0.979128)
+shape = SubResource("BoxShape3D_4s4sh")
+
+[node name="Front" type="CollisionShape3D" parent="Main Room/Collision"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.964296, -71.0918, -0.0201077)
+shape = SubResource("BoxShape3D_4s4sh")
+
+[node name="Back" type="CollisionShape3D" parent="Main Room/Collision"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.993716, -71.0918, -0.0201077)
+shape = SubResource("BoxShape3D_4s4sh")
 
 [node name="Door 1" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 1, 0, 0, 0, 1, 1, 0, 0, -24.9508, 3.3007, -0.00745368)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=4 uid="uid://djd8ng3vq8i2j"]
+[gd_scene load_steps=48 format=4 uid="uid://djd8ng3vq8i2j"]
 
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="1_w3qgf"]
 [ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="2_7p0pj"]
@@ -423,6 +423,12 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_2n1yk")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_1d6a3"]
+size = Vector3(67.908, 1, 17.1134)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_85esh"]
+size = Vector3(1, 16.6947, 15.2747)
+
 [node name="Primitive OldBoy" type="Node3D"]
 
 [node name="Front Door Knob" type="MeshInstance3D" parent="."]
@@ -504,3 +510,26 @@ skeleton = NodePath("")
 
 [node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.9484, -9.57581, 1.90278)
+
+[node name="Collision" type="Area3D" parent="."]
+collision_layer = 2
+
+[node name="Floor" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2093, -10.4381, 1.59141)
+shape = SubResource("BoxShape3D_1d6a3")
+
+[node name="Right Wall2" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -5.2093, -2.54347, -5.6966)
+shape = SubResource("BoxShape3D_1d6a3")
+
+[node name="Left Wall" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -5.2093, -2.54347, 9.29451)
+shape = SubResource("BoxShape3D_1d6a3")
+
+[node name="Front" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.4073, -2.32147, 1.44641)
+shape = SubResource("BoxShape3D_85esh")
+
+[node name="Back" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.7885, -2.32147, 1.44641)
+shape = SubResource("BoxShape3D_85esh")

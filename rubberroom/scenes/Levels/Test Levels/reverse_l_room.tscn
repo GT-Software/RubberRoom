@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://myxf2kgnxj08"]
+[gd_scene load_steps=25 format=4 uid="uid://myxf2kgnxj08"]
 
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="1_p32gn"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="2_xbvs2"]
@@ -172,6 +172,18 @@ size = Vector3(1.99527, 2.91437, 2.03292)
 [sub_resource type="BoxShape3D" id="BoxShape3D_10bvg"]
 size = Vector3(0.500977, 1, 6.56378)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_yqtxp"]
+size = Vector3(1.66608, 73.1356, 0.0864258)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7nd08"]
+size = Vector3(0.0369873, 73.3241, 6.5957)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_osgk4"]
+size = Vector3(0.0288696, 73.9178, 4.54243)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qeqkr"]
+size = Vector3(0.871948, 70.6981, 0.209839)
+
 [node name="Reverse_L_Room" type="Node3D"]
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 
@@ -219,3 +231,23 @@ shape = SubResource("BoxShape3D_d2bfg")
 [node name="Floor 2" type="CollisionShape3D" parent="Cube/Collision Area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999984, -0.74994, 0, 2.30173)
 shape = SubResource("BoxShape3D_10bvg")
+
+[node name="Wall1" type="CollisionShape3D" parent="Cube/Collision Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16885, 34.6554, 0.963449)
+shape = SubResource("BoxShape3D_yqtxp")
+
+[node name="Wall2" type="CollisionShape3D" parent="Cube/Collision Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.155548, 34.6554, -0.982669)
+shape = SubResource("BoxShape3D_yqtxp")
+
+[node name="Wall3" type="CollisionShape3D" parent="Cube/Collision Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.98924, 36.162, 2.25562)
+shape = SubResource("BoxShape3D_7nd08")
+
+[node name="Wall4" type="CollisionShape3D" parent="Cube/Collision Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.507013, 36.4589, 3.27853)
+shape = SubResource("BoxShape3D_osgk4")
+
+[node name="Wall Patch" type="CollisionShape3D" parent="Cube/Collision Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.568871, 34.849, -0.940613)
+shape = SubResource("BoxShape3D_qeqkr")

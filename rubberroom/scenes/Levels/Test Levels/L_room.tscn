@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://ckqoyi3o01e44"]
+[gd_scene load_steps=25 format=4 uid="uid://ckqoyi3o01e44"]
 
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="1_uemr6"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="2_p13dl"]
@@ -166,6 +166,24 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_j7n3a")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_nreyi"]
+size = Vector3(2.03137, 5.21872, 2.15918)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g2ta3"]
+size = Vector3(0.479248, 6.12109, 6.18472)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pvpky"]
+size = Vector3(2.01401, 73.2592, 0.0798035)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_otvie"]
+size = Vector3(1.51599, 73.4213, 0.15921)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hp5wf"]
+size = Vector3(0.020752, 73.9383, 6.54869)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vcxoq"]
+size = Vector3(0.0368652, 72.1241, 4.59705)
+
 [node name="L_Room" type="Node3D"]
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 
@@ -198,6 +216,33 @@ transform = Transform3D(-31.4265, 0, 0, 0, 0.177701, 0, 0, 0, 7.80075, 0, 0, 0)
 material_override = ExtResource("3_cvc6y")
 mesh = SubResource("ArrayMesh_wuf7y")
 skeleton = NodePath("")
+
+[node name="Collision" type="Area3D" parent="Cube"]
+collision_layer = 2
+
+[node name="Floor 1" type="CollisionShape3D" parent="Cube/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00571085, -1.36093, 0.00439453)
+shape = SubResource("BoxShape3D_nreyi")
+
+[node name="Floor 2" type="CollisionShape3D" parent="Cube/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.758354, -0.186605, 2.45691)
+shape = SubResource("BoxShape3D_g2ta3")
+
+[node name="Wall 1" type="CollisionShape3D" parent="Cube/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00175477, 36.1296, -1.01642)
+shape = SubResource("BoxShape3D_pvpky")
+
+[node name="Wall 2" type="CollisionShape3D" parent="Cube/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.246643, 36.2107, 1.02428)
+shape = SubResource("BoxShape3D_otvie")
+
+[node name="Wall 3" type="CollisionShape3D" parent="Cube/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.997423, 33.9189, 2.27644)
+shape = SubResource("BoxShape3D_hp5wf")
+
+[node name="Wall 4" type="CollisionShape3D" parent="Cube/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.517107, 35.562, 3.29796)
+shape = SubResource("BoxShape3D_vcxoq")
 
 [node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
 transform = Transform3D(0, 1, 0, 0, 0, 1, 1.249, 0, 0, -28.318, 2.29574, -0.32409)
