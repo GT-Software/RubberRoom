@@ -5,11 +5,11 @@ extends Node3D
 @onready var load_scene_button: Interactable = $"NavigationRegion3D/Base World/Interactables/Load Scene Button"
 @onready var spawnpoint = $"Spawn Point Debug Marker"
 @onready var camera = $"Camera Controller/PhantomCamera3D"
-
+@onready var camera_zoom = $"Camera Controller/PhantomCamera Zoom In"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	change_room_button.connect("change_room", spawn_room)
-	load_scene_button.connect("load_scene", load_new_level)
+	#change_room_button.connect("change_room", spawn_room)
+	#load_scene_button.connect("load_scene", load_new_level)
 	spawn_player_controller()
 
 
@@ -19,25 +19,24 @@ func _process(delta: float) -> void:
 
 
 func spawn_player_controller():
-	# Add player into scene at position spawnpoint
-	var player_scene = load("res://scenes/Player/player.tscn")
-	var instance = player_scene.instantiate()
-	get_tree().current_scene.add_child(instance)
-	player_scene.global_position = spawnpoint.global_position
-	player_scene.global_position.y += 1
+	## Add player into scene at position spawnpoint
+	#var player_scene = load("res://scenes/Player/player.tscn")
+	#var player_instance = player_scene.instantiate()
+	#get_tree().current_scene.add_child(player_instance)
+	player.global_position = spawnpoint.global_position
+	player.global_position.y += 1
+	#
+	## Add rotation point and camera anchor under player for Phantom Camera
+	#var rotation_point = Node3D.new()
+	#var camera_anchor = Node3D.new()
+	#rotation_point.name = "RotationPoint"
+	#camera_anchor.name = "Camera Anchor"
+	#player_instance.add_child(rotation_point)
+	#rotation_point.add_child(camera_anchor)
+	#camera_anchor.position = Vector3(1.5, 1, 1.5)
 	
-	# Add rotation point and camera anchor under player for Phantom Camera
-	var rotation_point = Node3D.new()
-	var camera_anchor = Node3D.new()
-	rotation_point.name = "RotationPoint"
-	instance = rotation_point.instantiate()
-	get_tree(). get_node("Player").add_child(instance)
-	instance = camera_anchor.instantiate()
-	get_tree().get_node("Player").get_child("RotationPoint").add_child(instance)
-	camera_anchor.position = Vector3(1.5, 1, 1.5)
-	
-	camera.follow_target = camera_anchor
-	
+	#camera.set_follow_target(player_instance)
+	#camera.set_follow_offset(camera_anchor.position)
 
 func spawn_room():
 	var new_room_scene = RoomManager.get_random_room(false)  # Pick a room and remove it from the sack

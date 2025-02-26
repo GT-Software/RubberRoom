@@ -1,6 +1,7 @@
-[gd_scene load_steps=61 format=4 uid="uid://dvlycd7lcn4ko"]
+[gd_scene load_steps=64 format=4 uid="uid://dvlycd7lcn4ko"]
 
 [ext_resource type="Material" uid="uid://otsc4ndmv37v" path="res://assets/materials/basic materials/purple.tres" id="1_bgv3r"]
+[ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="1_vex3y"]
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="2_0lc2l"]
 [ext_resource type="Material" uid="uid://b0s23es7vfhre" path="res://assets/materials/basic materials/orange.tres" id="3_ror7c"]
 [ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="4_wc4vx"]
@@ -11,6 +12,8 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="9_t426n"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="10_8j2ov"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="11_koufi"]
+[ext_resource type="PackedScene" uid="uid://bm8fdgmjoqbtp" path="res://scenes/Stat Bars/player_stat_bars.tscn" id="13_is6ya"]
+[ext_resource type="Texture2D" uid="uid://dtmdw20q6ap87" path="res://assets/images/crosshair (1).png" id="14_8ytw3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y2j3t"]
 
@@ -503,6 +506,17 @@ far = 4000.0
 
 [node name="Super Primitive Rubber Rooms" type="Node3D"]
 
+[node name="Player" parent="." instance=ExtResource("1_vex3y")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5787, 3.93057, 22.5258)
+collision_mask = 2
+min_pitch = -30.0
+
+[node name="RotationPoint" type="Node3D" parent="Player"]
+
+[node name="Camera Anchor" type="Node3D" parent="Player/RotationPoint"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 1.5)
+
 [node name="Floor" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.59693, 0, 0, 0, 1, 0, 0, 0, 1.48775, -1.23513, 1.28007, 0.559002)
 material_override = ExtResource("1_bgv3r")
@@ -633,22 +647,98 @@ target_position = Vector3(0, 0, -8)
 collision_mask = 11
 collide_with_areas = true
 
-[node name="PhantomCamera3D" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
+[node name="PhantomCamera3D" type="Node3D" parent="Camera Controller"]
 transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 0.999999)
 script = ExtResource("9_t426n")
 priority = 1
 follow_mode = 6
-follow_target = NodePath("")
 tween_resource = SubResource("Resource_pp0js")
 camera_3d_resource = SubResource("Resource_0e1rq")
 dead_zone_width = 0.585
 dead_zone_height = 0.615
 show_viewfinder_in_play = true
 
-[node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
+[node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller"]
 transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, 0.300523, 0.0348995, 0.953136)
 script = ExtResource("9_t426n")
 follow_mode = 6
-follow_target = NodePath("")
 tween_resource = SubResource("Resource_pp0js")
 camera_3d_resource = SubResource("Resource_bsx6t")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Player Stat Bars" parent="CanvasLayer" instance=ExtResource("13_is6ya")]
+
+[node name="HealthBar" parent="CanvasLayer/Player Stat Bars" index="0"]
+anchor_left = 0.868
+anchor_right = 1.0
+anchor_bottom = 0.073
+offset_left = 0.0639648
+offset_right = 0.0
+offset_bottom = -0.304005
+grow_horizontal = 0
+
+[node name="StunBar" parent="CanvasLayer/Player Stat Bars" index="1"]
+anchor_left = 0.869
+anchor_top = 0.09
+anchor_right = 0.999
+anchor_bottom = 0.167
+offset_left = -1.08801
+offset_top = -0.320004
+offset_right = 0.151855
+offset_bottom = -0.216003
+grow_horizontal = 0
+
+[node name="StaminaBar" parent="CanvasLayer/Player Stat Bars" index="2"]
+anchor_left = 0.868
+anchor_top = 0.19
+anchor_right = 1.0
+anchor_bottom = 0.269
+offset_left = 0.0639648
+offset_top = -0.12001
+offset_right = -1.0
+offset_bottom = -0.312012
+grow_horizontal = 0
+
+[node name="FearBar" parent="CanvasLayer/Player Stat Bars" index="3"]
+anchor_left = 0.865
+anchor_top = 0.29
+anchor_right = 0.997
+anchor_bottom = 0.364
+offset_left = 3.52002
+offset_top = 0.0800018
+offset_right = 3.45605
+offset_bottom = 0.128006
+grow_horizontal = 0
+
+[node name="PlayerInteraction" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PlayerInteraction"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_8ytw3")
+expand_mode = 1
+
+[editable path="CanvasLayer/Player Stat Bars"]

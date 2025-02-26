@@ -85,7 +85,7 @@ expand_margin_bottom = 6.0
 
 [node name="MainCamera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(-0.122733, 0.171878, 0.977443, 9.31323e-10, 0.984889, -0.173187, -0.99244, -0.0212558, -0.120878, -16.46, 0.503767, 4.249)
+transform = Transform3D(-0.0642313, 0.122871, 0.990342, 0, 0.992391, -0.123126, -0.997935, -0.00790852, -0.0637426, -16.46, 0.503767, 4.249)
 
 [node name="PhantomCameraHost" type="Node" parent="MainCamera3D"]
 process_priority = 300
