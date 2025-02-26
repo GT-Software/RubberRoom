@@ -136,9 +136,9 @@ func _physics_process(delta):
 	#print("Combo Timer: ", combo_timer)
 	#print("Combo Index: ", combo_index)
 	
-	print("Player Position: ", global_position)
-	print("Rotation Point Position: ", rotation_point.global_position)
-	print("Camera Point Position: ", camera_anchor.global_position)
+	#print("Player Position: ", global_position)
+	#print("Rotation Point Position: ", rotation_point.global_position)
+	#print("Camera Point Position: ", camera_anchor.global_position)
 	
 	#---------------------------------
 	# 1) Gravity + Death check

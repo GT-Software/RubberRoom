@@ -3,6 +3,7 @@ extends Node3D
 @onready var player = %Player
 @onready var change_room_button: Interactable = $"NavigationRegion3D/Base World/Interactables/Change Room Button"
 @onready var load_scene_button: Interactable = $"NavigationRegion3D/Base World/Interactables/Load Scene Button"
+@onready var next_level_collision_area: Area3D = $NextLevelCollisionArea
 @onready var spawnpoint = $"Spawn Point Debug Marker"
 @onready var camera = $"Camera Controller/PhantomCamera3D"
 @onready var camera_zoom = $"Camera Controller/PhantomCamera Zoom In"
@@ -10,6 +11,7 @@ extends Node3D
 func _ready() -> void:
 	#change_room_button.connect("change_room", spawn_room)
 	#load_scene_button.connect("load_scene", load_new_level)
+	next_level_collision_area.connect("load_scene", load_new_level)
 	await player.ready
 	spawn_player_controller()
 

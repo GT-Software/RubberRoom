@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=4 uid="uid://djd8ng3vq8i2j"]
+[gd_scene load_steps=62 format=4 uid="uid://djd8ng3vq8i2j"]
 
 [ext_resource type="Script" path="res://scripts/Levels/world.gd" id="1_3nalh"]
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="1_nm867"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="11_1nn1j"]
 [ext_resource type="PackedScene" uid="uid://bm8fdgmjoqbtp" path="res://scenes/Stat Bars/player_stat_bars.tscn" id="13_ggnmn"]
 [ext_resource type="Texture2D" uid="uid://dtmdw20q6ap87" path="res://assets/images/crosshair (1).png" id="14_svwyy"]
+[ext_resource type="PackedScene" uid="uid://c1acpjmpaaflr" path="res://scenes/Interact/next_level_collision_area.tscn" id="16_ykrw2"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aal4r"]
 
@@ -702,5 +703,8 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("14_svwyy")
 expand_mode = 1
+
+[node name="NextLevelCollisionArea" parent="." instance=ExtResource("16_ykrw2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.1781, -10.2031, 0)
 
 [editable path="CanvasLayer/Player Stat Bars"]

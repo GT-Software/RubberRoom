@@ -338,7 +338,7 @@ shadow_mesh = SubResource("ArrayMesh_m2tg6")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0qncl"]
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_41doa"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_ro5th"]
 _surfaces = [{
 "aabb": AABB(-1.49341, -0.191855, -3.34358, 2.98683, 0.383711, 6.68717),
 "format": 34896613377,
@@ -366,7 +366,7 @@ _surfaces = [{
 "vertex_data": PackedByteArray("AAAAAP///78AAAAA////PwAAAAD//1TVAAD//////78AAP///////wAA/////1TVAAAAAAAA//8AAAAAAAD/PwAAAAAAAFTVAAD//wAA//8AAP//AAD//wAA//8AAFTV//8AAP///7///wAA////P///AAD//1TV/////////7///////////////////1TV//8AAAAA/////wAAAAD/P///AAAAAFTV/////wAA////////AAD///////8AAFTV/////wAA/39U1VTV//////9//79U1VTV/7//vwAA/39U1VTV/7//v/9//79U1VTV/////wAA/3+qKqoq//////9//7+qKqoq/7//vwAA/3+qKqoq/7//v/9//7+qKqoq")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_41doa")
+shadow_mesh = SubResource("ArrayMesh_ro5th")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m0sew"]
 
