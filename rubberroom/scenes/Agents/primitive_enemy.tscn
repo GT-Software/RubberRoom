@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bhylj4udi1r8n" path="res://scenes/Behaviors/enemy_behavior_tree.tscn" id="2_uejd4"]
 [ext_resource type="Script" path="res://addons/beehave/blackboard.gd" id="3_kbc4j"]
 [ext_resource type="Script" path="res://scripts/Enemy/melee_range.gd" id="4_vbh6f"]
-[ext_resource type="PackedScene" path="res://EnemyStatUI.tscn" id="6_5vrk1"]
+[ext_resource type="PackedScene" uid="uid://bcgmp2a6a1ahj" path="res://EnemyStatUI.tscn" id="6_5vrk1"]
 [ext_resource type="Texture2D" uid="uid://c8j20vq5rpvyl" path="res://assets/images/icon.svg" id="7_37w1x"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4mguh"]

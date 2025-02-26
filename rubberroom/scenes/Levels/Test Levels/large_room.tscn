@@ -173,7 +173,6 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_04eh4")
 
 [node name="Large Room" type="Node3D"]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 
 [node name="Main Room" type="MeshInstance3D" parent="."]
 transform = Transform3D(24.9762, 0, 0, 0, -0.0839851, 0, 0, 0, 14.4693, 0, 0, 0)
@@ -181,8 +180,9 @@ material_override = ExtResource("1_ahh3g")
 mesh = SubResource("ArrayMesh_yj412")
 skeleton = NodePath("")
 
-[node name="Collision" type="Area3D" parent="Main Room"]
-collision_layer = 2
+[node name="Collision" type="StaticBody3D" parent="Main Room"]
+collision_layer = 3
+collision_mask = 3
 
 [node name="Floor" type="CollisionShape3D" parent="Main Room/Collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00253296, -1.30273, 0.00603106)

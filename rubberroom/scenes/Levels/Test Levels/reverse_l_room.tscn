@@ -185,7 +185,6 @@ size = Vector3(0.0288696, 73.9178, 4.54243)
 size = Vector3(0.871948, 70.6981, 0.209839)
 
 [node name="Reverse_L_Room" type="Node3D"]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 
 [node name="Door Knob 2" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1.77003, 0, 0, 21.7999, 3.50729, 43.15)
@@ -221,8 +220,9 @@ material_override = ExtResource("3_1p3pp")
 mesh = SubResource("ArrayMesh_t33ok")
 skeleton = NodePath("")
 
-[node name="Collision Area" type="Area3D" parent="Cube"]
-collision_layer = 2
+[node name="Collision Area" type="StaticBody3D" parent="Cube"]
+collision_layer = 3
+collision_mask = 3
 
 [node name="Floor 1" type="CollisionShape3D" parent="Cube/Collision Area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999942, -0.00227356, -0.529141, 0.0158871)
