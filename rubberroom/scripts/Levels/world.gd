@@ -3,7 +3,8 @@ extends Node3D
 @onready var player = %Player
 @onready var change_room_button: Interactable = $"NavigationRegion3D/Base World/Interactables/Change Room Button"
 @onready var load_scene_button: Interactable = $"NavigationRegion3D/Base World/Interactables/Load Scene Button"
-@onready var spawnpoint = get_tree().find_child('Spawn Point Debug Marker')
+@onready var spawnpoint = $"Spawn Point Debug Marker"
+@onready var camera = $"Camera Controller/PhantomCamera3D"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -30,11 +31,12 @@ func spawn_player_controller():
 	var camera_anchor = Node3D.new()
 	rotation_point.name = "RotationPoint"
 	instance = rotation_point.instantiate()
-	get_tree().find_node("Player").add_child(instance)
+	get_tree(). get_node("Player").add_child(instance)
 	instance = camera_anchor.instantiate()
-	get_tree().find_node("Player").find_child("RotationPoint").add_child(instance)
+	get_tree().get_node("Player").get_child("RotationPoint").add_child(instance)
 	camera_anchor.position = Vector3(1.5, 1, 1.5)
 	
+	camera.follow_target = camera_anchor
 	
 
 func spawn_room():

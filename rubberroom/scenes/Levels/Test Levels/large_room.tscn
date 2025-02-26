@@ -1,8 +1,13 @@
-[gd_scene load_steps=22 format=4 uid="uid://bkenununs8me7"]
+[gd_scene load_steps=31 format=4 uid="uid://bkenununs8me7"]
 
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="1_ahh3g"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="2_q7fpr"]
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="3_jheqi"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_1y2c0"]
+[ext_resource type="PackedScene" uid="uid://drosn1nk8a1wt" path="res://scenes/Interact/interact_ray.tscn" id="5_on5x0"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="6_1eo2f"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_p2ig8"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="8_qyhvt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6w3li"]
 
@@ -175,6 +180,38 @@ size = Vector3(52.1501, 12.929, 0.910034)
 [sub_resource type="BoxShape3D" id="BoxShape3D_2cn0j"]
 size = Vector3(0.538397, 12.6233, 29.2195)
 
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_p8ngm"]
+
+[sub_resource type="Resource" id="Resource_dt1kv"]
+script = ExtResource("7_p2ig8")
+duration = 0.4
+transition = 2
+ease = 1
+
+[sub_resource type="Resource" id="Resource_pa56q"]
+script = ExtResource("8_qyhvt")
+cull_mask = 1048575
+h_offset = 0.0
+v_offset = 0.0
+projection = 0
+fov = 75.0
+size = 1.0
+frustum_offset = Vector2(0, 0)
+near = 0.05
+far = 4000.0
+
+[sub_resource type="Resource" id="Resource_51v23"]
+script = ExtResource("8_qyhvt")
+cull_mask = 1048575
+h_offset = 0.0
+v_offset = 0.0
+projection = 0
+fov = 42.5
+size = 1.0
+frustum_offset = Vector2(0, 0)
+near = 0.05
+far = 4000.0
+
 [node name="Large Room" type="Node3D"]
 
 [node name="Main Room" type="MeshInstance3D" parent="."]
@@ -234,3 +271,40 @@ shape = SubResource("BoxShape3D_2cn0j")
 
 [node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.174, 2.09264, 0.025921)
+
+[node name="Camera Controller" type="Node" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Camera Controller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.999999)
+attributes = SubResource("CameraAttributesPhysical_p8ngm")
+
+[node name="PhantomCameraHost" type="Node" parent="Camera Controller/Camera3D"]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("4_1y2c0")
+
+[node name="InteractRay" parent="Camera Controller/Camera3D" instance=ExtResource("5_on5x0")]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 0)
+target_position = Vector3(0, 0, -8)
+collision_mask = 11
+collide_with_areas = true
+
+[node name="PhantomCamera3D" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 0.999999)
+script = ExtResource("6_1eo2f")
+priority = 1
+follow_mode = 6
+follow_target = NodePath("")
+tween_resource = SubResource("Resource_dt1kv")
+camera_3d_resource = SubResource("Resource_pa56q")
+dead_zone_width = 0.585
+dead_zone_height = 0.615
+show_viewfinder_in_play = true
+
+[node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
+transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, 0.300523, 0.0348995, 0.953136)
+script = ExtResource("6_1eo2f")
+follow_mode = 6
+follow_target = NodePath("")
+tween_resource = SubResource("Resource_dt1kv")
+camera_3d_resource = SubResource("Resource_51v23")

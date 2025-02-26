@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://djd8ng3vq8i2j"]
+[gd_scene load_steps=57 format=4 uid="uid://djd8ng3vq8i2j"]
 
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="1_w3qgf"]
 [ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="2_7p0pj"]
@@ -6,6 +6,11 @@
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="4_yagql"]
 [ext_resource type="Material" uid="uid://otsc4ndmv37v" path="res://assets/materials/basic materials/purple.tres" id="5_vt3fi"]
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="6_mi3tn"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="7_0tbte"]
+[ext_resource type="PackedScene" uid="uid://drosn1nk8a1wt" path="res://scenes/Interact/interact_ray.tscn" id="8_4b1ii"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="9_lo537"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="10_pf72i"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="11_1nn1j"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aal4r"]
 
@@ -429,6 +434,38 @@ size = Vector3(67.908, 1, 17.1134)
 [sub_resource type="BoxShape3D" id="BoxShape3D_85esh"]
 size = Vector3(1, 16.6947, 15.2747)
 
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_xn0ig"]
+
+[sub_resource type="Resource" id="Resource_s8lky"]
+script = ExtResource("10_pf72i")
+duration = 0.4
+transition = 2
+ease = 1
+
+[sub_resource type="Resource" id="Resource_btt8u"]
+script = ExtResource("11_1nn1j")
+cull_mask = 1048575
+h_offset = 0.0
+v_offset = 0.0
+projection = 0
+fov = 75.0
+size = 1.0
+frustum_offset = Vector2(0, 0)
+near = 0.05
+far = 4000.0
+
+[sub_resource type="Resource" id="Resource_2vdtt"]
+script = ExtResource("11_1nn1j")
+cull_mask = 1048575
+h_offset = 0.0
+v_offset = 0.0
+projection = 0
+fov = 42.5
+size = 1.0
+frustum_offset = Vector2(0, 0)
+near = 0.05
+far = 4000.0
+
 [node name="Primitive OldBoy" type="Node3D"]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 
@@ -535,3 +572,40 @@ shape = SubResource("BoxShape3D_85esh")
 [node name="Back" type="CollisionShape3D" parent="Collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.7885, -2.32147, 1.44641)
 shape = SubResource("BoxShape3D_85esh")
+
+[node name="Camera Controller" type="Node" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Camera Controller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.999999)
+attributes = SubResource("CameraAttributesPhysical_xn0ig")
+
+[node name="PhantomCameraHost" type="Node" parent="Camera Controller/Camera3D"]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("7_0tbte")
+
+[node name="InteractRay" parent="Camera Controller/Camera3D" instance=ExtResource("8_4b1ii")]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 0)
+target_position = Vector3(0, 0, -8)
+collision_mask = 11
+collide_with_areas = true
+
+[node name="PhantomCamera3D" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 0.999999)
+script = ExtResource("9_lo537")
+priority = 1
+follow_mode = 6
+follow_target = NodePath("")
+tween_resource = SubResource("Resource_s8lky")
+camera_3d_resource = SubResource("Resource_btt8u")
+dead_zone_width = 0.585
+dead_zone_height = 0.615
+show_viewfinder_in_play = true
+
+[node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
+transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, 0.300523, 0.0348995, 0.953136)
+script = ExtResource("9_lo537")
+follow_mode = 6
+follow_target = NodePath("")
+tween_resource = SubResource("Resource_s8lky")
+camera_3d_resource = SubResource("Resource_2vdtt")
