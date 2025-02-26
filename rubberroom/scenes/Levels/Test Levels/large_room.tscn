@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://bkenununs8me7"]
+[gd_scene load_steps=22 format=4 uid="uid://bkenununs8me7"]
 
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="1_ahh3g"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="2_q7fpr"]
@@ -37,12 +37,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_yh15w")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_0raoo"]
-size = Vector3(2.02826, 3.60547, 2.02657)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_4s4sh"]
-size = Vector3(2.02249, 143.184, 0.0571289)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ujxd2"]
 
@@ -172,6 +166,15 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_04eh4")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_l4qxf"]
+size = Vector3(51.2763, 1, 30.4288)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_11shb"]
+size = Vector3(52.1501, 12.929, 0.910034)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2cn0j"]
+size = Vector3(0.538397, 12.6233, 29.2195)
+
 [node name="Large Room" type="Node3D"]
 
 [node name="Main Room" type="MeshInstance3D" parent="."]
@@ -179,30 +182,6 @@ transform = Transform3D(24.9762, 0, 0, 0, -0.0839851, 0, 0, 0, 14.4693, 0, 0, 0)
 material_override = ExtResource("1_ahh3g")
 mesh = SubResource("ArrayMesh_yj412")
 skeleton = NodePath("")
-
-[node name="Collision" type="StaticBody3D" parent="Main Room"]
-collision_layer = 3
-collision_mask = 3
-
-[node name="Floor" type="CollisionShape3D" parent="Main Room/Collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00253296, -1.30273, 0.00603106)
-shape = SubResource("BoxShape3D_0raoo")
-
-[node name="Right Wall" type="CollisionShape3D" parent="Main Room/Collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00790404, -71.0918, -0.978422)
-shape = SubResource("BoxShape3D_4s4sh")
-
-[node name="Left Wall" type="CollisionShape3D" parent="Main Room/Collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00428773, -71.0918, 0.979128)
-shape = SubResource("BoxShape3D_4s4sh")
-
-[node name="Front" type="CollisionShape3D" parent="Main Room/Collision"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.964296, -71.0918, -0.0201077)
-shape = SubResource("BoxShape3D_4s4sh")
-
-[node name="Back" type="CollisionShape3D" parent="Main Room/Collision"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.993716, -71.0918, -0.0201077)
-shape = SubResource("BoxShape3D_4s4sh")
 
 [node name="Door 1" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 1, 0, 0, 0, 1, 1, 0, 0, -24.9508, 3.3007, -0.00745368)
@@ -227,6 +206,31 @@ transform = Transform3D(1.77003, 0, 0, 0, 1, 0, 0, 0, 1, -24.9635, 3.39736, -1.7
 material_override = ExtResource("3_jheqi")
 mesh = SubResource("ArrayMesh_coveo")
 skeleton = NodePath("")
+
+[node name="Collision" type="StaticBody3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+collision_layer = 3
+collision_mask = 3
+
+[node name="Floor" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.388642, 0, -0.0329972)
+shape = SubResource("BoxShape3D_l4qxf")
+
+[node name="Left Wall" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.329711, 5.96448, -14.2606)
+shape = SubResource("BoxShape3D_11shb")
+
+[node name="Right Wall" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.329713, 5.96448, 14.0117)
+shape = SubResource("BoxShape3D_11shb")
+
+[node name="Front" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.1534, 5.81165, -0.27979)
+shape = SubResource("BoxShape3D_2cn0j")
+
+[node name="Back" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.6723, 5.81165, -0.279786)
+shape = SubResource("BoxShape3D_2cn0j")
 
 [node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.174, 2.09264, 0.025921)

@@ -170,7 +170,7 @@ shadow_mesh = SubResource("ArrayMesh_j7n3a")
 size = Vector3(2.03137, 5.21872, 2.15918)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g2ta3"]
-size = Vector3(0.479248, 6.12109, 6.18472)
+size = Vector3(0.479248, 2.94482, 6.18472)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pvpky"]
 size = Vector3(2.01401, 73.2592, 0.0798035)
@@ -225,7 +225,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00571085, -1.36093, 0.00439
 shape = SubResource("BoxShape3D_nreyi")
 
 [node name="Floor 2" type="CollisionShape3D" parent="Cube/Collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.758354, -0.186605, 2.45691)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999998, -0.758354, -1.77474, 2.45691)
 shape = SubResource("BoxShape3D_g2ta3")
 
 [node name="Wall 1" type="CollisionShape3D" parent="Cube/Collision"]
