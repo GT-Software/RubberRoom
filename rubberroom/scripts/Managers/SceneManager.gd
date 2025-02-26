@@ -43,6 +43,7 @@ func load_scene(_scene_path : String) -> void:
 func start_load() -> void:
 	var state = ResourceLoader.load_threaded_request(scene_path, "", use_sub_threads)
 	if state == OK:
+		print("Load Threaded Request OK")
 		set_process(true)
 
 func _process(_delta):
@@ -54,7 +55,9 @@ func _process(_delta):
 		1: #? THREAD_LOAD_IN_PROGRESS
 			emit_signal("progress_changed", progress[0])
 		3: #? THREAD_LOAD_LOADED
+			print("Getting Loading Thread...")
 			loaded_resource = ResourceLoader.load_threaded_get(scene_path)
 			emit_signal("progress_changed", 1.0)
 			emit_signal("load_done")
+			print("Scene Loaded, opening scene...")
 			get_tree().change_scene_to_packed(loaded_resource)

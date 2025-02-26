@@ -5,7 +5,7 @@ extends ProgressBar
 
 func _on_stamina_changed(new_stamina):
 	_set_stamina(new_stamina)
-	print("Stamina left ", self.value)
+	#print("Stamina left ", self.value)
 
 func _set_stamina(new_stamina):
 	var previous_stamina = value  # 'value' is the ProgressBar's current value

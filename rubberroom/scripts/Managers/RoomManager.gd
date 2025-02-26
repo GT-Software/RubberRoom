@@ -56,6 +56,7 @@ func get_random_room(remove_after_selection : bool = false, weight_limit : int =
 		
 		if room_sack[index]["weight"] >= weight_limit:
 			room = room_sack[index]["scene"]
+			print("Loading ", room)
 		
 			# Remove the room if needed
 			if remove_after_selection:

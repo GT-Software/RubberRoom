@@ -9,16 +9,8 @@ func update_progress_bar(new_value : float) -> void:
 	progressBar.set_value_no_signal(new_value * 100)
 	
 func start_outro_animation() -> void:
-	await Signal(animationPlayer, "animation_finished")
+	#await Signal(animationPlayer, "animation_finished")
+	await get_tree().create_timer(1.0).timeout
 	animationPlayer.play("end_load")
 	await Signal(animationPlayer, "animation_finished")
 	self.queue_free()
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
