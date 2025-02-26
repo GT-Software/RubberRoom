@@ -456,7 +456,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_2jf6w")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_01ria"]
-size = Vector3(39.8377, 1, 32.4134)
+size = Vector3(39.8377, 1.33337, 32.4134)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_osnk4"]
 size = Vector3(40, 11.9872, 1)
@@ -552,11 +552,11 @@ skeleton = NodePath("")
 [node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, 1)
 
-[node name="Collision" type="Area3D" parent="."]
+[node name="Collision" type="StaticBody3D" parent="."]
 collision_layer = 2
 
 [node name="Floor" type="CollisionShape3D" parent="Collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35617, 1.25898, 0.975384)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35617, 1.42567, 0.975384)
 shape = SubResource("BoxShape3D_01ria")
 
 [node name="Top" type="CollisionShape3D" parent="Collision"]

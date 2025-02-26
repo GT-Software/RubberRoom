@@ -216,8 +216,9 @@ material_override = ExtResource("3_cvc6y")
 mesh = SubResource("ArrayMesh_wuf7y")
 skeleton = NodePath("")
 
-[node name="Collision" type="Area3D" parent="Cube"]
-collision_layer = 2
+[node name="Collision" type="StaticBody3D" parent="Cube"]
+collision_layer = 3
+collision_mask = 3
 
 [node name="Floor 1" type="CollisionShape3D" parent="Cube/Collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00571085, -1.36093, 0.00439453)
