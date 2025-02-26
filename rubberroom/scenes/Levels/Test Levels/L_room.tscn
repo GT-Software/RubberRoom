@@ -185,7 +185,6 @@ size = Vector3(0.020752, 73.9383, 6.54869)
 size = Vector3(0.0368652, 72.1241, 4.59705)
 
 [node name="L_Room" type="Node3D"]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 
 [node name="Door Knob 2" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1.77003, 0, 0, 21.7999, 3.50729, 43.15)
