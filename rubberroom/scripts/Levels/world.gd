@@ -18,11 +18,24 @@ func _process(delta: float) -> void:
 
 
 func spawn_player_controller():
+	# Add player into scene at position spawnpoint
 	var player_scene = load("res://scenes/Player/player.tscn")
 	var instance = player_scene.instantiate()
 	get_tree().current_scene.add_child(instance)
 	player_scene.global_position = spawnpoint.global_position
 	player_scene.global_position.y += 1
+	
+	# Add rotation point and camera anchor under player for Phantom Camera
+	var rotation_point = Node3D.new()
+	var camera_anchor = Node3D.new()
+	rotation_point.name = "RotationPoint"
+	instance = rotation_point.instantiate()
+	get_tree().find_node("Player").add_child(instance)
+	instance = camera_anchor.instantiate()
+	get_tree().find_node("Player").find_child("RotationPoint").add_child(instance)
+	camera_anchor.position = Vector3(1.5, 1, 1.5)
+	
+	
 
 func spawn_room():
 	var new_room_scene = RoomManager.get_random_room(false)  # Pick a room and remove it from the sack
