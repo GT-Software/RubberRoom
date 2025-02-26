@@ -47,8 +47,10 @@ func spawn_player_controller():
 	#camera.set_follow_offset(camera_anchor.position)
 	pass
 
+## Deprecated
+## [br] Spawns a new room in the same scene. Should not work as [class RoomManager] has been changed to compensate for [class SceneManager]
 func spawn_room():
-	var new_room_scene = RoomManager.get_random_room(false)  # Pick a room and remove it from the sack
+	var new_room_scene = RoomManager.get_random_room()  # Pick a room and remove it from the sack
 	if new_room_scene:
 		var new_room = new_room_scene.instantiate()
 		add_child(new_room)  # Add it to the scene tree
@@ -60,4 +62,5 @@ func spawn_room():
 		print('Room generated!')
 
 func load_new_level():
-	SceneManager.load_scene("res://scenes/Levels/Test Levels/primitive_old_boy.tscn")
+	var new_scene = RoomManager.get_random_room()
+	SceneManager.load_scene(new_scene)

@@ -29,11 +29,11 @@ var room_sack
 # preload(<path to file>)
 func _ready() -> void:
 	room_sack = [
-		{ "scene": preload("res://scenes/Levels/Test Levels/primitive_old_boy.tscn"), "weight": 0},
-		{ "scene": preload("res://scenes/Levels/Test Levels/super_primitive_box_room.tscn"), "weight": 0},
-		{ "scene": preload("res://scenes/Levels/Test Levels/large_room.tscn"), "weight": 0},
-		{ "scene": preload("res://scenes/Levels/Test Levels/L_room.tscn"), "weight": 0},
-		{ "scene": preload("res://scenes/Levels/Test Levels/reverse_l_room.tscn"), "weight": 0},
+		{ "scene": "res://scenes/Levels/Test Levels/primitive_old_boy.tscn", "weight": 0},
+		{ "scene": "res://scenes/Levels/Test Levels/super_primitive_box_room.tscn", "weight": 0},
+		{ "scene": "res://scenes/Levels/Test Levels/large_room.tscn", "weight": 0},
+		{ "scene": "res://scenes/Levels/Test Levels/L_room.tscn", "weight": 0},
+		{ "scene": "res://scenes/Levels/Test Levels/reverse_l_room.tscn", "weight": 0},
 	]
 
 ## [method RoomManager.get_random_room(remove_after_selection : bool = false, weight_limit : int = 0)] 
@@ -42,12 +42,12 @@ func _ready() -> void:
 ## deleted after it has been selected. Set to false by default. [param weight_limit] is an integer
 ## that describes the level of priority the selected room needs to be. 
 ## Allows for common and special rooms.
-func get_random_room(remove_after_selection : bool = false, weight_limit : int = 0) -> PackedScene:
+func get_random_room(remove_after_selection : bool = false, weight_limit : int = 0) -> String:
 	# If the sack is empty, return a null value (This should not happen unless there are no rooms preloaded!)
 	if room_sack.is_empty():
-		return null
+		return 'null'
 	if weight_limit < 0:
-		return null
+		return 'null'
 	
 	var break_loop = false
 	var room

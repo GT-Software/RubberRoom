@@ -1,7 +1,8 @@
-[gd_scene load_steps=34 format=4 uid="uid://bkenununs8me7"]
+[gd_scene load_steps=36 format=4 uid="uid://bkenununs8me7"]
 
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="1_ahh3g"]
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="1_ive7d"]
+[ext_resource type="Script" path="res://scripts/Levels/world.gd" id="1_jyha3"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="2_q7fpr"]
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="3_jheqi"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_1y2c0"]
@@ -11,6 +12,7 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="8_qyhvt"]
 [ext_resource type="PackedScene" uid="uid://bm8fdgmjoqbtp" path="res://scenes/Stat Bars/player_stat_bars.tscn" id="10_ugmsm"]
 [ext_resource type="Texture2D" uid="uid://dtmdw20q6ap87" path="res://assets/images/crosshair (1).png" id="11_88vsq"]
+[ext_resource type="PackedScene" uid="uid://c1acpjmpaaflr" path="res://scenes/Interact/next_level_collision_area.tscn" id="13_qvwh3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6w3li"]
 
@@ -216,10 +218,11 @@ near = 0.05
 far = 4000.0
 
 [node name="Large Room" type="Node3D"]
+script = ExtResource("1_jyha3")
 
 [node name="Player" parent="." instance=ExtResource("1_ive7d")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.174, 2.09264, 0.025921)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1244, 2.09264, 0.025921)
 collision_mask = 2
 min_pitch = -30.0
 
@@ -284,12 +287,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.6723, 5.81165, -0.279786)
 shape = SubResource("BoxShape3D_2cn0j")
 
 [node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.174, 2.09264, 0.025921)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1244, 2.09264, 0.025921)
 
 [node name="Camera Controller" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Camera Controller"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.674, 3.09264, 2.52592)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.6244, 3.09264, 2.52592)
 attributes = SubResource("CameraAttributesPhysical_p8ngm")
 
 [node name="PhantomCameraHost" type="Node" parent="Camera Controller/Camera3D"]
@@ -304,7 +307,7 @@ collision_mask = 11
 collide_with_areas = true
 
 [node name="PhantomCamera3D" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
-transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 21.674, 3.09264, 2.52592)
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, -21.6244, 3.09264, 2.52592)
 script = ExtResource("6_1eo2f")
 priority = 1
 follow_mode = 6
@@ -316,7 +319,7 @@ dead_zone_height = 0.615
 show_viewfinder_in_play = true
 
 [node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
-transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, 21.9745, 3.12754, 2.47906)
+transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, -21.3238, 3.12754, 2.47906)
 script = ExtResource("6_1eo2f")
 follow_mode = 6
 follow_target = NodePath("../../Player/RotationPoint/Camera Anchor")
@@ -398,5 +401,8 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("11_88vsq")
 expand_mode = 1
+
+[node name="NextLevelCollisionArea" parent="." instance=ExtResource("13_qvwh3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.3935, 0.212114, 0)
 
 [editable path="CanvasLayer/Player Stat Bars"]

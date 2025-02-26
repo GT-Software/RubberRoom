@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=4 uid="uid://dvlycd7lcn4ko"]
+[gd_scene load_steps=66 format=4 uid="uid://dvlycd7lcn4ko"]
 
 [ext_resource type="Material" uid="uid://otsc4ndmv37v" path="res://assets/materials/basic materials/purple.tres" id="1_bgv3r"]
 [ext_resource type="Script" path="res://scripts/Levels/world.gd" id="1_lf7co"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="11_koufi"]
 [ext_resource type="PackedScene" uid="uid://bm8fdgmjoqbtp" path="res://scenes/Stat Bars/player_stat_bars.tscn" id="13_is6ya"]
 [ext_resource type="Texture2D" uid="uid://dtmdw20q6ap87" path="res://assets/images/crosshair (1).png" id="14_8ytw3"]
+[ext_resource type="PackedScene" uid="uid://c1acpjmpaaflr" path="res://scenes/Interact/next_level_collision_area.tscn" id="16_bi6q8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y2j3t"]
 
@@ -510,7 +511,7 @@ script = ExtResource("1_lf7co")
 
 [node name="Player" parent="." instance=ExtResource("1_vex3y")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8424, 4.54496, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.4891, 2.36336, 0.691968)
 collision_mask = 2
 min_pitch = -30.0
 
@@ -603,7 +604,7 @@ mesh = SubResource("ArrayMesh_8cgub")
 skeleton = NodePath("")
 
 [node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8424, 4.54496, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.4891, 2.36336, 0.691968)
 
 [node name="Collision" type="StaticBody3D" parent="."]
 collision_layer = 2
@@ -635,7 +636,7 @@ shape = SubResource("BoxShape3D_sul3n")
 [node name="Camera Controller" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Camera Controller"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.3424, 5.54496, 3.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9891, 3.36336, 3.19197)
 attributes = SubResource("CameraAttributesPhysical_0ln7r")
 
 [node name="PhantomCameraHost" type="Node" parent="Camera Controller/Camera3D"]
@@ -650,7 +651,7 @@ collision_mask = 11
 collide_with_areas = true
 
 [node name="PhantomCamera3D" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
-transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 16.3424, 5.54496, 3.5)
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, -16.9891, 3.36336, 3.19197)
 script = ExtResource("9_t426n")
 priority = 1
 follow_mode = 6
@@ -662,7 +663,7 @@ dead_zone_height = 0.615
 show_viewfinder_in_play = true
 
 [node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
-transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, 16.6429, 5.57986, 3.45314)
+transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, -16.6886, 3.39826, 3.1451)
 script = ExtResource("9_t426n")
 follow_mode = 6
 follow_target = NodePath("../../Player/RotationPoint/Camera Anchor")
@@ -744,5 +745,8 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("14_8ytw3")
 expand_mode = 1
+
+[node name="NextLevelCollisionArea" parent="." instance=ExtResource("16_bi6q8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4946, 1.5098, 0.779207)
 
 [editable path="CanvasLayer/Player Stat Bars"]
