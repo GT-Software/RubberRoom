@@ -228,7 +228,7 @@ far = 4000.0
 
 [node name="Player" parent="." instance=ExtResource("1_shkmg")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5787, 3.93057, 22.5258)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.318, 2.29574, -0.32409)
 collision_mask = 2
 min_pitch = -30.0
 
@@ -301,7 +301,7 @@ transform = Transform3D(0, 1, 0, 0, 0, 1, 1.249, 0, 0, -28.318, 2.29574, -0.3240
 [node name="Camera Controller" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Camera Controller"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.999999)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.818, 3.29574, 2.17591)
 attributes = SubResource("CameraAttributesPhysical_j8m8p")
 
 [node name="PhantomCameraHost" type="Node" parent="Camera Controller/Camera3D"]
@@ -315,21 +315,23 @@ target_position = Vector3(0, 0, -8)
 collision_mask = 11
 collide_with_areas = true
 
-[node name="PhantomCamera3D" type="Node3D" parent="Camera Controller"]
-transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 0.999999)
+[node name="PhantomCamera3D" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, -26.818, 3.29574, 2.17591)
 script = ExtResource("6_bc7wj")
 priority = 1
 follow_mode = 6
+follow_target = NodePath("../../Player/RotationPoint/Camera Anchor")
 tween_resource = SubResource("Resource_pxts7")
 camera_3d_resource = SubResource("Resource_2rga0")
 dead_zone_width = 0.585
 dead_zone_height = 0.615
 show_viewfinder_in_play = true
 
-[node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller"]
-transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, 0.300523, 0.0348995, 0.953136)
+[node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
+transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, -26.5175, 3.33064, 2.12905)
 script = ExtResource("6_bc7wj")
 follow_mode = 6
+follow_target = NodePath("../../Player/RotationPoint/Camera Anchor")
 tween_resource = SubResource("Resource_pxts7")
 camera_3d_resource = SubResource("Resource_8qyu3")
 

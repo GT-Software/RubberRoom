@@ -127,15 +127,18 @@ func _ready():
 
 
 func _physics_process(delta):
-	print("States: is_idle: ", is_idle)
-	print("States: is_walking: ", is_walking)
-	print("States: can_jump: ", can_jump)
-	print("States: combat: ", is_in_combat)
-	print("States: Is_In_Range: ", is_in_range)
-	print("States: combo: ", in_light_combo, in_heavy_combo)
-	print("Combo Timer: ", combo_timer)
-	print("Combo Index: ", combo_index)
+	#print("States: is_idle: ", is_idle)
+	#print("States: is_walking: ", is_walking)
+	#print("States: can_jump: ", can_jump)
+	#print("States: combat: ", is_in_combat)
+	#print("States: Is_In_Range: ", is_in_range)
+	#print("States: combo: ", in_light_combo, in_heavy_combo)
+	#print("Combo Timer: ", combo_timer)
+	#print("Combo Index: ", combo_index)
 	
+	print("Player Position: ", global_position)
+	print("Rotation Point Position: ", rotation_point.global_position)
+	print("Camera Point Position: ", camera_anchor.global_position)
 	
 	#---------------------------------
 	# 1) Gravity + Death check
@@ -231,7 +234,7 @@ func _physics_process(delta):
 	# 6) Move
 	#---------------------------------
 	move_and_slide()
-	rotation_point.position = position
+	rotation_point.global_position = global_position
 	
 	#---------------------------------
 	# 7) Attack logic

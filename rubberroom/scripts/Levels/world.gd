@@ -10,6 +10,7 @@ extends Node3D
 func _ready() -> void:
 	#change_room_button.connect("change_room", spawn_room)
 	#load_scene_button.connect("load_scene", load_new_level)
+	await player.ready
 	spawn_player_controller()
 
 
@@ -23,8 +24,13 @@ func spawn_player_controller():
 	#var player_scene = load("res://scenes/Player/player.tscn")
 	#var player_instance = player_scene.instantiate()
 	#get_tree().current_scene.add_child(player_instance)
-	player.global_position = spawnpoint.global_position
-	player.global_position.y += 1
+	#var rotation_point = player.find_child("RotationPoint")
+	#rotation_point.position = Vector3.ZERO
+	#rotation_point.set_as_top_level(false)
+	#player.global_position = spawnpoint.global_position
+	#player.global_position.y += 1
+	#rotation_point.set_as_top_level(true)
+	#rotation_point.position = player.position
 	#
 	## Add rotation point and camera anchor under player for Phantom Camera
 	#var rotation_point = Node3D.new()
@@ -37,6 +43,7 @@ func spawn_player_controller():
 	
 	#camera.set_follow_target(player_instance)
 	#camera.set_follow_offset(camera_anchor.position)
+	pass
 
 func spawn_room():
 	var new_room_scene = RoomManager.get_random_room(false)  # Pick a room and remove it from the sack

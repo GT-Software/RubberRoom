@@ -228,7 +228,7 @@ far = 4000.0
 
 [node name="Player" parent="." instance=ExtResource("1_wq5rj")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5787, 3.93057, 22.5258)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.362738, 4.27859, 0.0259216)
 collision_mask = 2
 min_pitch = -30.0
 
@@ -306,7 +306,7 @@ shape = SubResource("BoxShape3D_qeqkr")
 [node name="Camera Controller" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Camera Controller"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.999999)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.86274, 5.27859, 2.52592)
 attributes = SubResource("CameraAttributesPhysical_xgyf7")
 
 [node name="PhantomCameraHost" type="Node" parent="Camera Controller/Camera3D"]
@@ -320,21 +320,23 @@ target_position = Vector3(0, 0, -8)
 collision_mask = 11
 collide_with_areas = true
 
-[node name="PhantomCamera3D" type="Node3D" parent="Camera Controller"]
-transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 0.999999)
+[node name="PhantomCamera3D" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 1.86274, 5.27859, 2.52592)
 script = ExtResource("6_5whtc")
 priority = 1
 follow_mode = 6
+follow_target = NodePath("../../Player/RotationPoint/Camera Anchor")
 tween_resource = SubResource("Resource_ukee0")
 camera_3d_resource = SubResource("Resource_y2sfo")
 dead_zone_width = 0.585
 dead_zone_height = 0.615
 show_viewfinder_in_play = true
 
-[node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller"]
-transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, 0.300523, 0.0348995, 0.953136)
+[node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
+transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, 2.16326, 5.31349, 2.47906)
 script = ExtResource("6_5whtc")
 follow_mode = 6
+follow_target = NodePath("../../Player/RotationPoint/Camera Anchor")
 tween_resource = SubResource("Resource_ukee0")
 camera_3d_resource = SubResource("Resource_puykn")
 

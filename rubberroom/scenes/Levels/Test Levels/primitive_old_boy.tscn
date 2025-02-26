@@ -476,7 +476,7 @@ script = ExtResource("1_3nalh")
 
 [node name="Player" parent="." instance=ExtResource("1_nm867")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5787, 3.93057, 22.5258)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.9484, -9.19358, 1.90278)
 collision_mask = 2
 min_pitch = -30.0
 
@@ -563,7 +563,7 @@ mesh = SubResource("ArrayMesh_iypyq")
 skeleton = NodePath("")
 
 [node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.9484, -9.57581, 1.90278)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.9484, -9.19358, 1.90278)
 
 [node name="Collision" type="StaticBody3D" parent="."]
 collision_layer = 3
@@ -592,7 +592,7 @@ shape = SubResource("BoxShape3D_85esh")
 [node name="Camera Controller" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Camera Controller"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90.3935, 24.6528, 121.129)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 122.242, -40.9679, 18.0139)
 attributes = SubResource("CameraAttributesPhysical_xn0ig")
 
 [node name="PhantomCameraHost" type="Node" parent="Camera Controller/Camera3D"]
@@ -601,13 +601,13 @@ process_physics_priority = 300
 script = ExtResource("7_0tbte")
 
 [node name="InteractRay" parent="Camera Controller/Camera3D" instance=ExtResource("8_4b1ii")]
-transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 22.9484, -9.57581, 1.90278)
 target_position = Vector3(0, 0, -8)
 collision_mask = 11
 collide_with_areas = true
 
 [node name="PhantomCamera3D" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
-transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 90.3935, 24.6528, 121.129)
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 122.242, -40.9679, 18.0139)
 script = ExtResource("9_lo537")
 priority = 1
 follow_mode = 6
@@ -617,9 +617,10 @@ camera_3d_resource = SubResource("Resource_btt8u")
 dead_zone_width = 0.585
 dead_zone_height = 0.615
 show_viewfinder_in_play = true
+collision_mask = 2
 
 [node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
-transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, 90.694, 24.6877, 121.082)
+transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, 122.543, -40.933, 17.967)
 script = ExtResource("9_lo537")
 follow_mode = 6
 follow_target = NodePath("../../Player/RotationPoint/Camera Anchor")
