@@ -20,3 +20,7 @@ func interact(body):
 
 func _on_body_entered(body: Node3D) -> void:
 	print("Entered a Progression Area")
+
+
+func _on_body_exited(body: Node3D) -> void:
+	print("Exited a Progression Area")

@@ -14,3 +14,4 @@ transform = Transform3D(1, -3.55271e-15, 2.31875e-20, 8.59757e-13, 1, -6.35936e-
 shape = SubResource("BoxShape3D_nbbjn")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
