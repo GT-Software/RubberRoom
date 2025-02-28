@@ -77,7 +77,6 @@ func room_event_trigger(room_index : int) -> String:
 		return "null"
 	
 	return room_sack[room_index]['scene']
-	
 
 ## [method RoomManager.reset_sack()]
 ## If sack breaks or expected game event happens, this will reset the sack for whatever reason
