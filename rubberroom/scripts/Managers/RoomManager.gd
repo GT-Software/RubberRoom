@@ -42,6 +42,7 @@ func _ready() -> void:
 ## deleted after it has been selected. Set to false by default. [param weight_limit] is an integer
 ## that describes the level of priority the selected room needs to be. 
 ## Allows for common and special rooms.
+## [br] Called before [method SceneManager.load_scene].
 func get_random_room(remove_after_selection : bool = false, weight_limit : int = 0) -> String:
 	# If the sack is empty, return a null value (This should not happen unless there are no rooms preloaded!)
 	if room_sack.is_empty():
@@ -69,9 +70,14 @@ func get_random_room(remove_after_selection : bool = false, weight_limit : int =
 
 ## [method RoomManager.room_event_trigger()]
 ## Returns a designated room ([PackedScene]) for the next level. Usually used for special/scripted
-## game events. [br] [param room_name] String that holds the name of a unique room scene
-func room_event_trigger(room_name : String):
-	pass
+## game events. [br] [param room_name] String that holds the name of a unique room scene.
+## [br] Called before [method SceneManager.load_scene].
+func room_event_trigger(room_index : int) -> String:
+	if room_index >= room_sack.size():
+		return "null"
+	
+	return room_sack[room_index]['scene']
+	
 
 ## [method RoomManager.reset_sack()]
 ## If sack breaks or expected game event happens, this will reset the sack for whatever reason
