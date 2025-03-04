@@ -748,5 +748,6 @@ expand_mode = 1
 
 [node name="NextLevelCollisionArea" parent="." instance=ExtResource("16_bi6q8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4946, 1.5098, 0.779207)
+scene_name = "3"
 
 [editable path="CanvasLayer/Player Stat Bars"]

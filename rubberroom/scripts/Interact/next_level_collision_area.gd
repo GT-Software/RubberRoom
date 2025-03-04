@@ -1,5 +1,7 @@
 extends Interactable
 
+@export var scene_name : String
+
 func _ready() -> void:
 	prompt_msg = "Interact"
 	prompt_input = "interact"
@@ -15,7 +17,7 @@ func get_prompt():
 
 
 func interact(body):
-	emit_signal("load_scene")
+	emit_signal("load_scene", scene_name)
 
 
 func _on_body_entered(body: Node3D) -> void:

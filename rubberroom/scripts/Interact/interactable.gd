@@ -17,7 +17,7 @@ signal Stamina_Hurt(body)
 signal Fear_Up(body)
 signal Fear_Down(body)
 signal change_room
-signal load_scene
+signal load_scene(scene_name)
 ##   #NoMoreSignals (for now)
 
 

@@ -61,6 +61,13 @@ func spawn_room():
 		player.global_position.y += 1
 		print('Room generated!')
 
-func load_new_level():
-	var new_scene = RoomManager.get_random_room()
-	SceneManager.load_scene(new_scene)
+func load_new_level(scene_name : String = ""):
+	var new_scene
+	
+	if scene_name == "":
+		new_scene = RoomManager.get_random_room()
+		SceneManager.load_scene(new_scene)
+	else:
+		new_scene = RoomManager.room_event_trigger(scene_name.to_int())
+		SceneManager.load_scene(new_scene)
+	
