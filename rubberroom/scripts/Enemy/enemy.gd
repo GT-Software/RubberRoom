@@ -39,6 +39,20 @@ var target = null
 var rotate_node : Node3D = null
 var rotate_target : Vector3 = Vector3.ZERO
 
+#Animation Variables / Combo Vars
+var is_idle     = false
+var is_walking  = false
+var is_running  = false
+var locked_on   = false
+var is_crouched = false
+var is_in_combat= true
+var can_jump    = false
+var in_light_combo= false
+var in_heavy_combo= false
+
+var combo_index = 0
+var combo_timer = 0.0
+const MAX_COMBO_WINDOW = 1.35 # 400 ms window for the next attack
 
 func _ready():
 	current_speed = SPEED
@@ -49,6 +63,28 @@ func _ready():
 
 
 func _physics_process(delta: float):
+	#Note From Ryan: This is just here so that I can make it work for now, if we need to 
+	#give this thing a new home after its fine. But for now, this is how it will work
+	print("States: is_idle: ", is_idle)
+	print("States: is_walking: ", is_walking)
+	print("States: can_jump: ", can_jump)
+	print("States: combat: ", is_in_combat)
+	print("States: Is_In_Range: ", is_in_range)
+	
+	if combo_timer > 0:
+		combo_timer -= delta
+		if combo_timer <= 0:
+			# Time’s up, reset the combo
+			combo_index = 0
+		#Reset Combo States after Timer Clears
+	if combo_index == 0:
+		in_light_combo = false
+		in_heavy_combo = false
+		#print("Combos Reset!")
+
+
+
+
 	if health_component.health <= 0:
 		is_alive = false
 	

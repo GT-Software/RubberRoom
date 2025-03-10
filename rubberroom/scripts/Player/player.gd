@@ -69,6 +69,8 @@ var is_in_combat= true
 var can_jump    = false
 var in_light_combo= false
 var in_heavy_combo= false
+var got_hit_light = false
+var got_hit_heavy = false
 
 var combo_index = 0
 var combo_timer = 0.0
@@ -243,11 +245,10 @@ func _physics_process(delta):
 		var attack_instance = Attack.new(2.0, 0.0, 0.0, 0.0, 0.0, global_position)
 		print("Emitting player_attacking signal with: ", attack_instance)
 		player_attacking.emit(attack_instance, is_in_range)
-		
 	
 
 	#---------------------------------
-	# 9) Idle/walking/running detection
+	# 8) Idle/walking/running detection
 	#---------------------------------
 	if move_direction.x == 0 and move_direction.z == 0:
 		is_idle     = true
@@ -446,7 +447,10 @@ func _on_enemy_attacking(attack: Attack) -> void:
 		blocking_on_cooldown = true
 		
 	health_component.damage(attack)
+	got_hit_light = true
 	print("Current Health: ", health_component.get_health())
+	await 1
+	got_hit_light = false
 
 
 func animation_updates(current_speed, move_direction):
