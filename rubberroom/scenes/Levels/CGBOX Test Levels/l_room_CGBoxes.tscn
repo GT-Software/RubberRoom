@@ -1,0 +1,237 @@
+[gd_scene load_steps=18 format=3 uid="uid://b5xv7kv65kmcm"]
+
+[ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="1_lqn6b"]
+[ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="2_xei0c"]
+[ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="3_4vrkp"]
+[ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="4_b3mwe"]
+[ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="5_dmx36"]
+[ext_resource type="PackedScene" uid="uid://bm8fdgmjoqbtp" path="res://scenes/Stat Bars/player_stat_bars.tscn" id="6_rxvhh"]
+[ext_resource type="Texture2D" uid="uid://dtmdw20q6ap87" path="res://assets/images/crosshair (1).png" id="7_nqfog"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_7uxge"]
+[ext_resource type="PackedScene" uid="uid://c1acpjmpaaflr" path="res://scenes/Interact/next_level_collision_area.tscn" id="8_kqmo3"]
+[ext_resource type="PackedScene" uid="uid://drosn1nk8a1wt" path="res://scenes/Interact/interact_ray.tscn" id="9_i3y06"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="10_txh1c"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="11_7fa1a"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="12_7beb0"]
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_xdxq7"]
+
+[sub_resource type="Resource" id="Resource_ru4mk"]
+script = ExtResource("11_7fa1a")
+duration = 0.4
+transition = 2
+ease = 1
+
+[sub_resource type="Resource" id="Resource_h6icj"]
+script = ExtResource("12_7beb0")
+cull_mask = 1048575
+h_offset = 0.0
+v_offset = 0.0
+projection = 0
+fov = 75.0
+size = 1.0
+frustum_offset = Vector2(0, 0)
+near = 0.05
+far = 4000.0
+
+[sub_resource type="Resource" id="Resource_mgrt8"]
+script = ExtResource("12_7beb0")
+cull_mask = 1048575
+h_offset = 0.0
+v_offset = 0.0
+projection = 0
+fov = 42.5
+size = 1.0
+frustum_offset = Vector2(0, 0)
+near = 0.05
+far = 4000.0
+
+[node name="L-Room" type="Node3D"]
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9443, 0, 0)
+material_override = ExtResource("1_lqn6b")
+use_collision = true
+collision_layer = 2
+size = Vector3(55, 0.372, 10)
+
+[node name="Floor2" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 9.80075, 0, -22.3319)
+material_override = ExtResource("1_lqn6b")
+use_collision = true
+collision_layer = 2
+size = Vector3(35, 0.372, 10)
+
+[node name="Wall 1" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.232, 2.646, -5)
+material_override = ExtResource("2_xei0c")
+use_collision = true
+collision_layer = 2
+size = Vector3(45.3732, 5, 0.75)
+
+[node name="Wall 2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9795, 2.646, 5)
+material_override = ExtResource("2_xei0c")
+use_collision = true
+collision_layer = 2
+size = Vector3(55, 5, 0.75)
+
+[node name="Wall 3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.9522, 2.45309, 0)
+material_override = ExtResource("3_4vrkp")
+use_collision = true
+collision_layer = 2
+size = Vector3(1, 5, 12)
+
+[node name="Wall 4" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 10.1241, 2.45309, -39.7256)
+material_override = ExtResource("4_b3mwe")
+use_collision = true
+collision_layer = 2
+size = Vector3(1, 5, 10)
+
+[node name="Wall 5" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15.0993, 2.646, -17.1893)
+material_override = ExtResource("2_xei0c")
+use_collision = true
+collision_layer = 2
+size = Vector3(45, 5, 0.75)
+
+[node name="Wall 6" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4.62065, 2.646, -22.1334)
+material_override = ExtResource("2_xei0c")
+use_collision = true
+collision_layer = 2
+size = Vector3(35.1118, 5, 0.75)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(0.910301, 0.0136379, -0.413722, 0.413947, -0.0299907, 0.909807, 8.2024e-10, -0.999457, -0.0329459, -1.84038, 33.2058, 0)
+light_energy = 16.0
+spot_range = 28.331
+spot_angle = 6.88467
+
+[node name="Player" parent="." instance=ExtResource("5_dmx36")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.8848, 1, 0)
+
+[node name="RotationPoint" type="Node3D" parent="Player"]
+
+[node name="Camera Anchor" type="Node3D" parent="Player/RotationPoint"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 1.5)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Player Stat Bars" parent="CanvasLayer" instance=ExtResource("6_rxvhh")]
+
+[node name="HealthBar" parent="CanvasLayer/Player Stat Bars" index="0"]
+anchor_left = 0.868
+anchor_right = 1.0
+anchor_bottom = 0.073
+offset_left = 0.0639648
+offset_right = 0.0
+offset_bottom = -0.304005
+grow_horizontal = 0
+
+[node name="StunBar" parent="CanvasLayer/Player Stat Bars" index="1"]
+anchor_left = 0.869
+anchor_top = 0.09
+anchor_right = 0.999
+anchor_bottom = 0.167
+offset_left = -1.08801
+offset_top = -0.320004
+offset_right = 0.151855
+offset_bottom = -0.216003
+grow_horizontal = 0
+
+[node name="StaminaBar" parent="CanvasLayer/Player Stat Bars" index="2"]
+anchor_left = 0.868
+anchor_top = 0.19
+anchor_right = 1.0
+anchor_bottom = 0.269
+offset_left = 0.0639648
+offset_top = -0.12001
+offset_right = -1.0
+offset_bottom = -0.312012
+grow_horizontal = 0
+
+[node name="FearBar" parent="CanvasLayer/Player Stat Bars" index="3"]
+anchor_left = 0.865
+anchor_top = 0.29
+anchor_right = 0.997
+anchor_bottom = 0.364
+offset_left = 3.52002
+offset_top = 0.0800018
+offset_right = 3.45605
+offset_bottom = 0.128006
+grow_horizontal = 0
+
+[node name="PlayerInteraction" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PlayerInteraction"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_nqfog")
+expand_mode = 1
+
+[node name="Camera Controller" type="Node" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Camera Controller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.3848, 2, 2.5)
+attributes = SubResource("CameraAttributesPhysical_xdxq7")
+
+[node name="PhantomCameraHost" type="Node" parent="Camera Controller/Camera3D"]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("8_7uxge")
+
+[node name="InteractRay" parent="Camera Controller/Camera3D" instance=ExtResource("9_i3y06")]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 0)
+target_position = Vector3(0, 0, -8)
+collision_mask = 11
+collide_with_areas = true
+
+[node name="PhantomCamera3D" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, -30.3848, 2, 2.5)
+script = ExtResource("10_txh1c")
+priority = 1
+follow_mode = 6
+follow_target = NodePath("../../Player/RotationPoint/Camera Anchor")
+tween_resource = SubResource("Resource_ru4mk")
+camera_3d_resource = SubResource("Resource_h6icj")
+dead_zone_width = 0.585
+dead_zone_height = 0.615
+show_viewfinder_in_play = true
+
+[node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
+transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, -30.0843, 2.0349, 2.45314)
+script = ExtResource("10_txh1c")
+follow_mode = 6
+follow_target = NodePath("../../Player/RotationPoint/Camera Anchor")
+tween_resource = SubResource("Resource_ru4mk")
+camera_3d_resource = SubResource("Resource_mgrt8")
+
+[node name="NextLevelCollisionArea" parent="." instance=ExtResource("8_kqmo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.7728, 0, -39.4599)
+
+[editable path="CanvasLayer/Player Stat Bars"]

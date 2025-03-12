@@ -319,7 +319,7 @@ dead_zone_height = 0.615
 show_viewfinder_in_play = true
 
 [node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
-transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, -21.3238, 3.12754, 2.47906)
+transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, -21.3239, 3.12754, 2.47906)
 script = ExtResource("6_1eo2f")
 follow_mode = 6
 follow_target = NodePath("../../Player/RotationPoint/Camera Anchor")
