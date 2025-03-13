@@ -1,5 +1,6 @@
-[gd_scene load_steps=18 format=3 uid="uid://b5xv7kv65kmcm"]
+[gd_scene load_steps=19 format=3 uid="uid://b5xv7kv65kmcm"]
 
+[ext_resource type="Script" path="res://scripts/Levels/world.gd" id="1_6uj3n"]
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="1_lqn6b"]
 [ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="2_xei0c"]
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="3_4vrkp"]
@@ -47,6 +48,16 @@ near = 0.05
 far = 4000.0
 
 [node name="L-Room" type="Node3D"]
+script = ExtResource("1_6uj3n")
+
+[node name="Player" parent="." instance=ExtResource("5_dmx36")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.8848, 1, 0)
+
+[node name="RotationPoint" type="Node3D" parent="Player"]
+
+[node name="Camera Anchor" type="Node3D" parent="Player/RotationPoint"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 1.5)
 
 [node name="Floor" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9443, 0, 0)
@@ -109,14 +120,6 @@ transform = Transform3D(0.910301, 0.0136379, -0.413722, 0.413947, -0.0299907, 0.
 light_energy = 16.0
 spot_range = 28.331
 spot_angle = 6.88467
-
-[node name="Player" parent="." instance=ExtResource("5_dmx36")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.8848, 1, 0)
-
-[node name="RotationPoint" type="Node3D" parent="Player"]
-
-[node name="Camera Anchor" type="Node3D" parent="Player/RotationPoint"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 1.5)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -233,5 +236,8 @@ camera_3d_resource = SubResource("Resource_mgrt8")
 
 [node name="NextLevelCollisionArea" parent="." instance=ExtResource("8_kqmo3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.7728, 0, -39.4599)
+
+[node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.6366, 2.09264, 0.025921)
 
 [editable path="CanvasLayer/Player Stat Bars"]

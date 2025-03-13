@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://r5kfva84ntko"]
+[gd_scene load_steps=19 format=3 uid="uid://r5kfva84ntko"]
 
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="1_2cbyj"]
+[ext_resource type="Script" path="res://scripts/Levels/world.gd" id="1_lxblv"]
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="1_opyd2"]
 [ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="2_0x3cb"]
 [ext_resource type="PackedScene" uid="uid://bm8fdgmjoqbtp" path="res://scenes/Stat Bars/player_stat_bars.tscn" id="2_bgd6o"]
@@ -47,6 +48,7 @@ near = 0.05
 far = 4000.0
 
 [node name="Small Room" type="Node3D"]
+script = ExtResource("1_lxblv")
 
 [node name="Floor" type="CSGBox3D" parent="."]
 material_override = ExtResource("1_opyd2")
@@ -88,6 +90,7 @@ light_energy = 16.0
 spot_range = 28.331
 
 [node name="Player" parent="." instance=ExtResource("1_2cbyj")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.89781, 1, 0)
 
 [node name="RotationPoint" type="Node3D" parent="Player"]
@@ -201,7 +204,7 @@ dead_zone_height = 0.615
 show_viewfinder_in_play = true
 
 [node name="PhantomCamera Zoom In" type="Node3D" parent="Camera Controller" node_paths=PackedStringArray("follow_target")]
-transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, -5.09728, 2.0349, 2.45314)
+transform = Transform3D(0.953717, -0.0104945, 0.300523, 0, 0.999391, 0.0348995, -0.300706, -0.0332842, 0.953136, -5.09729, 2.0349, 2.45314)
 script = ExtResource("6_xhr01")
 follow_mode = 6
 follow_target = NodePath("../../Player/RotationPoint/Camera Anchor")
@@ -210,5 +213,8 @@ camera_3d_resource = SubResource("Resource_apih2")
 
 [node name="NextLevelCollisionArea" parent="." instance=ExtResource("13_l4bpn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.66229, 0, 0)
+
+[node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.95386, 2.09264, 0.025921)
 
 [editable path="CanvasLayer/Player Stat Bars"]

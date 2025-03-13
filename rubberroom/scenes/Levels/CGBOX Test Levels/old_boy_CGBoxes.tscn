@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://curh26wjlrq4w"]
+[gd_scene load_steps=19 format=3 uid="uid://curh26wjlrq4w"]
 
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="1_2dvgk"]
+[ext_resource type="Script" path="res://scripts/Levels/world.gd" id="1_64hwi"]
 [ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="2_2dwgh"]
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="3_eheyg"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="4_n6a3j"]
@@ -47,6 +48,7 @@ near = 0.05
 far = 4000.0
 
 [node name="OldBoy" type="Node3D"]
+script = ExtResource("1_64hwi")
 
 [node name="Floor" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.471372, 0, 0)
@@ -90,6 +92,7 @@ light_size = 0.695
 spot_range = 28.331
 
 [node name="Player" parent="." instance=ExtResource("5_6hf8b")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.52, 1, 0)
 
 [node name="RotationPoint" type="Node3D" parent="Player"]
@@ -212,5 +215,8 @@ camera_3d_resource = SubResource("Resource_mparv")
 
 [node name="NextLevelCollisionArea" parent="." instance=ExtResource("13_slyu8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.7678, 0, 0)
+
+[node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.6366, 2.09264, 1.59922)
 
 [editable path="CanvasLayer/Player Stat Bars"]
