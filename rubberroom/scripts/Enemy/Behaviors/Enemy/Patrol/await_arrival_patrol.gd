@@ -8,6 +8,4 @@ func tick(actor, _blackboard):
 		return FAILURE
 	else:
 		actor.update_nav_agent()
-		actor.is_idle = false
-		actor.is_walking = true
 		return RUNNING

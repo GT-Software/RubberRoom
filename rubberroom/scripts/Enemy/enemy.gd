@@ -4,6 +4,11 @@ class_name Enemy
 # AMONGUS?????
 signal attacking(attack : Attack)
 
+#Animation Control ENUM
+enum {IDLE, WALK, RUN, ATTACK}
+var curAnim = IDLE
+
+
 # Scene reference variables
 
 @onready var nav_agent = $NavigationAgent3D
@@ -16,6 +21,7 @@ signal attacking(attack : Attack)
 @onready var lock_on_marker = $"Lock-On Point/Lock On Marker"
 @onready var enemy_stats = $"Stat Bars Enemy"
 @onready var enemy_health_bar = $"Stat Bars Enemy/SubViewport/Panel/HealthBar"
+@onready var anim_tree: AnimationTree = $"Animation Control/AnimationTree"
 
 # Export variables
 
@@ -40,12 +46,12 @@ var rotate_node : Node3D = null
 var rotate_target : Vector3 = Vector3.ZERO
 
 #Animation Variables / Combo Vars
-var is_idle     = false
+var is_idle     = true
 var is_walking  = false
 var is_running  = false
-var locked_on   = false
 var is_crouched = false
 var is_in_combat= true
+var player_spotted = false
 var can_jump    = false
 var in_light_combo= false
 var in_heavy_combo= false
@@ -63,13 +69,15 @@ func _ready():
 
 
 func _physics_process(delta: float):
+	handle_animations()
 	#Note From Ryan: This is just here so that I can make it work for now, if we need to 
 	#give this thing a new home after its fine. But for now, this is how it will work
-	print("States: is_idle: ", is_idle)
-	print("States: is_walking: ", is_walking)
-	print("States: can_jump: ", can_jump)
-	print("States: combat: ", is_in_combat)
-	print("States: Is_In_Range: ", is_in_range)
+	print("Enemy States: is_idle: ", is_idle)
+	print("Enemy States: is_walking: ", is_walking)
+	print("Enemy States: is_running: ", is_running)
+	print("Enemy States: can_jump: ", can_jump)
+	print("Enemy States: Player Spotted: ", player_spotted)
+	print("Enemy States: Is_In_Range: ", is_in_range)
 	
 	if combo_timer > 0:
 		combo_timer -= delta
@@ -138,12 +146,26 @@ func new_random_position() -> Vector3:
 	return random_position
 
 
+
+func handle_animations():
+	match curAnim:
+		IDLE:
+			anim_tree.set("parameters/Movement/transition_request" , "Idle")
+		WALK:
+			anim_tree.set("parameters/Movement/transition_request" , "Walking")
+		RUN:
+			anim_tree.set("parameters/Movement/transition_request" , "Running")
+		ATTACK:
+			anim_tree.set("parameters/Movement/transition_request" , "ComboBreaker")
+			
+
 func alert(new_target):
 	target = new_target
 
 
 func attack():
 	var attack : Attack = Attack.new()
+	curAnim = WALK
 	emit_signal("attacking", attack)
 
 func take_damage(attack : Attack):

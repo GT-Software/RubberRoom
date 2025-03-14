@@ -450,6 +450,8 @@ func _on_enemy_attacking(attack: Attack) -> void:
 	got_hit_light = true
 	print("Current Health: ", health_component.get_health())
 	await 1
+	got_hit_light = true
+	await 1
 	got_hit_light = false
 
 

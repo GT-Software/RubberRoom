@@ -9,6 +9,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		actor.rotate_self = true
 		actor.rotate_target = actor.new_random_position()
 		actor.rotate_node = actor.target
+		actor.player_spotted = true
 		return RUNNING
 		
 	return SUCCESS
