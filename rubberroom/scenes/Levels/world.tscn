@@ -318,7 +318,7 @@ texture = ExtResource("12_sl72j")
 expand_mode = 1
 
 [node name="Enemy" parent="." instance=ExtResource("13_vaew6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0291, 1.125, -28.6753)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.1061, 1.125, -1.02156)
 
 [node name="Basic_NPC" parent="." instance=ExtResource("14_ec1jr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.78793, 1.29538, 45.1744)

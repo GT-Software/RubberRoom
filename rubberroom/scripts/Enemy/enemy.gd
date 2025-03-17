@@ -55,10 +55,42 @@ var player_spotted = false
 var can_jump    = false
 var in_light_combo= false
 var in_heavy_combo= false
+var new_state 
+var lastAnim = -1  # Use an invalid enum value to ensure a state change on first frame
 
 var combo_index = 0
 var combo_timer = 0.0
 const MAX_COMBO_WINDOW = 1.35 # 400 ms window for the next attack
+
+# This function now sets curAnim based on your boolean animation variables.
+func update_animation_state():
+	# If currently attacking, keep that state until it finishes.
+	if curAnim == ATTACK:
+		return
+	# Set state based on priority: running > walking > idle.
+	if is_running:
+		curAnim = RUN
+	elif is_walking:
+		curAnim = WALK
+	elif is_idle:
+		curAnim = IDLE
+
+
+func handle_animations(curAnim):
+	# Only request a transition if the new state differs from the last one.
+	if curAnim != lastAnim:
+		match curAnim:
+			IDLE:
+				anim_tree.set("parameters/Movement/transition_request" , "Idle")
+			WALK:
+				anim_tree.set("parameters/Movement/transition_request" , "Walking")
+			RUN:
+				anim_tree.set("parameters/Movement/transition_request" , "Running")
+			#ATTACK:
+				#anim_tree.set("parameters/Movement/transition_request" , "ComboBreaker")
+		
+		lastAnim = curAnim
+
 
 func _ready():
 	current_speed = SPEED
@@ -69,7 +101,11 @@ func _ready():
 
 
 func _physics_process(delta: float):
-	handle_animations()
+	update_animation_state()
+	#Only Change animation on state change
+	if curAnim != lastAnim:
+		handle_animations(curAnim)
+		lastAnim = curAnim
 	#Note From Ryan: This is just here so that I can make it work for now, if we need to 
 	#give this thing a new home after its fine. But for now, this is how it will work
 	print("Enemy States: is_idle: ", is_idle)
@@ -147,26 +183,16 @@ func new_random_position() -> Vector3:
 
 
 
-func handle_animations():
-	match curAnim:
-		IDLE:
-			anim_tree.set("parameters/Movement/transition_request" , "Idle")
-		WALK:
-			anim_tree.set("parameters/Movement/transition_request" , "Walking")
-		RUN:
-			anim_tree.set("parameters/Movement/transition_request" , "Running")
-		ATTACK:
-			anim_tree.set("parameters/Movement/transition_request" , "ComboBreaker")
-			
-
 func alert(new_target):
 	target = new_target
 
 
 func attack():
 	var attack : Attack = Attack.new()
-	curAnim = WALK
 	emit_signal("attacking", attack)
+	#Play one hit of light combo per fire
+	anim_tree.set("parameters/LightAttack/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	
 
 func take_damage(attack : Attack):
 	health_component.damage(attack)

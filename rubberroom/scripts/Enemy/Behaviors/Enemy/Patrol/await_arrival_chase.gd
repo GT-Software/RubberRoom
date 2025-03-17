@@ -11,4 +11,7 @@ func tick(actor, _blackboard):
 	else:
 		actor.update_target_location(actor.target.position)
 		actor.update_nav_agent()
+		actor.is_idle = false
+		actor.is_walking = false
+		actor.is_running = true
 		return RUNNING
