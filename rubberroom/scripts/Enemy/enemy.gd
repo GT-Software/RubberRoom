@@ -108,12 +108,12 @@ func _physics_process(delta: float):
 		lastAnim = curAnim
 	#Note From Ryan: This is just here so that I can make it work for now, if we need to 
 	#give this thing a new home after its fine. But for now, this is how it will work
-	print("Enemy States: is_idle: ", is_idle)
-	print("Enemy States: is_walking: ", is_walking)
-	print("Enemy States: is_running: ", is_running)
-	print("Enemy States: can_jump: ", can_jump)
-	print("Enemy States: Player Spotted: ", player_spotted)
-	print("Enemy States: Is_In_Range: ", is_in_range)
+	#print("Enemy States: is_idle: ", is_idle)
+	#print("Enemy States: is_walking: ", is_walking)
+	#print("Enemy States: is_running: ", is_running)
+	#print("Enemy States: can_jump: ", can_jump)
+	#print("Enemy States: Player Spotted: ", player_spotted)
+	#print("Enemy States: Is_In_Range: ", is_in_range)
 	
 	if combo_timer > 0:
 		combo_timer -= delta

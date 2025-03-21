@@ -14,6 +14,7 @@ signal player_attacking(attack : Attack, in_range : bool)
 @onready var canvas_layer = $"../CanvasLayer"
 @onready var ap = $AuxScene/AnimationPlayer
 @onready var ap_tree = $"Animation Control/AnimationTree"
+@onready var ap_tree_2: AnimationTree = $"Animation Control/AnimationTree2"
 
 @onready var player_stat_bars = $"../CanvasLayer/Player Stat Bars"
 @onready var health_bar     = $"../CanvasLayer/Player Stat Bars/HealthBar"
@@ -71,10 +72,50 @@ var in_light_combo= false
 var in_heavy_combo= false
 var got_hit_light = false
 var got_hit_heavy = false
+var new_state 
+var lastAnim = -1  # Use an invalid enum value to ensure a state change on first frame
 
 var combo_index = 0
 var combo_timer = 0.0
 const MAX_COMBO_WINDOW = 1.35 # 400 ms window for the next attack
+
+
+#Animation Control ENUM
+enum {IDLE, WALK, RUN, ATTACKLight, ATTACKHeavy, JUMP, GOTHIT}
+var curAnim = IDLE
+
+func update_animation_state():
+	# If currently attacking, keep that state until it finishes.
+	if curAnim == ATTACKLight:
+		return
+	# Set state based on priority: running > walking > idle.
+	if is_running:
+		curAnim = RUN
+	elif is_walking:
+		curAnim = WALK
+	elif is_idle:
+		curAnim = IDLE
+	elif in_light_combo:
+		curAnim = ATTACKLight
+	elif in_heavy_combo:
+		curAnim = ATTACKHeavy
+
+func handle_animations(curAnim):
+	# Only request a transition if the new state differs from the last one.
+	if curAnim != lastAnim:
+		match curAnim:
+			IDLE:
+				ap_tree_2.set("parameters/Movement/transition_request" , "Idle")
+			WALK:
+				ap_tree_2.set("parameters/Movement/transition_request" , "Walking")
+			RUN:
+				ap_tree_2.set("parameters/Movement/transition_request" , "Running")
+			ATTACKLight:
+				ap_tree_2.set("parameters/Movement/transition_request" , "AttackingLight")
+			ATTACKHeavy:
+				ap_tree_2.set("parameters/Movement/transition_request" , "AttackingHeavy")
+		
+		lastAnim = curAnim
 
 
 # -------------------------------
@@ -129,18 +170,23 @@ func _ready():
 
 
 func _physics_process(delta):
-	#print("States: is_idle: ", is_idle)
-	#print("States: is_walking: ", is_walking)
-	#print("States: can_jump: ", can_jump)
-	#print("States: combat: ", is_in_combat)
-	#print("States: Is_In_Range: ", is_in_range)
-	#print("States: combo: ", in_light_combo, in_heavy_combo)
-	#print("Combo Timer: ", combo_timer)
-	#print("Combo Index: ", combo_index)
+	update_animation_state()
+	#Only Change animation on state change
+	if curAnim != lastAnim:
+		handle_animations(curAnim)
+		lastAnim = curAnim
+	print("States: is_idle: ", is_idle)
+	print("States: is_walking: ", is_walking)
+	print("States: can_jump: ", can_jump)
+	print("States: combat: ", is_in_combat)
+	print("States: Is_In_Range: ", is_in_range)
+	print("States: combo: ", in_light_combo, in_heavy_combo)
+	print("Combo Timer: ", combo_timer)
+	print("Combo Index: ", combo_index)
 	
-	#print("Player Position: ", global_position)
-	#print("Rotation Point Position: ", rotation_point.global_position)
-	#print("Camera Point Position: ", camera_anchor.global_position)
+	print("Player Position: ", global_position)
+	print("Rotation Point Position: ", rotation_point.global_position)
+	print("Camera Point Position: ", camera_anchor.global_position)
 	
 	#---------------------------------
 	# 1) Gravity + Death check
@@ -276,19 +322,23 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("light_attack"):
 		in_light_combo = true
+		
 		if combo_index == 0:
+			ap_tree_2.set("parameters/LightAttack1/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 			# First hit in a light combo
 			combo_index = 1
 			combo_timer = MAX_COMBO_WINDOW
 			print("light_attack1")
 			
 		elif combo_index == 1:
+			ap_tree_2.set("parameters/LightAttack2/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 			# Already in Light Combo 1, user pressed again in time:
 			combo_index = 2
 			combo_timer = MAX_COMBO_WINDOW
 			print("light_attack2")
 			
 		elif combo_index == 2:
+			ap_tree_2.set("parameters/LightAttack3/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 			# Already in Light Combo 2
 			combo_index = 3
 			combo_timer = MAX_COMBO_WINDOW
@@ -301,11 +351,13 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("heavy_attack"):
 		in_heavy_combo = true
 		if combo_index == 0:
+			ap_tree_2.set("parameters/HeavyAttack1/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 			combo_index = 1
 			combo_timer = MAX_COMBO_WINDOW
 			print("Heavy_attack1")
 			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Heavy Combo 1")
 		elif combo_index == 1:
+			ap_tree_2.set("parameters/HeavyAttack2/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 			# Already in Heavy Combo 1
 			combo_index = 2
 			combo_timer = MAX_COMBO_WINDOW
@@ -447,12 +499,9 @@ func _on_enemy_attacking(attack: Attack) -> void:
 		blocking_on_cooldown = true
 		
 	health_component.damage(attack)
-	got_hit_light = true
+	ap_tree_2.set("parameters/Got_Hit_Light/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	print("Current Health: ", health_component.get_health())
-	await 1
-	got_hit_light = true
-	await 1
-	got_hit_light = false
+
 
 
 func animation_updates(current_speed, move_direction):
