@@ -74,6 +74,7 @@ var got_hit_light = false
 var got_hit_heavy = false
 var new_state 
 var lastAnim = -1  # Use an invalid enum value to ensure a state change on first frame
+var hitbox_active = false  # Only allow hits if this is true
 
 var combo_index = 0
 var combo_timer = 0.0
@@ -175,19 +176,19 @@ func _physics_process(delta):
 	if curAnim != lastAnim:
 		handle_animations(curAnim)
 		lastAnim = curAnim
-	print("States: is_idle: ", is_idle)
-	print("States: is_walking: ", is_walking)
-	print("States: can_jump: ", can_jump)
-	print("States: combat: ", is_in_combat)
-	print("States: Is_In_Range: ", is_in_range)
-	print("States: combo: ", in_light_combo, in_heavy_combo)
-	print("Combo Timer: ", combo_timer)
-	print("Combo Index: ", combo_index)
-	
-	print("Player Position: ", global_position)
-	print("Rotation Point Position: ", rotation_point.global_position)
-	print("Camera Point Position: ", camera_anchor.global_position)
-	
+	#print("States: is_idle: ", is_idle)
+	#print("States: is_walking: ", is_walking)
+	#print("States: can_jump: ", can_jump)
+	#print("States: combat: ", is_in_combat)
+	#print("States: Is_In_Range: ", is_in_range)
+	#print("States: combo: ", in_light_combo, in_heavy_combo)
+	#print("Combo Timer: ", combo_timer)
+	#print("Combo Index: ", combo_index)
+	#
+	#print("Player Position: ", global_position)
+	#print("Rotation Point Position: ", rotation_point.global_position)
+	#print("Camera Point Position: ", camera_anchor.global_position)
+	#
 	#---------------------------------
 	# 1) Gravity + Death check
 	#---------------------------------
@@ -287,10 +288,10 @@ func _physics_process(delta):
 	#---------------------------------
 	# 7) Attack logic
 	#---------------------------------
-	if (in_light_combo or in_heavy_combo) and is_in_range:
-		var attack_instance = Attack.new(2.0, 0.0, 0.0, 0.0, 0.0, global_position)
-		print("Emitting player_attacking signal with: ", attack_instance)
-		player_attacking.emit(attack_instance, is_in_range)
+	#if (in_light_combo or in_heavy_combo) and is_in_range:
+		#var attack_instance = Attack.new(2.0, 0.0, 0.0, 0.0, 0.0, global_position)
+		#print("Emitting player_attacking signal with: ", attack_instance)
+		#player_attacking.emit(attack_instance, is_in_range)
 	
 
 	#---------------------------------
@@ -318,10 +319,12 @@ func _physics_process(delta):
 	if combo_index == 0:
 		in_light_combo = false
 		in_heavy_combo = false
+		hitbox_active = false
 		#print("Combos Reset!")
 	
 	if Input.is_action_just_pressed("light_attack"):
 		in_light_combo = true
+		hitbox_active = true
 		
 		if combo_index == 0:
 			ap_tree_2.set("parameters/LightAttack1/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
@@ -350,6 +353,7 @@ func _physics_process(delta):
 			# Similarly for “heavy_attack”
 	if Input.is_action_just_pressed("heavy_attack"):
 		in_heavy_combo = true
+		hitbox_active = true
 		if combo_index == 0:
 			ap_tree_2.set("parameters/HeavyAttack1/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 			combo_index = 1
@@ -501,6 +505,7 @@ func _on_enemy_attacking(attack: Attack) -> void:
 	health_component.damage(attack)
 	ap_tree_2.set("parameters/Got_Hit_Light/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	print("Current Health: ", health_component.get_health())
+	health_bar._on_health_changed(health_component.health)
 
 
 
@@ -633,3 +638,21 @@ func current_action() -> String:
 		return "walking"
 	else:
 		return "no action"
+
+
+func _on_area_3d_body_entered(body):
+	print("Active Hitbox? : ", hitbox_active)
+	# 1) Check if the collision is an Enemy
+	#if not (body is Enemy):
+		#return
+		#
+	## 2) Check if our “attack” is currently active
+	#if not hitbox_active:
+		#return
+	
+	if body.is_in_group("enemies") and hitbox_active:
+			# 3) If valid, deal damage exactly once
+		var attack_instance = Attack.new(1.0, 0.0, 0.0, 0.0, 0.0, global_position)
+		print("Right arm collided with Enemy! Dealing damage once.")
+		emit_signal("player_attacking", attack_instance, true)
+		hitbox_active = false  # no more hits this swing
