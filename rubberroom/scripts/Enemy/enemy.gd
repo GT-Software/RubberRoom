@@ -233,6 +233,7 @@ func update_lock_on_status():
 
 func _on_player_attacking(attack: Attack, in_range : bool):
 	take_damage(attack)
+	anim_tree.set("parameters/GotHit/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	print("Received player_attacking signal with: ", attack, ", in_range: ", in_range)
 	enemy_health_bar._on_health_changed(health_component.health)
 	print("Current Enemy Health: ", health_component.get_health())
