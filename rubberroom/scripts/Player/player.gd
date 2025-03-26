@@ -40,6 +40,9 @@ signal player_attacking(attack : Attack, in_range : bool)
 @export var aim_min_yaw: float = 0
 @export var aim_max_yaw: float = 360
 @export var stamina_regen_rate: float = 0.05
+@export var lock_on_max_yaw_deviation: float = 15.0   # in degrees
+@export var lock_on_max_pitch_deviation: float = 10.0 # in degrees
+
 #@export var lock_on_button = "lock_on"  # Name of your input action (e.g., "middle mouse")
 
 
@@ -79,6 +82,9 @@ var hitbox_active = false  # Only allow hits if this is true
 var combo_index = 0
 var combo_timer = 0.0
 const MAX_COMBO_WINDOW = 1.35 # 400 ms window for the next attack
+
+var default_fov : float = 75.0
+var locked_on_fov : float = 65.0
 
 
 #Animation Control ENUM
@@ -167,7 +173,6 @@ func _ready():
 	stamina_bar.init_stamina(stamina_component)
 	fear_bar.init_fear(fear_component)
 	rotation_point.set_as_top_level(true)
-	
 
 
 func _physics_process(delta):
@@ -176,6 +181,13 @@ func _physics_process(delta):
 	if curAnim != lastAnim:
 		handle_animations(curAnim)
 		lastAnim = curAnim
+		
+	# Adjust camera distance based on lock-on state
+	if locked_on:
+		_player_pcam.fov = lerp(_player_pcam.fov, locked_on_fov, 0.1)
+	else:
+		_player_pcam.fov = lerp(_player_pcam.fov, default_fov, 0.1)
+
 	#print("States: is_idle: ", is_idle)
 	#print("States: is_walking: ", is_walking)
 	#print("States: can_jump: ", can_jump)
@@ -379,14 +391,23 @@ func _physics_process(delta):
 		# or you can do something else here if you want a dedicated “block” release.
 		ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Start")  # or “Idle”
 			
-	# etc.
-	if not locked_on:
-		if velocity.length() > 0.2:
-			var cam_euler: Vector3 = _player_pcam.global_transform.basis.get_euler()
-			rotation.y = lerp_angle(rotation.y, cam_euler.y, 0.1)
-			if _player_pcam.get_priority() < _aim_pcam.get_priority():
-				var aim_cam_euler: Vector3 = _aim_pcam.global_transform.basis.get_euler()
-				rotation.y = lerp_angle(rotation.y, aim_cam_euler.y, 0.1)
+	if locked_on and locked_on_enemy:
+	# Calculate direction from player to enemy (ignoring vertical differences)
+		var enemy_pos = locked_on_enemy.global_transform.origin
+		enemy_pos.y = global_transform.origin.y
+		var direction = (enemy_pos - global_transform.origin).normalized()
+		# Compute the target angle for the player (in radians)
+		var target_angle = atan2(direction.x, direction.z) + PI
+		# Smoothly interpolate player's yaw toward the enemy
+		rotation.y = lerp_angle(rotation.y, target_angle, 0.1)
+	else:
+		if not locked_on:
+			if velocity.length() > 0.2:
+				var cam_euler: Vector3 = _player_pcam.global_transform.basis.get_euler()
+				rotation.y = lerp_angle(rotation.y, cam_euler.y, 0.1)
+				if _player_pcam.get_priority() < _aim_pcam.get_priority():
+					var aim_cam_euler: Vector3 = _aim_pcam.global_transform.basis.get_euler()
+					rotation.y = lerp_angle(rotation.y, aim_cam_euler.y, 0.1)
 	
 	
 	##Lock on Master Logic
@@ -405,8 +426,8 @@ func _physics_process(delta):
 		# c) Lerp the current rotation to that yaw/pitch
 		#    (rotation_degrees is a Vector3(x=Pitch, y=Yaw, z=Roll))
 		var current_rot = rotation_point.rotation_degrees
-		current_rot.y = lerp_angle(current_rot.y, desired_yaw, 0.3)
-		current_rot.x = lerp_angle(current_rot.x, desired_pitch, 0.3)
+		current_rot.y = lerp_angle(current_rot.y, desired_yaw, 0.5)
+		current_rot.x = lerp_angle(current_rot.x, desired_pitch, 0.5)
 		# d) Optionally clamp pitch, etc.
 		current_rot.x = clampf(current_rot.x, min_pitch, max_pitch)
 		rotation_point.rotation_degrees = current_rot
@@ -418,7 +439,7 @@ func _physics_process(delta):
 	if locked_on and locked_on_enemy:
 		# If enemy is out of range or dead, unlock
 		var dist = global_position.distance_to(locked_on_enemy.global_position)
-		if dist > 50 or locked_on_enemy.is_alive == false:
+		if dist > 20 or locked_on_enemy.is_alive == false:
 			unlock_enemy()
 			return
 
@@ -426,35 +447,59 @@ func _physics_process(delta):
 
 
 func _input(event: InputEvent) -> void:
+	
 	if event is InputEventMouseMotion:
-		if _player_pcam.get_priority() > _aim_pcam.get_priority():
+		if locked_on and locked_on_enemy:
+			# Calculate the base rotation from the player to the enemy.
+			var enemy_pos = locked_on_enemy.global_transform.origin
+			# Ignore vertical differences:
+			enemy_pos.y = global_transform.origin.y
+			var enemy_dir = (enemy_pos - global_transform.origin).normalized()
+			# Compute base yaw: (atan2 returns radians; convert to degrees and flip by 180° if needed)
+			var base_yaw = rad_to_deg(atan2(enemy_dir.x, enemy_dir.z)) + 180
+			# For pitch, you might want a fixed base or compute it based on relative height.
+			# Here we assume a base pitch that you can adjust or leave as is.
+			var base_pitch = rotation_point.rotation_degrees.x
+			# Get current camera rotation (in degrees).
 			var cam_rot = _player_pcam.get_third_person_rotation_degrees()
-			
-			# Pitch (X-axis)
+			 # Apply mouse input:
 			cam_rot.x -= event.relative.y * mouse_sensitivity
-			cam_rot.x = clampf(cam_rot.x, min_pitch, max_pitch)
-
-			# Yaw (Y-axis)
 			cam_rot.y -= event.relative.x * mouse_sensitivity
-			cam_rot.y = wrapf(cam_rot.y, min_yaw, max_yaw)
-
+			# Clamp the new rotation around the base values.
+			cam_rot.x = clampf(cam_rot.x, base_pitch - lock_on_max_pitch_deviation, base_pitch + lock_on_max_pitch_deviation)
+			cam_rot.y = clampf(cam_rot.y, base_yaw - lock_on_max_yaw_deviation, base_yaw + lock_on_max_yaw_deviation)
 			_player_pcam.set_third_person_rotation_degrees(cam_rot)
 			rotation_point.rotation_degrees = cam_rot
-			
-		elif _player_pcam.get_priority() < _aim_pcam.get_priority():
-			var slow_mouse_sensitivity = mouse_sensitivity * 0.5
-			var aim_cam_rot = _aim_pcam.get_third_person_rotation_degrees()
-			
-			# Pitch (X-axis)
-			aim_cam_rot.x -= event.relative.y * slow_mouse_sensitivity
-			aim_cam_rot.x = clampf(aim_cam_rot.x, aim_min_pitch, aim_max_pitch)
 
-			# Yaw (Y-axis)
-			aim_cam_rot.y -= event.relative.x * slow_mouse_sensitivity
-			aim_cam_rot.y = wrapf(aim_cam_rot.y, aim_min_yaw, aim_max_yaw)
+		else:
+			if _player_pcam.get_priority() > _aim_pcam.get_priority():
+				var cam_rot = _player_pcam.get_third_person_rotation_degrees()
+				
+				# Pitch (X-axis)
+				cam_rot.x -= event.relative.y * mouse_sensitivity
+				cam_rot.x = clampf(cam_rot.x, min_pitch, max_pitch)
 
-			_aim_pcam.set_third_person_rotation_degrees(aim_cam_rot)
-			rotation_point.rotation_degrees = aim_cam_rot
+				# Yaw (Y-axis)
+				cam_rot.y -= event.relative.x * mouse_sensitivity
+				cam_rot.y = wrapf(cam_rot.y, min_yaw, max_yaw)
+
+				_player_pcam.set_third_person_rotation_degrees(cam_rot)
+				rotation_point.rotation_degrees = cam_rot
+				
+			elif _player_pcam.get_priority() < _aim_pcam.get_priority():
+				var slow_mouse_sensitivity = mouse_sensitivity * 0.5
+				var aim_cam_rot = _aim_pcam.get_third_person_rotation_degrees()
+				
+				# Pitch (X-axis)
+				aim_cam_rot.x -= event.relative.y * slow_mouse_sensitivity
+				aim_cam_rot.x = clampf(aim_cam_rot.x, aim_min_pitch, aim_max_pitch)
+
+				# Yaw (Y-axis)
+				aim_cam_rot.y -= event.relative.x * slow_mouse_sensitivity
+				aim_cam_rot.y = wrapf(aim_cam_rot.y, aim_min_yaw, aim_max_yaw)
+
+				_aim_pcam.set_third_person_rotation_degrees(aim_cam_rot)
+				rotation_point.rotation_degrees = aim_cam_rot
 			
 		
 

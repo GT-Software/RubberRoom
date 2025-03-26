@@ -22,6 +22,8 @@ var curAnim = IDLE
 @onready var enemy_stats = $"Stat Bars Enemy"
 @onready var enemy_health_bar = $"Stat Bars Enemy/SubViewport/Panel/HealthBar"
 @onready var anim_tree: AnimationTree = $"Animation Control/AnimationTree"
+@onready var right_arm_collision: CollisionShape3D = $AuxScene/Node/Skeleton3D/RightArm/Area3D/RightArmCollision
+@onready var left_arm_collision: CollisionShape3D = $AuxScene/Node/Skeleton3D/LeftArm/Area3D/LeftArmCollision
 
 # Export variables
 
@@ -57,6 +59,7 @@ var in_light_combo= false
 var in_heavy_combo= false
 var new_state 
 var lastAnim = -1  # Use an invalid enum value to ensure a state change on first frame
+var hitbox_active = false  # Only allow hits if this is true
 
 var combo_index = 0
 var combo_timer = 0.0
@@ -139,7 +142,10 @@ func _physics_process(delta: float):
 	velocity.y -= gravity * delta
 	
 	if rotate_self:
-		if rotate_node != null:
+		if is_locked_on:
+			# When locked on, rotate to face the player directly.
+			rotate_target = player.global_position
+		elif rotate_node != null:
 			rotate_target = rotate_node.global_position
 		else:
 			rotate_target = nav_agent.get_next_path_position()
@@ -188,9 +194,8 @@ func alert(new_target):
 
 
 func attack():
-	var attack : Attack = Attack.new()
-	emit_signal("attacking", attack)
 	#Play one hit of light combo per fire
+	hitbox_active = true
 	anim_tree.set("parameters/LightAttack/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	
 
@@ -242,3 +247,12 @@ func _on_player_attacking(attack: Attack, in_range : bool):
 
 func _on_enemy_melee_range_exited(body):
 	pass # Replace with function body.
+
+
+func _on_area_3d_body_entered(body: Node3D) -> void:
+	print("Active Hitbox? : ", hitbox_active)
+	if body.is_in_group("player") and hitbox_active:
+		var attack : Attack = Attack.new()
+		emit_signal("attacking", attack)
+		print("Right arm collided with Enemy! Dealing damage once.")
+		hitbox_active = false  # no more hits this swing
