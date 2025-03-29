@@ -23,6 +23,7 @@ PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_came
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 RoomManager="*res://scripts/Managers/RoomManager.gd"
 SceneManager="*res://scripts/Managers/SceneManager.gd"
+EnemySpawnManager="*res://scripts/Managers/EnemySpawnManager.gd"
 
 [dialogue_manager]
 
@@ -40,7 +41,7 @@ project/assembly_name="RubberRoom"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/beehave/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/beehave/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg")
 
 [file_customization]
 
