@@ -65,6 +65,10 @@ var combo_index = 0
 var combo_timer = 0.0
 const MAX_COMBO_WINDOW = 1.35 # 400 ms window for the next attack
 
+
+var is_hitstunned: bool = false
+var hitstun_duration: float = 1.5  # Adjust as needed for enemy hitstun duration
+
 # This function now sets curAnim based on your boolean animation variables.
 func update_animation_state():
 	# If currently attacking, keep that state until it finishes.
@@ -117,6 +121,7 @@ func _physics_process(delta: float):
 	#print("Enemy States: can_jump: ", can_jump)
 	#print("Enemy States: Player Spotted: ", player_spotted)
 	#print("Enemy States: Is_In_Range: ", is_in_range)
+	
 	
 	if combo_timer > 0:
 		combo_timer -= delta
@@ -241,6 +246,7 @@ func _on_player_attacking(attack: Attack, in_range : bool):
 	anim_tree.set("parameters/GotHit/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	print("Received player_attacking signal with: ", attack, ", in_range: ", in_range)
 	enemy_health_bar._on_health_changed(health_component.health)
+	apply_hitstun(hitstun_duration)
 	print("Current Enemy Health: ", health_component.get_health())
 		
 
@@ -256,3 +262,9 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		emit_signal("attacking", attack)
 		print("Right arm collided with Enemy! Dealing damage once.")
 		hitbox_active = false  # no more hits this swing
+		
+func apply_hitstun(duration: float) -> void:
+	is_hitstunned = true
+	# Optionally: play a hitstun animation or effect here.
+	await get_tree().create_timer(hitstun_duration).timeout
+	is_hitstunned = false

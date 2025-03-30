@@ -27,8 +27,10 @@ signal player_attacking(attack : Attack, in_range : bool)
 @onready var left_arm_collision = $AuxScene/Node/Skeleton3D/LeftArm/Area3D/LeftArmCollision
 
 
+
 @onready var camera_anchor: Node3D = $"RotationPoint/Camera Anchor"
 @onready var rotation_point: Node3D = $RotationPoint
+@onready var tween: Tween = Tween.new()
 
 @export var mouse_sensitivity: float = 0.05
 @export var min_pitch: float = -89.9
@@ -43,6 +45,8 @@ signal player_attacking(attack : Attack, in_range : bool)
 @export var lock_on_max_yaw_deviation: float = 15.0   # in degrees
 @export var lock_on_max_pitch_deviation: float = 10.0 # in degrees
 
+
+
 #@export var lock_on_button = "lock_on"  # Name of your input action (e.g., "middle mouse")
 
 
@@ -56,6 +60,7 @@ var stamina_component: StaminaComponent= StaminaComponent.new()
 var fear_component   : FearComponent   = FearComponent.new()
 
 # Movement constants
+const FIGHTSPEED   = 2.5
 const SPEED        = 5.0
 const RUN_SPEED    = 15.0
 const CROUCH_SPEED = 1.0
@@ -84,9 +89,16 @@ var combo_timer = 0.0
 const MAX_COMBO_WINDOW = 1.35 # 400 ms window for the next attack
 
 var default_fov : float = 75.0
-var locked_on_fov : float = 65.0
+var locked_on_fov : float = 60.0
 
+var lock_on_base_yaw: float = 0.0
+var lock_on_base_pitch: float = 0.0
 
+var default_anchor_offset: Vector3
+var combat_anchor_offset: Vector3 = Vector3(1.15, 0.75, 1.15)  # adjust to your desired combat offset
+
+var is_hitstunned: bool = false
+var hitstun_duration: float = 1.5  # Adjust duration as needed
 #Animation Control ENUM
 enum {IDLE, WALK, RUN, ATTACKLight, ATTACKHeavy, JUMP, GOTHIT}
 var curAnim = IDLE
@@ -135,7 +147,7 @@ func handle_animations(curAnim):
 # -------------------------------
 # Dodge Configuration
 # -------------------------------
-var dodge_speed = 20.0
+var dodge_speed = 10.0
 var is_dodging = false
 var dodging_on_cooldown = false
 var dodge_direction = Vector3.ZERO
@@ -173,9 +185,17 @@ func _ready():
 	stamina_bar.init_stamina(stamina_component)
 	fear_bar.init_fear(fear_component)
 	rotation_point.set_as_top_level(true)
+	 # Store the initial camera anchor position as the default offset.
+	default_anchor_offset = camera_anchor.position
+	#add_child(tween)
 
 
 func _physics_process(delta):
+	if is_hitstunned:
+		velocity = Vector3.ZERO
+		return  # Skip the rest of the process function
+	
+	
 	update_animation_state()
 	#Only Change animation on state change
 	if curAnim != lastAnim:
@@ -196,7 +216,7 @@ func _physics_process(delta):
 	#print("States: combo: ", in_light_combo, in_heavy_combo)
 	#print("Combo Timer: ", combo_timer)
 	#print("Combo Index: ", combo_index)
-	#
+	print("Player Speed: ", current_speed)
 	#print("Player Position: ", global_position)
 	#print("Rotation Point Position: ", rotation_point.global_position)
 	#print("Camera Point Position: ", camera_anchor.global_position)
@@ -240,6 +260,12 @@ func _physics_process(delta):
 		current_speed = CROUCH_SPEED
 		# If you intend to toggle crouch:
 		is_crouched = !is_crouched
+		
+	elif locked_on:
+		current_speed = FIGHTSPEED
+		is_walking    = true
+		is_running    = false
+		can_jump      = false
 	else:
 		current_speed = SPEED
 		is_walking    = true
@@ -449,29 +475,24 @@ func _physics_process(delta):
 func _input(event: InputEvent) -> void:
 	
 	if event is InputEventMouseMotion:
-		if locked_on and locked_on_enemy:
-			# Calculate the base rotation from the player to the enemy.
-			var enemy_pos = locked_on_enemy.global_transform.origin
-			# Ignore vertical differences:
-			enemy_pos.y = global_transform.origin.y
-			var enemy_dir = (enemy_pos - global_transform.origin).normalized()
-			# Compute base yaw: (atan2 returns radians; convert to degrees and flip by 180° if needed)
-			var base_yaw = rad_to_deg(atan2(enemy_dir.x, enemy_dir.z)) + 180
-			# For pitch, you might want a fixed base or compute it based on relative height.
-			# Here we assume a base pitch that you can adjust or leave as is.
-			var base_pitch = rotation_point.rotation_degrees.x
-			# Get current camera rotation (in degrees).
-			var cam_rot = _player_pcam.get_third_person_rotation_degrees()
-			 # Apply mouse input:
-			cam_rot.x -= event.relative.y * mouse_sensitivity
-			cam_rot.y -= event.relative.x * mouse_sensitivity
-			# Clamp the new rotation around the base values.
-			cam_rot.x = clampf(cam_rot.x, base_pitch - lock_on_max_pitch_deviation, base_pitch + lock_on_max_pitch_deviation)
-			cam_rot.y = clampf(cam_rot.y, base_yaw - lock_on_max_yaw_deviation, base_yaw + lock_on_max_yaw_deviation)
-			_player_pcam.set_third_person_rotation_degrees(cam_rot)
-			rotation_point.rotation_degrees = cam_rot
+		##SCUFFED CODE, may just chuck it but im keeping it here in case i need it
+		#if locked_on and locked_on_enemy:
+			## Use stored base rotation rather than recomputing from enemy position each frame.
+			#var base_yaw = lock_on_base_yaw
+			#var base_pitch = lock_on_base_pitch
+			## Get current camera rotation (in degrees).
+			#var cam_rot = _player_pcam.get_third_person_rotation_degrees()
+			## Apply mouse input.
+			#cam_rot.x -= event.relative.y * mouse_sensitivity
+			#cam_rot.y -= event.relative.x * mouse_sensitivity
+			#
+			## Clamp the new rotation around the stored base values.
+			#cam_rot.x = clampf(cam_rot.x, base_pitch - lock_on_max_pitch_deviation, base_pitch + lock_on_max_pitch_deviation)
+			#cam_rot.y = clampf(cam_rot.y, base_yaw - lock_on_max_yaw_deviation, base_yaw + lock_on_max_yaw_deviation)
+			#_player_pcam.set_third_person_rotation_degrees(cam_rot)
+			#rotation_point.rotation_degrees = cam_rot
 
-		else:
+		#else:
 			if _player_pcam.get_priority() > _aim_pcam.get_priority():
 				var cam_rot = _player_pcam.get_third_person_rotation_degrees()
 				
@@ -550,6 +571,7 @@ func _on_enemy_attacking(attack: Attack) -> void:
 	health_component.damage(attack)
 	ap_tree_2.set("parameters/Got_Hit_Light/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	print("Current Health: ", health_component.get_health())
+	apply_hitstun(hitstun_duration)
 	health_bar._on_health_changed(health_component.health)
 
 
@@ -598,6 +620,13 @@ func lock_on_to_enemy(enemy_obj: Enemy) -> void:
 	# Tell the enemy it’s locked on
 	enemy_obj.is_locked_on = true
 	enemy_obj.lock_on_marker.show()
+	# Set camera anchor to combat offset.
+	var tween = create_tween()
+	tween.tween_property(camera_anchor, "position", combat_anchor_offset, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	 # Store the current camera and rotation_point values as your clamp center.
+	lock_on_base_yaw = _player_pcam.get_third_person_rotation_degrees().y
+	lock_on_base_pitch = rotation_point.rotation_degrees.x
 
 
 func unlock_enemy() -> void:
@@ -606,6 +635,11 @@ func unlock_enemy() -> void:
 		locked_on_enemy.lock_on_marker.hide()
 	locked_on_enemy = null
 	locked_on = false
+	var tween = create_tween()
+	# Restore the camera anchor to its default offset.
+	tween.tween_property(camera_anchor, "position", default_anchor_offset, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+
 
 # Timeout function for Dodge Timer
 func _on_dodge_end() -> void:
@@ -701,3 +735,10 @@ func _on_area_3d_body_entered(body):
 		print("Right arm collided with Enemy! Dealing damage once.")
 		emit_signal("player_attacking", attack_instance, true)
 		hitbox_active = false  # no more hits this swing
+
+
+func apply_hitstun(duration: float) -> void:
+	is_hitstunned = true
+	# Optionally: play a hitstun animation or effect here.
+	await get_tree().create_timer(hitstun_duration).timeout
+	is_hitstunned = false
