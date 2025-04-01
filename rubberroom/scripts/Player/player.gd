@@ -587,15 +587,16 @@ func start_light_combo_attack() -> void:
 	light_combo_in_progress = true
 	light_current_combo_index  = 1
 	play_light_attack(light_current_combo_index)
-	can_buffer_light_attack = false
 	buffered_light_attack = false
+	open_light_buffer_window()
 	
 func trigger_next_light_attack() -> void:
 	if light_current_combo_index  < MAX_LIGHT_COMBO_HITS:
 		light_current_combo_index  += 1
+		buffered_light_attack = true
+		can_buffer_light_attack  = true
 		play_light_attack(light_current_combo_index)
-		buffered_light_attack = false
-		can_buffer_attack = false
+		await ap_tree_2.animation_finished
 	else:
 		reset_light_combo()
 		
@@ -603,7 +604,18 @@ func reset_light_combo() -> void:
 	light_combo_in_progress = false
 	light_current_combo_index  = 0
 	buffered_light_attack = false
-	can_buffer_attack = false
+	can_buffer_light_attack  = false
+	
+func open_light_buffer_window():
+	can_buffer_light_attack  = true
+	if buffered_light_attack:
+		trigger_next_light_attack()
+
+func close_light_buffer_window():
+	can_buffer_light_attack  = false
+	# Optionally, if no buffered input, you might reset the combo here:
+	if not buffered_light_attack:
+		reset_light_combo()
 
 func play_light_attack(hit_index: int) -> void:
 	match hit_index:
@@ -618,16 +630,6 @@ func play_light_attack(hit_index: int) -> void:
 			print("light_attack3")
 			
 
-func open_light_buffer_window():
-	can_buffer_attack = true
-	if buffered_light_attack:
-		trigger_next_light_attack()
-
-func close_light_buffer_window():
-	can_buffer_attack = false
-	# Optionally, if no buffered input, you might reset the combo here:
-		# if not buffered_light_attack:
-		#reset_light_combo()
 	
 
 func start_heavy_combo_attack() -> void:
