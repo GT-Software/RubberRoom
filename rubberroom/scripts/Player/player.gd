@@ -83,10 +83,28 @@ var got_hit_heavy = false
 var new_state 
 var lastAnim = -1  # Use an invalid enum value to ensure a state change on first frame
 var hitbox_active = false  # Only allow hits if this is true
+var can_buffer_attack = false
 
+var current_combo_index = 0
 var combo_index = 0
 var combo_timer = 0.0
 const MAX_COMBO_WINDOW = 1.35 # 400 ms window for the next attack
+
+
+# Light Combo Variables
+var light_combo_in_progress: bool = false
+var light_current_combo_index: int = 0
+var buffered_light_attack: bool = false
+var can_buffer_light_attack: bool = false  # Will be set via animation call methods
+const MAX_LIGHT_COMBO_HITS = 3
+
+# Combo variables for Heavy Attacks
+# Heavy Combo Variables
+var heavy_combo_in_progress: bool = false
+var heavy_current_combo_index: int = 0
+var buffered_heavy_attack: bool = false
+var heavy_can_buffer_attack: bool = false
+const MAX_HEAVY_COMBO_HITS = 2
 
 var default_fov : float = 75.0
 var locked_on_fov : float = 60.0
@@ -359,63 +377,65 @@ func _physics_process(delta):
 		in_heavy_combo = false
 		hitbox_active = false
 		#print("Combos Reset!")
-	
-	if Input.is_action_just_pressed("light_attack"):
-		in_light_combo = true
-		hitbox_active = true
-		
-		if combo_index == 0:
-			ap_tree_2.set("parameters/LightAttack1/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-			# First hit in a light combo
-			combo_index = 1
-			combo_timer = MAX_COMBO_WINDOW
-			print("light_attack1")
+	#
+	#if Input.is_action_just_pressed("light_attack"):
+		#in_light_combo = true
+		#hitbox_active = true
+		#
+		#if combo_index == 0:
+			#ap_tree_2.set("parameters/LightAttack1/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			## First hit in a light combo
+			#combo_index = 1
+			#combo_timer = MAX_COMBO_WINDOW
+			#print("light_attack1")
+			#
+		#elif combo_index == 1:
+			#ap_tree_2.set("parameters/LightAttack2/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			## Already in Light Combo 1, user pressed again in time:
+			#combo_index = 2
+			#combo_timer = MAX_COMBO_WINDOW
+			#print("light_attack2")
+			#
+		#elif combo_index == 2:
+			#ap_tree_2.set("parameters/LightAttack3/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			## Already in Light Combo 2
+			#combo_index = 3
+			#combo_timer = MAX_COMBO_WINDOW
+			#print("light_attack3")
+			##reset_combo()
+			#
+		#
+			#
+			## Similarly for “heavy_attack”
+	#if Input.is_action_just_pressed("heavy_attack"):
+		#in_heavy_combo = true
+		#hitbox_active = true
+		#if combo_index == 0:
+			#ap_tree_2.set("parameters/HeavyAttack1/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			#combo_index = 1
+			#combo_timer = MAX_COMBO_WINDOW
+			#print("Heavy_attack1")
+			#ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Heavy Combo 1")
+		#elif combo_index == 1:
+			#ap_tree_2.set("parameters/HeavyAttack2/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			## Already in Heavy Combo 1
+			#combo_index = 2
+			#combo_timer = MAX_COMBO_WINDOW
+			#print("Heavy_attack2")
+			#ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Heavy Combo 2")
+			###Note to self, combos work now i need to "queue" them so they all play out in order
+			#
+	#if Input.is_action_pressed("block"):
+		#is_blocking = true
+		#ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "StandingBlockIdle")
+		#print("Blocking!")
+	#else:
+		#is_blocking = false
+		 ## If your state machine’s “StandingBlockIdle” anim leads to “LeftBlock0” on code or user input, that’s fine,
+		## or you can do something else here if you want a dedicated “block” release.
+		#ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Start")  # or “Idle”
 			
-		elif combo_index == 1:
-			ap_tree_2.set("parameters/LightAttack2/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-			# Already in Light Combo 1, user pressed again in time:
-			combo_index = 2
-			combo_timer = MAX_COMBO_WINDOW
-			print("light_attack2")
 			
-		elif combo_index == 2:
-			ap_tree_2.set("parameters/LightAttack3/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-			# Already in Light Combo 2
-			combo_index = 3
-			combo_timer = MAX_COMBO_WINDOW
-			print("light_attack3")
-			#reset_combo()
-			
-		
-			
-			# Similarly for “heavy_attack”
-	if Input.is_action_just_pressed("heavy_attack"):
-		in_heavy_combo = true
-		hitbox_active = true
-		if combo_index == 0:
-			ap_tree_2.set("parameters/HeavyAttack1/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-			combo_index = 1
-			combo_timer = MAX_COMBO_WINDOW
-			print("Heavy_attack1")
-			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Heavy Combo 1")
-		elif combo_index == 1:
-			ap_tree_2.set("parameters/HeavyAttack2/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-			# Already in Heavy Combo 1
-			combo_index = 2
-			combo_timer = MAX_COMBO_WINDOW
-			print("Heavy_attack2")
-			ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Heavy Combo 2")
-			##Note to self, combos work now i need to "queue" them so they all play out in order
-			
-	if Input.is_action_pressed("block"):
-		is_blocking = true
-		ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "StandingBlockIdle")
-		print("Blocking!")
-	else:
-		is_blocking = false
-		 # If your state machine’s “StandingBlockIdle” anim leads to “LeftBlock0” on code or user input, that’s fine,
-		# or you can do something else here if you want a dedicated “block” release.
-		ap_tree.set("parameters/Combat/ComboMachine/LeftFootForward/current", "Start")  # or “Idle”
 			
 	if locked_on and locked_on_enemy:
 	# Calculate direction from player to enemy (ignoring vertical differences)
@@ -452,8 +472,8 @@ func _physics_process(delta):
 		# c) Lerp the current rotation to that yaw/pitch
 		#    (rotation_degrees is a Vector3(x=Pitch, y=Yaw, z=Roll))
 		var current_rot = rotation_point.rotation_degrees
-		current_rot.y = lerp_angle(current_rot.y, desired_yaw, 0.5)
-		current_rot.x = lerp_angle(current_rot.x, desired_pitch, 0.5)
+		current_rot.y = lerp_angle(current_rot.y, desired_yaw, 0.5 * delta)
+		current_rot.x = lerp_angle(current_rot.x, desired_pitch, 0.5 * delta)
 		# d) Optionally clamp pitch, etc.
 		current_rot.x = clampf(current_rot.x, min_pitch, max_pitch)
 		rotation_point.rotation_degrees = current_rot
@@ -473,58 +493,68 @@ func _physics_process(delta):
 
 
 func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("light_attack"):
+		if not light_combo_in_progress:
+			start_light_combo_attack()
+		elif not can_buffer_light_attack:
+			buffered_light_attack = true
+		elif can_buffer_light_attack:
+			trigger_next_light_attack()
+			
+	if Input.is_action_just_pressed("heavy_attack"):
+		if not heavy_combo_in_progress:
+			start_heavy_combo_attack()
+		elif not heavy_can_buffer_attack:
+			buffered_heavy_attack = true
+		elif heavy_can_buffer_attack:
+			trigger_next_heavy_combo_attack()
+	#
+	
+	#if Input.is_action_just_pressed("light_attack"):
+		#if not light_combo_in_progress:
+			#start_light_combo_attack()
+		#else:
+			#buffered_light_attack = true  # Buffer if already in a combo
+			#
+	#if Input.is_action_just_pressed("heavy_attack"):
+		#if not heavy_combo_in_progress:
+			#start_heavy_combo_attack()
+		#else:
+			#buffered_heavy_attack = true
+	#
 	
 	if event is InputEventMouseMotion:
-		##SCUFFED CODE, may just chuck it but im keeping it here in case i need it
-		#if locked_on and locked_on_enemy:
-			## Use stored base rotation rather than recomputing from enemy position each frame.
-			#var base_yaw = lock_on_base_yaw
-			#var base_pitch = lock_on_base_pitch
-			## Get current camera rotation (in degrees).
-			#var cam_rot = _player_pcam.get_third_person_rotation_degrees()
-			## Apply mouse input.
-			#cam_rot.x -= event.relative.y * mouse_sensitivity
-			#cam_rot.y -= event.relative.x * mouse_sensitivity
-			#
-			## Clamp the new rotation around the stored base values.
-			#cam_rot.x = clampf(cam_rot.x, base_pitch - lock_on_max_pitch_deviation, base_pitch + lock_on_max_pitch_deviation)
-			#cam_rot.y = clampf(cam_rot.y, base_yaw - lock_on_max_yaw_deviation, base_yaw + lock_on_max_yaw_deviation)
-			#_player_pcam.set_third_person_rotation_degrees(cam_rot)
-			#rotation_point.rotation_degrees = cam_rot
-
-		#else:
-			if _player_pcam.get_priority() > _aim_pcam.get_priority():
-				var cam_rot = _player_pcam.get_third_person_rotation_degrees()
-				
-				# Pitch (X-axis)
-				cam_rot.x -= event.relative.y * mouse_sensitivity
-				cam_rot.x = clampf(cam_rot.x, min_pitch, max_pitch)
-
-				# Yaw (Y-axis)
-				cam_rot.y -= event.relative.x * mouse_sensitivity
-				cam_rot.y = wrapf(cam_rot.y, min_yaw, max_yaw)
-
-				_player_pcam.set_third_person_rotation_degrees(cam_rot)
-				rotation_point.rotation_degrees = cam_rot
-				
-			elif _player_pcam.get_priority() < _aim_pcam.get_priority():
-				var slow_mouse_sensitivity = mouse_sensitivity * 0.5
-				var aim_cam_rot = _aim_pcam.get_third_person_rotation_degrees()
-				
-				# Pitch (X-axis)
-				aim_cam_rot.x -= event.relative.y * slow_mouse_sensitivity
-				aim_cam_rot.x = clampf(aim_cam_rot.x, aim_min_pitch, aim_max_pitch)
-
-				# Yaw (Y-axis)
-				aim_cam_rot.y -= event.relative.x * slow_mouse_sensitivity
-				aim_cam_rot.y = wrapf(aim_cam_rot.y, aim_min_yaw, aim_max_yaw)
-
-				_aim_pcam.set_third_person_rotation_degrees(aim_cam_rot)
-				rotation_point.rotation_degrees = aim_cam_rot
+		if _player_pcam.get_priority() > _aim_pcam.get_priority():
+			var cam_rot = _player_pcam.get_third_person_rotation_degrees()
+			
+			# Pitch (X-axis)
+			cam_rot.x -= event.relative.y * mouse_sensitivity
+			cam_rot.x = clampf(cam_rot.x, min_pitch, max_pitch)
+			# Yaw (Y-axis)
+			cam_rot.y -= event.relative.x * mouse_sensitivity
+			cam_rot.y = wrapf(cam_rot.y, min_yaw, max_yaw)
+			_player_pcam.set_third_person_rotation_degrees(cam_rot)
+			rotation_point.rotation_degrees = cam_rot
+			
+		elif _player_pcam.get_priority() < _aim_pcam.get_priority():
+			var slow_mouse_sensitivity = mouse_sensitivity * 0.5
+			var aim_cam_rot = _aim_pcam.get_third_person_rotation_degrees()
+			
+			# Pitch (X-axis)
+			aim_cam_rot.x -= event.relative.y * slow_mouse_sensitivity
+			aim_cam_rot.x = clampf(aim_cam_rot.x, aim_min_pitch, aim_max_pitch)
+			# Yaw (Y-axis)
+			aim_cam_rot.y -= event.relative.x * slow_mouse_sensitivity
+			aim_cam_rot.y = wrapf(aim_cam_rot.y, aim_min_yaw, aim_max_yaw)
+			_aim_pcam.set_third_person_rotation_degrees(aim_cam_rot)
+			rotation_point.rotation_degrees = aim_cam_rot
 			
 		
-
 	_toggle_aim_pcam(event)
+	
+	
+	
+	
 	
 	if Input.is_action_just_pressed("lock_on"):
 		print("locking-on!")
@@ -552,6 +582,96 @@ func _on_range_body_exited(body: Node3D) -> void:
 	is_in_range = false
 	print("INIGO MONTOYA DEACTIVATED")
 
+
+func start_light_combo_attack() -> void:
+	light_combo_in_progress = true
+	light_current_combo_index  = 1
+	play_light_attack(light_current_combo_index)
+	can_buffer_light_attack = false
+	buffered_light_attack = false
+	
+func trigger_next_light_attack() -> void:
+	if light_current_combo_index  < MAX_LIGHT_COMBO_HITS:
+		light_current_combo_index  += 1
+		play_light_attack(light_current_combo_index)
+		buffered_light_attack = false
+		can_buffer_attack = false
+	else:
+		reset_light_combo()
+		
+func reset_light_combo() -> void:
+	light_combo_in_progress = false
+	light_current_combo_index  = 0
+	buffered_light_attack = false
+	can_buffer_attack = false
+
+func play_light_attack(hit_index: int) -> void:
+	match hit_index:
+		1:
+			ap_tree_2.set("parameters/LightAttack1/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			print("light_attack1")
+		2:
+			ap_tree_2.set("parameters/LightAttack2/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			print("light_attack2")
+		3:
+			ap_tree_2.set("parameters/LightAttack3/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			print("light_attack3")
+			
+
+func open_light_buffer_window():
+	can_buffer_attack = true
+	if buffered_light_attack:
+		trigger_next_light_attack()
+
+func close_light_buffer_window():
+	can_buffer_attack = false
+	# Optionally, if no buffered input, you might reset the combo here:
+		# if not buffered_light_attack:
+		#reset_light_combo()
+	
+
+func start_heavy_combo_attack() -> void:
+	heavy_combo_in_progress = true
+	heavy_current_combo_index = 1
+	play_heavy_attack(heavy_current_combo_index)
+	heavy_can_buffer_attack = false
+	buffered_heavy_attack = false
+
+func trigger_next_heavy_combo_attack() -> void:
+	if heavy_current_combo_index < MAX_HEAVY_COMBO_HITS:
+		heavy_current_combo_index += 1
+		play_heavy_attack(heavy_current_combo_index)
+		buffered_heavy_attack = false
+		heavy_can_buffer_attack = false
+	else:
+		reset_heavy_combo()
+		
+func reset_heavy_combo() -> void:
+	heavy_combo_in_progress = false
+	heavy_current_combo_index = 0
+	buffered_heavy_attack = false
+	heavy_can_buffer_attack = false
+
+func play_heavy_attack(hit_index: int) -> void:
+	match hit_index:
+		1:
+			ap_tree_2.set("parameters/HeavyAttack1/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			print("heavy_attack1")
+		2:
+			ap_tree_2.set("parameters/HeavyAttack2/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			print("heavy_attack2")
+		3:
+			ap_tree_2.set("parameters/HeavyAttack3/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			print("heavy_attack3")
+
+func open_heavy_buffer_window() -> void:
+	heavy_can_buffer_attack = true
+	if buffered_heavy_attack:
+		trigger_next_heavy_combo_attack()
+		
+func close_heavy_buffer_window() -> void:
+	heavy_can_buffer_attack = false
+	# Optionally reset heavy combo if needed
 
 func _on_enemy_attacking(attack: Attack) -> void:
 	# Check for blocking and do modifications to attack if there is chip damage enabled

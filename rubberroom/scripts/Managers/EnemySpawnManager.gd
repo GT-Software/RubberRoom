@@ -12,4 +12,4 @@ func spawn_enemies(markers : Array):
 
 # Choose an enemy to spawn
 func choose_enemy() -> PackedScene:
-	pass
+	return null

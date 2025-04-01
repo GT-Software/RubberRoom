@@ -8,7 +8,7 @@ extends Node3D
 @onready var camera = $"Camera Controller/PhantomCamera3D"
 @onready var camera_zoom = $"Camera Controller/PhantomCamera Zoom In"
 
-var markers = get_tree().find_nodes_in_group('Enemy spawn markers')
+#var markers = get_tree().find_nodes_in_group('Enemy spawn markers')
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
