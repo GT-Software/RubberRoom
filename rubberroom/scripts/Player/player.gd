@@ -83,28 +83,26 @@ var got_hit_heavy = false
 var new_state 
 var lastAnim = -1  # Use an invalid enum value to ensure a state change on first frame
 var hitbox_active = false  # Only allow hits if this is true
-var can_buffer_attack = false
 
 var current_combo_index = 0
-var combo_index = 0
-var combo_timer = 0.0
-const MAX_COMBO_WINDOW = 1.35 # 400 ms window for the next attack
 
+enum AttackType { NONE, LIGHT, HEAVY }
+var current_attack_type : int = AttackType.NONE
+var combo_index : int = 0         # Unified combo index
+var combo_timer : float = 0.0       # Timer for buffering next attack
+const MAX_COMBO_WINDOW = 1.35       # Seconds to input next attack
 
-# Light Combo Variables
-var light_combo_in_progress: bool = false
-var light_current_combo_index: int = 0
-var buffered_light_attack: bool = false
-var can_buffer_light_attack: bool = false  # Will be set via animation call methods
+# Max hits for each combo type (adjust as needed)
 const MAX_LIGHT_COMBO_HITS = 3
-
-# Combo variables for Heavy Attacks
-# Heavy Combo Variables
-var heavy_combo_in_progress: bool = false
-var heavy_current_combo_index: int = 0
-var buffered_heavy_attack: bool = false
-var heavy_can_buffer_attack: bool = false
 const MAX_HEAVY_COMBO_HITS = 2
+
+# Buffer flags
+var buffered_attack : bool = false   # Set when input is detected during an active combo
+var can_buffer_attack : bool = false # Set via timeline (animation call) to open the input window
+
+
+
+
 
 var default_fov : float = 75.0
 var locked_on_fov : float = 60.0
@@ -225,16 +223,17 @@ func _physics_process(delta):
 		_player_pcam.fov = lerp(_player_pcam.fov, locked_on_fov, 0.1)
 	else:
 		_player_pcam.fov = lerp(_player_pcam.fov, default_fov, 0.1)
-
+	print("can buffer attack: ", can_buffer_attack)
+	print("buffered_attack: ", buffered_attack)
 	#print("States: is_idle: ", is_idle)
 	#print("States: is_walking: ", is_walking)
 	#print("States: can_jump: ", can_jump)
 	#print("States: combat: ", is_in_combat)
 	#print("States: Is_In_Range: ", is_in_range)
 	#print("States: combo: ", in_light_combo, in_heavy_combo)
-	#print("Combo Timer: ", combo_timer)
-	#print("Combo Index: ", combo_index)
-	print("Player Speed: ", current_speed)
+	print("Combo Timer: ", combo_timer)
+	print("Combo Index: ", combo_index)
+	#print("Player Speed: ", current_speed)
 	#print("Player Position: ", global_position)
 	#print("Rotation Point Position: ", rotation_point.global_position)
 	#print("Camera Point Position: ", camera_anchor.global_position)
@@ -369,8 +368,8 @@ func _physics_process(delta):
 	if combo_timer > 0:
 		combo_timer -= delta
 		if combo_timer <= 0:
-			# Time’s up, reset the combo
-			combo_index = 0
+			reset_combo()
+
 		#Reset Combo States after Timer Clears
 	if combo_index == 0:
 		in_light_combo = false
@@ -490,38 +489,109 @@ func _physics_process(delta):
 			return
 
 
+# -------------------------------
+# Attack Functions
+# -------------------------------
+
+# Called when an attack input is first detected
+func start_combo(attack_type: int) -> void:
+	current_attack_type = attack_type
+	combo_index = 1
+	combo_timer = MAX_COMBO_WINDOW
+	buffered_attack = false
+	play_attack(combo_index)
+# Called when a new input is detected during an active combo
+
+func trigger_next_attack() -> void:
+	if current_attack_type == AttackType.LIGHT:
+		if combo_index < MAX_LIGHT_COMBO_HITS:
+			combo_index += 1
+			buffered_attack = false
+			combo_timer = MAX_COMBO_WINDOW
+			play_attack(combo_index)
+			print("Buffered Light Played")
+		else:
+			reset_combo()
+	elif current_attack_type == AttackType.HEAVY:
+		if combo_index < MAX_HEAVY_COMBO_HITS:
+			combo_index += 1
+			buffered_attack = false
+			combo_timer = MAX_COMBO_WINDOW
+			play_attack(combo_index)
+			print("Buffered Heavy Played")
+		else:
+			reset_combo()
+
+# Play the proper animation based on the current attack type and hit index
+func play_attack(hit_index: int) -> void:
+	if current_attack_type == AttackType.LIGHT:
+		match hit_index:
+			1:
+				ap_tree_2.set("parameters/LightAttack1/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+				print("light_attack1")
+			2:
+				ap_tree_2.set("parameters/LightAttack2/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+				print("light_attack2")
+			3:
+				ap_tree_2.set("parameters/LightAttack3/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+				print("light_attack3")
+	elif current_attack_type == AttackType.HEAVY:
+		match hit_index:
+			1:
+				ap_tree_2.set("parameters/HeavyAttack1/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+				print("heavy_attack1")
+			2:
+				ap_tree_2.set("parameters/HeavyAttack2/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+				print("heavy_attack2")
 
 
+# Reset the combo once the timer expires or the max hit is reached
+func reset_combo() -> void:
+	current_attack_type = AttackType.NONE
+	combo_index = 0
+	combo_timer = 0.0
+	buffered_attack = false
+	can_buffer_attack = false
+
+# -------------------------------
+# Buffer Window Functions
+# (These will be called from the animation timeline via Call Method tracks)
+# -------------------------------
+func open_buffer_window() -> void:
+	can_buffer_attack = true
+	# If the input was already buffered, immediately chain the next attack
+	if buffered_attack:
+		trigger_next_attack()
+
+func close_buffer_window() -> void:
+	can_buffer_attack = false
+	# Optionally, if no input was buffered at this point, you could reset here
+	# if not buffered_attack:
+	#     reset_combo()
+
+# -------------------------------
+# Input & Timer Handling
+# -------------------------------
 func _input(event: InputEvent) -> void:
+	# Light attack input
 	if Input.is_action_just_pressed("light_attack"):
-		if not light_combo_in_progress:
-			start_light_combo_attack()
-		elif not can_buffer_light_attack:
-			buffered_light_attack = true
-		elif can_buffer_light_attack:
-			trigger_next_light_attack()
-			
+		if current_attack_type == AttackType.NONE:
+			start_combo(AttackType.LIGHT)
+		elif current_attack_type == AttackType.LIGHT:
+			# Buffer the input if within the combo window
+			buffered_attack = true
+			# If the buffer window is open, trigger the next attack immediately
+			if can_buffer_attack:
+				trigger_next_attack()
+
+	# Heavy attack input
 	if Input.is_action_just_pressed("heavy_attack"):
-		if not heavy_combo_in_progress:
-			start_heavy_combo_attack()
-		elif not heavy_can_buffer_attack:
-			buffered_heavy_attack = true
-		elif heavy_can_buffer_attack:
-			trigger_next_heavy_combo_attack()
-	#
-	
-	#if Input.is_action_just_pressed("light_attack"):
-		#if not light_combo_in_progress:
-			#start_light_combo_attack()
-		#else:
-			#buffered_light_attack = true  # Buffer if already in a combo
-			#
-	#if Input.is_action_just_pressed("heavy_attack"):
-		#if not heavy_combo_in_progress:
-			#start_heavy_combo_attack()
-		#else:
-			#buffered_heavy_attack = true
-	#
+		if current_attack_type == AttackType.NONE:
+			start_combo(AttackType.HEAVY)
+		elif current_attack_type == AttackType.HEAVY:
+			buffered_attack = true
+			if can_buffer_attack:
+				trigger_next_attack()
 	
 	if event is InputEventMouseMotion:
 		if _player_pcam.get_priority() > _aim_pcam.get_priority():
@@ -582,98 +652,6 @@ func _on_range_body_exited(body: Node3D) -> void:
 	is_in_range = false
 	print("INIGO MONTOYA DEACTIVATED")
 
-
-func start_light_combo_attack() -> void:
-	light_combo_in_progress = true
-	light_current_combo_index  = 1
-	play_light_attack(light_current_combo_index)
-	buffered_light_attack = false
-	open_light_buffer_window()
-	
-func trigger_next_light_attack() -> void:
-	if light_current_combo_index  < MAX_LIGHT_COMBO_HITS:
-		light_current_combo_index  += 1
-		buffered_light_attack = true
-		can_buffer_light_attack  = true
-		play_light_attack(light_current_combo_index)
-		await ap_tree_2.animation_finished
-	else:
-		reset_light_combo()
-		
-func reset_light_combo() -> void:
-	light_combo_in_progress = false
-	light_current_combo_index  = 0
-	buffered_light_attack = false
-	can_buffer_light_attack  = false
-	
-func open_light_buffer_window():
-	can_buffer_light_attack  = true
-	if buffered_light_attack:
-		trigger_next_light_attack()
-
-func close_light_buffer_window():
-	can_buffer_light_attack  = false
-	# Optionally, if no buffered input, you might reset the combo here:
-	if not buffered_light_attack:
-		reset_light_combo()
-
-func play_light_attack(hit_index: int) -> void:
-	match hit_index:
-		1:
-			ap_tree_2.set("parameters/LightAttack1/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-			print("light_attack1")
-		2:
-			ap_tree_2.set("parameters/LightAttack2/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-			print("light_attack2")
-		3:
-			ap_tree_2.set("parameters/LightAttack3/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-			print("light_attack3")
-			
-
-	
-
-func start_heavy_combo_attack() -> void:
-	heavy_combo_in_progress = true
-	heavy_current_combo_index = 1
-	play_heavy_attack(heavy_current_combo_index)
-	heavy_can_buffer_attack = false
-	buffered_heavy_attack = false
-
-func trigger_next_heavy_combo_attack() -> void:
-	if heavy_current_combo_index < MAX_HEAVY_COMBO_HITS:
-		heavy_current_combo_index += 1
-		play_heavy_attack(heavy_current_combo_index)
-		buffered_heavy_attack = false
-		heavy_can_buffer_attack = false
-	else:
-		reset_heavy_combo()
-		
-func reset_heavy_combo() -> void:
-	heavy_combo_in_progress = false
-	heavy_current_combo_index = 0
-	buffered_heavy_attack = false
-	heavy_can_buffer_attack = false
-
-func play_heavy_attack(hit_index: int) -> void:
-	match hit_index:
-		1:
-			ap_tree_2.set("parameters/HeavyAttack1/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-			print("heavy_attack1")
-		2:
-			ap_tree_2.set("parameters/HeavyAttack2/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-			print("heavy_attack2")
-		3:
-			ap_tree_2.set("parameters/HeavyAttack3/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-			print("heavy_attack3")
-
-func open_heavy_buffer_window() -> void:
-	heavy_can_buffer_attack = true
-	if buffered_heavy_attack:
-		trigger_next_heavy_combo_attack()
-		
-func close_heavy_buffer_window() -> void:
-	heavy_can_buffer_attack = false
-	# Optionally reset heavy combo if needed
 
 func _on_enemy_attacking(attack: Attack) -> void:
 	# Check for blocking and do modifications to attack if there is chip damage enabled
