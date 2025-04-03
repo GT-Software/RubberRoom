@@ -7,8 +7,8 @@ var sack_res = preload('res://data/enemy_sack.tres')
 var threat_level = 0
 
 # Spawn random enemies based on number of markers and spawn percentage chance
-func spawn_enemies(markers : Array):
-	pass
+func spawn_enemies(markers : Array, level : int):
+	
 
 # Choose an enemy to spawn
 func choose_enemy() -> PackedScene:
