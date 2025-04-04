@@ -33,7 +33,16 @@ func spawn_enemies(markers : Array, level : int = 0):
 		if randNum >= 50.0:
 			markersToSpawn.push_back(marker)
 	
-	return null
+	for marker in markersToSpawn:
+		var curr = 0
+		if current_sack.size() == 1:
+			var enemy = current_sack.front().instantiate()
+			add_child(enemy)
+			enemy.global_position = marker.global_position
+		else:
+			var enemy = current_sack[0].instantiate()
+			add_child(enemy)
+			enemy.global_position = marker.global_position
 
 # Choose an enemy to spawn
 func choose_enemy() -> PackedScene:
