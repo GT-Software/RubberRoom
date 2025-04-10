@@ -8,6 +8,7 @@ extends Node3D
 @onready var camera = $"Camera Controller/PhantomCamera3D"
 @onready var camera_zoom = $"Camera Controller/PhantomCamera Zoom In"
 
+var enemies_spawned = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#change_room_button.connect("change_room", spawn_room)
@@ -15,14 +16,13 @@ func _ready() -> void:
 	next_level_collision_area.connect("load_scene", load_new_level)
 	await player.ready
 	spawn_player_controller()
-	var markers = get_tree().get_nodes_in_group("EnemySpawnMarker")
-	print("Number of Enemy Markers: ", markers.size())
-	EnemySpawnManager.spawn_enemies(markers)	# Spawns on markers at level 0
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if !enemies_spawned:
+		start_enemy_spawning()
+		enemies_spawned = true
 
 
 func spawn_player_controller():
@@ -50,6 +50,11 @@ func spawn_player_controller():
 	#camera.set_follow_target(player_instance)
 	#camera.set_follow_offset(camera_anchor.position)
 	pass
+	
+func start_enemy_spawning():
+	var markers = get_tree().get_nodes_in_group("EnemySpawnMarker")
+	print("Number of Enemy Markers: ", markers.size())
+	EnemySpawnManager.spawn_enemies(markers)	# Spawns on markers at level 0
 
 ## Deprecated
 ## [br] Spawns a new room in the same scene. Should not work as [class RoomManager] has been changed to compensate for [class SceneManager]
