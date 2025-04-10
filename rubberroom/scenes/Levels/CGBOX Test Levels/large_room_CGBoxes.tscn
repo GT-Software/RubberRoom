@@ -218,4 +218,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.8599, 0, 0)
 [node name="Spawn Point Debug Marker" type="Marker3D" parent="." groups=["spawnpoint"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5711, 2.09264, 0.025921)
 
+[node name="EnemySpawnMarker" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.55633, 2.09264, -6.76691)
+
+[node name="EnemySpawnMarker2" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.68882, 2.09264, -2.57213)
+
+[node name="EnemySpawnMarker3" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.68882, 2.09264, 5.18251)
+
+[node name="EnemySpawnMarker4" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.60646, 2.09264, 9.31623)
+
 [editable path="CanvasLayer/Player Stat Bars"]

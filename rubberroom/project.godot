@@ -59,6 +59,7 @@ enemies=""
 player=""
 interactable=""
 spawnpoint=""
+EnemySpawnMarker="Places where enemies will spawn"
 
 [input]
 

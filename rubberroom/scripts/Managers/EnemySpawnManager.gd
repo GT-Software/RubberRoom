@@ -1,3 +1,8 @@
+# Spawning Plan:
+# A bunch of markers, excessive amount of markers, A FUCK TON OF MARKERS
+# Use those markers as potential spawning points
+# They can go in any combination of markers
+
 extends Node
 
 var sack_res = preload('res://data/enemy_sack.tres')
@@ -43,6 +48,8 @@ func spawn_enemies(markers : Array, level : int = 0):
 			var enemy = current_sack[0].instantiate()
 			add_child(enemy)
 			enemy.global_position = marker.global_position
+		
+		print("Enemy Spawned!")
 
 # Choose an enemy to spawn
 func choose_enemy() -> PackedScene:
