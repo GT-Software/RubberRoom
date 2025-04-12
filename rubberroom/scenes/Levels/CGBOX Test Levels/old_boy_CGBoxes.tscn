@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://curh26wjlrq4w"]
+[gd_scene load_steps=20 format=3 uid="uid://curh26wjlrq4w"]
 
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="1_2dvgk"]
 [ext_resource type="Script" path="res://scripts/Levels/world.gd" id="1_64hwi"]
@@ -14,6 +14,10 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="11_8r5i3"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="12_mm2fj"]
 [ext_resource type="PackedScene" uid="uid://c1acpjmpaaflr" path="res://scenes/Interact/next_level_collision_area.tscn" id="13_slyu8"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_g2tde"]
+vertices = PackedVector3Array(-39.9714, 5.564, -5.5, -39.9714, 5.564, 5.5, -39.4714, 5.564, 5.25, -39.4714, 5.564, -5.25, 38.5286, 5.564, -5, 38.5286, 5.564, 5, 39.2786, 5.564, 5, 39.2786, 5.564, -5, -38.7214, 0.564, -4, -38.7214, 0.564, 4, 37.7786, 0.564, 4, 37.7786, 0.564, -4)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(7, 6, 4), PackedInt32Array(4, 6, 5), PackedInt32Array(11, 10, 8), PackedInt32Array(8, 10, 9)]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_eo8gn"]
 
@@ -47,38 +51,50 @@ frustum_offset = Vector2(0, 0)
 near = 0.05
 far = 4000.0
 
-[node name="OldBoy" type="Node3D"]
+[node name="World" type="Node3D"]
 script = ExtResource("1_64hwi")
 
-[node name="Floor" type="CSGBox3D" parent="."]
+[node name="Player" parent="." instance=ExtResource("5_6hf8b")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.52, 1, 0)
+
+[node name="RotationPoint" type="Node3D" parent="Player"]
+
+[node name="Camera Anchor" type="Node3D" parent="Player/RotationPoint"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 1.5)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_g2tde")
+
+[node name="Floor" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.471372, 0, 0)
 material_override = ExtResource("1_2dvgk")
 use_collision = true
 collision_layer = 2
 size = Vector3(80, 0.372, 10)
 
-[node name="Wall 1" type="CSGBox3D" parent="."]
+[node name="Wall 1" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00747681, 2.646, -5)
 material_override = ExtResource("2_2dwgh")
 use_collision = true
 collision_layer = 2
 size = Vector3(80, 5, 0.75)
 
-[node name="Wall 2" type="CSGBox3D" parent="."]
+[node name="Wall 2" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00747681, 2.646, 5)
 material_override = ExtResource("2_2dwgh")
 use_collision = true
 collision_layer = 2
 size = Vector3(80, 5, 0.75)
 
-[node name="Wall 3" type="CSGBox3D" parent="."]
+[node name="Wall 3" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.9522, 2.45309, 0)
 material_override = ExtResource("3_eheyg")
 use_collision = true
 collision_layer = 2
 size = Vector3(1, 5, 12)
 
-[node name="Wall 4" type="CSGBox3D" parent="."]
+[node name="Wall 4" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.783, 2.45309, 0)
 material_override = ExtResource("4_n6a3j")
 use_collision = true
@@ -90,15 +106,6 @@ transform = Transform3D(0.880725, -0.0156041, 0.47337, -0.473627, -0.0290163, 0.
 light_energy = 16.0
 light_size = 0.695
 spot_range = 28.331
-
-[node name="Player" parent="." instance=ExtResource("5_6hf8b")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.52, 1, 0)
-
-[node name="RotationPoint" type="Node3D" parent="Player"]
-
-[node name="Camera Anchor" type="Node3D" parent="Player/RotationPoint"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 1.5)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

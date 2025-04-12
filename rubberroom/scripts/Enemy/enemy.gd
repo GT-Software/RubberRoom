@@ -105,6 +105,10 @@ func _ready():
 	health_component = HealthComponent.new()
 	detection_area.connect('is_detected', alert)
 	melee_range.connect('range', on_in_melee_range)
+	
+	player = get_tree().root.get_node_or_null("Player")
+	if player == null:
+		print(self.name, ": player is null on ready.")
 
 
 func _physics_process(delta: float):

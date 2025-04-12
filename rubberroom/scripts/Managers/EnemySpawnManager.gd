@@ -42,11 +42,11 @@ func spawn_enemies(markers : Array, level : int = 0):
 		var curr = 0
 		if current_sack.size() == 1:
 			var enemy = current_sack.front().instantiate()
-			add_child(enemy)
+			get_tree().root.get_node("World").add_child(enemy)
 			enemy.global_position = marker.global_position
 		else:
 			var enemy = current_sack[0].instantiate()
-			add_child(enemy)
+			get_tree().root.get_node("World").add_child(enemy)
 			enemy.global_position = marker.global_position
 		
 		print("Enemy Spawned!")
