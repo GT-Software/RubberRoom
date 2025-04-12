@@ -225,18 +225,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.66229, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.95386, 2.09264, 0.025921)
 
 [node name="EnemySpawnMarker" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.08751, 0, -3.36216)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.08751, 2, -3.36216)
 
 [node name="EnemySpawnMarker2" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.08751, 0, -0.259854)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.08751, 1.78937, -0.259854)
 
 [node name="EnemySpawnMarker3" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.08751, 0, 3.53464)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.08751, 1.34364, 3.53464)
 
 [node name="EnemySpawnMarker4" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.402964, 0, 3.53464)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.402964, 1.37761, 3.53464)
 
 [node name="EnemySpawnMarker5" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.402964, 0, -2.26487)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.402964, 1.16595, -2.26487)
 
 [editable path="CanvasLayer/Player Stat Bars"]

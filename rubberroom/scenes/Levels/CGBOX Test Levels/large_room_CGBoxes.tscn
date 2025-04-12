@@ -16,6 +16,8 @@
 [ext_resource type="PackedScene" uid="uid://c1acpjmpaaflr" path="res://scenes/Interact/next_level_collision_area.tscn" id="13_lqwud"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_wxjy5"]
+vertices = PackedVector3Array(19.1704, 5.60197, 14.2902, 19.6704, 5.60197, 14.5402, 19.6704, 5.60197, -14.9598, -18.3296, 0.351968, -13.9598, -18.3296, 0.851968, 13.5402, 18.4204, 0.851968, 13.5402, 18.4204, 0.351968, -13.9598)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(6, 5, 3), PackedInt32Array(3, 5, 4)]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_wfdf3"]
 
