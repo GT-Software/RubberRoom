@@ -54,7 +54,7 @@ func spawn_player_controller():
 func start_enemy_spawning():
 	var markers = get_tree().get_nodes_in_group("EnemySpawnMarker")
 	print("Number of Enemy Markers: ", markers.size())
-	EnemySpawnManager.spawn_enemies(markers)	# Spawns on markers at level 0
+	EnemySpawnManager.spawn_enemies(player, markers, 0)	# Spawns on markers at level 0
 
 ## Deprecated
 ## [br] Spawns a new room in the same scene. Should not work as [class RoomManager] has been changed to compensate for [class SceneManager]

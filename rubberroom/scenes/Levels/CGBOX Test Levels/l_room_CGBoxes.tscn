@@ -16,6 +16,8 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="12_7beb0"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_nc4k4"]
+vertices = PackedVector3Array(5.5814, 0.564, -6.2256, 14.0814, 0.564, -6.2256, 14.0814, 0.564, -38.4756, 5.5814, 0.564, -38.4756, 5.3314, 0.564, -3.9756, 3.3314, 0.564, -3.9756, 3.3314, 0.564, 4.0244, 14.0814, 0.564, 4.0244, -39.6686, 5.564, -5.2256, -40.1686, 5.314, -5.7256, -40.4186, 5.564, -5.2256, -40.1686, 5.314, 5.5244, -39.6686, 5.564, 5.2744, -38.9186, 0.564, -3.9756, -38.9186, 0.564, 4.0244)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(6, 5, 4), PackedInt32Array(4, 0, 1), PackedInt32Array(6, 4, 7), PackedInt32Array(7, 4, 1), PackedInt32Array(9, 8, 10), PackedInt32Array(10, 8, 12), PackedInt32Array(10, 12, 11), PackedInt32Array(14, 13, 6), PackedInt32Array(6, 13, 5)]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_xdxq7"]
 

@@ -12,7 +12,7 @@ var sack_res = preload('res://data/enemy_sack.tres')
 var threat_level = 0
 
 # Spawn random enemies based on number of markers and spawn percentage chance
-func spawn_enemies(markers : Array, level : int = 0):
+func spawn_enemies(player : Node, markers : Array, level : int = 0):
 	var current_sack : Array
 	
 	# Depending on the progression level, spawn these types of enemies
@@ -44,10 +44,12 @@ func spawn_enemies(markers : Array, level : int = 0):
 			var enemy = current_sack.front().instantiate()
 			get_tree().root.get_node("World").add_child(enemy)
 			enemy.global_position = marker.global_position
+			enemy.player = player
 		else:
 			var enemy = current_sack[0].instantiate()
 			get_tree().root.get_node("World").add_child(enemy)
 			enemy.global_position = marker.global_position
+			enemy.player = player
 		
 		print("Enemy Spawned!")
 
