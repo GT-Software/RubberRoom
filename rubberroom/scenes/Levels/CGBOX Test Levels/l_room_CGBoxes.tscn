@@ -16,8 +16,13 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="12_7beb0"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_nc4k4"]
-vertices = PackedVector3Array(5.5814, 0.564, -6.2256, 14.0814, 0.564, -6.2256, 14.0814, 0.564, -38.4756, 5.5814, 0.564, -38.4756, 5.3314, 0.564, -3.9756, 3.3314, 0.564, -3.9756, 3.3314, 0.564, 4.0244, 14.0814, 0.564, 4.0244, -39.6686, 5.564, -5.2256, -40.1686, 5.314, -5.7256, -40.4186, 5.564, -5.2256, -40.1686, 5.314, 5.5244, -39.6686, 5.564, 5.2744, -38.9186, 0.564, -3.9756, -38.9186, 0.564, 4.0244)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(6, 5, 4), PackedInt32Array(4, 0, 1), PackedInt32Array(6, 4, 7), PackedInt32Array(7, 4, 1), PackedInt32Array(9, 8, 10), PackedInt32Array(10, 8, 12), PackedInt32Array(10, 12, 11), PackedInt32Array(14, 13, 6), PackedInt32Array(6, 13, 5)]
+vertices = PackedVector3Array(14.1814, 0.314, -38.6256, 5.5814, 0.314, -38.6256, 5.5814, 0.314, -4.4256, 14.1814, 0.314, 4.0744, -38.9186, 0.314, 4.0744, 5.3814, 0.314, -4.1256, -38.9186, 0.314, -4.0256)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(6, 5, 4), PackedInt32Array(4, 5, 3), PackedInt32Array(3, 5, 2)]
+sample_partition_type = 1
+cell_size = 0.1
+cell_height = 0.1
+agent_height = 0.5
+agent_max_climb = 0.1
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_xdxq7"]
 
@@ -248,18 +253,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.7728, 0, -39.4599)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.6366, 2.09264, 0.025921)
 
 [node name="EnemySpawnMarker" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.47264, 1.46758, -30.271)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.47264, 1, -30.271)
 
 [node name="EnemySpawnMarker2" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2067, 1.14199, -23.2922)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2067, 1, -23.2922)
 
 [node name="EnemySpawnMarker3" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.47136, 1.07621, -0.798883)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.47136, 1, -0.798883)
 
 [node name="EnemySpawnMarker4" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.56501, 0.957688, 1.94406)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.56501, 1, 1.94406)
 
 [node name="EnemySpawnMarker5" type="Marker3D" parent="." groups=["EnemySpawnMarker"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.6073, 0.781857, -7.61268)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.6073, 1, -7.61268)
 
 [editable path="CanvasLayer/Player Stat Bars"]
