@@ -63,7 +63,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.52, 1, 0)
 [node name="Camera Anchor" type="Node3D" parent="Player/RotationPoint"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 1.5)
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." groups=["nav region"]]
 navigation_mesh = SubResource("NavigationMesh_g2tde")
 
 [node name="Floor" type="CSGBox3D" parent="NavigationRegion3D"]
