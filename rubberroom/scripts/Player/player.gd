@@ -225,8 +225,9 @@ func _physics_process(delta):
 		_player_pcam.fov = lerp(_player_pcam.fov, default_fov, 0.1)
 	#print("can buffer attack: ", can_buffer_attack)
 	#print("buffered_attack: ", buffered_attack)
-	#print("States: is_idle: ", is_idle)
-	#print("States: is_walking: ", is_walking)
+	print("States: is_idle: ", is_idle)
+	print("States: is_walking: ", is_walking)
+	print("States: is_running: ", is_running)
 	#print("States: can_jump: ", can_jump)
 	#print("States: combat: ", is_in_combat)
 	#print("States: Is_In_Range: ", is_in_range)
@@ -237,7 +238,7 @@ func _physics_process(delta):
 	#print("Player Position: ", global_position)
 	#print("Rotation Point Position: ", rotation_point.global_position)
 	#print("Camera Point Position: ", camera_anchor.global_position)
-	#
+	print("Player Stamina: ", stamina_component.stamina)
 	#---------------------------------
 	# 1) Gravity + Death check
 	#---------------------------------
@@ -263,7 +264,7 @@ func _physics_process(delta):
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 
 	# Decide if run, crouch, or normal speed
-	if Input.is_action_pressed("run") and not is_crouched and stamina_component.stamina >= 0:
+	if Input.is_action_pressed("run") and not is_crouched and stamina_component.stamina > 1:
 		current_speed = RUN_SPEED
 		is_walking    = false
 		is_running    = true
@@ -289,6 +290,12 @@ func _physics_process(delta):
 		is_running    = false
 		can_jump      = false
 	
+	
+# If stamina is exhausted, force walking mode (non-running)
+		if stamina_component.stamina <= 0:
+			current_speed = SPEED
+			is_running = false
+			is_walking = true
 	
 		# Stamina Regeneration Logic:
 	# Only regenerate when the player is not running
