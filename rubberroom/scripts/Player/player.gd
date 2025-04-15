@@ -223,22 +223,8 @@ func _physics_process(delta):
 		_player_pcam.fov = lerp(_player_pcam.fov, locked_on_fov, 0.1)
 	else:
 		_player_pcam.fov = lerp(_player_pcam.fov, default_fov, 0.1)
-	#print("can buffer attack: ", can_buffer_attack)
-	#print("buffered_attack: ", buffered_attack)
-	print("States: is_idle: ", is_idle)
-	print("States: is_walking: ", is_walking)
-	print("States: is_running: ", is_running)
-	#print("States: can_jump: ", can_jump)
-	#print("States: combat: ", is_in_combat)
-	#print("States: Is_In_Range: ", is_in_range)
-	#print("States: combo: ", in_light_combo, in_heavy_combo)
-	#print("Combo Timer: ", combo_timer)
-	#print("Combo Index: ", combo_index)
-	#print("Player Speed: ", current_speed)
-	#print("Player Position: ", global_position)
-	#print("Rotation Point Position: ", rotation_point.global_position)
-	#print("Camera Point Position: ", camera_anchor.global_position)
-	print("Player Stamina: ", stamina_component.stamina)
+
+	#print_debug("")
 	#---------------------------------
 	# 1) Gravity + Death check
 	#---------------------------------
@@ -849,3 +835,27 @@ func apply_hitstun(duration: float) -> void:
 	# Optionally: play a hitstun animation or effect here.
 	await get_tree().create_timer(hitstun_duration).timeout
 	is_hitstunned = false
+
+# Add an array of topics for the print_debug function to print out
+func print_debug(content: Array[String]):
+	for c in content:
+		match c:
+			"stamina":
+				print("Player Stamina: ", stamina_component.stamina)
+			"combo":
+				print("States: combo: ", in_light_combo, in_heavy_combo)
+				print("Combo Timer: ", combo_timer)
+				print("Combo Index: ", combo_index)
+			"stats":
+				print("Player Speed: ", current_speed)
+				print("Player Position: ", global_position)
+				print("Rotation Point Position: ", rotation_point.global_position)
+				print("Camera Point Position: ", camera_anchor.global_position)
+			"animation":
+				print("can buffer attack: ", can_buffer_attack)
+				print("buffered_attack: ", buffered_attack)
+				print("States: is_walking: ", is_walking)
+				print("States: is_running: ", is_running)
+				print("States: can_jump: ", can_jump)
+				print("States: Is_In_Range: ", is_in_range)
+				print("States: combat: ", is_in_combat)
