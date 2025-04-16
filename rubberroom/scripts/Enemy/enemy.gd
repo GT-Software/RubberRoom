@@ -186,15 +186,36 @@ func rotate_to_look(pos : Vector3, _delta : float):
 	global_transform.basis = global_transform.basis.slerp(global_transform.looking_at(pos, Vector3.UP).basis, _delta * TURN_SPEED)
 
 func new_random_position() -> Vector3:
-	var random_position : Vector3
-	
-	# Choose a random position relative to the player, so it does not seem like the enemy is actually chasing the player.
-	random_position = Vector3(randf_range(player.position.x - 40, player.global_position.x + 40), position.y, randf_range(player.position.z - 40, player.global_position.z + 40))
-	# Clamps the random position to the boundaries of the world (currently 100, 100 subtract by 5 for wiggle room)
-	random_position.x = clamp(random_position.x, -40, 40)
-	random_position.z = clamp(random_position.z, -40, 40)
-	
-	return random_position
+	var nav_region = get_tree().get_nodes_in_group("nav region")[0] as NavigationRegion3D
+	if not nav_region or not nav_region.navigation_mesh:
+		print("Warning: NavigationRegion3D or NavigationMesh missing! Falling back to player position.")
+		var fallback_pos = player.global_position + Vector3(randf_range(-10, 10), 0, randf_range(-10, 10))
+		return NavigationServer3D.map_get_closest_point(nav_agent.get_navigation_map(), fallback_pos)
+
+	var aabb = nav_region.navigation_mesh.filter_baking_aabb
+	var nav_map = nav_agent.get_navigation_map()
+	var attempts = 10
+
+	for i in range(attempts):
+		var random_x = randf_range(aabb.position.x, aabb.position.x + aabb.size.x)
+		var random_z = randf_range(aabb.position.z, aabb.position.z + aabb.size.z)
+		var random_pos = Vector3(random_x, global_position.y, random_z)
+		var closest_point = NavigationServer3D.map_get_closest_point(nav_map, random_pos)
+		var distance_to_player = closest_point.distance_to(player.global_position)
+		if distance_to_player >= 5.0 and distance_to_player <= 20.0:
+			return closest_point
+
+	var fallback_pos = player.global_position + Vector3(randf_range(-10, 10), 0, randf_range(-10, 10))
+	return NavigationServer3D.map_get_closest_point(nav_map, fallback_pos)
+	#var random_position : Vector3
+	#
+	## Choose a random position relative to the player, so it does not seem like the enemy is actually chasing the player.
+	#random_position = Vector3(randf_range(player.position.x - 40, player.global_position.x + 40), position.y, randf_range(player.position.z - 40, player.global_position.z + 40))
+	## Clamps the random position to the boundaries of the world (currently 100, 100 subtract by 5 for wiggle room)
+	#random_position.x = clamp(random_position.x, -40, 40)
+	#random_position.z = clamp(random_position.z, -40, 40)
+	#
+	#return random_position
 
 
 
