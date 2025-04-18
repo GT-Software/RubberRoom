@@ -1,14 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://bhylj4udi1r8n"]
+[gd_scene load_steps=15 format=3 uid="uid://bhylj4udi1r8n"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_snbe8"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_fbtfx"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/decorators/delayer.gd" id="3_hg82i"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="4_48w4r"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/check_for_enemy.gd" id="5_xti4g"]
-[ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/set_random_destination.gd" id="6_1f5f5"]
+[ext_resource type="Script" path="res://scenes/Behaviors/idle_animation.gd" id="6_5lo8y"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/go_to_destination.gd" id="7_3hufy"]
-[ext_resource type="Script" path="res://scenes/Behaviors/face_direction.gd" id="8_cr1jl"]
-[ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/await_arrival_patrol.gd" id="8_jp1w0"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/check_if_in_range.gd" id="9_3l641"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Alert/check_if_enemy_spotted.gd" id="9_s5w6w"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/attack.gd" id="10_fvfcj"]
@@ -20,7 +18,7 @@
 [node name="BeehaveTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_snbe8")
 blackboard = NodePath("@Node@18044")
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="SelectorComposite" type="Node" parent="."]
 script = ExtResource("2_fbtfx")
@@ -29,23 +27,14 @@ script = ExtResource("2_fbtfx")
 script = ExtResource("3_hg82i")
 wait_time = 2.0
 
-[node name="Patrol" type="Node" parent="SelectorComposite/DelayDecorator"]
+[node name="Idle" type="Node" parent="SelectorComposite/DelayDecorator"]
 script = ExtResource("4_48w4r")
 
-[node name="Check for Enemy" type="Node" parent="SelectorComposite/DelayDecorator/Patrol"]
+[node name="Check for Enemy" type="Node" parent="SelectorComposite/DelayDecorator/Idle"]
 script = ExtResource("5_xti4g")
 
-[node name="Set Random Destination" type="Node" parent="SelectorComposite/DelayDecorator/Patrol"]
-script = ExtResource("6_1f5f5")
-
-[node name="Go to Destination" type="Node" parent="SelectorComposite/DelayDecorator/Patrol"]
-script = ExtResource("7_3hufy")
-
-[node name="Face Direction" type="Node" parent="SelectorComposite/DelayDecorator/Patrol"]
-script = ExtResource("8_cr1jl")
-
-[node name="Await Arrival" type="Node" parent="SelectorComposite/DelayDecorator/Patrol"]
-script = ExtResource("8_jp1w0")
+[node name="Idle Animation" type="Node" parent="SelectorComposite/DelayDecorator/Idle"]
+script = ExtResource("6_5lo8y")
 
 [node name="Alert" type="Node" parent="SelectorComposite"]
 script = ExtResource("4_48w4r")
