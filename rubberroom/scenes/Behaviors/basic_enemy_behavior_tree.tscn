@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://cvqoxt5jwrw8e"]
+
+[ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_ioc84"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="3_ce14b"]
+[ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/check_for_enemy.gd" id="4_egn4w"]
+[ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Idle/idle_animation.gd" id="5_fb5pm"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/leaves/condition.gd" id="6_1p3ty"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/leaves/action.gd" id="7_2g462"]
+
+[node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("1_76n11")
+blackboard = NodePath("@Node@20614")
+actor = NodePath("..")
+
+[node name="SelectorComposite" type="Node" parent="."]
+script = ExtResource("2_ioc84")
+
+[node name="Idle" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_ce14b")
+
+[node name="Check for Enemy" type="Node" parent="SelectorComposite/Idle"]
+script = ExtResource("4_egn4w")
+
+[node name="IdleAnimation" type="Node" parent="SelectorComposite/Idle"]
+script = ExtResource("5_fb5pm")
+
+[node name="Retreat" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_ce14b")
+
+[node name="IsPlayerClose" type="Node" parent="SelectorComposite/Retreat"]
+script = ExtResource("6_1p3ty")
+
+[node name="IsLowHP" type="Node" parent="SelectorComposite/Retreat"]
+script = ExtResource("6_1p3ty")
+
+[node name="Retreat" type="Node" parent="SelectorComposite/Retreat"]
+script = ExtResource("7_2g462")
+
+[node name="Suppressed" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_ce14b")
+
+[node name="IsShotAt" type="Node" parent="SelectorComposite/Suppressed"]
+script = ExtResource("6_1p3ty")
+
+[node name="IsLowHP" type="Node" parent="SelectorComposite/Suppressed"]
+script = ExtResource("6_1p3ty")
+
+[node name="FindCover" type="Node" parent="SelectorComposite/Suppressed"]
+script = ExtResource("7_2g462")
+
+[node name="Attack" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_ce14b")
+
+[node name="IsInRange" type="Node" parent="SelectorComposite/Attack"]
+script = ExtResource("6_1p3ty")
+
+[node name="HasAmmo" type="Node" parent="SelectorComposite/Attack"]
+script = ExtResource("6_1p3ty")
+
+[node name="Chase" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_ce14b")

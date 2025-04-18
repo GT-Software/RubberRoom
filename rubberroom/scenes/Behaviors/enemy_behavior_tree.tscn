@@ -1,11 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://bhylj4udi1r8n"]
+[gd_scene load_steps=14 format=3 uid="uid://bhylj4udi1r8n"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_snbe8"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_fbtfx"]
-[ext_resource type="Script" path="res://addons/beehave/nodes/decorators/delayer.gd" id="3_hg82i"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="4_48w4r"]
+[ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Idle/idle_animation.gd" id="5_e6jjr"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/check_for_enemy.gd" id="5_xti4g"]
-[ext_resource type="Script" path="res://scenes/Behaviors/idle_animation.gd" id="6_5lo8y"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/go_to_destination.gd" id="7_3hufy"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/check_if_in_range.gd" id="9_3l641"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Alert/check_if_enemy_spotted.gd" id="9_s5w6w"]
@@ -17,24 +16,20 @@
 
 [node name="BeehaveTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_snbe8")
-blackboard = NodePath("@Node@18044")
+blackboard = NodePath("@Node@20259")
 actor = NodePath("..")
 
 [node name="SelectorComposite" type="Node" parent="."]
 script = ExtResource("2_fbtfx")
 
-[node name="DelayDecorator" type="Node" parent="SelectorComposite"]
-script = ExtResource("3_hg82i")
-wait_time = 2.0
-
-[node name="Idle" type="Node" parent="SelectorComposite/DelayDecorator"]
+[node name="Idle" type="Node" parent="SelectorComposite"]
 script = ExtResource("4_48w4r")
 
-[node name="Check for Enemy" type="Node" parent="SelectorComposite/DelayDecorator/Idle"]
+[node name="Check for Enemy" type="Node" parent="SelectorComposite/Idle"]
 script = ExtResource("5_xti4g")
 
-[node name="Idle Animation" type="Node" parent="SelectorComposite/DelayDecorator/Idle"]
-script = ExtResource("6_5lo8y")
+[node name="Idle Animation" type="Node" parent="SelectorComposite/Idle"]
+script = ExtResource("5_e6jjr")
 
 [node name="Alert" type="Node" parent="SelectorComposite"]
 script = ExtResource("4_48w4r")
