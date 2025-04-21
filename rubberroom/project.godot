@@ -61,6 +61,7 @@ interactable=""
 spawnpoint=""
 EnemySpawnMarker="Places where enemies will spawn"
 "nav region"=""
+cover=""
 
 [input]
 

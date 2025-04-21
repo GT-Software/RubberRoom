@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=13 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_ioc84"]
@@ -9,11 +9,14 @@
 [ext_resource type="Script" path="res://scenes/Behaviors/is_player_close.gd" id="6_rh4pm"]
 [ext_resource type="Script" path="res://scenes/Behaviors/is_low_hp.gd" id="7_0g4ya"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/leaves/action.gd" id="7_2g462"]
+[ext_resource type="Script" path="res://scenes/Behaviors/is_shot_at.gd" id="9_xrjo8"]
+[ext_resource type="Script" path="res://scenes/Behaviors/find_cover.gd" id="10_38g4q"]
+[ext_resource type="Script" path="res://scenes/Behaviors/is_there_cover.gd" id="10_kyg0x"]
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
-blackboard = NodePath("@Node@20614")
-actor = NodePath("")
+blackboard = NodePath("@Node@18038")
+actor = NodePath("..")
 
 [node name="SelectorComposite" type="Node" parent="."]
 script = ExtResource("2_ioc84")
@@ -43,13 +46,16 @@ script = ExtResource("7_2g462")
 script = ExtResource("3_ce14b")
 
 [node name="IsShotAt" type="Node" parent="SelectorComposite/Suppressed"]
-script = ExtResource("6_1p3ty")
+script = ExtResource("9_xrjo8")
 
 [node name="IsLowHP" type="Node" parent="SelectorComposite/Suppressed"]
-script = ExtResource("6_1p3ty")
+script = ExtResource("7_0g4ya")
+
+[node name="IsThereCover" type="Node" parent="SelectorComposite/Suppressed"]
+script = ExtResource("10_kyg0x")
 
 [node name="FindCover" type="Node" parent="SelectorComposite/Suppressed"]
-script = ExtResource("7_2g462")
+script = ExtResource("10_38g4q")
 
 [node name="Attack" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_ce14b")
