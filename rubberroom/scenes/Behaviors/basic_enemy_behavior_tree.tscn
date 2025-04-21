@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=17 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_ioc84"]
@@ -12,35 +12,18 @@
 [ext_resource type="Script" path="res://scenes/Behaviors/is_shot_at.gd" id="9_xrjo8"]
 [ext_resource type="Script" path="res://scenes/Behaviors/find_cover.gd" id="10_38g4q"]
 [ext_resource type="Script" path="res://scenes/Behaviors/is_there_cover.gd" id="10_kyg0x"]
+[ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/set_destination_to_enemy.gd" id="13_1bny8"]
+[ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/go_to_destination.gd" id="14_hnrr0"]
+[ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/face_enemy.gd" id="15_pcgyu"]
+[ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/await_arrival_chase.gd" id="16_fkeik"]
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
-blackboard = NodePath("@Node@18064")
+blackboard = NodePath("@Node@18038")
 actor = NodePath("")
 
 [node name="SelectorComposite" type="Node" parent="."]
 script = ExtResource("2_ioc84")
-
-[node name="Idle" type="Node" parent="SelectorComposite"]
-script = ExtResource("3_ce14b")
-
-[node name="Check for Enemy" type="Node" parent="SelectorComposite/Idle"]
-script = ExtResource("4_egn4w")
-
-[node name="IdleAnimation" type="Node" parent="SelectorComposite/Idle"]
-script = ExtResource("5_fb5pm")
-
-[node name="Retreat" type="Node" parent="SelectorComposite"]
-script = ExtResource("3_ce14b")
-
-[node name="IsPlayerClose" type="Node" parent="SelectorComposite/Retreat"]
-script = ExtResource("6_rh4pm")
-
-[node name="IsLowHP" type="Node" parent="SelectorComposite/Retreat"]
-script = ExtResource("7_0g4ya")
-
-[node name="Retreat" type="Node" parent="SelectorComposite/Retreat"]
-script = ExtResource("7_2g462")
 
 [node name="Suppressed" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_ce14b")
@@ -57,6 +40,42 @@ script = ExtResource("10_kyg0x")
 [node name="FindCover" type="Node" parent="SelectorComposite/Suppressed"]
 script = ExtResource("10_38g4q")
 
+[node name="Idle" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_ce14b")
+
+[node name="Check for Enemy" type="Node" parent="SelectorComposite/Idle"]
+script = ExtResource("4_egn4w")
+
+[node name="IdleAnimation" type="Node" parent="SelectorComposite/Idle"]
+script = ExtResource("5_fb5pm")
+
+[node name="Chase" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_ce14b")
+
+[node name="Set Destination to Enemy" type="Node" parent="SelectorComposite/Chase"]
+script = ExtResource("13_1bny8")
+
+[node name="Go to Destination" type="Node" parent="SelectorComposite/Chase"]
+script = ExtResource("14_hnrr0")
+
+[node name="Face Enemy" type="Node" parent="SelectorComposite/Chase"]
+script = ExtResource("15_pcgyu")
+
+[node name="Await Arrival" type="Node" parent="SelectorComposite/Chase"]
+script = ExtResource("16_fkeik")
+
+[node name="Retreat" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_ce14b")
+
+[node name="IsPlayerClose" type="Node" parent="SelectorComposite/Retreat"]
+script = ExtResource("6_rh4pm")
+
+[node name="IsLowHP" type="Node" parent="SelectorComposite/Retreat"]
+script = ExtResource("7_0g4ya")
+
+[node name="Retreat" type="Node" parent="SelectorComposite/Retreat"]
+script = ExtResource("7_2g462")
+
 [node name="Attack" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_ce14b")
 
@@ -65,6 +84,3 @@ script = ExtResource("6_1p3ty")
 
 [node name="HasAmmo" type="Node" parent="SelectorComposite/Attack"]
 script = ExtResource("6_1p3ty")
-
-[node name="Chase" type="Node" parent="SelectorComposite"]
-script = ExtResource("3_ce14b")
