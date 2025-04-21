@@ -125,6 +125,7 @@ func _physics_process(delta: float):
 	#print("Enemy States: can_jump: ", can_jump)
 	#print("Enemy States: Player Spotted: ", player_spotted)
 	#print("Enemy States: Is_In_Range: ", is_in_range)
+	print("Hitbox_Active: ", hitbox_active)
 	
 	
 	if combo_timer > 0:
