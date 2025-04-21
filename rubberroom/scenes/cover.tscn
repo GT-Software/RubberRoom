@@ -18,14 +18,14 @@ mesh = SubResource("BoxMesh_aibd7")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_t1fra")
 
-[node name="FrontCoverMarker" type="Marker3D" parent="."]
+[node name="FrontCoverMarker" type="Marker3D" parent="." groups=["cover marker"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
-[node name="BackCoverMarker" type="Marker3D" parent="."]
+[node name="BackCoverMarker" type="Marker3D" parent="." groups=["cover marker"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
 
-[node name="RightCoverMarker" type="Marker3D" parent="."]
+[node name="RightCoverMarker" type="Marker3D" parent="." groups=["cover marker"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
-[node name="LeftCoverMarker" type="Marker3D" parent="."]
+[node name="LeftCoverMarker" type="Marker3D" parent="." groups=["cover marker"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
