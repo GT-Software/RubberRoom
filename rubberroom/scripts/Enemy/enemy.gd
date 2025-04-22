@@ -22,6 +22,7 @@ var curAnim = IDLE
 @onready var enemy_stats = $"Stat Bars Enemy"
 @onready var enemy_health_bar = $"Stat Bars Enemy/SubViewport/Panel/HealthBar"
 @onready var anim_tree: AnimationTree = $"Animation Control/AnimationTree"
+@onready var anim_player = $"Animation Control/AnimationPlayer"
 @onready var right_arm_collision: CollisionShape3D = $AuxScene/Node/Skeleton3D/RightArm/Area3D/RightArmCollision
 @onready var left_arm_collision: CollisionShape3D = $AuxScene/Node/Skeleton3D/LeftArm/Area3D/LeftArmCollision
 
@@ -98,6 +99,13 @@ func handle_animations(curAnim):
 		
 		lastAnim = curAnim
 
+func get_current_animation() -> String:
+	# Get the playback node from the AnimationTree
+	var playback = anim_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
+	if playback:
+		# Return the name of the current animation node
+		return playback.get_current_node()
+	return ""  # Return empty string if playback is not found
 
 func _ready():
 	current_speed = SPEED
@@ -149,7 +157,10 @@ func _physics_process(delta: float):
 	if !is_alive:
 		queue_free()
 		
-	velocity.y -= gravity * delta
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+	else:
+		velocity.y = 0
 	
 	if rotate_self:
 		if is_locked_on:
@@ -224,11 +235,11 @@ func alert(new_target):
 	target = new_target
 
 
-func attack():
+func attack() -> String:
 	#Play one hit of light combo per fire
 	hitbox_active = true
 	anim_tree.set("parameters/LightAttack/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-	
+	return get_current_animation()
 
 func take_damage(attack : Attack):
 	health_component.damage(attack)
@@ -242,12 +253,17 @@ func update_nav_agent(speed : float = 1):
 	var current_location = global_transform.origin
 	var new_velocity = (next_location - current_location).normalized() * current_speed
 	
+	if nav_agent.distance_to_target() < 0.5:  # Stop if close to target
+		velocity = Vector3.ZERO
+		nav_agent.set_velocity(Vector3.ZERO)
+		return
+		
 	# Sets the velocity value for the nav_agent to calculate a safe direction (see _on_navigation_agent_3d_velocity_computed
 	nav_agent.set_velocity(new_velocity * speed)
 
 # Updates the Navigation Agent's targetted vector position
 func update_target_location(target_location) -> void:
-	print(self.name + ": Updating enemy target location...")
+	#print(self.name + ": Updating enemy target location...")
 	nav_agent.target_position = target_location
 
 # If the enemy has reached its target, stop moving
