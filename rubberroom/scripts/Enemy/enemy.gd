@@ -125,7 +125,7 @@ func _physics_process(delta: float):
 	#print("Enemy States: can_jump: ", can_jump)
 	#print("Enemy States: Player Spotted: ", player_spotted)
 	#print("Enemy States: Is_In_Range: ", is_in_range)
-	print("Hitbox_Active: ", hitbox_active)
+	#print("Hitbox_Active: ", hitbox_active)
 	
 	
 	if combo_timer > 0:
@@ -237,13 +237,13 @@ func on_in_melee_range(in_range : bool):
 	is_in_range = in_range
 
 # Update the current path and velocity
-func update_nav_agent():
+func update_nav_agent(speed : float = 1):
 	var next_location = nav_agent.get_next_path_position()
 	var current_location = global_transform.origin
 	var new_velocity = (next_location - current_location).normalized() * current_speed
 	
 	# Sets the velocity value for the nav_agent to calculate a safe direction (see _on_navigation_agent_3d_velocity_computed
-	nav_agent.set_velocity(new_velocity)
+	nav_agent.set_velocity(new_velocity * speed)
 
 # Updates the Navigation Agent's targetted vector position
 func update_target_location(target_location) -> void:

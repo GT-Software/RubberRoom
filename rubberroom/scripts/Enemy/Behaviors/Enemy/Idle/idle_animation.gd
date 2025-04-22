@@ -11,7 +11,10 @@ func tick(actor, blackboard: Blackboard):
 	#
 	#if ap.is_playing():
 		#ap.animation_set_next("Idle(1)0", "Idle(2)0")
+	actor.update_nav_agent()
 	actor.is_idle = true
+	actor.is_walking = false
+	actor.is_running = false
 	actor.update_animation_state()
 	
 	return SUCCESS

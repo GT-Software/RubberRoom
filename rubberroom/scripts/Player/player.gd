@@ -813,7 +813,7 @@ func current_action() -> String:
 
 
 func _on_area_3d_body_entered(body):
-	print("Active Hitbox? : ", hitbox_active)
+	#print("Active Hitbox? : ", hitbox_active)
 	# 1) Check if the collision is an Enemy
 	#if not (body is Enemy):
 		#return
