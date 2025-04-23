@@ -55,9 +55,9 @@ func tick(actor, blackboard: Blackboard):
 
 ## Gets the index of the obstacle closest to the actor
 func shortest_distance(list : Array, position : Vector3) -> int:
-	var current = [0, position.distance_to(list[0].position)]
+	var current = [0, position.distance_to(list[0].global_position)]
 	for obs in list:
-		var distance = position.distance_to(obs.position)
+		var distance = position.distance_to(obs.global_position)
 		if distance < current[1]:
 			current[0] = list.find(obs)
 			current[1] = distance
@@ -67,11 +67,11 @@ func shortest_distance(list : Array, position : Vector3) -> int:
 	return current[0] 
 
 func farthest_distance(list : Array, player : CharacterBody3D) -> Vector3:
-	var current = [Vector3(0, 0, 0), player.position.distance_to(list[0].global_position)]
+	var current = [Vector3(0, 0, 0), player.global_position.distance_to(list[0].global_position)]
 	for pos in list:
-		var distance = player.position.distance_to(pos.global_position)
+		var distance = player.global_position.distance_to(pos.global_position)
 		if distance > current[1]:
-			current[0] = pos.position
+			current[0] = pos.global_position
 			current[1] = distance
 			print("Distance to ", pos.name, ": ", current[1], " | Vector: ", current[0])
 			

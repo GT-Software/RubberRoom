@@ -152,10 +152,7 @@ func _physics_process(delta: float):
 	if !is_alive:
 		queue_free()
 		
-	if not is_on_floor():
-		velocity.y -= gravity * delta
-	else:
-		velocity.y = 0
+	velocity.y -= gravity * delta
 	
 	if rotate_self:
 		if is_locked_on:
