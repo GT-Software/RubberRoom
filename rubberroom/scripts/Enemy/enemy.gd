@@ -99,13 +99,8 @@ func handle_animations(curAnim):
 		
 		lastAnim = curAnim
 
-func get_current_animation() -> String:
-	# Get the playback node from the AnimationTree
-	var playback = anim_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
-	if playback:
-		# Return the name of the current animation node
-		return playback.get_current_node()
-	return ""  # Return empty string if playback is not found
+func get_current_animation() -> bool:
+	return anim_tree["parameters/LightAttack/active"]
 
 func _ready():
 	current_speed = SPEED
@@ -235,7 +230,7 @@ func alert(new_target):
 	target = new_target
 
 
-func attack() -> String:
+func attack() -> bool:
 	#Play one hit of light combo per fire
 	hitbox_active = true
 	anim_tree.set("parameters/LightAttack/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)

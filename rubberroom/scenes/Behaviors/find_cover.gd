@@ -40,7 +40,7 @@ func tick(actor, blackboard: Blackboard):
 		actor.update_target_location(closest_spot)
 		actor.update_nav_agent(actor.SPEED)
 		blackboard.set_value("moving for cover", true)
-		print("moving for cover")
+		print("moving for cover at ", closest_spot)
 		
 		# Update animation states
 		actor.is_idle = false
