@@ -38,8 +38,10 @@ func tick(actor, blackboard: Blackboard):
 		actor.rotate_node = closest_cover
 		
 		actor.update_target_location(closest_spot)
-		actor.update_nav_agent(actor.SPEED)
+		actor.update_nav_agent(actor.RUN_SPEED)
 		blackboard.set_value("moving for cover", true)
+		blackboard.set_value("at cover", false)
+		blackboard.set_value("attacking", false)
 		print("moving for cover at ", closest_spot)
 		
 		# Update animation states
@@ -50,11 +52,14 @@ func tick(actor, blackboard: Blackboard):
 		return SUCCESS
 	else:
 		actor.update_target_location(blackboard.get_value("cover spot"))
-		actor.update_nav_agent(actor.SPEED)
+		actor.update_nav_agent(actor.RUN_SPEED)
 		return RUNNING
 
 ## Gets the index of the obstacle closest to the actor
 func shortest_distance(list : Array, position : Vector3) -> int:
+	if list.size() == 0:
+		push_error("shortest_distance(): No cover spots found")
+	
 	var current = [0, position.distance_to(list[0].global_position)]
 	for obs in list:
 		var distance = position.distance_to(obs.global_position)
@@ -67,7 +72,10 @@ func shortest_distance(list : Array, position : Vector3) -> int:
 	return current[0] 
 
 func farthest_distance(list : Array, player : CharacterBody3D) -> Vector3:
-	var current = [Vector3(0, 0, 0), player.global_position.distance_to(list[0].global_position)]
+	if list.size() == 0:
+		push_error("farthest_distance(): No cover markers found")
+	
+	var current = [list[0].global_position, player.global_position.distance_to(list[0].global_position)]
 	for pos in list:
 		var distance = player.global_position.distance_to(pos.global_position)
 		if distance > current[1]:
@@ -83,4 +91,6 @@ func get_cover_markers(parent_node: Node) -> Array:
 	for child in parent_node.get_children():
 		if child.is_in_group("cover marker"):
 			cover_markers.append(child)
+			
+	print(cover_markers)
 	return cover_markers

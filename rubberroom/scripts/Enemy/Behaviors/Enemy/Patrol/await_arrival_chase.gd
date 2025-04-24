@@ -8,6 +8,9 @@ func tick(actor, blackboard):
 	elif actor.target == null:
 		#blackboard.set_value('attacking', false)
 		return FAILURE
+	elif actor.nav_agent.is_target_reached():
+		actor.update_nav_agent(actor.RUN_SPEED)
+		return RUNNING
 	else:
 		actor.update_target_location(actor.target.position)
 		actor.update_nav_agent(actor.RUN_SPEED)

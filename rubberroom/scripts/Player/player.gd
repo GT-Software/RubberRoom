@@ -41,7 +41,7 @@ signal player_attacking(attack : Attack, in_range : bool)
 @export var aim_max_pitch: float = 25
 @export var aim_min_yaw: float = 0
 @export var aim_max_yaw: float = 360
-@export var stamina_regen_rate: float = 0.05
+@export var stamina_regen_rate: float = 0.50
 @export var lock_on_max_yaw_deviation: float = 15.0   # in degrees
 @export var lock_on_max_pitch_deviation: float = 10.0 # in degrees
 

@@ -99,8 +99,11 @@ func handle_animations(curAnim):
 		
 		lastAnim = curAnim
 
-func get_current_animation() -> bool:
+func get_lightattack_animation() -> bool:
 	return anim_tree["parameters/LightAttack/active"]
+	
+func get_heavyattack_animation() -> bool:
+	return anim_tree["parameters/HeavyAttack/active"]
 
 func _ready():
 	current_speed = SPEED
@@ -152,7 +155,8 @@ func _physics_process(delta: float):
 	if !is_alive:
 		queue_free()
 		
-	velocity.y -= gravity * delta
+	if not is_on_floor():
+		velocity.y -= gravity * delta
 	
 	if rotate_self:
 		if is_locked_on:
@@ -231,7 +235,7 @@ func attack() -> bool:
 	#Play one hit of light combo per fire
 	hitbox_active = true
 	anim_tree.set("parameters/LightAttack/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-	return get_current_animation()
+	return get_lightattack_animation()
 
 func take_damage(attack : Attack):
 	health_component.damage(attack)
@@ -244,7 +248,6 @@ func update_nav_agent(speed : float = 1):
 	var next_location = nav_agent.get_next_path_position()
 	var current_location = global_transform.origin
 	var new_velocity = (next_location - current_location).normalized() * current_speed
-	
 	if nav_agent.distance_to_target() < 0.5:  # Stop if close to target
 		velocity = Vector3.ZERO
 		nav_agent.set_velocity(Vector3.ZERO)
@@ -265,7 +268,7 @@ func _on_navigation_agent_3d_target_reached() -> void:
 
 # Set velocity to a safe velocity for moving around enemies (must adjust)
 func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
-	velocity = velocity.move_toward(safe_velocity, .25)
+	velocity = velocity.move_toward(safe_velocity, .90)
 	move_and_slide()
 	
 func update_lock_on_status():
