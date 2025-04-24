@@ -568,6 +568,7 @@ func close_buffer_window() -> void:
 func _input(event: InputEvent) -> void:
 	# Light attack input
 	if Input.is_action_just_pressed("light_attack"):
+		hitbox_active = true
 		if current_attack_type == AttackType.NONE:
 			start_combo(AttackType.LIGHT)
 		elif current_attack_type == AttackType.LIGHT:
@@ -579,6 +580,7 @@ func _input(event: InputEvent) -> void:
 
 	# Heavy attack input
 	if Input.is_action_just_pressed("heavy_attack"):
+		hitbox_active = true
 		if current_attack_type == AttackType.NONE:
 			start_combo(AttackType.HEAVY)
 		elif current_attack_type == AttackType.HEAVY:
