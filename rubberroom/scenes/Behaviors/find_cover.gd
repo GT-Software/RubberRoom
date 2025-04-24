@@ -38,7 +38,7 @@ func tick(actor, blackboard: Blackboard):
 		actor.rotate_node = closest_cover
 		
 		actor.update_target_location(closest_spot)
-		actor.update_nav_agent(actor.RUN_SPEED)
+		#actor.update_nav_agent(actor.RUN_SPEED)
 		blackboard.set_value("moving for cover", true)
 		blackboard.set_value("at cover", false)
 		blackboard.set_value("attacking", false)
@@ -52,7 +52,7 @@ func tick(actor, blackboard: Blackboard):
 		return SUCCESS
 	else:
 		actor.update_target_location(blackboard.get_value("cover spot"))
-		actor.update_nav_agent(actor.RUN_SPEED)
+		#actor.update_nav_agent(actor.RUN_SPEED)
 		return RUNNING
 
 ## Gets the index of the obstacle closest to the actor

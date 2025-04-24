@@ -29,8 +29,8 @@ var curAnim = IDLE
 # Export variables
 
 @export var SPEED = 3.0
-@export var RUN_SPEED = 60.0
-@export var TURN_SPEED = 2.0
+@export var RUN_SPEED = 10.0
+@export var TURN_SPEED = 3.0
 @export var current_speed : float
 
 # Boolean variables
@@ -155,8 +155,25 @@ func _physics_process(delta: float):
 	if !is_alive:
 		queue_free()
 		
+	# Handle gravity
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+	else:
+		velocity.y = 0
+	
+	# Check if target is reached
+	if nav_agent.is_target_reached():
+		velocity.x = 0
+		velocity.z = 0
+	else:
+		# Move towards the next path position
+		var next_pos = nav_agent.get_next_path_position()
+		var direction = (next_pos - global_position).normalized()
+		velocity.x = direction.x * current_speed
+		velocity.z = direction.z * current_speed
+	
+	# Apply movement
+	move_and_slide()
 	
 	if rotate_self:
 		if is_locked_on:
@@ -244,32 +261,32 @@ func on_in_melee_range(in_range : bool):
 	is_in_range = in_range
 
 # Update the current path and velocity
-func update_nav_agent(speed : float = 1):
-	var next_location = nav_agent.get_next_path_position()
-	var current_location = global_transform.origin
-	var new_velocity = (next_location - current_location).normalized() * current_speed
-	if nav_agent.distance_to_target() < 0.5:  # Stop if close to target
-		velocity = Vector3.ZERO
-		nav_agent.set_velocity(Vector3.ZERO)
-		return
-		
-	# Sets the velocity value for the nav_agent to calculate a safe direction (see _on_navigation_agent_3d_velocity_computed
-	nav_agent.set_velocity(new_velocity * speed)
+#func update_nav_agent(speed : float = 1):
+	#var next_location = nav_agent.get_next_path_position()
+	#var current_location = global_transform.origin
+	#var new_velocity = (next_location - current_location).normalized() * current_speed
+	#if nav_agent.distance_to_target() < 0.5:  # Stop if close to target
+		#velocity = Vector3.ZERO
+		#nav_agent.set_velocity(Vector3.ZERO)
+		#return
+		#
+	## Sets the velocity value for the nav_agent to calculate a safe direction (see _on_navigation_agent_3d_velocity_computed
+	#nav_agent.set_velocity(new_velocity * speed)
 
 # Updates the Navigation Agent's targetted vector position
 func update_target_location(target_location) -> void:
 	#print(self.name + ": Updating enemy target location...")
 	nav_agent.target_position = target_location
 
-# If the enemy has reached its target, stop moving
-func _on_navigation_agent_3d_target_reached() -> void:
-	print(self.name + ": Target reached.")
-	nav_agent.set_velocity(Vector3.ZERO)
-
-# Set velocity to a safe velocity for moving around enemies (must adjust)
-func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
-	velocity = velocity.move_toward(safe_velocity, .90)
-	move_and_slide()
+## If the enemy has reached its target, stop moving
+#func _on_navigation_agent_3d_target_reached() -> void:
+	#print(self.name + ": Target reached.")
+	#nav_agent.set_velocity(Vector3.ZERO)
+#
+## Set velocity to a safe velocity for moving around enemies (must adjust)
+#func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
+	#velocity = velocity.move_toward(safe_velocity, .90)
+	#move_and_slide()
 	
 func update_lock_on_status():
 	#Once "Locked On" Signal Received Via Player Hitting Middle Mouse

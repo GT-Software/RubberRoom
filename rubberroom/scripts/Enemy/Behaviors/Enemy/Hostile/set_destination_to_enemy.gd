@@ -13,5 +13,5 @@ func tick(actor, _blackboard):
 	else:
 		return FAILURE
 		
-	actor.update_nav_agent()
+	#actor.update_nav_agent()
 	return SUCCESS

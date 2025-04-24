@@ -9,13 +9,14 @@ func tick(actor, blackboard):
 		#blackboard.set_value('attacking', false)
 		return FAILURE
 	elif actor.nav_agent.is_target_reached():
-		actor.update_nav_agent(actor.RUN_SPEED)
+		#actor.update_nav_agent(actor.RUN_SPEED)
 		return RUNNING
 	else:
 		actor.update_target_location(actor.target.position)
-		actor.update_nav_agent(actor.RUN_SPEED)
+		#actor.update_nav_agent(actor.RUN_SPEED)
 		actor.is_idle = false
 		actor.is_walking = false
 		actor.is_running = true
+		actor.current_speed = actor.RUN_SPEED
 		blackboard.set_value("at cover", false)
 		return RUNNING
