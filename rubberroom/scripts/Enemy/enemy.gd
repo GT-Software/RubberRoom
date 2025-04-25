@@ -27,6 +27,7 @@ var curAnim = IDLE
 @onready var left_arm_collision: CollisionShape3D = $AuxScene/Node/Skeleton3D/LeftArm/Area3D/LeftArmCollision
 
 # Export variables
+@onready var punch_sound = $AudioStreamPlayer3D
 
 @export var SPEED = 3.0
 @export var RUN_SPEED = 10.0
@@ -301,6 +302,7 @@ func _on_player_attacking(attack: Attack, in_range : bool):
 	print("Received player_attacking signal with: ", attack, ", in_range: ", in_range)
 	enemy_health_bar._on_health_changed(health_component.health)
 	apply_hitstun(hitstun_duration)
+	punch_sound.play()
 	print("Current Enemy Health: ", health_component.get_health())
 		
 

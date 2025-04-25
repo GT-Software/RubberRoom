@@ -26,6 +26,7 @@ signal player_attacking(attack : Attack, in_range : bool)
 @onready var right_arm_collision = $AuxScene/Node/Skeleton3D/RightArm/Area3D/RightArmCollision
 @onready var left_arm_collision = $AuxScene/Node/Skeleton3D/LeftArm/Area3D/LeftArmCollision
 
+@onready var punch_sound = $AudioStreamPlayer3D
 
 
 @onready var camera_anchor: Node3D = $"RotationPoint/Camera Anchor"
@@ -667,6 +668,7 @@ func _on_enemy_attacking(attack: Attack) -> void:
 	ap_tree_2.set("parameters/Got_Hit_Light/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	print("Current Health: ", health_component.get_health())
 	apply_hitstun(hitstun_duration)
+	punch_sound.play()
 	health_bar._on_health_changed(health_component.health)
 
 
