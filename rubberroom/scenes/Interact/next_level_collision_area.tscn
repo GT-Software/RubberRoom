@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c1acpjmpaaflr"]
 
-[ext_resource type="Script" path="res://scripts/Interact/next_level_collision_area.gd" id="1_oudhg"]
+[ext_resource type="Script" uid="uid://bb6l26ecvxs8c" path="res://scripts/Interact/next_level_collision_area.gd" id="1_oudhg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nbbjn"]
 size = Vector3(5, 6, 7)

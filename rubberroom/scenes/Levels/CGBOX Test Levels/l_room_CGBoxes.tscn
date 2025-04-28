@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://b5xv7kv65kmcm"]
 
-[ext_resource type="Script" path="res://scripts/Levels/world.gd" id="1_6uj3n"]
+[ext_resource type="Script" uid="uid://cse0p7wulch6r" path="res://scripts/Levels/world.gd" id="1_6uj3n"]
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="1_lqn6b"]
 [ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="2_xei0c"]
 [ext_resource type="Material" uid="uid://bce1wgnyr3dmg" path="res://assets/materials/basic materials/red.tres" id="3_4vrkp"]
@@ -8,12 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="5_dmx36"]
 [ext_resource type="PackedScene" uid="uid://bm8fdgmjoqbtp" path="res://scenes/Stat Bars/player_stat_bars.tscn" id="6_rxvhh"]
 [ext_resource type="Texture2D" uid="uid://dtmdw20q6ap87" path="res://assets/images/crosshair (1).png" id="7_nqfog"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_7uxge"]
+[ext_resource type="Script" uid="uid://cakou78whrnpg" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_7uxge"]
 [ext_resource type="PackedScene" uid="uid://c1acpjmpaaflr" path="res://scenes/Interact/next_level_collision_area.tscn" id="8_kqmo3"]
 [ext_resource type="PackedScene" uid="uid://drosn1nk8a1wt" path="res://scenes/Interact/interact_ray.tscn" id="9_i3y06"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="10_txh1c"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="11_7fa1a"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="12_7beb0"]
+[ext_resource type="Script" uid="uid://dk5vo3njrfd0y" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="10_txh1c"]
+[ext_resource type="Script" uid="uid://coujuso2ky8vm" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="11_7fa1a"]
+[ext_resource type="Script" uid="uid://3c4x2htg1inn" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="12_7beb0"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_nc4k4"]
 vertices = PackedVector3Array(14.1814, 0.314, -38.6256, 5.5814, 0.314, -38.6256, 5.5814, 0.314, -4.4256, 14.1814, 0.314, 4.0744, -38.9186, 0.314, 4.0744, 5.3814, 0.314, -4.1256, -38.9186, 0.314, -4.0256)

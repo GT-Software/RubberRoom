@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://73jm5qjy52vq"]
 
-[ext_resource type="Script" path="res://assets/Dialouge/balloon.gd" id="1_36de5"]
+[ext_resource type="Script" uid="uid://bi2banbk84i25" path="res://assets/Dialouge/balloon.gd" id="1_36de5"]
 [ext_resource type="PackedScene" uid="uid://ckvgyvclnwggo" path="res://addons/dialogue_manager/dialogue_label.tscn" id="2_a8ve6"]
-[ext_resource type="Script" path="res://addons/dialogue_manager/dialogue_reponses_menu.gd" id="3_72ixx"]
+[ext_resource type="Script" uid="uid://ddw7ss14lbfxg" path="res://addons/dialogue_manager/dialogue_reponses_menu.gd" id="3_72ixx"]
 [ext_resource type="AudioStream" uid="uid://cqxrwf3hsfflp" path="res://assets/sounds/sound.wav" id="4_wgomm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_spyqn"]

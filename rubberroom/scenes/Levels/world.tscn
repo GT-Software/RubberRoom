@@ -1,7 +1,7 @@
-[gd_scene load_steps=32 format=3 uid="uid://bbcojlsg6u4g2"]
+[gd_scene load_steps=31 format=3 uid="uid://bbcojlsg6u4g2"]
 
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="1_7wmbq"]
-[ext_resource type="Script" path="res://scripts/Levels/world.gd" id="1_ot05e"]
+[ext_resource type="Script" uid="uid://cse0p7wulch6r" path="res://scripts/Levels/world.gd" id="1_ot05e"]
 [ext_resource type="PackedScene" uid="uid://c5ctnxwkly676" path="res://scenes/Interact/debug_buttons.tscn" id="2_brydc"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="3_j3ne2"]
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="4_gfh3t"]
@@ -16,10 +16,10 @@
 [ext_resource type="PackedScene" uid="uid://4d1h3rxw87wm" path="res://scenes/Agents/primitive_enemy.tscn" id="13_vaew6"]
 [ext_resource type="PackedScene" uid="uid://3e3pvfdco7mt" path="res://scenes/Agents/basic_npc.tscn" id="14_ec1jr"]
 [ext_resource type="PackedScene" uid="uid://brt856gi83iuc" path="res://scenes/Interact/actionable.tscn" id="15_p00jr"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="17_kaabt"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="18_10yq7"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="19_8auu5"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="20_nsq4w"]
+[ext_resource type="Script" uid="uid://cakou78whrnpg" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="17_kaabt"]
+[ext_resource type="Script" uid="uid://dk5vo3njrfd0y" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="18_10yq7"]
+[ext_resource type="Script" uid="uid://coujuso2ky8vm" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="19_8auu5"]
+[ext_resource type="Script" uid="uid://3c4x2htg1inn" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="20_nsq4w"]
 [ext_resource type="PackedScene" uid="uid://drosn1nk8a1wt" path="res://scenes/Interact/interact_ray.tscn" id="21_a0mmo"]
 [ext_resource type="PackedScene" uid="uid://c1acpjmpaaflr" path="res://scenes/Interact/next_level_collision_area.tscn" id="22_lspd6"]
 [ext_resource type="PackedScene" uid="uid://cvsedxp6wp60w" path="res://scenes/Agents/basic_enemy_test.tscn" id="23_4g06l"]
@@ -33,9 +33,6 @@ cell_height = 0.1
 border_size = 1.0
 agent_height = 0.5
 agent_max_climb = 0.1
-
-[sub_resource type="Resource" id="Resource_egd5y"]
-metadata/__load_path__ = "res://assets/Dialouge/dialogue.dialogue"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_65qa0"]
 radius = 1.0
@@ -344,7 +341,6 @@ collision_mask = 3
 [node name="Actionable" parent="Basic_NPC" instance=ExtResource("15_p00jr")]
 collision_layer = 11
 collision_mask = 11
-dialogue_resource = SubResource("Resource_egd5y")
 dialogue_start = "this_is_a_node_title"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Basic_NPC/Actionable"]
@@ -353,6 +349,7 @@ shape = SubResource("CapsuleShape3D_65qa0")
 [node name="Camera Controller" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Camera Controller"]
+physics_interpolation_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4773, 2.12444, 4.30042)
 attributes = SubResource("CameraAttributesPhysical_s2yjt")
 

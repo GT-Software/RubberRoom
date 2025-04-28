@@ -12,7 +12,7 @@ config_version=5
 
 config/name="RubberRoom"
 run/main_scene="res://scenes/Levels/world.tscn"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -20,7 +20,6 @@ config/icon="res://icon.svg"
 BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
 BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
-DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 RoomManager="*res://scripts/Managers/RoomManager.gd"
 SceneManager="*res://scripts/Managers/SceneManager.gd"
 EnemySpawnManager="*res://scripts/Managers/EnemySpawnManager.gd"
@@ -41,7 +40,7 @@ project/assembly_name="RubberRoom"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/beehave/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/beehave/plugin.cfg")
 
 [file_customization]
 
@@ -167,5 +166,5 @@ locale/translations_pot_files=PackedStringArray("res://assets/Dialouge/dialogue.
 
 [physics]
 
-3d/physics_engine="JoltPhysics3D"
+3d/physics_engine="Jolt Physics"
 common/physics_interpolation=true

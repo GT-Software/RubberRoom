@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dv0ban1um3qo0"]
 
-[ext_resource type="Script" path="res://scripts/UI/loading_screen.gd" id="1_n50fv"]
+[ext_resource type="Script" uid="uid://b0ohqa57udau1" path="res://scripts/UI/loading_screen.gd" id="1_n50fv"]
 
 [sub_resource type="Animation" id="Animation_6js0o"]
 length = 0.001
@@ -62,9 +62,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sxem6"]
 _data = {
-"RESET": SubResource("Animation_6js0o"),
-"end_load": SubResource("Animation_v37do"),
-"start_load": SubResource("Animation_6i1ek")
+&"RESET": SubResource("Animation_6js0o"),
+&"end_load": SubResource("Animation_v37do"),
+&"start_load": SubResource("Animation_6i1ek")
 }
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jo47r"]
