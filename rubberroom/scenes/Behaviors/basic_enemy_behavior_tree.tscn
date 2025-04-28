@@ -1,12 +1,14 @@
-[gd_scene load_steps=29 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=31 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://dpmcdvb1e5qx8" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://dffg5pmqtdfg8" path="res://addons/beehave/nodes/composites/selector.gd" id="2_ioc84"]
 [ext_resource type="Script" uid="uid://c6tgivstet6ky" path="res://addons/beehave/nodes/composites/sequence.gd" id="3_ce14b"]
 [ext_resource type="Script" uid="uid://cw2q2h1pkkwek" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/check_for_enemy.gd" id="4_egn4w"]
 [ext_resource type="Script" uid="uid://dk7ikpggd4q0i" path="res://scripts/Enemy/Behaviors/Enemy/Idle/idle_animation.gd" id="5_fb5pm"]
+[ext_resource type="Script" uid="uid://bdpdjaatf4uqv" path="res://addons/beehave/nodes/leaves/condition.gd" id="6_hsn7f"]
 [ext_resource type="Script" uid="uid://o6q3saob4ldp" path="res://scripts/Enemy/Behaviors/Enemy/is_player_close.gd" id="6_rh4pm"]
 [ext_resource type="Script" uid="uid://cvcx1l22cuv4g" path="res://scripts/Enemy/Behaviors/Enemy/is_low_hp.gd" id="7_0g4ya"]
+[ext_resource type="Script" uid="uid://7i6233vbe1fc" path="res://addons/beehave/nodes/decorators/delayer.gd" id="7_t85qk"]
 [ext_resource type="Script" uid="uid://bptbmkmqrsha" path="res://scripts/Enemy/Behaviors/Enemy/is_at_cover.gd" id="7_v4q1j"]
 [ext_resource type="Script" uid="uid://m5w0iejvnx82" path="res://scripts/Enemy/Behaviors/Enemy/is_shot_at.gd" id="9_xrjo8"]
 [ext_resource type="Script" uid="uid://cbxcijdmopvwt" path="res://scripts/Enemy/Behaviors/Enemy/find_cover.gd" id="10_38g4q"]
@@ -45,6 +47,31 @@ script = ExtResource("21_yenr8")
 
 [node name="Die" type="Node" parent="SelectorComposite/Death"]
 script = ExtResource("22_pgfsb")
+
+[node name="Dodge" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_ce14b")
+metadata/_custom_type_script = "uid://c6tgivstet6ky"
+
+[node name="IsPlayerVisible" type="Node" parent="SelectorComposite/Dodge"]
+script = ExtResource("6_hsn7f")
+metadata/_custom_type_script = "uid://bdpdjaatf4uqv"
+
+[node name="IsPlayerMeleeAttacking" type="Node" parent="SelectorComposite/Dodge"]
+script = ExtResource("6_hsn7f")
+metadata/_custom_type_script = "uid://bdpdjaatf4uqv"
+
+[node name="IsPlayerInMeleeRange" type="Node" parent="SelectorComposite/Dodge"]
+script = ExtResource("6_hsn7f")
+metadata/_custom_type_script = "uid://bdpdjaatf4uqv"
+
+[node name="DelayDodge" type="Node" parent="SelectorComposite/Dodge"]
+script = ExtResource("7_t85qk")
+wait_time = 1.0
+metadata/_custom_type_script = "uid://7i6233vbe1fc"
+
+[node name="Dodge" type="Node" parent="SelectorComposite/Dodge/DelayDodge"]
+script = ExtResource("20_nv5xh")
+metadata/_custom_type_script = "uid://c7jy37oi68akq"
 
 [node name="Suppressed" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_ce14b")
@@ -145,11 +172,31 @@ script = ExtResource("14_5hccb")
 [node name="FirePistol" type="Node" parent="SelectorComposite/Alert and Chase/Chase or Attack/Attack/AttackType/PistolAttack"]
 script = ExtResource("15_u2fx1")
 
+[node name="ThrowableAttack" type="Node" parent="SelectorComposite/Alert and Chase/Chase or Attack/Attack/AttackType"]
+script = ExtResource("3_ce14b")
+metadata/_custom_type_script = "uid://c6tgivstet6ky"
+
 [node name="MeleeAttack" type="Node" parent="SelectorComposite/Alert and Chase/Chase or Attack/Attack/AttackType"]
 script = ExtResource("3_ce14b")
 
 [node name="MeleeAttack" type="Node" parent="SelectorComposite/Alert and Chase/Chase or Attack/Attack/AttackType/MeleeAttack"]
 script = ExtResource("13_1jjdt")
+
+[node name="PickupItem" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_ce14b")
+metadata/_custom_type_script = "uid://c6tgivstet6ky"
+
+[node name="IsBetterItemInRange" type="Node" parent="SelectorComposite/PickupItem"]
+script = ExtResource("6_hsn7f")
+metadata/_custom_type_script = "uid://bdpdjaatf4uqv"
+
+[node name="MoveToItem" type="Node" parent="SelectorComposite/PickupItem"]
+script = ExtResource("20_nv5xh")
+metadata/_custom_type_script = "uid://c7jy37oi68akq"
+
+[node name="PickupItem" type="Node" parent="SelectorComposite/PickupItem"]
+script = ExtResource("20_nv5xh")
+metadata/_custom_type_script = "uid://c7jy37oi68akq"
 
 [node name="Idle" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_ce14b")
