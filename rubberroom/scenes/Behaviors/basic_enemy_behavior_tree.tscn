@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=29 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_ioc84"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/has_rifle.gd" id="10_pkjsf"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/has_rifle_ammo.gd" id="11_hm4ar"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/fire_rifle.gd" id="12_01lqm"]
+[ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/interrupt_current_action.gd" id="12_rk2cx"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/set_destination_to_enemy.gd" id="13_1bny8"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/attack.gd" id="13_1jjdt"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/has_pistol.gd" id="13_kyfb8"]
@@ -23,14 +24,14 @@
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/go_to_destination.gd" id="14_hnrr0"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/face_enemy.gd" id="15_pcgyu"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/fire_pistol.gd" id="15_u2fx1"]
-[ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/retreat.gd" id="16_8kffs"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/await_arrival_chase.gd" id="16_fkeik"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/is_hp_gone.gd" id="21_yenr8"]
 [ext_resource type="Script" path="res://scripts/Enemy/Behaviors/Enemy/die.gd" id="22_pgfsb"]
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
-blackboard = NodePath("@Node@25743")
+blackboard = NodePath("@Node@36047")
 actor = NodePath("..")
 
 [node name="SelectorComposite" type="Node" parent="."]
@@ -72,8 +73,17 @@ script = ExtResource("6_rh4pm")
 [node name="IsLowHP" type="Node" parent="SelectorComposite/Retreat"]
 script = ExtResource("7_0g4ya")
 
-[node name="Retreat" type="Node" parent="SelectorComposite/Retreat"]
-script = ExtResource("16_8kffs")
+[node name="Interrupt Current Action" type="Node" parent="SelectorComposite/Retreat"]
+script = ExtResource("12_rk2cx")
+
+[node name="FindSafePosition" type="Node" parent="SelectorComposite/Retreat"]
+script = ExtResource("20_nv5xh")
+
+[node name="SetDestination" type="Node" parent="SelectorComposite/Retreat"]
+script = ExtResource("20_nv5xh")
+
+[node name="Await Arrival" type="Node" parent="SelectorComposite/Retreat"]
+script = ExtResource("20_nv5xh")
 
 [node name="Alert and Chase" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_ce14b")
