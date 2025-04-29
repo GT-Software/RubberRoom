@@ -212,6 +212,7 @@ expand_mode = 1
 [node name="Camera Controller" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Camera Controller"]
+physics_interpolation_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.3848, 2, 2.5)
 attributes = SubResource("CameraAttributesPhysical_xdxq7")
 
