@@ -25,7 +25,6 @@ var curAnim = IDLE
 @onready var anim_player = $"Animation Control/AnimationPlayer"
 @onready var right_arm_collision: CollisionShape3D = $AuxScene/Node/Skeleton3D/RightArm/Area3D/RightArmCollision
 @onready var left_arm_collision: CollisionShape3D = $AuxScene/Node/Skeleton3D/LeftArm/Area3D/LeftArmCollision
-
 # Export variables
 @onready var punch_sound = $AudioStreamPlayer3D
 
@@ -71,7 +70,7 @@ const MAX_COMBO_WINDOW = 1.35 # 400 ms window for the next attack
 var is_hitstunned: bool = false
 var hitstun_duration: float = 1.5  # Adjust as needed for enemy hitstun duration
 
-@onready var behavior_tree = $BasicEnemyBehaviorTree
+var behavior_tree : BeehaveTree
 
 # This function now sets curAnim based on your boolean animation variables.
 func update_animation_state():
@@ -115,9 +114,12 @@ func _ready():
 	detection_area.connect('is_detected', alert)
 	melee_range.connect('range', on_in_melee_range)
 	
+	behavior_tree = get_node_or_null("BasicEnemyBehaviorTree")
 	player = get_node_or_null("%Player")
 	if player == null:
 		print(self.name, ": player is null on ready.")
+	if behavior_tree == null:
+		print(self.name, ": behavior tree is null on ready.")
 	else:
 		behavior_tree.blackboard.set_value("player", player)
 
