@@ -87,7 +87,7 @@ var hitbox_active = false  # Only allow hits if this is true
 
 var current_combo_index = 0
 
-enum AttackType { NONE, LIGHT, HEAVY }
+enum AttackType { NONE, LIGHT, HEAVY, RANGED, THROWABLE }
 var current_attack_type : int = AttackType.NONE
 var combo_index : int = 0         # Unified combo index
 var combo_timer : float = 0.0       # Timer for buffering next attack
@@ -839,6 +839,22 @@ func apply_hitstun(duration: float) -> void:
 	# Optionally: play a hitstun animation or effect here.
 	await get_tree().create_timer(hitstun_duration).timeout
 	is_hitstunned = false
+
+## Returns the player's current attack type as a string
+func get_current_attack_type():
+	match current_attack_type:
+		AttackType.NONE:
+			return "none"
+		AttackType.LIGHT:
+			return "melee_light"
+		AttackType.HEAVY:
+			return "melee_heavy"
+		AttackType.RANGED:
+			return "ranged"
+		AttackType.THROWABLE:
+			return "throwable"
+		_:
+			return "unknown"
 
 # Add an array of topics for the print_debug function to print out
 func print_debug(content: Array[String]):

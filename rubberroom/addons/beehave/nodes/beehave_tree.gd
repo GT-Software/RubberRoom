@@ -6,7 +6,7 @@ class_name BeehaveTree extends Node
 
 enum { SUCCESS, FAILURE, RUNNING }
 
-enum ProcessThread { IDLE, PHYSICS }
+enum ProcessThread { IDLE, PHYSICS, MANUAL }
 
 signal tree_enabled
 signal tree_disabled
@@ -35,7 +35,7 @@ signal tree_disabled
 	set(anp):
 		actor_node_path = anp
 		if actor_node_path != null and str(actor_node_path) != "..":
-			actor = get_node(actor_node_path)
+			actor = get_node(actor_node_path.get_as_property_path())
 		else:
 			actor = get_parent()
 		if Engine.is_editor_hint():
@@ -45,6 +45,7 @@ signal tree_disabled
 @export var process_thread: ProcessThread = ProcessThread.PHYSICS:
 	set(value):
 		process_thread = value
+		self.enabled = self.enabled and process_thread != ProcessThread.MANUAL
 		set_physics_process(enabled and process_thread == ProcessThread.PHYSICS)
 		set_process(enabled and process_thread == ProcessThread.IDLE)
 
@@ -189,13 +190,13 @@ func _process_internally() -> void:
 	blackboard.set_value("can_send_message", _can_send_message)
 
 	if _can_send_message:
-		BeehaveDebuggerMessages.process_begin(get_instance_id())
+		BeehaveDebuggerMessages.process_begin(get_instance_id(), blackboard.get_debug_data())
 
 	if self.get_child_count() == 1:
 		tick()
 
 	if _can_send_message:
-		BeehaveDebuggerMessages.process_end(get_instance_id())
+		BeehaveDebuggerMessages.process_end(get_instance_id(), blackboard.get_debug_data())
 
 	# Check the cost for this frame and save it for metric report
 	_process_time_metric_value = Time.get_ticks_usec() - start_time
@@ -210,8 +211,8 @@ func tick() -> int:
 
 	status = child.tick(actor, blackboard)
 	if _can_send_message:
-		BeehaveDebuggerMessages.process_tick(child.get_instance_id(), status)
-		BeehaveDebuggerMessages.process_tick(get_instance_id(), status)
+		BeehaveDebuggerMessages.process_tick(child.get_instance_id(), status, blackboard.get_debug_data())
+		BeehaveDebuggerMessages.process_tick(get_instance_id(), status, blackboard.get_debug_data())
 
 	# Clear running action if nothing is running
 	if status != RUNNING:
@@ -280,12 +281,15 @@ func disable() -> void:
 
 
 func _exit_tree() -> void:
+	if Engine.is_editor_hint():
+		# Skip this when running in editor
+		return
 	if custom_monitor:
 		if _process_time_metric_name != "":
 			# Remove tree metric from the engine
 			Performance.remove_custom_monitor(_process_time_metric_name)
 			_get_global_metrics().unregister_tree(self)
-
+	
 		BeehaveDebuggerMessages.unregister_tree(get_instance_id())
 
 

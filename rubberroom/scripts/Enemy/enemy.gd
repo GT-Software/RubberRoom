@@ -71,6 +71,8 @@ const MAX_COMBO_WINDOW = 1.35 # 400 ms window for the next attack
 var is_hitstunned: bool = false
 var hitstun_duration: float = 1.5  # Adjust as needed for enemy hitstun duration
 
+@onready var behavior_tree = $BasicEnemyBehaviorTree
+
 # This function now sets curAnim based on your boolean animation variables.
 func update_animation_state():
 	# If currently attacking, keep that state until it finishes.
@@ -116,6 +118,8 @@ func _ready():
 	player = get_node_or_null("%Player")
 	if player == null:
 		print(self.name, ": player is null on ready.")
+	else:
+		behavior_tree.blackboard.set_value("player", player)
 
 
 func _physics_process(delta: float):
