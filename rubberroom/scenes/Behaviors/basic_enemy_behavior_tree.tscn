@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=37 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://8hn4kne15ac5" path="res://addons/beehave/nodes/composites/selector.gd" id="2_ioc84"]
@@ -33,12 +33,13 @@
 [ext_resource type="Script" uid="uid://yen27s72syuk" path="res://scripts/Enemy/Behaviors/Enemy/is_hp_gone.gd" id="21_yenr8"]
 [ext_resource type="Script" uid="uid://d4awh42fa6oi1" path="res://scripts/Enemy/Behaviors/Enemy/die.gd" id="22_pgfsb"]
 [ext_resource type="Script" uid="uid://6f84fub3u2dd" path="res://scripts/Enemy/Behaviors/Enemy/is_throwable_item.gd" id="30_5lpqk"]
+[ext_resource type="Script" uid="uid://dwfdg523bk776" path="res://addons/beehave/nodes/decorators/failer.gd" id="30_ydldi"]
 [ext_resource type="Script" uid="uid://c3lhr6ob84x0c" path="res://scripts/Enemy/Behaviors/Enemy/throw.gd" id="31_ydldi"]
 [ext_resource type="Script" uid="uid://dvcdasjobasyv" path="res://scripts/Enemy/Behaviors/Enemy/is_better_item_in_range.gd" id="32_oa5jo"]
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
-blackboard = NodePath("@Node@21890")
+blackboard = NodePath("@Node@21875")
 actor = NodePath("..")
 
 [node name="SelectorComposite" type="Node" parent="."]
@@ -175,13 +176,17 @@ script = ExtResource("14_5hccb")
 [node name="FirePistol" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
 script = ExtResource("15_u2fx1")
 
-[node name="ThrowableAttack" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType"]
+[node name="AlwaysFailDecorator" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType"]
+script = ExtResource("30_ydldi")
+metadata/_custom_type_script = "uid://dwfdg523bk776"
+
+[node name="ThrowableAttack" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/AlwaysFailDecorator"]
 script = ExtResource("3_ce14b")
 
-[node name="IsThrowableItem" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/ThrowableAttack"]
+[node name="IsThrowableItem" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/AlwaysFailDecorator/ThrowableAttack"]
 script = ExtResource("30_5lpqk")
 
-[node name="Throw" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/ThrowableAttack"]
+[node name="Throw" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/AlwaysFailDecorator/ThrowableAttack"]
 script = ExtResource("31_ydldi")
 
 [node name="MeleeAttack" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType"]
