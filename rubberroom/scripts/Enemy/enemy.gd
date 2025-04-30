@@ -41,6 +41,14 @@ var is_in_range : bool = false
 var is_alive : bool = true
 var on_attack_cooldown : bool = false
 var rotate_self : bool = true
+var can_see_player : bool = false # Tracks if enemy can see player
+var player_in_detection_area : bool = false # Tracks if player is in detection area
+
+# Vision cone parameters (adjustable in Inspector or code)
+@export var fov_angle : float = 60.0 # Field of view in degrees
+@export var view_range : float = 50.0 # Maximum distance in units
+@export var ray_count : int = 10 # Number of rays (resolution)
+@export var check_interval : float = 0.2 # Time between checks (for performance)
 
 var health_component : HealthComponent
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -71,6 +79,7 @@ var is_hitstunned: bool = false
 var hitstun_duration: float = 1.5  # Adjust as needed for enemy hitstun duration
 
 var behavior_tree : BeehaveTree
+var check_timer: float = 0.0 # Timer for vision cone checks
 
 # This function now sets curAnim based on your boolean animation variables.
 func update_animation_state():
@@ -122,6 +131,7 @@ func _ready():
 		print(self.name, ": behavior tree is null on ready.")
 	else:
 		behavior_tree.blackboard.set_value("player", player)
+		behavior_tree.blackboard.set_value("can_see_player", can_see_player)
 
 
 func _physics_process(delta: float):
@@ -168,6 +178,17 @@ func _physics_process(delta: float):
 	else:
 		velocity.y = 0
 	
+	# Update vision cone when player has reached the detection area
+	if player_in_detection_area:
+		check_timer -= delta
+		if check_timer <= 0:
+			check_timer = check_interval
+			update_vision_cone()
+	
+	# Update blackboard with can_see_player
+	if behavior_tree:
+		behavior_tree.blackboard.set_value("can_see_player", can_see_player)
+	
 	# Check if target is reached
 	if nav_agent.is_target_reached():
 		velocity.x = 0
@@ -198,6 +219,58 @@ func _physics_process(delta: float):
 	elif is_locked_on == true:
 		lock_on_marker.show()
 		enemy_stats.show()
+
+# Vision cone logic
+func update_vision_cone():
+	# Reset visibility
+	can_see_player = false
+	
+	# Get the physics space
+	var space_state = get_world_3d().direct_space_state
+	
+	# Early exit if player is too far
+	var to_player = player.global_position - global_position
+	if to_player.length() > view_range:
+		return
+	
+	# Check if player is within FOV angle
+	var forward = -global_transform.basis.z.normalized() # Enemy's forward direction
+	var angle_to_player = forward.angle_to(to_player.normalized())
+	if rad_to_deg(angle_to_player) > fov_angle / 2:
+		return
+	
+	# Generate rays in a cone
+	var half_fov = deg_to_rad(fov_angle / 2)
+	for i in range(ray_count):
+		# Calculate angle for this ray
+		var t = float(i) / (ray_count - 1) if ray_count > 1 else 0.5
+		var angle = lerp(-half_fov, half_fov, t)
+		
+		# Rotate forward vector to create ray direction
+		var ray_direction = forward.rotated(global_transform.basis.y.normalized(), angle).normalized()
+		
+		# Define ray start and end (start from eyes for realism)
+		var ray_start = eyes.global_position if eyes else global_position
+		var ray_end = ray_start + ray_direction * view_range
+		
+		# Create ray query
+		var query = PhysicsRayQueryParameters3D.create(ray_start, ray_end)
+		query.exclude = [self] # Exclude the enemy
+		query.collision_mask = 1 | 2 # Player (layer 1) and walls (layer 2)
+		
+		# Cast the ray
+		var result = space_state.intersect_ray(query)
+		
+		# Check if ray hits the player
+		if result and result.collider == player:
+			can_see_player = true
+			break
+	
+	# Debug output
+	if can_see_player:
+		print(self.name, ": Player is visible in vision cone!")
+	else:
+		print(self.name, ": Player is not visible.")
 
 # Idle state
 func idle():

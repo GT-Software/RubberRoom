@@ -2,6 +2,7 @@ extends Area3D
 
 signal is_detected(target)
 
+var parent = get_parent()
 var last_position
 var random_position
 var target
@@ -9,7 +10,7 @@ var target
 func _on_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		print("Player is Detected!")
-		target = body
+		parent.player_in_detection_area = true
 		is_detected.emit(target)
 	
 	
@@ -28,6 +29,9 @@ func _on_body_entered(body: Node3D) -> void:
 
 
 func _on_body_exited(body: Node3D) -> void:
-	print("Player is Lost!")
-	target = null
-	is_detected.emit(target)
+	if body.is_in_group("player"):
+		print("Player is Lost!")
+		parent.player_in_detection_area = false
+		if parent.behavior_tree:
+			parent.behavior_tree.blackboard.set_value("can_see_player", false)
+		is_detected.emit(null)

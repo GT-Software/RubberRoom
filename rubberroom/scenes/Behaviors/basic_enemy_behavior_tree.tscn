@@ -38,8 +38,8 @@
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
-blackboard = NodePath("@Node@21944")
-actor = NodePath("")
+blackboard = NodePath("@Node@32296")
+actor = NodePath("..")
 
 [node name="SelectorComposite" type="Node" parent="."]
 script = ExtResource("2_ioc84")
@@ -131,6 +131,10 @@ script = ExtResource("2_ioc84")
 
 [node name="Chase" type="Node" parent="SelectorComposite/Combat/Chase or Attack"]
 script = ExtResource("3_ce14b")
+
+[node name="IsPlayerVisible" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase"]
+script = ExtResource("6_ntekc")
+metadata/_custom_type_script = "uid://bdpdjaatf4uqv"
 
 [node name="IsOutOfAttackRange" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase"]
 script = ExtResource("10_ea1eq")
