@@ -1,8 +1,8 @@
 [gd_scene load_steps=14 format=3 uid="uid://bhylj4udi1r8n"]
 
-[ext_resource type="Script" uid="uid://dpmcdvb1e5qx8" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_snbe8"]
-[ext_resource type="Script" uid="uid://dffg5pmqtdfg8" path="res://addons/beehave/nodes/composites/selector.gd" id="2_fbtfx"]
-[ext_resource type="Script" uid="uid://c6tgivstet6ky" path="res://addons/beehave/nodes/composites/sequence.gd" id="4_48w4r"]
+[ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_snbe8"]
+[ext_resource type="Script" uid="uid://8hn4kne15ac5" path="res://addons/beehave/nodes/composites/selector.gd" id="2_fbtfx"]
+[ext_resource type="Script" uid="uid://cg016dbe7gs1x" path="res://addons/beehave/nodes/composites/sequence.gd" id="4_48w4r"]
 [ext_resource type="Script" uid="uid://dk7ikpggd4q0i" path="res://scripts/Enemy/Behaviors/Enemy/Idle/idle_animation.gd" id="5_e6jjr"]
 [ext_resource type="Script" uid="uid://cw2q2h1pkkwek" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/check_for_enemy.gd" id="5_xti4g"]
 [ext_resource type="Script" uid="uid://cr7a63433c54y" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/go_to_destination.gd" id="7_3hufy"]
@@ -16,7 +16,7 @@
 
 [node name="BeehaveTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_snbe8")
-blackboard = NodePath("@Node@21801")
+blackboard = NodePath("@Node@21799")
 actor = NodePath("")
 
 [node name="SelectorComposite" type="Node" parent="."]
