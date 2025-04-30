@@ -27,6 +27,7 @@ var curAnim = IDLE
 @onready var left_arm_collision: CollisionShape3D = $AuxScene/Node/Skeleton3D/LeftArm/Area3D/LeftArmCollision
 # Export variables
 @onready var punch_sound = $AudioStreamPlayer3D
+var vision_cone
 
 @export var SPEED = 3.0
 @export var RUN_SPEED = 10.0
@@ -132,6 +133,8 @@ func _ready():
 	else:
 		behavior_tree.blackboard.set_value("player", player)
 		behavior_tree.blackboard.set_value("can_see_player", can_see_player)
+	
+	vision_cone = eyes.get_child(0)
 
 
 func _physics_process(delta: float):
@@ -178,6 +181,39 @@ func _physics_process(delta: float):
 	else:
 		velocity.y = 0
 	
+	# Create an ImmediateMesh to draw the cone
+	var mesh = ImmediateMesh.new()
+	vision_cone.mesh = mesh
+	
+	# Begin drawing lines
+	mesh.surface_begin(Mesh.PRIMITIVE_LINES)
+	
+	# Set color based on whether player is visible
+	mesh.surface_set_color(Color.GREEN if can_see_player else Color.RED)
+	
+	# Calculate cone parameters
+	var half_fov = deg_to_rad(fov_angle / 2)
+	var forward = -global_transform.basis.z.normalized() # Enemy's forward direction
+	var ray_start = eyes.global_position if eyes else global_position
+	
+	# Draw each ray
+	for i in range(ray_count):
+		var t = float(i) / (ray_count - 1) if ray_count > 1 else 0.5
+		var angle = lerp(-half_fov, half_fov, t)
+		var ray_direction = forward.rotated(global_transform.basis.y.normalized(), angle).normalized()
+		var ray_end = ray_start + ray_direction * view_range
+		
+		# Transform positions to local space of the DebugVisionCone node
+		var local_start = vision_cone.to_local(ray_start)
+		var local_end = vision_cone.to_local(ray_end)
+		
+		# Add vertices for the line
+		mesh.surface_add_vertex(local_start)
+		mesh.surface_add_vertex(local_end)
+	
+	# End drawing
+	mesh.surface_end()
+	
 	# Update vision cone when player has reached the detection area
 	if player_in_detection_area:
 		check_timer -= delta
@@ -188,6 +224,7 @@ func _physics_process(delta: float):
 	# Update blackboard with can_see_player
 	if behavior_tree:
 		behavior_tree.blackboard.set_value("can_see_player", can_see_player)
+		behavior_tree.blackboard.set_value("player_pos", player.global_position)
 	
 	# Check if target is reached
 	if nav_agent.is_target_reached():

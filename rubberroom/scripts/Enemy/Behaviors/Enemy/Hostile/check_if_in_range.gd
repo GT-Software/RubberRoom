@@ -1,7 +1,7 @@
 extends ConditionLeaf
 
 
-func tick(actor, _blackboard):
-	if actor.target and actor.is_in_range:
+func tick(actor, blackboard):
+	if actor.player_in_detection_area:
 		return SUCCESS
 	return FAILURE

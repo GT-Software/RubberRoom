@@ -2,7 +2,8 @@ extends Area3D
 
 signal is_detected(target)
 
-var parent = get_parent()
+@onready var parent = get_parent()
+
 var last_position
 var random_position
 var target

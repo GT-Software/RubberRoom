@@ -6,10 +6,10 @@ extends ActionLeaf
 # How to keep the enemy in the hostile state while its running
 
 # Set target to player, look at player
-func tick(actor, _blackboard):
+func tick(actor, blackboard):
 	print("Enemy: Chasing Player")
-	if actor.target:
-		actor.update_target_location(actor.target.global_position)
+	if blackboard.get_value("can_see_player") == true:
+		actor.update_target_location(blackboard.get_value("player_pos"))
 	else:
 		return FAILURE
 		

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bbcojlsg6u4g2"]
+[gd_scene load_steps=30 format=3 uid="uid://bbcojlsg6u4g2"]
 
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="1_7wmbq"]
 [ext_resource type="Script" uid="uid://cse0p7wulch6r" path="res://scripts/Levels/world.gd" id="1_ot05e"]
@@ -13,7 +13,6 @@
 [ext_resource type="Material" uid="uid://bje11o171j0bm" path="res://assets/materials/basic materials/yellow.tres" id="10_w37r5"]
 [ext_resource type="PackedScene" uid="uid://bm8fdgmjoqbtp" path="res://scenes/Stat Bars/player_stat_bars.tscn" id="11_pyio3"]
 [ext_resource type="Texture2D" uid="uid://dtmdw20q6ap87" path="res://assets/images/crosshair (1).png" id="12_sl72j"]
-[ext_resource type="PackedScene" uid="uid://4d1h3rxw87wm" path="res://scenes/Agents/primitive_enemy.tscn" id="13_vaew6"]
 [ext_resource type="PackedScene" uid="uid://3e3pvfdco7mt" path="res://scenes/Agents/basic_npc.tscn" id="14_ec1jr"]
 [ext_resource type="PackedScene" uid="uid://brt856gi83iuc" path="res://scenes/Interact/actionable.tscn" id="15_p00jr"]
 [ext_resource type="Script" uid="uid://cakou78whrnpg" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="17_kaabt"]
@@ -330,9 +329,6 @@ grow_vertical = 2
 texture = ExtResource("12_sl72j")
 expand_mode = 1
 
-[node name="Enemy" parent="." instance=ExtResource("13_vaew6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.3594, 1.125, -36.4454)
-
 [node name="Basic_NPC" parent="." instance=ExtResource("14_ec1jr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.78793, 1.29538, 45.1744)
 collision_layer = 11
@@ -393,7 +389,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.7819, 0, 45.0989)
 [node name="Enemy2" parent="." instance=ExtResource("23_4g06l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.7043, 1, -9.13174)
 
-[connection signal="player_attacking" from="Player" to="Enemy" method="_on_player_attacking"]
 [connection signal="Fear_Down" from="NavigationRegion3D/Base World/Interactables/Fear Decrease Button" to="NavigationRegion3D/Base World/Interactables/Fear Decrease Button" method="_on_fear_down"]
 [connection signal="Fear_Up" from="NavigationRegion3D/Base World/Interactables/Fear Increase Button" to="NavigationRegion3D/Base World/Interactables/Fear Increase Button" method="_on_fear_up"]
 [connection signal="Stamina_Hurt" from="NavigationRegion3D/Base World/Interactables/Stamina Damage Button" to="NavigationRegion3D/Base World/Interactables/Stamina Damage Button" method="_on_stamina_hurt"]
@@ -402,7 +397,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.7043, 1, -9.13174)
 [connection signal="Stun_Up" from="NavigationRegion3D/Base World/Interactables/Stun Increase Button" to="NavigationRegion3D/Base World/Interactables/Stun Increase Button" method="_on_stun_up"]
 [connection signal="Health_Hurt" from="NavigationRegion3D/Base World/Interactables/Health Damage Button" to="NavigationRegion3D/Base World/Interactables/Health Damage Button" method="_on_health_hurt"]
 [connection signal="Health_Heal" from="NavigationRegion3D/Base World/Interactables/Health Heal Button" to="NavigationRegion3D/Base World/Interactables/Health Heal Button" method="_on_health_heal"]
-[connection signal="attacking" from="Enemy" to="Player" method="_on_enemy_attacking"]
 
 [editable path="NavigationRegion3D/Base World/Interactables/Button"]
 [editable path="NavigationRegion3D/Base World/Interactables/Fear Decrease Button"]
