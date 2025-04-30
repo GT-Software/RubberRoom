@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=36 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://8hn4kne15ac5" path="res://addons/beehave/nodes/composites/selector.gd" id="2_ioc84"]
@@ -28,6 +28,7 @@
 [ext_resource type="Script" uid="uid://j56kyqknki0x" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/face_enemy.gd" id="15_pcgyu"]
 [ext_resource type="Script" uid="uid://dlfl3n8adcrnq" path="res://scripts/Enemy/Behaviors/Enemy/fire_pistol.gd" id="15_u2fx1"]
 [ext_resource type="Script" uid="uid://cdqvfjj6sc2la" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/await_arrival_chase.gd" id="16_fkeik"]
+[ext_resource type="Script" uid="uid://dsf3a8vlolhx8" path="res://addons/beehave/nodes/decorators/succeeder.gd" id="20_5lpqk"]
 [ext_resource type="Script" uid="uid://cv74jjdrwevpr" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
 [ext_resource type="Script" uid="uid://yen27s72syuk" path="res://scripts/Enemy/Behaviors/Enemy/is_hp_gone.gd" id="21_yenr8"]
 [ext_resource type="Script" uid="uid://d4awh42fa6oi1" path="res://scripts/Enemy/Behaviors/Enemy/die.gd" id="22_pgfsb"]
@@ -125,11 +126,15 @@ script = ExtResource("2_ioc84")
 [node name="Chase" type="Node" parent="SelectorComposite/Combat/Chase or Attack"]
 script = ExtResource("3_ce14b")
 
-[node name="IsPlayerVisible" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase"]
-script = ExtResource("6_ntekc")
-
 [node name="IsOutOfAttackRange" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase"]
 script = ExtResource("10_ea1eq")
+
+[node name="AlwaysSucceedDecorator" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase"]
+script = ExtResource("20_5lpqk")
+metadata/_custom_type_script = "uid://dsf3a8vlolhx8"
+
+[node name="IsPlayerVisible" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase/AlwaysSucceedDecorator"]
+script = ExtResource("6_ntekc")
 
 [node name="Set Destination to Enemy" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase"]
 script = ExtResource("13_1bny8")
