@@ -32,6 +32,12 @@ signal player_attacking(attack : Attack, in_range : bool)
 @onready var camera_anchor: Node3D = $"RotationPoint/Camera Anchor"
 @onready var rotation_point: Node3D = $RotationPoint
 @onready var tween: Tween = Tween.new()
+@onready var weapon_attachment: BoneAttachment3D = $AuxScene/Node/Skeleton3D/RightHandAttachment
+
+# Weapon system
+@export var unarmed_weapon: WeaponResource
+var current_weapon: WeaponResource
+var current_weapon_model: Node3D = null
 
 @export var mouse_sensitivity: float = 0.05
 @export var min_pitch: float = -89.9
@@ -204,8 +210,22 @@ func _ready():
 	rotation_point.set_as_top_level(true)
 	 # Store the initial camera anchor position as the default offset.
 	default_anchor_offset = camera_anchor.position
+	current_weapon = unarmed_weapon  # Set default to unarmed
 	#add_child(tween)
 
+
+# Weapon equipping function
+func equip_weapon(new_weapon: WeaponResource) -> void:
+	if current_weapon_model:
+		weapon_attachment.remove_child(current_weapon_model)
+		current_weapon_model.queue_free()
+		current_weapon_model = null
+	current_weapon = new_weapon
+	if new_weapon.classification != WeaponResource.Classification.UNARMED:
+		if new_weapon.model_scene:
+			current_weapon_model = new_weapon.model_scene.instantiate()
+			weapon_attachment.add_child(current_weapon_model)
+	print("Equipped weapon: ", new_weapon.name)
 
 func _physics_process(delta):
 	if is_hitstunned:

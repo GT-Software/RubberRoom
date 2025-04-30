@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://cg016dbe7gs1x" path="res://addons/beehave/nodes/composites/sequence.gd" id="3_ce14b"]
 [ext_resource type="Script" uid="uid://cw2q2h1pkkwek" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/check_for_enemy.gd" id="4_egn4w"]
 [ext_resource type="Script" uid="uid://dk7ikpggd4q0i" path="res://scripts/Enemy/Behaviors/Enemy/Idle/idle_animation.gd" id="5_fb5pm"]
-[ext_resource type="Script" uid="uid://cbnbvj8prv63i" path="res://addons/beehave/nodes/leaves/condition.gd" id="6_hsn7f"]
+[ext_resource type="Script" uid="uid://bdpdjaatf4uqv" path="res://addons/beehave/nodes/leaves/condition.gd" id="6_hsn7f"]
 [ext_resource type="Script" uid="uid://bwuqp4ruf2qry" path="res://scripts/Enemy/Behaviors/Enemy/is_player_visible.gd" id="6_ntekc"]
 [ext_resource type="Script" uid="uid://o6q3saob4ldp" path="res://scripts/Enemy/Behaviors/Enemy/is_player_close.gd" id="6_rh4pm"]
 [ext_resource type="Script" uid="uid://cvcx1l22cuv4g" path="res://scripts/Enemy/Behaviors/Enemy/is_low_hp.gd" id="7_0g4ya"]
@@ -30,7 +30,7 @@
 [ext_resource type="Script" uid="uid://j56kyqknki0x" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/face_enemy.gd" id="15_pcgyu"]
 [ext_resource type="Script" uid="uid://dlfl3n8adcrnq" path="res://scripts/Enemy/Behaviors/Enemy/fire_pistol.gd" id="15_u2fx1"]
 [ext_resource type="Script" uid="uid://cdqvfjj6sc2la" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/await_arrival_chase.gd" id="16_fkeik"]
-[ext_resource type="Script" uid="uid://cv74jjdrwevpr" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
+[ext_resource type="Script" uid="uid://c7jy37oi68akq" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
 [ext_resource type="Script" uid="uid://yen27s72syuk" path="res://scripts/Enemy/Behaviors/Enemy/is_hp_gone.gd" id="21_yenr8"]
 [ext_resource type="Script" uid="uid://d4awh42fa6oi1" path="res://scripts/Enemy/Behaviors/Enemy/die.gd" id="22_pgfsb"]
 [ext_resource type="Script" uid="uid://6f84fub3u2dd" path="res://scripts/Enemy/Behaviors/Enemy/is_throwable_item.gd" id="30_5lpqk"]
@@ -55,7 +55,6 @@ script = ExtResource("22_pgfsb")
 
 [node name="Dodge" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_ce14b")
-metadata/_custom_type_script = "uid://c6tgivstet6ky"
 
 [node name="IsPlayerVisible" type="Node" parent="SelectorComposite/Dodge"]
 script = ExtResource("6_ntekc")
@@ -72,7 +71,6 @@ metadata/_custom_type_script = "uid://bdpdjaatf4uqv"
 [node name="DelayDodge" type="Node" parent="SelectorComposite/Dodge"]
 script = ExtResource("7_t85qk")
 wait_time = 1.0
-metadata/_custom_type_script = "uid://7i6233vbe1fc"
 
 [node name="Dodge" type="Node" parent="SelectorComposite/Dodge/DelayDodge"]
 script = ExtResource("10_oa5jo")
@@ -183,7 +181,6 @@ script = ExtResource("15_u2fx1")
 
 [node name="ThrowableAttack" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType"]
 script = ExtResource("3_ce14b")
-metadata/_custom_type_script = "uid://c6tgivstet6ky"
 
 [node name="IsThrowableItem" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/ThrowableAttack"]
 script = ExtResource("30_5lpqk")
@@ -201,7 +198,6 @@ script = ExtResource("13_1jjdt")
 
 [node name="PickupItem" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_ce14b")
-metadata/_custom_type_script = "uid://c6tgivstet6ky"
 
 [node name="IsBetterItemInRange" type="Node" parent="SelectorComposite/PickupItem"]
 script = ExtResource("6_hsn7f")
