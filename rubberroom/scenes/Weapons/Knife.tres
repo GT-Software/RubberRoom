@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=3 format=3 uid="uid://ckclxsin1bqwn"]
+
+[ext_resource type="PackedScene" uid="uid://w6mnhplxwee3" path="res://scenes/Weapons/knife.tscn" id="1_n000i"]
+[ext_resource type="Script" uid="uid://bjbdu6ek4jmfa" path="res://scripts/Weapons/WeaponResource.gd" id="1_p7415"]
+
+[resource]
+script = ExtResource("1_p7415")
+name = "Knife"
+classification = 2
+damage = 2.35
+model_scene = ExtResource("1_n000i")
+metadata/_custom_type_script = "uid://bjbdu6ek4jmfa"

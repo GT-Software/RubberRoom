@@ -32,7 +32,8 @@ signal player_attacking(attack : Attack, in_range : bool)
 @onready var camera_anchor: Node3D = $"RotationPoint/Camera Anchor"
 @onready var rotation_point: Node3D = $RotationPoint
 @onready var tween: Tween = Tween.new()
-@onready var weapon_attachment: BoneAttachment3D = $AuxScene/Node/Skeleton3D/RightHandAttachment
+@onready var weapon_attachment: BoneAttachment3D = $AuxScene/Node/Skeleton3D/RightArm
+
 
 # Weapon system
 @export var unarmed_weapon: WeaponResource
@@ -109,6 +110,8 @@ var can_buffer_attack : bool = false # Set via timeline (animation call) to open
 
 
 
+# New variable for dynamic hitbox
+var current_hitbox: Area3D
 
 
 var default_fov : float = 75.0
@@ -221,11 +224,27 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 		current_weapon_model.queue_free()
 		current_weapon_model = null
 	current_weapon = new_weapon
-	if new_weapon.classification != WeaponResource.Classification.UNARMED:
+	
+	# Set hitbox based on weapon state
+	if new_weapon.classification == WeaponResource.Classification.UNARMED:
+		current_hitbox = right_arm_collision  # Use arm hitbox for unarmed
+	else:
 		if new_weapon.model_scene:
 			current_weapon_model = new_weapon.model_scene.instantiate()
 			weapon_attachment.add_child(current_weapon_model)
+			current_hitbox = current_weapon_model.get_node("Hitbox")
+	
+	# Connect hitbox signal
+	if current_hitbox:
+		current_hitbox.body_entered.connect(_on_hitbox_entered)
+	
+	#if new_weapon.classification != WeaponResource.Classification.UNARMED:
+		#if new_weapon.model_scene:
+			#current_weapon_model = new_weapon.model_scene.instantiate()
+			#weapon_attachment.add_child(current_weapon_model)
 	print("Equipped weapon: ", new_weapon.name)
+
+
 
 func _physics_process(delta):
 	if is_hitstunned:
@@ -503,6 +522,12 @@ func _physics_process(delta):
 			return
 
 
+
+func _on_hitbox_entered(body):
+	if hitbox_active and body.is_in_group("enemies"):
+		var attack_instance = Attack.new(current_weapon.damage, 0.0, 0.0, 0.0, 0.0, global_position)
+		emit_signal("player_attacking", attack_instance, true)
+		hitbox_active = false  # Reset after hit (adjust based on your combo system)
 # -------------------------------
 # Attack Functions
 # -------------------------------
@@ -848,8 +873,8 @@ func _on_area_3d_body_entered(body):
 	
 	if body.is_in_group("enemies") and hitbox_active:
 			# 3) If valid, deal damage exactly once
-		var attack_instance = Attack.new(1.0, 0.0, 0.0, 0.0, 0.0, global_position)
-		print("Right arm collided with Enemy! Dealing damage once.")
+		var attack_instance = Attack.new(current_weapon.damage, 0.0, 0.0, 0.0, 0.0, global_position)
+		print("Right arm collided with Enemy! Dealing damage once. : ", current_weapon.damage)
 		emit_signal("player_attacking", attack_instance, true)
 		hitbox_active = false  # no more hits this swing
 
