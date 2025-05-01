@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=38 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://8hn4kne15ac5" path="res://addons/beehave/nodes/composites/selector.gd" id="2_ioc84"]
@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://bwuqp4ruf2qry" path="res://scripts/Enemy/Behaviors/Enemy/is_player_visible.gd" id="6_ntekc"]
 [ext_resource type="Script" uid="uid://o6q3saob4ldp" path="res://scripts/Enemy/Behaviors/Enemy/is_player_close.gd" id="6_rh4pm"]
 [ext_resource type="Script" uid="uid://cvcx1l22cuv4g" path="res://scripts/Enemy/Behaviors/Enemy/is_low_hp.gd" id="7_0g4ya"]
-[ext_resource type="Script" uid="uid://dmm17ott1q8qv" path="res://scenes/Behaviors/is_player_melee_attacking.gd" id="7_bdjyc"]
+[ext_resource type="Script" uid="uid://dmm17ott1q8qv" path="res://scripts/Enemy/Behaviors/is_player_melee_attacking.gd" id="7_bdjyc"]
 [ext_resource type="Script" uid="uid://dorri1tul8gfx" path="res://addons/beehave/nodes/decorators/delayer.gd" id="7_t85qk"]
 [ext_resource type="Script" uid="uid://bptbmkmqrsha" path="res://scripts/Enemy/Behaviors/Enemy/is_at_cover.gd" id="7_v4q1j"]
 [ext_resource type="Script" uid="uid://m5w0iejvnx82" path="res://scripts/Enemy/Behaviors/Enemy/is_shot_at.gd" id="9_xrjo8"]
@@ -29,7 +29,8 @@
 [ext_resource type="Script" uid="uid://dlfl3n8adcrnq" path="res://scripts/Enemy/Behaviors/Enemy/fire_pistol.gd" id="15_u2fx1"]
 [ext_resource type="Script" uid="uid://cdqvfjj6sc2la" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/await_arrival_chase.gd" id="16_fkeik"]
 [ext_resource type="Script" uid="uid://dsf3a8vlolhx8" path="res://addons/beehave/nodes/decorators/succeeder.gd" id="20_5lpqk"]
-[ext_resource type="Script" uid="uid://c7jy37oi68akq" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
+[ext_resource type="Script" uid="uid://cv74jjdrwevpr" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
+[ext_resource type="Script" uid="uid://dhrt1u8haimpv" path="res://scripts/Enemy/Behaviors/Enemy/get_attacked.gd" id="21_shy7s"]
 [ext_resource type="Script" uid="uid://yen27s72syuk" path="res://scripts/Enemy/Behaviors/Enemy/is_hp_gone.gd" id="21_yenr8"]
 [ext_resource type="Script" uid="uid://d4awh42fa6oi1" path="res://scripts/Enemy/Behaviors/Enemy/die.gd" id="22_pgfsb"]
 [ext_resource type="Script" uid="uid://6f84fub3u2dd" path="res://scripts/Enemy/Behaviors/Enemy/is_throwable_item.gd" id="30_5lpqk"]
@@ -39,8 +40,8 @@
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
-blackboard = NodePath("@Node@21805")
-actor = NodePath("")
+blackboard = NodePath("@Node@21880")
+actor = NodePath("..")
 
 [node name="SelectorComposite" type="Node" parent="."]
 script = ExtResource("2_ioc84")
@@ -54,24 +55,47 @@ script = ExtResource("21_yenr8")
 [node name="Die" type="Node" parent="SelectorComposite/Death"]
 script = ExtResource("22_pgfsb")
 
-[node name="Dodge" type="Node" parent="SelectorComposite"]
+[node name="AlwaysFailDecorator" type="Node" parent="SelectorComposite"]
+script = ExtResource("30_ydldi")
+metadata/_custom_type_script = "uid://dwfdg523bk776"
+
+[node name="Dodge" type="Node" parent="SelectorComposite/AlwaysFailDecorator"]
 script = ExtResource("3_ce14b")
 
-[node name="IsPlayerVisible" type="Node" parent="SelectorComposite/Dodge"]
+[node name="IsPlayerVisible" type="Node" parent="SelectorComposite/AlwaysFailDecorator/Dodge"]
 script = ExtResource("6_ntekc")
 
-[node name="IsPlayerMeleeAttacking" type="Node" parent="SelectorComposite/Dodge"]
+[node name="IsPlayerMeleeAttacking" type="Node" parent="SelectorComposite/AlwaysFailDecorator/Dodge"]
 script = ExtResource("7_bdjyc")
 
-[node name="IsPlayerInMeleeRange" type="Node" parent="SelectorComposite/Dodge"]
+[node name="IsPlayerInMeleeRange" type="Node" parent="SelectorComposite/AlwaysFailDecorator/Dodge"]
 script = ExtResource("10_ea1eq")
 
-[node name="DelayDodge" type="Node" parent="SelectorComposite/Dodge"]
+[node name="DelayDodge" type="Node" parent="SelectorComposite/AlwaysFailDecorator/Dodge"]
 script = ExtResource("7_t85qk")
 wait_time = 1.0
 
-[node name="Dodge" type="Node" parent="SelectorComposite/Dodge/DelayDodge"]
+[node name="Dodge" type="Node" parent="SelectorComposite/AlwaysFailDecorator/Dodge/DelayDodge"]
 script = ExtResource("10_oa5jo")
+
+[node name="Hurt" type="Node" parent="SelectorComposite"]
+script = ExtResource("2_ioc84")
+metadata/_custom_type_script = "uid://8hn4kne15ac5"
+
+[node name="AlwaysFailDecorator" type="Node" parent="SelectorComposite/Hurt"]
+script = ExtResource("30_ydldi")
+metadata/_custom_type_script = "uid://dwfdg523bk776"
+
+[node name="Melee Hit" type="Node" parent="SelectorComposite/Hurt/AlwaysFailDecorator"]
+script = ExtResource("3_ce14b")
+metadata/_custom_type_script = "uid://cg016dbe7gs1x"
+
+[node name="IsPlayerMeleeAttacking" type="Node" parent="SelectorComposite/Hurt/AlwaysFailDecorator/Melee Hit"]
+script = ExtResource("7_bdjyc")
+
+[node name="Get Attacked" type="Node" parent="SelectorComposite/Hurt/AlwaysFailDecorator/Melee Hit"]
+script = ExtResource("21_shy7s")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Suppressed" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_ce14b")
