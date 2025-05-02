@@ -215,6 +215,10 @@ func _ready():
 	default_anchor_offset = camera_anchor.position
 	current_weapon = unarmed_weapon  # Set default to unarmed
 	#add_child(tween)
+	var knife_res = load("res://Resources/Weapons/knife.tres")
+	if knife_res:
+		equip_weapon(knife_res)
+	
 
 
 # Weapon equipping function
@@ -231,7 +235,12 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 	else:
 		if new_weapon.model_scene:
 			current_weapon_model = new_weapon.model_scene.instantiate()
+			print("Instantiated model: ", current_weapon_model)  # Debug: Is it instantiated?
 			weapon_attachment.add_child(current_weapon_model)
+			current_weapon_model.rotation_degrees = Vector3(90, 90, 0)  # Adjust rotation to align with hand
+			current_weapon_model.position = Vector3(0, 10, 5)  # Fine-tune position if needed
+			current_weapon_model.scale = Vector3(30, 30, 30)
+			print("Parent after add: ", current_weapon_model.get_parent())  # Debug: Is it attached?
 			current_hitbox = current_weapon_model.get_node("Hitbox")
 	
 	# Connect hitbox signal
