@@ -76,7 +76,7 @@ script = ExtResource("1_n50fv")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_sxem6")
+&"": SubResource("AnimationLibrary_sxem6")
 }
 autoplay = "start_load"
 

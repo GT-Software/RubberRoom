@@ -123,6 +123,7 @@ func _ready():
 	health_component = HealthComponent.new()
 	detection_area.connect('is_detected', alert)
 	melee_range.connect('range', on_in_melee_range)
+	player.connect("player_attacking", _on_player_attacking)
 	
 	behavior_tree = get_node_or_null("BasicEnemyBehaviorTree")
 	player = get_node_or_null("%Player")

@@ -29,7 +29,7 @@
 [ext_resource type="Script" uid="uid://dlfl3n8adcrnq" path="res://scripts/Enemy/Behaviors/Enemy/fire_pistol.gd" id="15_u2fx1"]
 [ext_resource type="Script" uid="uid://cdqvfjj6sc2la" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/await_arrival_chase.gd" id="16_fkeik"]
 [ext_resource type="Script" uid="uid://dsf3a8vlolhx8" path="res://addons/beehave/nodes/decorators/succeeder.gd" id="20_5lpqk"]
-[ext_resource type="Script" uid="uid://c7jy37oi68akq" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
+[ext_resource type="Script" uid="uid://cv74jjdrwevpr" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
 [ext_resource type="Script" uid="uid://dhrt1u8haimpv" path="res://scripts/Enemy/Behaviors/Enemy/get_attacked.gd" id="21_shy7s"]
 [ext_resource type="Script" uid="uid://yen27s72syuk" path="res://scripts/Enemy/Behaviors/Enemy/is_hp_gone.gd" id="21_yenr8"]
 [ext_resource type="Script" uid="uid://d4awh42fa6oi1" path="res://scripts/Enemy/Behaviors/Enemy/die.gd" id="22_pgfsb"]
@@ -40,8 +40,8 @@
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
-blackboard = NodePath("@Node@21805")
-actor = NodePath("")
+blackboard = NodePath("@Node@52282")
+actor = NodePath("..")
 
 [node name="SelectorComposite" type="Node" parent="."]
 script = ExtResource("2_ioc84")

@@ -636,6 +636,7 @@ shape = SubResource("BoxShape3D_sul3n")
 [node name="Camera Controller" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Camera Controller"]
+physics_interpolation_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9891, 3.36336, 3.19197)
 attributes = SubResource("CameraAttributesPhysical_0ln7r")
 

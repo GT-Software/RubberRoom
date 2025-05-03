@@ -1,11 +1,10 @@
-[gd_scene load_steps=39 format=4 uid="uid://myxf2kgnxj08"]
+[gd_scene load_steps=38 format=4 uid="uid://myxf2kgnxj08"]
 
 [ext_resource type="Material" uid="uid://d0m0h48f7if6k" path="res://assets/materials/basic materials/blue.tres" id="1_p32gn"]
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="1_wq5rj"]
 [ext_resource type="Script" uid="uid://cse0p7wulch6r" path="res://scripts/Levels/world.gd" id="1_x3ss8"]
 [ext_resource type="Material" uid="uid://dhxq4c1h52vu2" path="res://assets/materials/basic materials/green.tres" id="2_xbvs2"]
 [ext_resource type="Material" uid="uid://dmwpt8dgourbm" path="res://assets/materials/basic materials/grey.tres" id="3_1p3pp"]
-[ext_resource type="Script" uid="uid://cakou78whrnpg" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_yvp8t"]
 [ext_resource type="PackedScene" uid="uid://drosn1nk8a1wt" path="res://scenes/Interact/interact_ray.tscn" id="5_hfe50"]
 [ext_resource type="Script" uid="uid://dk5vo3njrfd0y" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="6_5whtc"]
 [ext_resource type="Script" uid="uid://coujuso2ky8vm" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_xrul4"]
@@ -309,13 +308,9 @@ shape = SubResource("BoxShape3D_qeqkr")
 [node name="Camera Controller" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Camera Controller"]
+physics_interpolation_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.86274, 5.27859, 2.52592)
 attributes = SubResource("CameraAttributesPhysical_xgyf7")
-
-[node name="PhantomCameraHost" type="Node" parent="Camera Controller/Camera3D"]
-process_priority = 300
-process_physics_priority = 300
-script = ExtResource("4_yvp8t")
 
 [node name="InteractRay" parent="Camera Controller/Camera3D" instance=ExtResource("5_hfe50")]
 transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 0, 0)
