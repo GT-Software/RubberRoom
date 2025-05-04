@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=3 format=3 uid="uid://ihu72jjffawt"]
+
+[ext_resource type="PackedScene" uid="uid://blbmesc5ji320" path="res://scenes/Weapons/WeaponScn/Machete.tscn" id="1_bocsp"]
+[ext_resource type="Script" uid="uid://bjbdu6ek4jmfa" path="res://scripts/Weapons/WeaponResource.gd" id="1_tq786"]
+
+[resource]
+script = ExtResource("1_tq786")
+name = "Machete"
+classification = 2
+damage = 4.2
+model_scene = ExtResource("1_bocsp")
+metadata/_custom_type_script = "uid://bjbdu6ek4jmfa"

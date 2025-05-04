@@ -239,7 +239,7 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 			weapon_attachment.add_child(current_weapon_model)
 			current_weapon_model.rotation_degrees = Vector3(90, 90, 0)  # Adjust rotation to align with hand
 			current_weapon_model.position = Vector3(0, 10, 5)  # Fine-tune position if needed
-			current_weapon_model.scale = Vector3(30, 30, 30)
+			current_weapon_model.scale = Vector3(100, 100, 100)
 			print("Parent after add: ", current_weapon_model.get_parent())  # Debug: Is it attached?
 			current_hitbox = current_weapon_model.get_node("Hitbox")
 	

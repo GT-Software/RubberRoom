@@ -30,7 +30,7 @@ var curAnim = IDLE
 var vision_cone
 
 @export var SPEED = 3.0
-@export var RUN_SPEED = 10.0
+@export var RUN_SPEED = 5.0
 @export var TURN_SPEED = 3.0
 @export var current_speed : float
 
