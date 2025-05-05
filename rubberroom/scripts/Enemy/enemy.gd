@@ -433,13 +433,14 @@ func _on_enemy_melee_range_exited(body):
 
 # If the player enters the melee range of this enemy, the enemy will attempt to attack
 # I believe this funciton is redundant and may cause problems.
-func _on_area_3d_body_entered(body: Node3D) -> void:
-	print("Active Hitbox? : ", hitbox_active)
-	if body.is_in_group("player") and hitbox_active:
-		var attack : Attack = Attack.new()
-		emit_signal("attacking", attack)
-		print("Right arm collided with Enemy! Dealing damage once.")
-		hitbox_active = false  # no more hits this swing
+# Commenting out for now as its useless
+#func _on_area_3d_body_entered(body: Node3D) -> void:
+	#print("Active Hitbox? : ", hitbox_active)
+	#if body.is_in_group("player") and hitbox_active:
+		#var attack : Attack = Attack.new()
+		#emit_signal("attacking", attack)
+		#print("Right arm collided with Enemy! Dealing damage once.")
+		#hitbox_active = false  # no more hits this swing
 		
 func apply_hitstun(duration: float) -> void:
 	is_hitstunned = true

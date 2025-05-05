@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=41 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://8hn4kne15ac5" path="res://addons/beehave/nodes/composites/selector.gd" id="2_ioc84"]
@@ -31,8 +31,10 @@
 [ext_resource type="Script" uid="uid://dsf3a8vlolhx8" path="res://addons/beehave/nodes/decorators/succeeder.gd" id="20_5lpqk"]
 [ext_resource type="Script" uid="uid://cv74jjdrwevpr" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
 [ext_resource type="Script" uid="uid://bweta74fjp1bi" path="res://scripts/Enemy/Behaviors/Enemy/find_safe_position.gd" id="20_shy7s"]
+[ext_resource type="Script" uid="uid://b486os04u00s8" path="res://scripts/Enemy/Behaviors/Enemy/set_destination.gd" id="21_bibpj"]
 [ext_resource type="Script" uid="uid://dhrt1u8haimpv" path="res://scripts/Enemy/Behaviors/Enemy/get_attacked.gd" id="21_shy7s"]
 [ext_resource type="Script" uid="uid://yen27s72syuk" path="res://scripts/Enemy/Behaviors/Enemy/is_hp_gone.gd" id="21_yenr8"]
+[ext_resource type="Script" uid="uid://bjl7wn60687ks" path="res://scripts/Enemy/Behaviors/Enemy/await_arrival_retreat.gd" id="22_4pt63"]
 [ext_resource type="Script" uid="uid://d4awh42fa6oi1" path="res://scripts/Enemy/Behaviors/Enemy/die.gd" id="22_pgfsb"]
 [ext_resource type="Script" uid="uid://6f84fub3u2dd" path="res://scripts/Enemy/Behaviors/Enemy/is_throwable_item.gd" id="30_5lpqk"]
 [ext_resource type="Script" uid="uid://dwfdg523bk776" path="res://addons/beehave/nodes/decorators/failer.gd" id="30_ydldi"]
@@ -131,10 +133,10 @@ script = ExtResource("12_rk2cx")
 script = ExtResource("20_shy7s")
 
 [node name="SetDestination" type="Node" parent="SelectorComposite/Retreat"]
-script = ExtResource("20_nv5xh")
+script = ExtResource("21_bibpj")
 
 [node name="Await Arrival" type="Node" parent="SelectorComposite/Retreat"]
-script = ExtResource("20_nv5xh")
+script = ExtResource("22_4pt63")
 
 [node name="Combat" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_ce14b")
