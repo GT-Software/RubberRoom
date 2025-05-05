@@ -10,3 +10,9 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		actor.rotate_node = actor.target
 		
 	return SUCCESS
+
+func interrupt(actor: Node, blackboard: Blackboard) -> void:
+	var enemy = actor as Enemy
+	enemy.rotate_self = false # Stop rotation
+	enemy.update_animation_state()
+	print("Face enemy interrupted")

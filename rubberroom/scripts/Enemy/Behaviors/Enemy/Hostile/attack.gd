@@ -15,3 +15,13 @@ func tick(actor, blackboard):
 		blackboard.set_value("attack animation", actor.attack())
 		return SUCCESS
 		
+
+func interrupt(actor: Node, blackboard: Blackboard) -> void:
+	var enemy = actor as Enemy
+	if blackboard.get_value("attacking") == true:
+		# Stop the attack animation
+		enemy.anim_tree.set("parameters/LightAttack/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
+		enemy.hitbox_active = false # Disable hitbox
+		blackboard.set_value("attacking", false)
+		blackboard.set_value("attack animation", false)
+		print("Attack interrupted!")

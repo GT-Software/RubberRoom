@@ -12,3 +12,13 @@ func tick(actor, blackboard):
 		
 	#actor.update_nav_agent()
 	return SUCCESS
+
+func interrupt(actor: Node, blackboard: Blackboard) -> void:
+	var enemy = actor as Enemy
+	enemy.is_walking = false  # Stop walking animation
+	enemy.is_running = false
+	enemy.update_animation_state()
+	enemy.velocity = Vector3.ZERO
+	enemy.nav_agent.set_velocity(Vector3.ZERO)
+	enemy.nav_agent.target_position = enemy.global_position  # Reset target
+	print("Chase destination interrupted!")
