@@ -6,7 +6,7 @@ func tick(actor, blackboard):
 		blackboard.set_value("attack animation", false)
 		return FAILURE
 	
-	if blackboard.get_value("attacking") == true and blackboard.get_value("attack animation") == actor.get_lightattack_animation():
+	if blackboard.get_value("attacking") == true and actor.get_lightattack_animation() == true:
 		#print("Is attacking: ", actor.get_current_animation())
 		#actor.update_nav_agent(0)
 		return RUNNING
@@ -21,7 +21,6 @@ func interrupt(actor: Node, blackboard: Blackboard) -> void:
 	if blackboard.get_value("attacking") == true:
 		# Stop the attack animation
 		enemy.anim_tree.set("parameters/LightAttack/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
-		enemy.hitbox_active = false # Disable hitbox
 		blackboard.set_value("attacking", false)
 		blackboard.set_value("attack animation", false)
 		print("Attack interrupted!")
