@@ -96,7 +96,8 @@ script = ExtResource("7_bdjyc")
 script = ExtResource("21_shy7s")
 
 [node name="Combat" type="Node" parent="SelectorComposite"]
-script = ExtResource("3_ce14b")
+script = ExtResource("2_ioc84")
+metadata/_custom_type_script = "uid://8hn4kne15ac5"
 
 [node name="IsPlayerInRange" type="Node" parent="SelectorComposite/Combat"]
 script = ExtResource("10_ea1eq")
