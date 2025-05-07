@@ -1,6 +1,7 @@
-[gd_scene load_steps=37 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=38 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
+[ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="2_en11p"]
 [ext_resource type="Script" uid="uid://8hn4kne15ac5" path="res://addons/beehave/nodes/composites/selector.gd" id="2_ioc84"]
 [ext_resource type="Script" uid="uid://cg016dbe7gs1x" path="res://addons/beehave/nodes/composites/sequence.gd" id="3_ce14b"]
 [ext_resource type="Script" uid="uid://cw2q2h1pkkwek" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/check_for_enemy.gd" id="4_egn4w"]
@@ -40,184 +41,199 @@
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
 blackboard = NodePath("@Node@21879")
+custom_monitor = true
 actor = NodePath("..")
 
-[node name="SelectorComposite" type="Node" parent="."]
-script = ExtResource("2_ioc84")
+[node name="SelectorReactiveComposite" type="Node" parent="."]
+script = ExtResource("2_en11p")
+metadata/_custom_type_script = "uid://cw22yurt5l74k"
 
-[node name="Death" type="Node" parent="SelectorComposite"]
+[node name="Death" type="Node" parent="SelectorReactiveComposite"]
 script = ExtResource("3_ce14b")
 
-[node name="IsHPGone" type="Node" parent="SelectorComposite/Death"]
+[node name="IsHPGone" type="Node" parent="SelectorReactiveComposite/Death"]
 script = ExtResource("21_yenr8")
 
-[node name="Die" type="Node" parent="SelectorComposite/Death"]
+[node name="Die" type="Node" parent="SelectorReactiveComposite/Death"]
 script = ExtResource("22_pgfsb")
 
-[node name="AlwaysFailDecorator" type="Node" parent="SelectorComposite"]
-script = ExtResource("30_ydldi")
-metadata/_custom_type_script = "uid://dwfdg523bk776"
-
-[node name="Dodge" type="Node" parent="SelectorComposite/AlwaysFailDecorator"]
-script = ExtResource("3_ce14b")
-
-[node name="IsPlayerVisible" type="Node" parent="SelectorComposite/AlwaysFailDecorator/Dodge"]
-script = ExtResource("6_ntekc")
-
-[node name="IsPlayerMeleeAttacking" type="Node" parent="SelectorComposite/AlwaysFailDecorator/Dodge"]
-script = ExtResource("7_bdjyc")
-
-[node name="IsPlayerInMeleeRange" type="Node" parent="SelectorComposite/AlwaysFailDecorator/Dodge"]
-script = ExtResource("10_ea1eq")
-
-[node name="DelayDodge" type="Node" parent="SelectorComposite/AlwaysFailDecorator/Dodge"]
-script = ExtResource("7_t85qk")
-wait_time = 1.0
-
-[node name="Dodge" type="Node" parent="SelectorComposite/AlwaysFailDecorator/Dodge/DelayDodge"]
-script = ExtResource("10_oa5jo")
-
-[node name="Hurt" type="Node" parent="SelectorComposite"]
-script = ExtResource("2_ioc84")
-metadata/_custom_type_script = "uid://8hn4kne15ac5"
-
-[node name="AlwaysFailDecorator" type="Node" parent="SelectorComposite/Hurt"]
-script = ExtResource("30_ydldi")
-metadata/_custom_type_script = "uid://dwfdg523bk776"
-
-[node name="Melee Hit" type="Node" parent="SelectorComposite/Hurt/AlwaysFailDecorator"]
+[node name="Hit" type="Node" parent="SelectorReactiveComposite"]
 script = ExtResource("3_ce14b")
 metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 
-[node name="IsPlayerMeleeAttacking" type="Node" parent="SelectorComposite/Hurt/AlwaysFailDecorator/Melee Hit"]
-script = ExtResource("7_bdjyc")
-
-[node name="Get Attacked" type="Node" parent="SelectorComposite/Hurt/AlwaysFailDecorator/Melee Hit"]
-script = ExtResource("21_shy7s")
-
-[node name="Combat" type="Node" parent="SelectorComposite"]
+[node name="Hurt" type="Node" parent="SelectorReactiveComposite/Hit"]
 script = ExtResource("2_ioc84")
 metadata/_custom_type_script = "uid://8hn4kne15ac5"
 
-[node name="IsPlayerInRange" type="Node" parent="SelectorComposite/Combat"]
-script = ExtResource("10_ea1eq")
-
-[node name="Alerted" type="Node" parent="SelectorComposite/Combat"]
-script = ExtResource("14_5ptti")
-
-[node name="Suppressed" type="Node" parent="SelectorComposite/Combat"]
-script = ExtResource("3_ce14b")
-
-[node name="IsShotAt" type="Node" parent="SelectorComposite/Combat/Suppressed"]
-script = ExtResource("9_xrjo8")
-
-[node name="IsLowHP" type="Node" parent="SelectorComposite/Combat/Suppressed"]
-script = ExtResource("7_0g4ya")
-
-[node name="IsThereCover" type="Node" parent="SelectorComposite/Combat/Suppressed"]
-script = ExtResource("10_kyg0x")
-
-[node name="IsAtCover" type="Node" parent="SelectorComposite/Combat/Suppressed"]
-script = ExtResource("7_v4q1j")
-
-[node name="FindCover" type="Node" parent="SelectorComposite/Combat/Suppressed"]
-script = ExtResource("10_38g4q")
-
-[node name="Chase or Attack" type="Node" parent="SelectorComposite/Combat"]
-script = ExtResource("2_ioc84")
-
-[node name="Chase" type="Node" parent="SelectorComposite/Combat/Chase or Attack"]
-script = ExtResource("3_ce14b")
-
-[node name="IsOutOfAttackRange" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase"]
-script = ExtResource("10_ea1eq")
-
-[node name="AlwaysSucceedDecorator" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase"]
-script = ExtResource("20_5lpqk")
-metadata/_custom_type_script = "uid://dsf3a8vlolhx8"
-
-[node name="IsPlayerVisible" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase/AlwaysSucceedDecorator"]
-script = ExtResource("6_ntekc")
-
-[node name="Set Destination to Enemy" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase"]
-script = ExtResource("13_1bny8")
-
-[node name="Face Enemy" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase"]
-script = ExtResource("15_pcgyu")
-
-[node name="Await Arrival" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Chase"]
-script = ExtResource("16_fkeik")
-
-[node name="Attack" type="Node" parent="SelectorComposite/Combat/Chase or Attack"]
-script = ExtResource("3_ce14b")
-
-[node name="IsInMeleeRange" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack"]
-script = ExtResource("6_rh4pm")
-metadata/_custom_type_script = "uid://cbnbvj8prv63i"
-
-[node name="AttackType" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack"]
-script = ExtResource("2_ioc84")
-
-[node name="RifleAttack" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType"]
-script = ExtResource("3_ce14b")
-
-[node name="HasRifle" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
-script = ExtResource("10_pkjsf")
-
-[node name="HasRifleAmmo" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
-script = ExtResource("11_hm4ar")
-
-[node name="FireRifle" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
-script = ExtResource("12_01lqm")
-
-[node name="PistolAttack" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType"]
-script = ExtResource("3_ce14b")
-
-[node name="HasPistol" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
-script = ExtResource("13_kyfb8")
-
-[node name="HasPistolAmmo" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
-script = ExtResource("14_5hccb")
-
-[node name="FirePistol" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
-script = ExtResource("15_u2fx1")
-
-[node name="AlwaysFailDecorator" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType"]
+[node name="AlwaysFailDecorator" type="Node" parent="SelectorReactiveComposite/Hit/Hurt"]
 script = ExtResource("30_ydldi")
 metadata/_custom_type_script = "uid://dwfdg523bk776"
 
-[node name="ThrowableAttack" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/AlwaysFailDecorator"]
+[node name="Melee Hit" type="Node" parent="SelectorReactiveComposite/Hit/Hurt/AlwaysFailDecorator"]
+script = ExtResource("3_ce14b")
+metadata/_custom_type_script = "uid://cg016dbe7gs1x"
+
+[node name="IsPlayerMeleeAttacking" type="Node" parent="SelectorReactiveComposite/Hit/Hurt/AlwaysFailDecorator/Melee Hit"]
+script = ExtResource("7_bdjyc")
+
+[node name="Get Attacked" type="Node" parent="SelectorReactiveComposite/Hit/Hurt/AlwaysFailDecorator/Melee Hit"]
+script = ExtResource("21_shy7s")
+
+[node name="Combat" type="Node" parent="SelectorReactiveComposite"]
+script = ExtResource("3_ce14b")
+metadata/_custom_type_script = "uid://cg016dbe7gs1x"
+
+[node name="IsPlayerInRange" type="Node" parent="SelectorReactiveComposite/Combat"]
+script = ExtResource("10_ea1eq")
+
+[node name="Alerted" type="Node" parent="SelectorReactiveComposite/Combat"]
+script = ExtResource("14_5ptti")
+
+[node name="Combat" type="Node" parent="SelectorReactiveComposite/Combat"]
+script = ExtResource("2_ioc84")
+metadata/_custom_type_script = "uid://8hn4kne15ac5"
+
+[node name="Suppressed" type="Node" parent="SelectorReactiveComposite/Combat/Combat"]
 script = ExtResource("3_ce14b")
 
-[node name="IsThrowableItem" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/AlwaysFailDecorator/ThrowableAttack"]
+[node name="IsShotAt" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Suppressed"]
+script = ExtResource("9_xrjo8")
+
+[node name="IsLowHP" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Suppressed"]
+script = ExtResource("7_0g4ya")
+
+[node name="IsThereCover" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Suppressed"]
+script = ExtResource("10_kyg0x")
+
+[node name="IsAtCover" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Suppressed"]
+script = ExtResource("7_v4q1j")
+
+[node name="FindCover" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Suppressed"]
+script = ExtResource("10_38g4q")
+
+[node name="Chase or Attack" type="Node" parent="SelectorReactiveComposite/Combat/Combat"]
+script = ExtResource("2_ioc84")
+
+[node name="Chase" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack"]
+script = ExtResource("3_ce14b")
+
+[node name="IsOutOfAttackRange" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Chase"]
+script = ExtResource("10_ea1eq")
+
+[node name="AlwaysSucceedDecorator" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Chase"]
+script = ExtResource("20_5lpqk")
+metadata/_custom_type_script = "uid://dsf3a8vlolhx8"
+
+[node name="IsPlayerVisible" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Chase/AlwaysSucceedDecorator"]
+script = ExtResource("6_ntekc")
+
+[node name="Set Destination to Enemy" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Chase"]
+script = ExtResource("13_1bny8")
+
+[node name="Face Enemy" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Chase"]
+script = ExtResource("15_pcgyu")
+
+[node name="Await Arrival" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Chase"]
+script = ExtResource("16_fkeik")
+
+[node name="Attack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack"]
+script = ExtResource("3_ce14b")
+
+[node name="IsInMeleeRange" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack"]
+script = ExtResource("6_rh4pm")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="AttackType" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack"]
+script = ExtResource("2_ioc84")
+
+[node name="RifleAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
+script = ExtResource("3_ce14b")
+
+[node name="HasRifle" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
+script = ExtResource("10_pkjsf")
+
+[node name="HasRifleAmmo" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
+script = ExtResource("11_hm4ar")
+
+[node name="FireRifle" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
+script = ExtResource("12_01lqm")
+
+[node name="PistolAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
+script = ExtResource("3_ce14b")
+
+[node name="HasPistol" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
+script = ExtResource("13_kyfb8")
+
+[node name="HasPistolAmmo" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
+script = ExtResource("14_5hccb")
+
+[node name="FirePistol" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
+script = ExtResource("15_u2fx1")
+
+[node name="Throwable" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
+script = ExtResource("30_ydldi")
+metadata/_custom_type_script = "uid://dwfdg523bk776"
+
+[node name="ThrowableAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable"]
+script = ExtResource("3_ce14b")
+
+[node name="IsThrowableItem" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable/ThrowableAttack"]
 script = ExtResource("30_5lpqk")
 
-[node name="Throw" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/AlwaysFailDecorator/ThrowableAttack"]
+[node name="Throw" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable/ThrowableAttack"]
 script = ExtResource("31_ydldi")
 
-[node name="MeleeAttack" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType"]
+[node name="DelayDecorator" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
+script = ExtResource("7_t85qk")
+wait_time = 0.5
+metadata/_custom_type_script = "uid://dorri1tul8gfx"
+
+[node name="MeleeAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/DelayDecorator"]
 script = ExtResource("3_ce14b")
 
-[node name="MeleeAttack" type="Node" parent="SelectorComposite/Combat/Chase or Attack/Attack/AttackType/MeleeAttack"]
+[node name="MeleeAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/DelayDecorator/MeleeAttack"]
 script = ExtResource("13_1jjdt")
 
-[node name="PickupItem" type="Node" parent="SelectorComposite"]
+[node name="PickupItem" type="Node" parent="SelectorReactiveComposite"]
 script = ExtResource("3_ce14b")
 
-[node name="IsBetterItemInRange" type="Node" parent="SelectorComposite/PickupItem"]
+[node name="IsBetterItemInRange" type="Node" parent="SelectorReactiveComposite/PickupItem"]
 script = ExtResource("32_oa5jo")
 
-[node name="MoveToItem" type="Node" parent="SelectorComposite/PickupItem"]
+[node name="MoveToItem" type="Node" parent="SelectorReactiveComposite/PickupItem"]
 script = ExtResource("20_nv5xh")
 
-[node name="PickupItem" type="Node" parent="SelectorComposite/PickupItem"]
+[node name="PickupItem" type="Node" parent="SelectorReactiveComposite/PickupItem"]
 script = ExtResource("20_nv5xh")
 
-[node name="Idle" type="Node" parent="SelectorComposite"]
+[node name="Idle" type="Node" parent="SelectorReactiveComposite"]
 script = ExtResource("3_ce14b")
 
-[node name="Check for Enemy" type="Node" parent="SelectorComposite/Idle"]
+[node name="Check for Enemy" type="Node" parent="SelectorReactiveComposite/Idle"]
 script = ExtResource("4_egn4w")
 
-[node name="IdleAnimation" type="Node" parent="SelectorComposite/Idle"]
+[node name="IdleAnimation" type="Node" parent="SelectorReactiveComposite/Idle"]
 script = ExtResource("5_fb5pm")
+
+[node name="Dodge" type="Node" parent="SelectorReactiveComposite"]
+script = ExtResource("30_ydldi")
+metadata/_custom_type_script = "uid://dwfdg523bk776"
+
+[node name="Dodge" type="Node" parent="SelectorReactiveComposite/Dodge"]
+script = ExtResource("3_ce14b")
+
+[node name="IsPlayerVisible" type="Node" parent="SelectorReactiveComposite/Dodge/Dodge"]
+script = ExtResource("6_ntekc")
+
+[node name="IsPlayerMeleeAttacking" type="Node" parent="SelectorReactiveComposite/Dodge/Dodge"]
+script = ExtResource("7_bdjyc")
+
+[node name="IsPlayerInMeleeRange" type="Node" parent="SelectorReactiveComposite/Dodge/Dodge"]
+script = ExtResource("10_ea1eq")
+
+[node name="DelayDodge" type="Node" parent="SelectorReactiveComposite/Dodge/Dodge"]
+script = ExtResource("7_t85qk")
+wait_time = 1.0
+
+[node name="Dodge" type="Node" parent="SelectorReactiveComposite/Dodge/Dodge/DelayDodge"]
+script = ExtResource("10_oa5jo")

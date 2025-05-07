@@ -531,7 +531,6 @@ func _physics_process(delta):
 			return
 
 
-
 func _on_hitbox_entered(body):
 	if hitbox_active and body.is_in_group("enemies"):
 		var attack_instance = Attack.new(current_weapon.damage, 0.0, 0.0, 0.0, 0.0, global_position)

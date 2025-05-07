@@ -6,6 +6,10 @@ func tick(actor, blackboard):
 		#blackboard.set_value('attacking', true)
 		actor.update_target_location(actor.global_position)
 		actor.is_running = false
+		actor.is_idle = false
+		actor.is_walking = false
+		actor.current_speed = 0
+		actor.update_animation_state()
 		return FAILURE
 	else:
 		actor.update_target_location(blackboard.get_value("player_pos"))
@@ -21,8 +25,8 @@ func interrupt(actor: Node, blackboard: Blackboard) -> void:
 	var enemy = actor as Enemy
 	# Stop the chase animation
 	actor.is_running = false
-	actor.is_running = false
+	actor.is_walking = false
+	actor.is_idle = false
 	actor.update_animation_state()
-	actor.velocity = Vector3.ZERO
-	actor.nav_agent.set_velocity(Vector3.ZERO)
+	actor.current_speed = 0
 	print("Await Arrival interrupted!")
