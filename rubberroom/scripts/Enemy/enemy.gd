@@ -415,8 +415,8 @@ func update_lock_on_status():
 
 func _on_player_attacking(attack: Attack, in_range : bool):
 	if behavior_tree:
-		behavior_tree.blackboard.set_value("is_attacked", true)
-		behavior_tree.blackboard.set_value("player_attack", attack)
+		behavior_tree.blackboard.set_value("is attacked", true)
+		behavior_tree.blackboard.set_value("player attack", attack)
 	
 	#take_damage(attack)
 	#anim_tree.set("parameters/GotHit/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)

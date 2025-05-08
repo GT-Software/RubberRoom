@@ -535,6 +535,7 @@ func _on_hitbox_entered(body):
 	if hitbox_active and body.is_in_group("enemies"):
 		var attack_instance = Attack.new(current_weapon.damage, 0.0, 0.0, 0.0, 0.0, global_position)
 		emit_signal("player_attacking", attack_instance, true)
+		print("_on_hitbox_entered was run through")
 		hitbox_active = false  # Reset after hit (adjust based on your combo system)
 # -------------------------------
 # Attack Functions
@@ -882,7 +883,7 @@ func _on_area_3d_body_entered(body):
 	if body.is_in_group("enemies") and hitbox_active:
 			# 3) If valid, deal damage exactly once
 		var attack_instance = Attack.new(current_weapon.damage, 0.0, 0.0, 0.0, 0.0, global_position)
-		print("Right arm collided with Enemy! Dealing damage once. : ", current_weapon.damage)
+		print("Right arm collided with Enemy! Dealing damage once: ", current_weapon.damage)
 		emit_signal("player_attacking", attack_instance, true)
 		hitbox_active = false  # no more hits this swing
 
