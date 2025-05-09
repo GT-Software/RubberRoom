@@ -29,7 +29,7 @@ var curAnim = IDLE
 @onready var punch_sound = $AudioStreamPlayer3D
 var vision_cone
 
-@export var SPEED = 3.0
+@export var SPEED = 1.5
 @export var RUN_SPEED = 5.0
 @export var TURN_SPEED = 3.0
 @export var current_speed : float
@@ -391,10 +391,12 @@ func on_in_melee_range(in_range : bool):
 	## Sets the velocity value for the nav_agent to calculate a safe direction (see _on_navigation_agent_3d_velocity_computed
 	#nav_agent.set_velocity(new_velocity * speed)
 
-# Updates the Navigation Agent's targetted vector position
-func update_target_location(target_location) -> void:
+## Updates the Navigation Agent's targetted vector position. distance_to_target allows for the changing of 
+## where the agent needs to stop to be considered at the target_location.
+func update_target_location(target_location, distance_to_target : float = 0.7) -> void:
 	#print(self.name + ": Updating enemy target location...")
 	nav_agent.target_position = target_location
+	nav_agent.target_desired_distance = distance_to_target
 
 ## If the enemy has reached its target, stop moving
 #func _on_navigation_agent_3d_target_reached() -> void:

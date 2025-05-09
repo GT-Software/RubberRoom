@@ -6,7 +6,7 @@ func tick(actor, blackboard: Blackboard):
 	
 	# If the attack is null run until the player connects with the enemy
 	if attack == null:
-		return RUNNING
+		return FAILURE
 	# If the player's fist connects with the enemy (is attacked becomes true), it'll actually consider
 	# that the enemy must take damage and go through the GotHit animation.
 	elif blackboard.get_value("is attacked") == true:
@@ -19,6 +19,5 @@ func tick(actor, blackboard: Blackboard):
 		print("Current Enemy Health: ", actor.health_component.get_health())
 		blackboard.set_value("is attacked", false)
 		return SUCCESS
-	# Return FAILURE because its done
-	else:
-		return FAILURE
+		
+	return RUNNING

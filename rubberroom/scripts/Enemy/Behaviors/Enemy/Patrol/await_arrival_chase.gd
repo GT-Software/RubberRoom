@@ -12,7 +12,7 @@ func tick(actor, blackboard):
 		actor.update_animation_state()
 		return FAILURE
 	else:
-		actor.update_target_location(blackboard.get_value("player_pos"))
+		actor.update_target_location(blackboard.get_value("player_pos"), 3.0)
 		#actor.update_nav_agent(actor.RUN_SPEED)
 		actor.is_idle = false
 		actor.is_walking = false
