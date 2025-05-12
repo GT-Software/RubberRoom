@@ -8,17 +8,18 @@ class_name Inventory
 
 ## The max slots the inventory instance can hold.
 ## Can be changed
-var max_slots = 2
+var max_slots
 ## The actual storage variable for all the items
 var content : Dictionary[int, WeaponResource]
 ## The number of slots available
 var size
 
 ## Initialize content with null values for all [member Inventory.max_slots]
-func _init():
+func _init(max_slots : int = 2):
 	for i in range(max_slots):
 		content.set(i, null)
-		
+	
+	self.max_slots = max_slots
 	size = max_slots
 
 ## Adds an item ([WeaponResource]) to the inventory if there is a free slot.
@@ -68,6 +69,7 @@ func remove_item(index : int) -> Dictionary[bool, String]:
 ## Clear the inventory of items for any reason (i.e. Player dies)
 func clear_inventory():
 	content.clear()
+	size = max_slots
 
 ## Get all inventory items in the form of an array
 func get_items() -> Array[WeaponResource]:
@@ -92,5 +94,14 @@ func swap_items(slot_a : int, slot_b : int):
 	var item_a = content.get(slot_a, null)
 	var item_b = content.get(slot_b, null)
 	
+	# Swap the values
 	content.set(slot_a, item_b)
 	content.set(slot_b, item_a)
+
+## Increase the maximum number of slots the inventory can hold.
+func increase_max_slots(add_value : int):
+	for i in range(max_slots, max_slots + add_value):
+		content.set(i, null)
+
+	max_slots += add_value
+	size += add_value
