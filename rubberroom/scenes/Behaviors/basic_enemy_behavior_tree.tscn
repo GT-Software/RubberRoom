@@ -29,7 +29,7 @@
 [ext_resource type="Script" uid="uid://dlfl3n8adcrnq" path="res://scripts/Enemy/Behaviors/Enemy/fire_pistol.gd" id="15_u2fx1"]
 [ext_resource type="Script" uid="uid://cdqvfjj6sc2la" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/await_arrival_chase.gd" id="16_fkeik"]
 [ext_resource type="Script" uid="uid://dsf3a8vlolhx8" path="res://addons/beehave/nodes/decorators/succeeder.gd" id="20_5lpqk"]
-[ext_resource type="Script" uid="uid://cv74jjdrwevpr" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
+[ext_resource type="Script" uid="uid://c7jy37oi68akq" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
 [ext_resource type="Script" uid="uid://dhrt1u8haimpv" path="res://scripts/Enemy/Behaviors/Enemy/get_attacked.gd" id="21_shy7s"]
 [ext_resource type="Script" uid="uid://yen27s72syuk" path="res://scripts/Enemy/Behaviors/Enemy/is_hp_gone.gd" id="21_yenr8"]
 [ext_resource type="Script" uid="uid://d4awh42fa6oi1" path="res://scripts/Enemy/Behaviors/Enemy/die.gd" id="22_pgfsb"]
@@ -42,9 +42,9 @@
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
-blackboard = NodePath("@Node@21879")
+blackboard = NodePath("@Node@21790")
 custom_monitor = true
-actor = NodePath("..")
+actor = NodePath("")
 
 [node name="SelectorReactiveComposite" type="Node" parent="."]
 script = ExtResource("2_en11p")
@@ -135,7 +135,6 @@ script = ExtResource("3_ce14b")
 
 [node name="IsInMeleeRange" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack"]
 script = ExtResource("6_rh4pm")
-metadata/_custom_type_script = "uid://cbnbvj8prv63i"
 
 [node name="AttackType" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack"]
 script = ExtResource("2_ioc84")
@@ -191,11 +190,9 @@ metadata/_custom_type_script = "uid://crkjak4kyv56m"
 
 [node name="IsInMeleeRange" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee/Walk Up/InverterDecorator"]
 script = ExtResource("6_rh4pm")
-metadata/_custom_type_script = "uid://cbnbvj8prv63i"
 
 [node name="Walk to Player" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee/Walk Up"]
 script = ExtResource("33_4pt63")
-metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Melee Delay" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee"]
 script = ExtResource("7_t85qk")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bbcojlsg6u4g2"]
+[gd_scene load_steps=37 format=3 uid="uid://bbcojlsg6u4g2"]
 
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="1_7wmbq"]
 [ext_resource type="Script" uid="uid://cse0p7wulch6r" path="res://scripts/Levels/world.gd" id="1_ot05e"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://bm8fdgmjoqbtp" path="res://scenes/Stat Bars/player_stat_bars.tscn" id="11_pyio3"]
 [ext_resource type="Texture2D" uid="uid://dtmdw20q6ap87" path="res://assets/images/crosshair (1).png" id="12_sl72j"]
 [ext_resource type="PackedScene" uid="uid://3e3pvfdco7mt" path="res://scenes/Agents/basic_npc.tscn" id="14_ec1jr"]
+[ext_resource type="Script" uid="uid://bg6wsh4583oxu" path="res://scenes/Levels/ammo_display.gd" id="15_2jwce"]
 [ext_resource type="PackedScene" uid="uid://brt856gi83iuc" path="res://scenes/Interact/actionable.tscn" id="15_p00jr"]
 [ext_resource type="Script" uid="uid://cakou78whrnpg" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="17_kaabt"]
 [ext_resource type="Script" uid="uid://bddatxcyjbvur" path="res://scripts/Weapons/WeaponPickup.gd" id="17_trjwt"]
@@ -337,6 +338,37 @@ grow_vertical = 2
 texture = ExtResource("12_sl72j")
 expand_mode = 1
 
+[node name="AmmoDisplay" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchor_left = 0.868
+anchor_top = 0.849
+anchor_right = 0.968
+anchor_bottom = 0.968
+offset_left = 0.0639648
+offset_top = -0.152039
+offset_right = -0.136108
+offset_bottom = -0.264038
+script = ExtResource("15_2jwce")
+
+[node name="AmmoContainer" type="VBoxContainer" parent="CanvasLayer/AmmoDisplay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.974
+anchor_bottom = 1.0
+offset_right = -0.0100021
+
+[node name="Weapon Name" type="Label" parent="CanvasLayer/AmmoDisplay/AmmoContainer"]
+layout_mode = 2
+text = "WeaponName"
+
+[node name="Magazine" type="Label" parent="CanvasLayer/AmmoDisplay/AmmoContainer"]
+layout_mode = 2
+text = "Magazine Text"
+
+[node name="Reserve" type="Label" parent="CanvasLayer/AmmoDisplay/AmmoContainer"]
+layout_mode = 2
+text = "Reserve Text"
+
 [node name="Basic_NPC" parent="." instance=ExtResource("14_ec1jr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.78793, 1.29538, 45.1744)
 collision_layer = 11
@@ -432,6 +464,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.7819, 0, 45.0989)
 
 [node name="Enemy2" parent="." instance=ExtResource("23_4g06l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.7043, 1, -9.13174)
+
+[node name="ProjectileContainer" type="Node3D" parent="."]
 
 [connection signal="Fear_Down" from="NavigationRegion3D/Base World/Interactables/Fear Decrease Button" to="NavigationRegion3D/Base World/Interactables/Fear Decrease Button" method="_on_fear_down"]
 [connection signal="Fear_Up" from="NavigationRegion3D/Base World/Interactables/Fear Increase Button" to="NavigationRegion3D/Base World/Interactables/Fear Increase Button" method="_on_fear_up"]

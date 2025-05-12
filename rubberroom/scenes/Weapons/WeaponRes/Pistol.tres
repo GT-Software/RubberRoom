@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=4 format=3 uid="uid://w57kudsylbws"]
+
+[ext_resource type="PackedScene" uid="uid://btbqqyrxbjfy7" path="res://scenes/Weapons/WeaponScn/pistol.tscn" id="1_dr028"]
+[ext_resource type="Script" uid="uid://bjbdu6ek4jmfa" path="res://scripts/Weapons/WeaponResource.gd" id="1_lolbq"]
+[ext_resource type="PackedScene" uid="uid://cr1w17bp8sgq3" path="res://scenes/Weapons/WeaponScn/Projectile.tscn" id="2_nqhtm"]
+
+[resource]
+script = ExtResource("1_lolbq")
+name = "Pistol"
+classification = 4
+damage = 7.0
+model_scene = ExtResource("1_dr028")
+is_ranged = true
+ammo_type = 1
+max_ammo = 60
+magazine_size = 15
+fire_rate = 2.0
+reload_time = 1.5
+projectile_scene = ExtResource("2_nqhtm")
+projectile_speed = 50.0
+spread = 2.0
+projectile_count = 1
+metadata/_custom_type_script = "uid://bjbdu6ek4jmfa"

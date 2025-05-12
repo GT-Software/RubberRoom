@@ -40,6 +40,19 @@ signal player_attacking(attack : Attack, in_range : bool)
 var current_weapon: WeaponResource
 var current_weapon_model: Node3D = null
 
+# -------------------------------
+# Ranged Weapon Variables
+# -------------------------------
+var ammo_manager = AmmoManager.new()
+var fire_cooldown_timer = 0.0
+var can_fire = true
+var is_reloading = false
+var is_aiming = false
+@onready var muzzle_position = $AuxScene/Node/Skeleton3D/RightArm/MuzzlePosition
+@onready var projectile_container = $"../ProjectileContainer"  # Add this Node to your scene
+@onready var firing_sound = $FiringSound  # Add AudioStreamPlayer3D to your scene
+
+
 @export var mouse_sensitivity: float = 0.05
 @export var min_pitch: float = -89.9
 @export var max_pitch: float = 50
@@ -103,6 +116,9 @@ const MAX_COMBO_WINDOW = 1.35       # Seconds to input next attack
 # Max hits for each combo type (adjust as needed)
 const MAX_LIGHT_COMBO_HITS = 3
 const MAX_HEAVY_COMBO_HITS = 2
+
+
+
 
 # Buffer flags
 var buffered_attack : bool = false   # Set when input is detected during an active combo
@@ -215,10 +231,20 @@ func _ready():
 	default_anchor_offset = camera_anchor.position
 	current_weapon = unarmed_weapon  # Set default to unarmed
 	#add_child(tween)
-	var knife_res = load("res://Resources/Weapons/knife.tres")
-	if knife_res:
-		equip_weapon(knife_res)
-	
+	# Add ammo manager
+	add_child(ammo_manager)
+	ammo_manager.ammo_changed.connect(_on_ammo_changed)
+	ammo_manager.magazine_changed.connect(_on_magazine_changed)
+	ammo_manager.reload_complete.connect(_on_reload_complete)
+	current_weapon = unarmed_weapon  # Set default to unarmed
+	# Setup ammo display
+	var ammo_display = $CanvasLayer/AmmoDisplay
+	if ammo_display:
+		ammo_display.setup(self)
+	else:
+		print("Error: AmmoDisplay node not found!")
+	# Test with pistol
+	equip_weapon(load("res://scenes/Weapons/WeaponRes/Pistol.tres"))
 
 
 # Weapon equipping function
@@ -239,9 +265,17 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 			weapon_attachment.add_child(current_weapon_model)
 			current_weapon_model.rotation_degrees = Vector3(90, 90, 0)  # Adjust rotation to align with hand
 			current_weapon_model.position = Vector3(0, 10, 5)  # Fine-tune position if needed
-			current_weapon_model.scale = Vector3(100, 100, 100)
+			current_weapon_model.scale = Vector3(20, 20, 20)
 			print("Parent after add: ", current_weapon_model.get_parent())  # Debug: Is it attached?
 			current_hitbox = current_weapon_model.get_node("Hitbox")
+		# Initialize ammo for ranged weapons
+	
+	if new_weapon.is_ranged:
+		ammo_manager.set_current_weapon(new_weapon)
+		# Optional: If it's a new weapon type, you might want to auto-reload here
+		if ammo_manager.current_magazine <= 0:
+			ammo_manager.reload()
+	
 	
 	# Connect hitbox signal
 	if current_hitbox:
@@ -260,6 +294,9 @@ func _physics_process(delta):
 		velocity = Vector3.ZERO
 		return  # Skip the rest of the process function
 	
+	# Handle ranged weapon input
+	if current_weapon.is_ranged:
+		handle_ranged_weapon_input(delta)
 	
 	update_animation_state()
 	#Only Change animation on state change
@@ -893,6 +930,124 @@ func apply_hitstun(duration: float) -> void:
 	# Optionally: play a hitstun animation or effect here.
 	await get_tree().create_timer(hitstun_duration).timeout
 	is_hitstunned = false
+
+
+func handle_ranged_weapon_input(delta: float) -> void:
+	# Update fire cooldown timer
+	if fire_cooldown_timer > 0:
+		fire_cooldown_timer -= delta
+		if fire_cooldown_timer <= 0:
+			can_fire = true
+	
+	# Handle weapon firing
+	if Input.is_action_pressed("fire") and can_fire and current_weapon.is_ranged and not is_reloading:
+		fire_weapon()
+	
+	# Handle reloading
+	if Input.is_action_just_pressed("reload") and current_weapon.is_ranged and not is_reloading:
+		start_reload()
+	
+	# Handle aiming
+	if Input.is_action_pressed("aim_toggle") and current_weapon.is_ranged:
+		is_aiming = true
+	else:
+		is_aiming = false
+
+
+func fire_weapon() -> void:
+	# Check if we have ammo
+	if not ammo_manager.use_ammo(1):
+		# Play empty sound
+		if current_weapon.sound_empty:
+			firing_sound.stream = current_weapon.sound_empty
+			firing_sound.play()
+		return
+	
+	# Set cooldown
+	can_fire = false
+	fire_cooldown_timer = 1.0 / current_weapon.fire_rate
+	
+	# Play firing sound
+	if current_weapon.sound_fire:
+		firing_sound.stream = current_weapon.sound_fire
+		firing_sound.play()
+	
+	# Spawn projectile(s)
+	var projectile_count = current_weapon.projectile_count
+	var base_direction = -global_transform.basis.z  # Forward direction
+	
+	for i in range(projectile_count):
+		# Create projectile instance
+		var projectile = current_weapon.projectile_scene.instantiate()
+		projectile_container.add_child(projectile)
+		
+		# Set projectile position to muzzle position
+		projectile.global_position = muzzle_position.global_position
+		
+		# Calculate projectile direction with spread
+		var direction = base_direction
+		
+		# Add spread if this is not the first projectile or if it has spread
+		if current_weapon.spread > 0.0 or i > 0:
+			# Add random spread within the defined spread cone
+			var rand_spread_x = randf_range(-current_weapon.spread, current_weapon.spread)
+			var rand_spread_y = randf_range(-current_weapon.spread, current_weapon.spread)
+			
+			# Create a basis to rotate the direction
+			var rot_basis = Basis(Vector3.UP, deg_to_rad(rand_spread_y)) * Basis(Vector3.RIGHT, deg_to_rad(rand_spread_x))
+			direction = rot_basis * direction
+		
+		# Set up the projectile
+		projectile.setup(
+			current_weapon.damage,
+			current_weapon.projectile_speed,
+			direction,
+			global_position,
+			self
+		)
+	
+	# Optional: Spawn muzzle flash effect
+	if current_weapon.muzzle_flash_scene:
+		var muzzle_flash = current_weapon.muzzle_flash_scene.instantiate()
+		muzzle_position.add_child(muzzle_flash)
+
+
+func start_reload() -> void:
+	if is_reloading or ammo_manager.current_magazine >= current_weapon.magazine_size:
+		return
+	
+	is_reloading = true
+	
+	# Play reload animation
+	# You'll need to add this to your AnimationTree
+	ap_tree_2.set("parameters/Reload/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	
+	# Play reload sound
+	if current_weapon.sound_reload:
+		firing_sound.stream = current_weapon.sound_reload
+		firing_sound.play()
+	
+	# Set a timer for reload time
+	await get_tree().create_timer(current_weapon.reload_time).timeout
+	
+	# Complete reload
+	ammo_manager.reload()
+	is_reloading = false
+
+# Signal callbacks
+func _on_ammo_changed(type, current, max_ammo) -> void:
+	# You'll need to create a UI element to display ammo
+	# For example: ammo_display.text = str(current) + "/" + str(max_ammo)
+	pass
+
+func _on_magazine_changed(current, max_size) -> void:
+	# You'll need to create a UI element to display magazine ammo
+	# For example: magazine_display.text = str(current) + "/" + str(max_size)
+	pass
+
+func _on_reload_complete() -> void:
+	# Called when reload is finished
+	pass
 
 ## Returns the player's current attack type as a string
 func get_current_attack_type():
