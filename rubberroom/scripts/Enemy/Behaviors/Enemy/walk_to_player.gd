@@ -9,7 +9,6 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		actor.is_idle = false
 		actor.is_walking = false
 		actor.current_speed = 0
-		actor.update_animation_state()
 		return FAILURE
 	else:
 		actor.update_target_location(blackboard.get_value("player_pos"), 0.6)

@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="EnemySack" load_steps=3 format=3 uid="uid://cqgw4el41c805"]
 
-[ext_resource type="PackedScene" uid="uid://4d1h3rxw87wm" path="res://scenes/Agents/primitive_enemy.tscn" id="1_bjjun"]
+[ext_resource type="PackedScene" uid="uid://cvsedxp6wp60w" path="res://scenes/Agents/basic_enemy_test.tscn" id="1_dgnge"]
 [ext_resource type="Script" uid="uid://bmllomda3a85v" path="res://scripts/enemy_sack.gd" id="1_vp8af"]
 
 [resource]
 script = ExtResource("1_vp8af")
 sack = {
-"basic enemy": ExtResource("1_bjjun"),
+"basic enemy": ExtResource("1_dgnge"),
 "heavy enemy": null,
 "ranged enemy": null
 }

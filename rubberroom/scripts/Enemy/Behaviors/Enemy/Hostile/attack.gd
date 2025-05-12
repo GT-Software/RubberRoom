@@ -8,7 +8,7 @@ func tick(actor, blackboard):
 	
 	if blackboard.get_value("attacking") == true and actor.get_lightattack_animation() == true:
 		#print("Is attacking: ", actor.get_current_animation())
-		#actor.update_nav_agent(0)
+		actor.current_speed = 0
 		return RUNNING
 	else:
 		blackboard.set_value("attacking", true)

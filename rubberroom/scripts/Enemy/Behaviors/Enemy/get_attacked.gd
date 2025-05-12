@@ -20,4 +20,3 @@ func tick(actor, blackboard: Blackboard):
 		blackboard.set_value("is attacked", false)
 		return SUCCESS
 		
-	return RUNNING

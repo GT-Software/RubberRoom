@@ -44,7 +44,7 @@
 script = ExtResource("1_76n11")
 blackboard = NodePath("@Node@28190")
 custom_monitor = true
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="SelectorReactiveComposite" type="Node" parent="."]
 script = ExtResource("2_en11p")
