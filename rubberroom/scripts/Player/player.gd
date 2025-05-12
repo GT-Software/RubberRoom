@@ -146,7 +146,8 @@ enum {IDLE, WALK, RUN, ATTACKLight, ATTACKHeavy, JUMP, GOTHIT}
 var curAnim = IDLE
 
 # Inventory
-@export var inventory : Dictionary[String, WeaponResource]
+@export var inventory : Array[WeaponResource]
+@export var max_slots : int = 2
 
 
 func update_animation_state():
@@ -248,11 +249,20 @@ func _ready():
 	else:
 		print("Error: AmmoDisplay node not found!")
 	# Test with pistol
+	inventory.resize(max_slots)
 	equip_weapon(load("res://scenes/Weapons/WeaponRes/Pistol.tres"))
 
 
 # Weapon equipping function
 func equip_weapon(new_weapon: WeaponResource) -> void:
+	var open_slot = inv_check_for_open_slot()
+	if open_slot == -1:
+		print("Inventory Full!")
+		return
+	else:
+		inventory[open_slot] = new_weapon
+		print(new_weapon.name, " added to inventory.")
+	
 	if current_weapon_model:
 		weapon_attachment.remove_child(current_weapon_model)
 		current_weapon_model.queue_free()
@@ -292,6 +302,60 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 	print("Equipped weapon: ", new_weapon.name)
 
 
+## [method inv_check_for_open_slot]
+## [br] Checks the inventory for an open slot. Returns -1 if all slots are full.
+## [br] Returns the index of an open slot, otherwise.
+func inv_check_for_open_slot() -> int:
+	var index = 0
+	for slot in inventory:
+		if slot == null:
+			return index
+		index += 1
+	
+	return -1
+
+## [method inv_switch_weapons(slot : int)] [param slot]
+## [br] Used to switch with weapons within the inventory.
+func inv_switch_weapons(slot : int):
+	if slot > max_slots:
+		print("Not enough slots! ", slot, " is greater than ", max_slots, ".")
+		return
+	if inventory[slot] == null:
+		print("No weapon in this slot (", slot, ")")
+		return
+	var new_weapon = inventory[slot]
+	
+	if current_weapon_model:
+		weapon_attachment.remove_child(current_weapon_model)
+		current_weapon_model.queue_free()
+		current_weapon_model = null
+		current_weapon = new_weapon
+	
+	# Set hitbox based on weapon state
+	if inventory[slot].classification == WeaponResource.Classification.UNARMED:
+		current_hitbox = right_arm_collision  # Use arm hitbox for unarmed
+	else:
+		if new_weapon.model_scene:
+			current_weapon_model = new_weapon.model_scene.instantiate()
+			print("Instantiated model: ", current_weapon_model)  # Debug: Is it instantiated?
+			weapon_attachment.add_child(current_weapon_model)
+			current_weapon_model.rotation_degrees = Vector3(90, 90, 0)  # Adjust rotation to align with hand
+			current_weapon_model.position = Vector3(0, 10, 5)  # Fine-tune position if needed
+			current_weapon_model.scale = Vector3(20, 20, 20)
+			print("Parent after add: ", current_weapon_model.get_parent())  # Debug: Is it attached?
+			current_hitbox = current_weapon_model.get_node("Hitbox")
+		# Initialize ammo for ranged weapons
+	
+	if new_weapon.is_ranged:
+		ammo_manager.set_current_weapon(new_weapon)
+		# Optional: If it's a new weapon type, you might want to auto-reload here
+		if ammo_manager.current_magazine <= 0:
+			ammo_manager.reload()
+	
+	
+	# Connect hitbox signal
+	if current_hitbox:
+		current_hitbox.body_entered.connect(_on_hitbox_entered)
 
 func _physics_process(delta):
 	if is_hitstunned:
@@ -573,10 +637,14 @@ func _physics_process(delta):
 			
 	# Switching Weapons from inventory
 	if Input.is_action_just_pressed("weapon_slot_1"):
-		equip_weapon(inventory["Weapon Slot 1"])
+		if inventory[0] != null:
+			print("Weapon Slot 1 is empty")
+		inv_switch_weapons(0)
 	
 	if Input.is_action_just_pressed("weapon_slot_2"):
-		equip_weapon(inventory["Weapon Slot 2"])
+		if inventory[1] != null:
+			print("Weapon Slot 2 is empty")
+		inv_switch_weapons(1)
 	
 	if Input.is_action_just_pressed("fists"):
 		equip_weapon(unarmed_weapon)
