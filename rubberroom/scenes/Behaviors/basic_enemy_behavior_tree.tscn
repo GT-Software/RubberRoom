@@ -203,6 +203,9 @@ metadata/_custom_type_script = "uid://dorri1tul8gfx"
 script = ExtResource("3_ce14b")
 metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 
+[node name="IsInMeleeRange" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee/Melee Delay/Melee Attack"]
+script = ExtResource("6_rh4pm")
+
 [node name="MeleeAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee/Melee Delay/Melee Attack"]
 script = ExtResource("13_1jjdt")
 

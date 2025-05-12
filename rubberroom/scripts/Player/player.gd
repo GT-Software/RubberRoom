@@ -964,7 +964,7 @@ func start_block():
 	# Holding Melee Weapon? If so, is it a shield (implemented when weapons are?
 	
 	# Perform block based on conditionals
-	print("Is Blocking Retard!")
+	print("Blocking!")	# Remove when animation exists
 	is_blocking = true
 	# Is player still blocking?
 	
