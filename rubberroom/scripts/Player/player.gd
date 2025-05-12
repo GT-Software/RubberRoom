@@ -572,14 +572,11 @@ func _physics_process(delta):
 			return
 			
 	# Switching Weapons from inventory
-	if Input.is_action_just_pressed("primary_weapon"):
-		equip_weapon(inventory["primary weapon"])
+	if Input.is_action_just_pressed("weapon_slot_1"):
+		equip_weapon(inventory["Weapon Slot 1"])
 	
-	if Input.is_action_just_pressed("secondary_weapon"):
-		equip_weapon(inventory["secondary weapon"])
-	
-	if Input.is_action_just_pressed("melee_weapon"):
-		equip_weapon(inventory["melee weapon"])
+	if Input.is_action_just_pressed("weapon_slot_2"):
+		equip_weapon(inventory["Weapon Slot 2"])
 	
 	if Input.is_action_just_pressed("fists"):
 		equip_weapon(unarmed_weapon)
