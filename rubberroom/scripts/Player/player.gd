@@ -145,6 +145,10 @@ var hitstun_duration: float = 1.5  # Adjust duration as needed
 enum {IDLE, WALK, RUN, ATTACKLight, ATTACKHeavy, JUMP, GOTHIT}
 var curAnim = IDLE
 
+# Inventory
+@export var inventory : Dictionary[String, WeaponResource]
+
+
 func update_animation_state():
 	# If currently attacking, keep that state until it finishes.
 	if curAnim == ATTACKLight:
@@ -566,6 +570,19 @@ func _physics_process(delta):
 		if dist > 20 or locked_on_enemy.is_alive == false:
 			unlock_enemy()
 			return
+			
+	# Switching Weapons from inventory
+	if Input.is_action_just_pressed("primary_weapon"):
+		equip_weapon(inventory["primary weapon"])
+	
+	if Input.is_action_just_pressed("secondary_weapon"):
+		equip_weapon(inventory["secondary weapon"])
+	
+	if Input.is_action_just_pressed("melee_weapon"):
+		equip_weapon(inventory["melee weapon"])
+	
+	if Input.is_action_just_pressed("fists"):
+		equip_weapon(unarmed_weapon)
 
 
 func _on_hitbox_entered(body):
