@@ -14,7 +14,9 @@ var content : Dictionary[int, WeaponResource]
 ## The number of slots available
 var size
 
-## Initialize content with null values for all [member Inventory.max_slots]
+## Initialize content with null values for all [member Inventory.max_slots].
+## [param max_slots],default value of [code]2[/code], allows for inventories with
+## varying sizes 
 func _init(max_slots : int = 2):
 	for i in range(max_slots):
 		content.set(i, null)
@@ -43,6 +45,11 @@ func add_item(item : WeaponResource) -> Dictionary[bool, String]:
 			return {true : ""}
 	
 	return {false : "Inventory: Failed to add item."}
+
+## Get the item at a specified slot.
+## [br] [param slot] is the key for the item.
+func get_item(slot : int) -> WeaponResource:
+	return content.get(slot, null)
 
 ## Takes an item ([WeaponResource]) and moves it to the specified [param slot].
 ## Returns a Dictionary[bool, String] for [code]true[/code] and [code]""[/code] 
