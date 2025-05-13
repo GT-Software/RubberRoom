@@ -49,9 +49,10 @@ var fire_cooldown_timer = 0.0
 var can_fire = true
 var is_reloading = false
 var is_aiming = false
-@onready var muzzle_position = $AuxScene/Node/Skeleton3D/RightArm/MuzzlePosition
+#@onready var muzzle_position = $AuxScene/Node/Skeleton3D/RightArm/MuzzlePosition
 @onready var projectile_container = $"../ProjectileContainer"  # Add this Node to your scene
 @onready var firing_sound = $FiringSound  # Add AudioStreamPlayer3D to your scene
+@onready var muzzle_position: Node3D = null
 
 
 @export var mouse_sensitivity: float = 0.05
@@ -285,8 +286,11 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 			current_weapon_model.scale = Vector3(20, 20, 20)
 			print("Parent after add: ", current_weapon_model.get_parent())  # Debug: Is it attached?
 			current_hitbox = current_weapon_model.get_node("Hitbox")
+			# Find muzzle position in the weapon model
+			muzzle_position = current_weapon_model.get_node("MuzzlePosition") if current_weapon_model.has_node("MuzzlePosition") else null
+			if not muzzle_position:
+				print("Warning: MuzzlePosition not found in weapon model!")
 		# Initialize ammo for ranged weapons
-	
 	if new_weapon.is_ranged:
 		ammo_manager.set_current_weapon(new_weapon)
 		# Optional: If it's a new weapon type, you might want to auto-reload here
@@ -350,7 +354,7 @@ func _physics_process(delta):
 	else:
 		_player_pcam.fov = lerp(_player_pcam.fov, default_fov, 0.1)
 
-	print_debug()
+	#print_debug()
 	#---------------------------------
 	# 1) Gravity + Death check
 	#---------------------------------
@@ -712,6 +716,20 @@ func close_buffer_window() -> void:
 # Input & Timer Handling
 # -------------------------------
 func _input(event: InputEvent) -> void:
+		# Aim toggle handling
+	if event.is_action_pressed("aim_toggle") and current_weapon.is_ranged:
+		_aim_pcam.set_third_person_rotation_degrees(_player_pcam.get_third_person_rotation_degrees())
+		_aim_pcam.set_priority(30)
+		_player_pcam.set_priority(0)
+		is_aiming = true
+		print("Aim mode on")
+	elif event.is_action_released("aim_toggle"):
+		_player_pcam.set_third_person_rotation_degrees(_aim_pcam.get_third_person_rotation_degrees())
+		_aim_pcam.set_priority(0)
+		_player_pcam.set_priority(30)
+		is_aiming = false
+		print("Aim mode off")
+		
 	# Light attack input
 	if Input.is_action_just_pressed("light_attack"):
 		if is_aiming and current_weapon.is_ranged and can_fire and not is_reloading:
@@ -764,8 +782,6 @@ func _input(event: InputEvent) -> void:
 			rotation_point.rotation_degrees = aim_cam_rot
 			
 		
-	_toggle_aim_pcam(event)
-	
 	
 	
 	
@@ -829,18 +845,6 @@ func animation_updates(current_speed, move_direction):
 	elif is_running:
 		ap.play("Running(1)0")
 		
-		
-func _toggle_aim_pcam(event: InputEvent) -> void:
-	if Input.is_action_pressed("aim_toggle") \
-		and event.is_pressed() \
-		and (_player_pcam.is_active() or _aim_pcam.is_active()):
-		print("Switching To Aim")
-		_aim_pcam.set_third_person_rotation_degrees(_player_pcam.get_third_person_rotation_degrees())
-		if _player_pcam.get_priority() > _aim_pcam.get_priority():
-			_aim_pcam.set_priority(30)
-		else:
-			_aim_pcam.set_priority(0)
-
 
 func get_nearest_enemy() -> Enemy:
 	var nearest_distance := INF
@@ -1029,28 +1033,57 @@ func fire_weapon() -> void:
 		firing_sound.stream = current_weapon.sound_fire
 		firing_sound.play()
 	
-	# Spawn projectile(s)
-	var projectile_count = current_weapon.projectile_count
-	var base_direction = -global_transform.basis.z  # Forward direction
+	# Get the camera for raycasting
+	var camera = get_viewport().get_camera_3d()
+	if not camera:
+		print("Error: No active camera found!")
+		return
 	
+	# Raycast from screen center (crosshair) to find aim point
+	var screen_center = get_viewport().get_visible_rect().size / 2
+	var ray_origin = camera.project_ray_origin(screen_center)
+	var ray_direction = camera.project_ray_normal(screen_center)
+	   
+	var space_state = get_world_3d().direct_space_state
+	var ray_query = PhysicsRayQueryParameters3D.new()
+	ray_query.from = ray_origin
+	ray_query.to = ray_origin + ray_direction * 1000  # Ray length, adjust if needed
+	var result = space_state.intersect_ray(ray_query)
+	
+	var aim_point
+	if result:
+		aim_point = result.position
+	else:
+		aim_point = ray_origin + ray_direction * 1000
+		 
+	# Calculate direction from muzzle to aim point
+	var base_direction
+	if muzzle_position:
+		base_direction = (aim_point - muzzle_position.global_position).normalized()
+	else:
+		base_direction = (aim_point - weapon_attachment.global_position).normalized()
+  
+# Spawn projectile(s)
+	var projectile_count = current_weapon.projectile_count
 	for i in range(projectile_count):
 		# Create projectile instance
 		var projectile = current_weapon.projectile_scene.instantiate()
 		projectile_container.add_child(projectile)
 		
-		# Set projectile position to muzzle position
-		projectile.global_position = muzzle_position.global_position
-		
-		# Calculate projectile direction with spread
+	# Set projectile position to muzzle or fallback to weapon attachment
+		if muzzle_position:
+			projectile.global_position = muzzle_position.global_position
+		else:
+			print("Warning: MuzzlePosition is null, using weapon attachment position!")
+			projectile.global_position = weapon_attachment.global_position
+ 
+# Calculate projectile direction with spread
 		var direction = base_direction
 		
-		# Add spread if this is not the first projectile or if it has spread
+		 # Add spread if applicable
 		if current_weapon.spread > 0.0 or i > 0:
-			# Add random spread within the defined spread cone
 			var rand_spread_x = randf_range(-current_weapon.spread, current_weapon.spread)
 			var rand_spread_y = randf_range(-current_weapon.spread, current_weapon.spread)
-			
-			# Create a basis to rotate the direction
 			var rot_basis = Basis(Vector3.UP, deg_to_rad(rand_spread_y)) * Basis(Vector3.RIGHT, deg_to_rad(rand_spread_x))
 			direction = rot_basis * direction
 		
@@ -1061,13 +1094,15 @@ func fire_weapon() -> void:
 			direction,
 			global_position,
 			self
-		)
-	
+			)
+			
 	# Optional: Spawn muzzle flash effect
 	if current_weapon.muzzle_flash_scene:
 		var muzzle_flash = current_weapon.muzzle_flash_scene.instantiate()
-		muzzle_position.add_child(muzzle_flash)
-
+		if muzzle_position:
+			muzzle_position.add_child(muzzle_flash)
+		else:
+			weapon_attachment.add_child(muzzle_flash)
 
 func start_reload() -> void:
 	if is_reloading or ammo_manager.current_magazine >= current_weapon.magazine_size:
@@ -1123,7 +1158,7 @@ func get_current_attack_type():
 			return "unknown"
 
 # Add an array of topics for the print_debug function to print out
-func print_debug(content: Array[String]):
+func print_debug(content: Array[String] = []):
 	for c in content:
 		match c:
 			"stamina":
