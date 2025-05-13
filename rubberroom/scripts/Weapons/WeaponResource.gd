@@ -1,26 +1,8 @@
 class_name WeaponResource
-extends Resource
+extends Item
 
-enum Classification {
-	UNARMED,
-	BLUNT,
-	BLADED,
-	RANGED,
-	SPECIAL
-}
 
-enum AmmoType {
-	NONE,
-	PISTOL,
-	SHOTGUN,
-	RIFLE,
-	ENERGY
-}
-
-@export var name: String = ""
-@export var classification: int = Classification.UNARMED
 @export var damage: float = 0.0
-@export var model_scene: PackedScene = null
 
 # Ranged weapon specific properties
 @export var is_ranged: bool = false

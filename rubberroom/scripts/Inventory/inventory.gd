@@ -10,7 +10,7 @@ class_name Inventory
 ## Can be changed
 var max_slots
 ## The actual storage variable for all the items
-var content : Dictionary[int, WeaponResource]
+var content : Dictionary[int, Item]
 ## The number of slots available
 var size
 
@@ -24,16 +24,16 @@ func _init(max_slots : int = 2):
 	self.max_slots = max_slots
 	size = max_slots
 
-## Adds an item ([WeaponResource]) to the inventory if there is a free slot.
+## Adds an item ([Item]) to the inventory if there is a free slot.
 ## Returns a Dictionary[bool, String] for [code]true[/code] and [code]""[/code] 
 ## if the item was added. Otherwise, returns
 ## [code]false[/code] with an error message as the value.
-func add_item(item : WeaponResource) -> Dictionary[bool, String]:
+func add_item(item : Item) -> Dictionary[bool, String]:
 	# Is there space for a new item?
 	if size == 0:
 		return {false : "Inventory: No open slots available"}
 	# Did the caller bring a valid item?
-	elif !item or item != WeaponResource:
+	elif !item or item != Item:
 		return {false : "Inventory: item does not exist"}
 	
 	# Find the nearest empty slot and add the item there. Reduce size to show
@@ -48,21 +48,21 @@ func add_item(item : WeaponResource) -> Dictionary[bool, String]:
 
 ## Get the item at a specified slot.
 ## [br] [param slot] is the key for the item.
-func get_item(slot : int) -> WeaponResource:
+func get_item(slot : int) -> Item:
 	return content.get(slot, null)
 
-## Takes an item ([WeaponResource]) and moves it to the specified [param slot].
+## Takes an item ([Item]) and moves it to the specified [param slot].
 ## Returns a Dictionary[bool, String] for [code]true[/code] and [code]""[/code] 
 ## if the item was added. Otherwise, returns
 ## [code]false[/code] with an error message as the value.
-func add_item_to_slot(item : WeaponResource, slot : int) -> Dictionary[bool, String]:
+func add_item_to_slot(item : Item, slot : int) -> Dictionary[bool, String]:
 	if content[slot] != null:
 		return {false : "Inventory: Item is already in that slot"}
 	
 	content.set(slot, item)
 	return {true : ""}
 
-## Removes an item ([WeaponResource]) from [member Inventory.content]
+## Removes an item ([Item]) from [member Inventory.content]
 ## Returns a Dictionary[bool, String] for [code]true[/code] and [code]""[/code] 
 ## if the item was removed. Otherwise, returns
 ## [code]false[/code] with an error message as the value.
@@ -79,14 +79,14 @@ func clear_inventory():
 	size = max_slots
 
 ## Get all inventory items in the form of an array
-func get_items() -> Array[WeaponResource]:
+func get_items() -> Array[Item]:
 	var list = content.values()
 	return list
 
-## See if the inventory has a specific [member item] (see [WeaponResource]).
+## See if the inventory has a specific [member item] (see [Item]).
 ## Returns [code]true[/code] if the item exists in the inventory, otherwise
 ## returns [code]false[/code]
-func has_item(item: WeaponResource) -> bool:
+func has_item(item: Item) -> bool:
 	# Look through all the values in the dictonary
 	for obj in content.values():
 		# if obj exists and the obj's name is the same as the item's name,

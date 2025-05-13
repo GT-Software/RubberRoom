@@ -196,7 +196,7 @@ script = ExtResource("33_4pt63")
 
 [node name="Melee Delay" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee"]
 script = ExtResource("7_t85qk")
-wait_time = 1.0
+wait_time = 0.25
 metadata/_custom_type_script = "uid://dorri1tul8gfx"
 
 [node name="Melee Attack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee/Melee Delay"]
