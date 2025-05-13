@@ -252,9 +252,7 @@ func _ready():
 	inventory.resize(max_slots)
 	equip_weapon(load("res://scenes/Weapons/WeaponRes/Pistol.tres"))
 
-
-# Weapon equipping function
-func equip_weapon(new_weapon: WeaponResource) -> void:
+func pickup_weapon(new_weapon: WeaponResource):
 	var open_slot = inv_check_for_open_slot()
 	if open_slot == -1:
 		print("Inventory Full!")
@@ -262,7 +260,10 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 	else:
 		inventory[open_slot] = new_weapon
 		print(new_weapon.name, " added to inventory.")
-	
+		equip_weapon(new_weapon)
+
+# Weapon equipping function
+func equip_weapon(new_weapon: WeaponResource) -> void:
 	if current_weapon_model:
 		weapon_attachment.remove_child(current_weapon_model)
 		current_weapon_model.queue_free()
@@ -324,38 +325,7 @@ func inv_switch_weapons(slot : int):
 		print("No weapon in this slot (", slot, ")")
 		return
 	var new_weapon = inventory[slot]
-	
-	if current_weapon_model:
-		weapon_attachment.remove_child(current_weapon_model)
-		current_weapon_model.queue_free()
-		current_weapon_model = null
-		current_weapon = new_weapon
-	
-	# Set hitbox based on weapon state
-	if inventory[slot].classification == WeaponResource.Classification.UNARMED:
-		current_hitbox = right_arm_collision  # Use arm hitbox for unarmed
-	else:
-		if new_weapon.model_scene:
-			current_weapon_model = new_weapon.model_scene.instantiate()
-			print("Instantiated model: ", current_weapon_model)  # Debug: Is it instantiated?
-			weapon_attachment.add_child(current_weapon_model)
-			current_weapon_model.rotation_degrees = Vector3(90, 90, 0)  # Adjust rotation to align with hand
-			current_weapon_model.position = Vector3(0, 10, 5)  # Fine-tune position if needed
-			current_weapon_model.scale = Vector3(20, 20, 20)
-			print("Parent after add: ", current_weapon_model.get_parent())  # Debug: Is it attached?
-			current_hitbox = current_weapon_model.get_node("Hitbox")
-		# Initialize ammo for ranged weapons
-	
-	if new_weapon.is_ranged:
-		ammo_manager.set_current_weapon(new_weapon)
-		# Optional: If it's a new weapon type, you might want to auto-reload here
-		if ammo_manager.current_magazine <= 0:
-			ammo_manager.reload()
-	
-	
-	# Connect hitbox signal
-	if current_hitbox:
-		current_hitbox.body_entered.connect(_on_hitbox_entered)
+	equip_weapon(new_weapon)
 
 func _physics_process(delta):
 	if is_hitstunned:
