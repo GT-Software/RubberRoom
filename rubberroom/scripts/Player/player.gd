@@ -8,6 +8,7 @@ signal health_change
 signal stun_change
 signal fear_change
 signal player_attacking(attack : Attack, in_range : bool)
+signal weapon_changed(weapon)
 # -------------------------------
 # Node references
 # -------------------------------
@@ -269,6 +270,7 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 		current_weapon_model.queue_free()
 		current_weapon_model = null
 	current_weapon = new_weapon
+	emit_signal("weapon_changed", current_weapon)
 	
 	# Set hitbox based on weapon state
 	if new_weapon.classification == WeaponResource.Classification.UNARMED:
@@ -348,7 +350,7 @@ func _physics_process(delta):
 	else:
 		_player_pcam.fov = lerp(_player_pcam.fov, default_fov, 0.1)
 
-	#print_debug("")
+	print_debug()
 	#---------------------------------
 	# 1) Gravity + Death check
 	#---------------------------------
@@ -712,15 +714,18 @@ func close_buffer_window() -> void:
 func _input(event: InputEvent) -> void:
 	# Light attack input
 	if Input.is_action_just_pressed("light_attack"):
-		hitbox_active = true
-		if current_attack_type == AttackType.NONE:
-			start_combo(AttackType.LIGHT)
-		elif current_attack_type == AttackType.LIGHT:
-			# Buffer the input if within the combo window
-			buffered_attack = true
-			# If the buffer window is open, trigger the next attack immediately
-			if can_buffer_attack:
-				trigger_next_attack()
+		if is_aiming and current_weapon.is_ranged and can_fire and not is_reloading:
+			fire_weapon()
+		else:
+			hitbox_active = true
+			if current_attack_type == AttackType.NONE:
+				start_combo(AttackType.LIGHT)
+			elif current_attack_type == AttackType.LIGHT:
+				# Buffer the input if within the combo window
+				buffered_attack = true
+				# If the buffer window is open, trigger the next attack immediately
+				if can_buffer_attack:
+					trigger_next_attack()
 
 	# Heavy attack input
 	if Input.is_action_just_pressed("heavy_attack"):
@@ -1132,6 +1137,7 @@ func print_debug(content: Array[String]):
 				print("Player Position: ", global_position)
 				print("Rotation Point Position: ", rotation_point.global_position)
 				print("Camera Point Position: ", camera_anchor.global_position)
+				print("Can_fire : ", can_fire)
 			"animation":
 				print("can buffer attack: ", can_buffer_attack)
 				print("buffered_attack: ", buffered_attack)
