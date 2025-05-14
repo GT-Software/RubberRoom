@@ -252,7 +252,9 @@ func _ready():
 	# Test with pistol
 	inventory = Inventory.new()
 	var pistol = load("res://scenes/Weapons/WeaponRes/Pistol.tres")
-	inventory.add_item(pistol)
+	var result = inventory.add_item(pistol)
+	if result.keys()[0] == false:
+		print(result.values()[0])
 
 func pickup_weapon(new_weapon: WeaponResource):
 	if inventory.get_size() == 0:
