@@ -148,8 +148,7 @@ enum {IDLE, WALK, RUN, ATTACKLight, ATTACKHeavy, JUMP, GOTHIT}
 var curAnim = IDLE
 
 # Inventory
-@export var inventory : Array[WeaponResource]
-@export var max_slots : int = 2
+var inventory : Inventory
 
 
 func update_animation_state():
@@ -251,16 +250,16 @@ func _ready():
 	else:
 		print("Error: AmmoDisplay node not found!")
 	# Test with pistol
-	inventory.resize(max_slots)
-	equip_weapon(load("res://scenes/Weapons/WeaponRes/Pistol.tres"))
+	inventory = Inventory.new()
+	var pistol = load("res://scenes/Weapons/WeaponRes/Pistol.tres")
+	inventory.add_item(pistol)
 
 func pickup_weapon(new_weapon: WeaponResource):
-	var open_slot = inv_check_for_open_slot()
-	if open_slot == -1:
+	if inventory.get_size() == 0:
 		print("Inventory Full!")
 		return
 	else:
-		inventory[open_slot] = new_weapon
+		inventory.add_item(new_weapon)
 		print(new_weapon.name, " added to inventory.")
 		equip_weapon(new_weapon)
 
@@ -274,7 +273,7 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 	emit_signal("weapon_changed", current_weapon)
 	
 	# Set hitbox based on weapon state
-	if new_weapon.classification == WeaponResource.Classification.UNARMED:
+	if new_weapon.classification == Item.Classification.UNARMED:
 		current_hitbox = right_arm_collision  # Use arm hitbox for unarmed
 	else:
 		if new_weapon.model_scene:
@@ -308,29 +307,16 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 			#weapon_attachment.add_child(current_weapon_model)
 	print("Equipped weapon: ", new_weapon.name)
 
-
-## [method inv_check_for_open_slot]
-## [br] Checks the inventory for an open slot. Returns -1 if all slots are full.
-## [br] Returns the index of an open slot, otherwise.
-func inv_check_for_open_slot() -> int:
-	var index = 0
-	for slot in inventory:
-		if slot == null:
-			return index
-		index += 1
-	
-	return -1
-
 ## [method inv_switch_weapons(slot : int)] [param slot]
 ## [br] Used to switch with weapons within the inventory.
 func inv_switch_weapons(slot : int):
-	if slot > max_slots:
-		print("Not enough slots! ", slot, " is greater than ", max_slots, ".")
+	if slot > inventory.get_max_slots():
+		print("Not enough slots! ", slot, " is greater than ", inventory.get_max_slots, ".")
 		return
-	if inventory[slot] == null:
+	if inventory.get_item(slot) == null:
 		print("No weapon in this slot (", slot, ")")
 		return
-	var new_weapon = inventory[slot]
+	var new_weapon = inventory.get_item(slot)
 	equip_weapon(new_weapon)
 
 func _physics_process(delta):
@@ -613,12 +599,12 @@ func _physics_process(delta):
 			
 	# Switching Weapons from inventory
 	if Input.is_action_just_pressed("weapon_slot_1"):
-		if inventory[0] != null:
+		if inventory.get_item(0) != null:
 			print("Weapon Slot 1 is empty")
 		inv_switch_weapons(0)
 	
 	if Input.is_action_just_pressed("weapon_slot_2"):
-		if inventory[1] != null:
+		if inventory.get_item(1) != null:
 			print("Weapon Slot 2 is empty")
 		inv_switch_weapons(1)
 	

@@ -33,7 +33,7 @@ func add_item(item : Item) -> Dictionary[bool, String]:
 	if size == 0:
 		return {false : "Inventory: No open slots available"}
 	# Did the caller bring a valid item?
-	elif !item or item != Item:
+	elif !item:
 		return {false : "Inventory: item does not exist"}
 	
 	# Find the nearest empty slot and add the item there. Reduce size to show
@@ -50,6 +50,14 @@ func add_item(item : Item) -> Dictionary[bool, String]:
 ## [br] [param slot] is the key for the item.
 func get_item(slot : int) -> Item:
 	return content.get(slot, null)
+
+## Get the current size of the inventory as an [int]
+func get_size() -> int:
+	return size
+
+## Get the maximum number of slots allowed in the inventory as an [int]
+func get_max_slots() -> int:
+	return max_slots
 
 ## Takes an item ([Item]) and moves it to the specified [param slot].
 ## Returns a Dictionary[bool, String] for [code]true[/code] and [code]""[/code] 
@@ -112,3 +120,42 @@ func increase_max_slots(add_value : int):
 
 	max_slots += add_value
 	size += add_value
+
+
+# ----------------------
+# Save related functions
+# ----------------------
+
+## Used to turn the inventory content into an array of arrays and returns a 
+## [Dictionary] the contents, current size, and the max slots of the inventory 
+## object.
+## Mianly used for saving the game and loading new scenes
+func to_dict() -> Dictionary:
+	var content_dict = {}
+	for key in content.keys():
+		var int_key = int(key)
+		if content[int_key] != null:
+			content_dict[int_key] = content[int_key].to_dict()
+		else:
+			content_dict[int_key] = null
+	
+	return {
+		"content": content_dict,
+		"size" : size,
+		"max slots" : max_slots
+	}
+
+## Used to load data from a save file. Return an [Inventory] object.
+static func from_dict(data: Dictionary) -> Inventory:
+	var inventory = Inventory.new()
+	for key  in data["content"].keys():
+		var int_key = int(key)
+		if data["content"][key] != null:
+			inventory.content[int_key] = Item.from_dict(data["content"][key])
+		else:
+			inventory.content[int_key] = null
+		
+	inventory.size = data["size"]
+	inventory.max_slots = data["max slots"]
+	
+	return inventory
