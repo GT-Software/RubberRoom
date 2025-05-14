@@ -8,6 +8,7 @@
 radius = 0.0769982
 
 [node name="Node3D" type="Area3D"]
+collision_mask = 5
 script = ExtResource("1_ug7he")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

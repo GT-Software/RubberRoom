@@ -40,11 +40,14 @@ func _on_body_entered(body):
 		var attack = Attack.new(damage, 0.0, 0.0, 0.0, 0.0, shooter_position)
 		
 		# If the enemy has a method to handle attacks, call it
-		if body.has_method("take_damage"):
-			body.take_damage(attack)
-		
+		#if body.has_method("take_damage"):
+			#body.take_damage(attack)
+		# Check and trigger _on_player_attacking if it exists
+		if body.has_method("_on_player_attacking"):
+			body._on_player_attacking(attack, true)
 		# Emit hit signal
 		hit_something.emit(body, global_position)
+		print("Hit something with projectile!!")
 		
 		# Destroy projectile
 		queue_free()
