@@ -35,7 +35,7 @@ static func from_dict(data : Dictionary):
 	var instance
 	match item_type:
 		"WeaponResource":
-			instance = WeaponResource.new()
+			instance = WeaponResource.from_dict(data)
 		_:
 			instance = Item.new()
 			instance.name = data["name"]
@@ -49,7 +49,7 @@ static func from_dict(data : Dictionary):
 			return instance
 	
 	if instance:
-		return instance.from_dict(data)
+		return instance
 	else:
 		print("Warning: Could not find class for type: ", item_type)
 		return null
