@@ -130,6 +130,7 @@ func _ready():
 	health_component = HealthComponent.new()
 	detection_area.connect('is_detected', alert)
 	melee_range.connect('range', on_in_melee_range)
+	melee_range.connect('shot_at', on_shot_at)
 	player.connect("player_attacking", _on_player_attacking)
 	
 	behavior_tree = get_node_or_null("BasicEnemyBehaviorTree")
@@ -456,3 +457,8 @@ func apply_hitstun(duration: float) -> void:
 	# Optionally: play a hitstun animation or effect here.
 	await get_tree().create_timer(hitstun_duration).timeout
 	is_hitstunned = false
+
+# If the enemy detects through the melee range collision area that its being
+# shot at, set a blackboard value for it to true.
+func on_shot_at(is_shot : bool) -> void:
+	behavior_tree.blackboard.set_value("is shot at" , true)

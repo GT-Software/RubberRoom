@@ -61,6 +61,7 @@ spawnpoint=""
 EnemySpawnMarker="Places where enemies will spawn"
 "nav region"=""
 cover=""
+projectile=""
 
 [input]
 
@@ -178,6 +179,7 @@ locale/translations_pot_files=PackedStringArray("res://assets/Dialouge/dialogue.
 3d_physics/layer_2="Environment"
 3d_physics/layer_3="Enemy"
 3d_physics/layer_4="Actionable"
+3d_physics/layer_5="Projectile"
 
 [physics]
 
