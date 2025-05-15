@@ -292,7 +292,7 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 			if not muzzle_position:
 				print("Warning: MuzzlePosition not found in weapon model!")
 		# Initialize ammo for ranged weapons
-	if new_weapon.is_ranged:
+	if new_weapon is Ranged:
 		ammo_manager.set_current_weapon(new_weapon)
 		# Optional: If it's a new weapon type, you might want to auto-reload here
 		if ammo_manager.current_magazine <= 0:
@@ -327,7 +327,7 @@ func _physics_process(delta):
 		return  # Skip the rest of the process function
 	
 	# Handle ranged weapon input
-	if current_weapon.is_ranged:
+	if current_weapon is Ranged:
 		handle_ranged_weapon_input(delta)
 	
 	update_animation_state()
@@ -705,7 +705,7 @@ func close_buffer_window() -> void:
 # -------------------------------
 func _input(event: InputEvent) -> void:
 		# Aim toggle handling
-	if event.is_action_pressed("aim_toggle") and current_weapon.is_ranged:
+	if event.is_action_pressed("aim_toggle") and current_weapon is Ranged:
 		_aim_pcam.set_third_person_rotation_degrees(_player_pcam.get_third_person_rotation_degrees())
 		_aim_pcam.set_priority(30)
 		_player_pcam.set_priority(0)
@@ -720,7 +720,7 @@ func _input(event: InputEvent) -> void:
 		
 	# Light attack input
 	if Input.is_action_just_pressed("light_attack"):
-		if is_aiming and current_weapon.is_ranged and can_fire and not is_reloading:
+		if is_aiming and current_weapon is Ranged and can_fire and not is_reloading:
 			fire_weapon()
 		else:
 			hitbox_active = true
@@ -989,15 +989,15 @@ func handle_ranged_weapon_input(delta: float) -> void:
 			can_fire = true
 	
 	# Handle weapon firing
-	if Input.is_action_pressed("fire") and can_fire and current_weapon.is_ranged and not is_reloading:
+	if Input.is_action_pressed("fire") and can_fire and current_weapon is Ranged and not is_reloading:
 		fire_weapon()
 	
 	# Handle reloading
-	if Input.is_action_just_pressed("reload") and current_weapon.is_ranged and not is_reloading:
+	if Input.is_action_just_pressed("reload") and current_weapon is Ranged and not is_reloading:
 		start_reload()
 	
 	# Handle aiming
-	if Input.is_action_pressed("aim_toggle") and current_weapon.is_ranged:
+	if Input.is_action_pressed("aim_toggle") and current_weapon is Ranged:
 		is_aiming = true
 	else:
 		is_aiming = false
