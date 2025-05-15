@@ -82,6 +82,13 @@ var hitstun_duration: float = 1.5  # Adjust as needed for enemy hitstun duration
 var behavior_tree : BeehaveTree
 var check_timer: float = 0.0 # Timer for vision cone checks
 
+# Inventory
+var inventory : Inventory
+
+# Weapon System
+var current_weapon : WeaponResource
+var ammo_manager = AmmoManager
+
 # This function now sets curAnim based on your boolean animation variables.
 func update_animation_state():
 	# If currently attacking, keep that state until it finishes.
@@ -136,6 +143,11 @@ func _ready():
 		behavior_tree.blackboard.set_value("can_see_player", can_see_player)
 	
 	vision_cone = eyes.get_child(0)
+	
+	# Initialize the enemy inventory to its default value (2)
+	# Not sure how many weapons we want these guys to be able to switch between.
+	# Also this will make the behavior tree more complex.
+	inventory = Inventory.new()
 
 
 func _physics_process(delta: float):
