@@ -1,12 +1,13 @@
-[gd_resource type="Resource" script_class="WeaponResource" load_steps=3 format=3 uid="uid://ca1q4i6eg75dr"]
+[gd_resource type="Resource" script_class="Melee" load_steps=3 format=3 uid="uid://beeym3fwjalg5"]
 
-[ext_resource type="PackedScene" uid="uid://sv82cymh131y" path="res://scenes/Weapons/WeaponScn/Baton.tscn" id="1_3quj6"]
-[ext_resource type="Script" uid="uid://bjbdu6ek4jmfa" path="res://scripts/Weapons/WeaponResource.gd" id="1_gbxuh"]
+[ext_resource type="PackedScene" uid="uid://sv82cymh131y" path="res://scenes/Weapons/WeaponScn/Baton.tscn" id="1_ly74g"]
+[ext_resource type="Script" uid="uid://dqrx8gihqp04a" path="res://scripts/Weapons/Melee.gd" id="1_rwri4"]
 
 [resource]
-script = ExtResource("1_gbxuh")
+script = ExtResource("1_rwri4")
+damage = 3.0
 name = "Baton"
 classification = 1
-damage = 3.0
-model_scene = ExtResource("1_3quj6")
-metadata/_custom_type_script = "uid://bjbdu6ek4jmfa"
+model_scene = ExtResource("1_ly74g")
+type = "Melee"
+metadata/_custom_type_script = "uid://dqrx8gihqp04a"

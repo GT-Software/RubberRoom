@@ -4,7 +4,8 @@
 
 [resource]
 script = ExtResource("1_n4vd5")
+damage = 1.0
 name = "Unarmed"
 classification = 0
-damage = 1.0
+type = "WeaponResource"
 metadata/_custom_type_script = "uid://bjbdu6ek4jmfa"

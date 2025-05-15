@@ -1,12 +1,13 @@
-[gd_resource type="Resource" script_class="WeaponResource" load_steps=3 format=3 uid="uid://lthwlsd3rmrj"]
+[gd_resource type="Resource" script_class="Melee" load_steps=3 format=3 uid="uid://b8sd6e5r35dp5"]
 
-[ext_resource type="PackedScene" uid="uid://dg4wuptpbgopn" path="res://scenes/Weapons/WeaponScn/Sledge.tscn" id="1_7wes4"]
-[ext_resource type="Script" uid="uid://bjbdu6ek4jmfa" path="res://scripts/Weapons/WeaponResource.gd" id="1_qr3k5"]
+[ext_resource type="PackedScene" uid="uid://dg4wuptpbgopn" path="res://scenes/Weapons/WeaponScn/Sledge.tscn" id="1_5yxpn"]
+[ext_resource type="Script" uid="uid://dqrx8gihqp04a" path="res://scripts/Weapons/Melee.gd" id="1_lkr37"]
 
 [resource]
-script = ExtResource("1_qr3k5")
+script = ExtResource("1_lkr37")
+damage = 5.0
 name = "Sledge"
 classification = 1
-damage = 5.0
-model_scene = ExtResource("1_7wes4")
-metadata/_custom_type_script = "uid://bjbdu6ek4jmfa"
+model_scene = ExtResource("1_5yxpn")
+type = "Melee"
+metadata/_custom_type_script = "uid://dqrx8gihqp04a"

@@ -1,12 +1,13 @@
-[gd_resource type="Resource" script_class="WeaponResource" load_steps=3 format=3 uid="uid://ckclxsin1bqwn"]
+[gd_resource type="Resource" script_class="Melee" load_steps=3 format=3 uid="uid://cgoqty6rvkin6"]
 
-[ext_resource type="PackedScene" uid="uid://w6mnhplxwee3" path="res://scenes/Weapons/WeaponScn/knife.tscn" id="1_n000i"]
-[ext_resource type="Script" uid="uid://bjbdu6ek4jmfa" path="res://scripts/Weapons/WeaponResource.gd" id="1_p7415"]
+[ext_resource type="PackedScene" uid="uid://w6mnhplxwee3" path="res://scenes/Weapons/WeaponScn/knife.tscn" id="1_eyu1n"]
+[ext_resource type="Script" uid="uid://dqrx8gihqp04a" path="res://scripts/Weapons/Melee.gd" id="1_fdvxh"]
 
 [resource]
-script = ExtResource("1_p7415")
+script = ExtResource("1_fdvxh")
+damage = 2.35
 name = "Knife"
 classification = 2
-damage = 2.35
-model_scene = ExtResource("1_n000i")
-metadata/_custom_type_script = "uid://bjbdu6ek4jmfa"
+model_scene = ExtResource("1_eyu1n")
+type = "Melee"
+metadata/_custom_type_script = "uid://dqrx8gihqp04a"
