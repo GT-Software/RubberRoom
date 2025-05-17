@@ -1,8 +1,10 @@
-[gd_resource type="Resource" script_class="Ranged" load_steps=4 format=3 uid="uid://b4fj1bwlk0to2"]
+[gd_resource type="Resource" script_class="Ranged" load_steps=6 format=3 uid="uid://b4fj1bwlk0to2"]
 
 [ext_resource type="PackedScene" uid="uid://cr1w17bp8sgq3" path="res://scenes/Weapons/WeaponScn/Projectile.tscn" id="1_iu7q0"]
 [ext_resource type="PackedScene" uid="uid://b4adlt0ds4f0d" path="res://scenes/Weapons/WeaponScn/shotgun.tscn" id="1_nkgj7"]
 [ext_resource type="Script" uid="uid://d0emdlvcdyoav" path="res://scripts/Weapons/Range.gd" id="1_p4ft1"]
+[ext_resource type="AudioStream" uid="uid://cl4opro7xk7rd" path="res://assets/sounds/mixkit-shotgun-hard-pump-1665.wav" id="4_mkmra"]
+[ext_resource type="AudioStream" uid="uid://ddcjlxdvdbncn" path="res://assets/sounds/silenced-shotgun-gunshot-105776.mp3" id="5_kjfl1"]
 
 [resource]
 script = ExtResource("1_p4ft1")
@@ -16,6 +18,8 @@ projectile_speed = 40.0
 spread = 10.0
 projectile_count = 8
 damage = 1.25
+sound_fire = ExtResource("5_kjfl1")
+sound_equip = ExtResource("4_mkmra")
 name = "Shotgun"
 classification = 4
 model_scene = ExtResource("1_nkgj7")

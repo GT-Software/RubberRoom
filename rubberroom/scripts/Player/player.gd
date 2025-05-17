@@ -53,6 +53,7 @@ var is_aiming = false
 #@onready var muzzle_position = $AuxScene/Node/Skeleton3D/RightArm/MuzzlePosition
 @onready var projectile_container = $"../ProjectileContainer"  # Add this Node to your scene
 @onready var firing_sound = $FiringSound  # Add AudioStreamPlayer3D to your scene
+@onready var equip_sound = AudioStream
 @onready var muzzle_position: Node3D = null
 
 
@@ -255,6 +256,12 @@ func _ready():
 	var result = inventory.add_item(pistol)
 	if result.keys()[0] == false:
 		print(result.values()[0])
+	 # If current_weapon is already set (e.g., from a default weapon)
+	if current_weapon and current_weapon.sound_equip:
+		equip_sound = current_weapon.sound_equip
+	else:
+		equip_sound = null  # Default to null if no weapon or sound
+
 
 func pickup_weapon(new_weapon: WeaponResource):
 	if inventory.get_size() == 0:
@@ -298,7 +305,14 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 		if ammo_manager.current_magazine <= 0:
 			ammo_manager.reload()
 	
-	
+	#Make Equip Sound on equip
+		# Check and play equip sound
+	# Update the equip_sound_stream when equipping a new weapon
+	if current_weapon.sound_equip:
+		firing_sound.stream = current_weapon.sound_equip  # Assign the AudioStream to the player
+		firing_sound.play()  # Play the sound
+	else:
+		equip_sound = null
 	# Connect hitbox signal
 	if current_hitbox:
 		current_hitbox.body_entered.connect(_on_hitbox_entered)
@@ -988,10 +1002,10 @@ func handle_ranged_weapon_input(delta: float) -> void:
 		if fire_cooldown_timer <= 0:
 			can_fire = true
 	
-	# Handle weapon firing
-	if Input.is_action_pressed("fire") and can_fire and current_weapon is Ranged and not is_reloading:
-		fire_weapon()
-	
+	## Handle weapon firing
+	#if Input.is_action_pressed("fire") and can_fire and current_weapon is Ranged and not is_reloading:
+		#fire_weapon()
+	#
 	# Handle reloading
 	if Input.is_action_just_pressed("reload") and current_weapon is Ranged and not is_reloading:
 		start_reload()

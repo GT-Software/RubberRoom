@@ -1,8 +1,10 @@
-[gd_resource type="Resource" script_class="Ranged" load_steps=4 format=3 uid="uid://cd3i1rrwpx36f"]
+[gd_resource type="Resource" script_class="Ranged" load_steps=6 format=3 uid="uid://cd3i1rrwpx36f"]
 
 [ext_resource type="Script" uid="uid://d0emdlvcdyoav" path="res://scripts/Weapons/Range.gd" id="1_6qft8"]
 [ext_resource type="PackedScene" uid="uid://btbqqyrxbjfy7" path="res://scenes/Weapons/WeaponScn/pistol.tscn" id="1_dlfh1"]
 [ext_resource type="PackedScene" uid="uid://cr1w17bp8sgq3" path="res://scenes/Weapons/WeaponScn/Projectile.tscn" id="2_3vyc8"]
+[ext_resource type="AudioStream" uid="uid://cdlye6lueshv2" path="res://assets/sounds/mixkit-handgun-click-1660.mp3" id="4_nqhtm"]
+[ext_resource type="AudioStream" uid="uid://cdxj4he57xodf" path="res://assets/sounds/pistol-shot-233473.mp3" id="5_jhy6a"]
 
 [resource]
 script = ExtResource("1_6qft8")
@@ -16,6 +18,8 @@ projectile_speed = 50.0
 spread = 2.0
 projectile_count = 1
 damage = 0.5
+sound_fire = ExtResource("5_jhy6a")
+sound_equip = ExtResource("4_nqhtm")
 name = "Pistol"
 classification = 4
 model_scene = ExtResource("1_dlfh1")

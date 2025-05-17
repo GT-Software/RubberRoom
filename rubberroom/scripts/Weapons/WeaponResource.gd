@@ -9,6 +9,7 @@ extends Item
 @export var sound_fire: AudioStream = null
 @export var sound_reload: AudioStream = null
 @export var sound_empty: AudioStream = null
+@export var sound_equip:  AudioStream = null
 
 ## Return a group of all the class member variables as a [Dictionary]
 func to_dict() -> Dictionary:
