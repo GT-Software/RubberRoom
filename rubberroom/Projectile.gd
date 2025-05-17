@@ -33,7 +33,8 @@ func _on_body_entered(body):
 	# Ignore the shooter
 	if body == shooter:
 		return
-		
+	
+	print(body.name)
 	# Process hit for enemies
 	if body.is_in_group("enemies") and shooter.is_in_group("player"):
 		# Create an Attack object similar to your melee system
