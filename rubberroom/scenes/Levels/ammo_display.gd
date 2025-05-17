@@ -1,7 +1,8 @@
 extends Control
 
-@onready var magazine_label = $MagazineLabel
-@onready var reserve_label = $ReserveLabel
+@onready var magazine_label = $AmmoContainer/Magazine
+@onready var reserve_label = $AmmoContainer/Reserve
+
 @onready var weapon_name_label = $WeaponNameLabel
 @onready var ammo_container = $AmmoContainer
 

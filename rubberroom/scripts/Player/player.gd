@@ -26,6 +26,7 @@ signal weapon_changed(weapon)
 @onready var _aim_pcam = $"../Camera Controller/PhantomCamera Zoom In"
 @onready var right_arm_collision = $AuxScene/Node/Skeleton3D/RightArm/Area3D/RightArmCollision
 @onready var left_arm_collision = $AuxScene/Node/Skeleton3D/LeftArm/Area3D/LeftArmCollision
+@onready var ammo_display = $"../CanvasLayer/AmmoDisplay"
 
 @onready var punch_sound = $AudioStreamPlayer3D
 
@@ -244,7 +245,6 @@ func _ready():
 	ammo_manager.reload_complete.connect(_on_reload_complete)
 	current_weapon = unarmed_weapon  # Set default to unarmed
 	# Setup ammo display
-	var ammo_display = $CanvasLayer/AmmoDisplay
 	if ammo_display:
 		ammo_display.setup(self)
 	else:
