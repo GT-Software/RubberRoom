@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Ranged" load_steps=4 format=3 uid="uid://b4fj1bwlk0to2"]
+
+[ext_resource type="PackedScene" uid="uid://cr1w17bp8sgq3" path="res://scenes/Weapons/WeaponScn/Projectile.tscn" id="1_iu7q0"]
+[ext_resource type="PackedScene" uid="uid://b4adlt0ds4f0d" path="res://scenes/Weapons/WeaponScn/shotgun.tscn" id="1_nkgj7"]
+[ext_resource type="Script" uid="uid://d0emdlvcdyoav" path="res://scripts/Weapons/Range.gd" id="1_p4ft1"]
+
+[resource]
+script = ExtResource("1_p4ft1")
+ammo_type = 2
+max_ammo = 24
+magazine_size = 8
+fire_rate = 1.0
+reload_time = 2.5
+projectile_scene = ExtResource("1_iu7q0")
+projectile_speed = 40.0
+spread = 10.0
+projectile_count = 8
+damage = 1.25
+name = "Shotgun"
+classification = 4
+model_scene = ExtResource("1_nkgj7")
+type = "Ranged"
+metadata/_custom_type_script = "uid://d0emdlvcdyoav"

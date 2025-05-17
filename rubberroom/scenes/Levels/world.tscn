@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://bbcojlsg6u4g2"]
+[gd_scene load_steps=38 format=3 uid="uid://bbcojlsg6u4g2"]
 
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="1_7wmbq"]
 [ext_resource type="Script" uid="uid://cse0p7wulch6r" path="res://scripts/Levels/world.gd" id="1_ot05e"]
@@ -19,15 +19,16 @@
 [ext_resource type="Script" uid="uid://cakou78whrnpg" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="17_kaabt"]
 [ext_resource type="Script" uid="uid://bddatxcyjbvur" path="res://scripts/Weapons/WeaponPickup.gd" id="17_trjwt"]
 [ext_resource type="Script" uid="uid://dk5vo3njrfd0y" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="18_10yq7"]
-[ext_resource type="Resource" uid="uid://ckclxsin1bqwn" path="res://scenes/Weapons/WeaponRes/Knife.tres" id="18_q7rc3"]
+[ext_resource type="Resource" uid="uid://cgoqty6rvkin6" path="res://scenes/Weapons/WeaponRes/Knife.tres" id="18_q7rc3"]
 [ext_resource type="Script" uid="uid://coujuso2ky8vm" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="19_8auu5"]
-[ext_resource type="Resource" uid="uid://lthwlsd3rmrj" path="res://scenes/Weapons/WeaponRes/Sledge.tres" id="19_q7rc3"]
+[ext_resource type="Resource" uid="uid://b8sd6e5r35dp5" path="res://scenes/Weapons/WeaponRes/Sledge.tres" id="19_q7rc3"]
 [ext_resource type="Script" uid="uid://3c4x2htg1inn" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="20_nsq4w"]
-[ext_resource type="Resource" uid="uid://ca1q4i6eg75dr" path="res://scenes/Weapons/WeaponRes/Baton.tres" id="20_svnuq"]
-[ext_resource type="Resource" uid="uid://ihu72jjffawt" path="res://scenes/Weapons/WeaponRes/Machete.tres" id="21_2jwce"]
+[ext_resource type="Resource" uid="uid://beeym3fwjalg5" path="res://scenes/Weapons/WeaponRes/Baton.tres" id="20_svnuq"]
+[ext_resource type="Resource" uid="uid://bmsljfeproutg" path="res://scenes/Weapons/WeaponRes/Machete.tres" id="21_2jwce"]
 [ext_resource type="PackedScene" uid="uid://drosn1nk8a1wt" path="res://scenes/Interact/interact_ray.tscn" id="21_a0mmo"]
 [ext_resource type="PackedScene" uid="uid://c1acpjmpaaflr" path="res://scenes/Interact/next_level_collision_area.tscn" id="22_lspd6"]
 [ext_resource type="PackedScene" uid="uid://cvsedxp6wp60w" path="res://scenes/Agents/basic_enemy_test.tscn" id="23_4g06l"]
+[ext_resource type="Resource" uid="uid://b4fj1bwlk0to2" path="res://scenes/Weapons/WeaponRes/Shotgun.tres" id="23_xj1ya"]
 [ext_resource type="PackedScene" uid="uid://dgyguidw1o7dl" path="res://scenes/cover.tscn" id="24_wodlv"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_lylq3"]
@@ -415,6 +416,15 @@ script = ExtResource("17_trjwt")
 weapon_resource = ExtResource("21_2jwce")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Basic_NPC/WeaponPickup4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.421387, -1.91846)
+shape = SubResource("BoxShape3D_rij1k")
+
+[node name="WeaponPickup5" type="Area3D" parent="Basic_NPC"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.7347, 0, -0.68541)
+script = ExtResource("17_trjwt")
+weapon_resource = ExtResource("23_xj1ya")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Basic_NPC/WeaponPickup5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.421387, -1.91846)
 shape = SubResource("BoxShape3D_rij1k")
 
