@@ -526,3 +526,8 @@ func pickup_weapon(new_weapon : WeaponResource):
 			##current_weapon_model = new_weapon.model_scene.instantiate()
 			##weapon_attachment.add_child(current_weapon_model)
 	#print("Equipped weapon: ", new_weapon.name)
+
+
+func _on_detection_area_new_weapon_found(location: Vector3) -> void:
+	behavior_tree.blackboard.set_value("new weapon location", location)
+	behavior_tree.blackboard.set_value("new weapon found", true)
