@@ -103,7 +103,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ec5ti")
 
-[node name="Pistol_5" type="Node3D"]
+[node name="Pistol_5" type="Node3D" groups=["weapon"]]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 
 [node name="Pistol_5" type="MeshInstance3D" parent="."]

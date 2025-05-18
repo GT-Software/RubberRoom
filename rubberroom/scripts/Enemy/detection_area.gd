@@ -14,6 +14,8 @@ func _on_body_entered(body: Node3D) -> void:
 		parent.player_in_detection_area = true
 		is_detected.emit(target)
 	
+	if body.is_in_group("weapon"):
+	
 	
 	## Handle raycast query
 	#var space = get_world_3d().direct_space_state
