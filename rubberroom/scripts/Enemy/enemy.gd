@@ -433,15 +433,6 @@ func _on_player_attacking(attack: Attack, in_range : bool, weapon : Item):
 		
 		if weapon.classification == Item.Classification.RANGED:
 			behavior_tree.blackboard.set_value("is shot", true)
-	
-	#take_damage(attack)
-	#anim_tree.set("parameters/GotHit/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-	#print("Received player_attacking signal with: ", attack, ", in_range: ", in_range)
-	#enemy_health_bar._on_health_changed(health_component.health)
-	#apply_hitstun(hitstun_duration)
-	#punch_sound.play()
-	#print("Current Enemy Health: ", health_component.get_health())
-		
 
 
 func _on_enemy_melee_range_exited(body):
