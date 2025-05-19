@@ -7,7 +7,7 @@ signal stamina_change(new_stamina)
 signal health_change
 signal stun_change
 signal fear_change
-signal player_attacking(attack : Attack, in_range : bool)
+signal player_attacking(attack : Attack, in_range : bool, weapon : Item)
 signal weapon_changed(weapon)
 # -------------------------------
 # Node references
@@ -631,7 +631,7 @@ func _physics_process(delta):
 func _on_hitbox_entered(body):
 	if hitbox_active and body.is_in_group("enemies"):
 		var attack_instance = Attack.new(current_weapon.damage, 0.0, 0.0, 0.0, 0.0, global_position)
-		emit_signal("player_attacking", attack_instance, true)
+		emit_signal("player_attacking", attack_instance, true, current_weapon)
 		print("Hitbox hit enemy, dealing damage: ", current_weapon.damage)
 		punch_sound.play()
 		hitbox_active = false

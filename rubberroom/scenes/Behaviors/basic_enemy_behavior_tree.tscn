@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=41 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="2_en11p"]
@@ -11,24 +11,25 @@
 [ext_resource type="Script" uid="uid://dmm17ott1q8qv" path="res://scripts/Enemy/Behaviors/is_player_melee_attacking.gd" id="7_bdjyc"]
 [ext_resource type="Script" uid="uid://dorri1tul8gfx" path="res://addons/beehave/nodes/decorators/delayer.gd" id="7_t85qk"]
 [ext_resource type="Script" uid="uid://bptbmkmqrsha" path="res://scripts/Enemy/Behaviors/Enemy/is_at_cover.gd" id="7_v4q1j"]
+[ext_resource type="Script" uid="uid://bm5c5kstyxbm" path="res://scripts/Enemy/Behaviors/Enemy/is_player_ranged_attacking.gd" id="9_bibpj"]
 [ext_resource type="Script" uid="uid://m5w0iejvnx82" path="res://scripts/Enemy/Behaviors/Enemy/is_shot_at.gd" id="9_xrjo8"]
+[ext_resource type="Script" uid="uid://684kwgg0yp6y" path="res://scripts/Enemy/Behaviors/Enemy/get_shot.gd" id="10_4pt63"]
 [ext_resource type="Script" uid="uid://cbxcijdmopvwt" path="res://scripts/Enemy/Behaviors/Enemy/find_cover.gd" id="10_38g4q"]
 [ext_resource type="Script" uid="uid://bxct2kk41h04o" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/check_if_in_range.gd" id="10_ea1eq"]
 [ext_resource type="Script" uid="uid://c84kisfw2cyc4" path="res://scripts/Enemy/Behaviors/Enemy/is_there_cover.gd" id="10_kyg0x"]
 [ext_resource type="Script" uid="uid://bgih2jj08wm60" path="res://scripts/Enemy/Behaviors/Enemy/dodge.gd" id="10_oa5jo"]
-[ext_resource type="Script" uid="uid://cjmf77fum3nxb" path="res://scripts/Enemy/Behaviors/Enemy/has_rifle.gd" id="10_pkjsf"]
+[ext_resource type="Script" uid="uid://cjmf77fum3nxb" path="res://scripts/Enemy/Behaviors/Enemy/is_ranged.gd" id="10_pkjsf"]
 [ext_resource type="Script" uid="uid://binwdobuhytxv" path="res://scripts/Enemy/Behaviors/Enemy/has_rifle_ammo.gd" id="11_hm4ar"]
 [ext_resource type="Script" uid="uid://c0kxh55dabbdp" path="res://scripts/Enemy/Behaviors/Enemy/fire_rifle.gd" id="12_01lqm"]
 [ext_resource type="Script" uid="uid://cf26timei7b8g" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/set_destination_to_enemy.gd" id="13_1bny8"]
 [ext_resource type="Script" uid="uid://n4wn63aklnr" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/attack.gd" id="13_1jjdt"]
-[ext_resource type="Script" uid="uid://4w17q3gx5240" path="res://scripts/Enemy/Behaviors/Enemy/has_pistol.gd" id="13_kyfb8"]
 [ext_resource type="Script" uid="uid://bvjdoya7ld1ej" path="res://scripts/Enemy/Behaviors/Enemy/has_pistol_ammo.gd" id="14_5hccb"]
 [ext_resource type="Script" uid="uid://b4ysqc4hiqvtq" path="res://scripts/Enemy/Behaviors/Enemy/alerted.gd" id="14_5ptti"]
 [ext_resource type="Script" uid="uid://j56kyqknki0x" path="res://scripts/Enemy/Behaviors/Enemy/Hostile/face_enemy.gd" id="15_pcgyu"]
 [ext_resource type="Script" uid="uid://dlfl3n8adcrnq" path="res://scripts/Enemy/Behaviors/Enemy/fire_pistol.gd" id="15_u2fx1"]
 [ext_resource type="Script" uid="uid://cdqvfjj6sc2la" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/await_arrival_chase.gd" id="16_fkeik"]
 [ext_resource type="Script" uid="uid://dsf3a8vlolhx8" path="res://addons/beehave/nodes/decorators/succeeder.gd" id="20_5lpqk"]
-[ext_resource type="Script" uid="uid://c7jy37oi68akq" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
+[ext_resource type="Script" uid="uid://cv74jjdrwevpr" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
 [ext_resource type="Script" uid="uid://dhrt1u8haimpv" path="res://scripts/Enemy/Behaviors/Enemy/get_attacked.gd" id="21_shy7s"]
 [ext_resource type="Script" uid="uid://yen27s72syuk" path="res://scripts/Enemy/Behaviors/Enemy/is_hp_gone.gd" id="21_yenr8"]
 [ext_resource type="Script" uid="uid://d4awh42fa6oi1" path="res://scripts/Enemy/Behaviors/Enemy/die.gd" id="22_pgfsb"]
@@ -42,9 +43,9 @@
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
-blackboard = NodePath("@Node@21790")
+blackboard = NodePath("@Node@25333")
 custom_monitor = true
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="SelectorReactiveComposite" type="Node" parent="."]
 script = ExtResource("2_en11p")
@@ -72,6 +73,18 @@ script = ExtResource("7_bdjyc")
 
 [node name="Get Attacked" type="Node" parent="SelectorReactiveComposite/Hurt/Melee Hit"]
 script = ExtResource("21_shy7s")
+
+[node name="Range Attack" type="Node" parent="SelectorReactiveComposite/Hurt"]
+script = ExtResource("3_ce14b")
+metadata/_custom_type_script = "uid://cg016dbe7gs1x"
+
+[node name="Is Player Ranged Attacking" type="Node" parent="SelectorReactiveComposite/Hurt/Range Attack"]
+script = ExtResource("9_bibpj")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Get Shot" type="Node" parent="SelectorReactiveComposite/Hurt/Range Attack"]
+script = ExtResource("10_4pt63")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Suppressed" type="Node" parent="SelectorReactiveComposite"]
 script = ExtResource("3_ce14b")
@@ -130,48 +143,8 @@ script = ExtResource("16_fkeik")
 [node name="Attack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack"]
 script = ExtResource("3_ce14b")
 
-[node name="IsInMeleeRange" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack"]
-script = ExtResource("6_rh4pm")
-
 [node name="AttackType" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack"]
 script = ExtResource("2_ioc84")
-
-[node name="RifleAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
-script = ExtResource("3_ce14b")
-
-[node name="HasRifle" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
-script = ExtResource("10_pkjsf")
-
-[node name="HasRifleAmmo" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
-script = ExtResource("11_hm4ar")
-
-[node name="FireRifle" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
-script = ExtResource("12_01lqm")
-
-[node name="PistolAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
-script = ExtResource("3_ce14b")
-
-[node name="HasPistol" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
-script = ExtResource("13_kyfb8")
-
-[node name="HasPistolAmmo" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
-script = ExtResource("14_5hccb")
-
-[node name="FirePistol" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
-script = ExtResource("15_u2fx1")
-
-[node name="Throwable" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
-script = ExtResource("30_ydldi")
-metadata/_custom_type_script = "uid://dwfdg523bk776"
-
-[node name="ThrowableAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable"]
-script = ExtResource("3_ce14b")
-
-[node name="IsThrowableItem" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable/ThrowableAttack"]
-script = ExtResource("30_5lpqk")
-
-[node name="Throw" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable/ThrowableAttack"]
-script = ExtResource("31_ydldi")
 
 [node name="Melee" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
 script = ExtResource("2_en11p")
@@ -205,6 +178,43 @@ script = ExtResource("6_rh4pm")
 
 [node name="MeleeAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee/Melee Delay/Melee Attack"]
 script = ExtResource("13_1jjdt")
+
+[node name="RifleAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
+script = ExtResource("3_ce14b")
+
+[node name="IsRanged" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
+script = ExtResource("10_pkjsf")
+
+[node name="HasRifleAmmo" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
+script = ExtResource("11_hm4ar")
+
+[node name="FireRifle" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
+script = ExtResource("12_01lqm")
+
+[node name="PistolAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
+script = ExtResource("3_ce14b")
+
+[node name="IsRanged" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
+script = ExtResource("10_pkjsf")
+
+[node name="HasPistolAmmo" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
+script = ExtResource("14_5hccb")
+
+[node name="FirePistol" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
+script = ExtResource("15_u2fx1")
+
+[node name="Throwable" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
+script = ExtResource("30_ydldi")
+metadata/_custom_type_script = "uid://dwfdg523bk776"
+
+[node name="ThrowableAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable"]
+script = ExtResource("3_ce14b")
+
+[node name="IsThrowableItem" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable/ThrowableAttack"]
+script = ExtResource("30_5lpqk")
+
+[node name="Throw" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable/ThrowableAttack"]
+script = ExtResource("31_ydldi")
 
 [node name="PickupItem" type="Node" parent="SelectorReactiveComposite"]
 script = ExtResource("3_ce14b")

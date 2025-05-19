@@ -426,10 +426,13 @@ func update_lock_on_status():
 	pass
 
 
-func _on_player_attacking(attack: Attack, in_range : bool):
+func _on_player_attacking(attack: Attack, in_range : bool, weapon : Item):
 	if behavior_tree:
 		behavior_tree.blackboard.set_value("is attacked", true)
 		behavior_tree.blackboard.set_value("player attack", attack)
+		
+		if weapon.classification == Item.Classification.RANGED:
+			behavior_tree.blackboard.set_value("is shot", true)
 	
 	#take_damage(attack)
 	#anim_tree.set("parameters/GotHit/request" , AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
