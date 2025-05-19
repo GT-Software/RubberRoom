@@ -186,6 +186,7 @@ locale/translations_pot_files=PackedStringArray("res://assets/Dialouge/dialogue.
 3d_physics/layer_3="Enemy"
 3d_physics/layer_4="Actionable"
 3d_physics/layer_5="Projectile"
+3d_physics/layer_6="Weapon Pickup"
 
 [physics]
 

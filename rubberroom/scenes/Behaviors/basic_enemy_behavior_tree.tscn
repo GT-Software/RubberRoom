@@ -43,9 +43,9 @@
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
-blackboard = NodePath("@Node@25333")
+blackboard = NodePath("@Node@48993")
 custom_monitor = true
-actor = NodePath("..")
+actor = NodePath("")
 
 [node name="SelectorReactiveComposite" type="Node" parent="."]
 script = ExtResource("2_en11p")
@@ -59,6 +59,18 @@ script = ExtResource("21_yenr8")
 
 [node name="Die" type="Node" parent="SelectorReactiveComposite/Death"]
 script = ExtResource("22_pgfsb")
+
+[node name="PickupItem" type="Node" parent="SelectorReactiveComposite"]
+script = ExtResource("3_ce14b")
+
+[node name="IsBetterItemInRange" type="Node" parent="SelectorReactiveComposite/PickupItem"]
+script = ExtResource("32_oa5jo")
+
+[node name="MoveToItem" type="Node" parent="SelectorReactiveComposite/PickupItem"]
+script = ExtResource("35_bibpj")
+
+[node name="PickupItem" type="Node" parent="SelectorReactiveComposite/PickupItem"]
+script = ExtResource("20_nv5xh")
 
 [node name="Hurt" type="Node" parent="SelectorReactiveComposite"]
 script = ExtResource("2_ioc84")
@@ -215,18 +227,6 @@ script = ExtResource("30_5lpqk")
 
 [node name="Throw" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable/ThrowableAttack"]
 script = ExtResource("31_ydldi")
-
-[node name="PickupItem" type="Node" parent="SelectorReactiveComposite"]
-script = ExtResource("3_ce14b")
-
-[node name="IsBetterItemInRange" type="Node" parent="SelectorReactiveComposite/PickupItem"]
-script = ExtResource("32_oa5jo")
-
-[node name="MoveToItem" type="Node" parent="SelectorReactiveComposite/PickupItem"]
-script = ExtResource("35_bibpj")
-
-[node name="PickupItem" type="Node" parent="SelectorReactiveComposite/PickupItem"]
-script = ExtResource("20_nv5xh")
 
 [node name="Idle" type="Node" parent="SelectorReactiveComposite"]
 script = ExtResource("3_ce14b")

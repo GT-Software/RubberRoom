@@ -147,6 +147,7 @@ func _ready():
 		behavior_tree.blackboard.set_value("can_see_player", can_see_player)
 	
 	vision_cone = eyes.get_child(0)
+	inventory = Inventory.new(1)
 
 
 func _physics_process(delta: float):

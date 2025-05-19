@@ -429,6 +429,17 @@ weapon_resource = ExtResource("23_xj1ya")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.421387, -1.91846)
 shape = SubResource("BoxShape3D_rij1k")
 
+[node name="WeaponPickup6" type="Area3D" parent="Basic_NPC" groups=["weapon"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.7492, 0, -60.2303)
+collision_layer = 32
+collision_mask = 5
+script = ExtResource("17_trjwt")
+weapon_resource = ExtResource("23_xj1ya")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Basic_NPC/WeaponPickup6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.421387, -1.91846)
+shape = SubResource("BoxShape3D_rij1k")
+
 [node name="Camera Controller" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Camera Controller"]
