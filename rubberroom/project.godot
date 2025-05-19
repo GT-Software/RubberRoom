@@ -62,6 +62,7 @@ EnemySpawnMarker="Places where enemies will spawn"
 "nav region"=""
 cover=""
 projectile=""
+weapon=""
 
 [input]
 

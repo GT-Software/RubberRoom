@@ -46,7 +46,7 @@ shadow_mesh = SubResource("ArrayMesh_jcvey")
 radius = 0.0669031
 height = 0.486957
 
-[node name="Police_baton" type="Node3D"]
+[node name="Police_baton" type="Node3D" groups=["weapon"]]
 
 [node name="Police_baton" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, -4.37114e-08, 0, 4.37114e-08, 1, 0, 0, 0)

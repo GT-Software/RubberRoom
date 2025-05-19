@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=40 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="2_en11p"]
@@ -38,6 +38,7 @@
 [ext_resource type="Script" uid="uid://crkjak4kyv56m" path="res://addons/beehave/nodes/decorators/inverter.gd" id="32_bibpj"]
 [ext_resource type="Script" uid="uid://dvcdasjobasyv" path="res://scripts/Enemy/Behaviors/Enemy/is_better_item_in_range.gd" id="32_oa5jo"]
 [ext_resource type="Script" uid="uid://b01rj6h4cdflq" path="res://scripts/Enemy/Behaviors/Enemy/walk_to_player.gd" id="33_4pt63"]
+[ext_resource type="Script" uid="uid://0l7cxsydwitf" path="res://scripts/Enemy/Behaviors/Enemy/move_to_item.gd" id="35_bibpj"]
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
@@ -212,7 +213,7 @@ script = ExtResource("3_ce14b")
 script = ExtResource("32_oa5jo")
 
 [node name="MoveToItem" type="Node" parent="SelectorReactiveComposite/PickupItem"]
-script = ExtResource("20_nv5xh")
+script = ExtResource("35_bibpj")
 
 [node name="PickupItem" type="Node" parent="SelectorReactiveComposite/PickupItem"]
 script = ExtResource("20_nv5xh")

@@ -137,7 +137,7 @@ shadow_mesh = SubResource("ArrayMesh_qcmui")
 [sub_resource type="BoxShape3D" id="BoxShape3D_stt73"]
 size = Vector3(0.243774, 0.903442, 0.219238)
 
-[node name="Knife" type="Node3D"]
+[node name="Knife" type="Node3D" groups=["weapon"]]
 
 [node name="Knife" type="MeshInstance3D" parent="."]
 transform = Transform3D(198.943, 0, 0, 0, -2.37159e-05, 198.943, 0, -198.943, -2.37159e-05, 0, 0, 0)

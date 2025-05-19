@@ -134,7 +134,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_dvh2k")
 
-[node name="Shotgun_3" type="Node3D"]
+[node name="Shotgun_3" type="Node3D" groups=["weapon"]]
 
 [node name="Shotgun_3" type="MeshInstance3D" parent="."]
 transform = Transform3D(100, 0, 0, 0, -1.19209e-05, 100, 0, -100, -1.19209e-05, 0, 0, 0)

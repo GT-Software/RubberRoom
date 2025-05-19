@@ -45,7 +45,7 @@ shadow_mesh = SubResource("ArrayMesh_3r25r")
 [sub_resource type="BoxShape3D" id="BoxShape3D_pbpcb"]
 size = Vector3(0.435928, 0.260101, 0.355347)
 
-[node name="Hammer" type="Node3D"]
+[node name="Hammer" type="Node3D" groups=["weapon"]]
 
 [node name="Hammer" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, -4.37114e-08, 0, 4.37114e-08, 1, 0, 0, 0)

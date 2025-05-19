@@ -1,6 +1,7 @@
 extends Area3D
 
 signal is_detected(target)
+signal new_weapon_found(location : Vector3)
 
 @onready var parent = get_parent()
 
@@ -13,6 +14,11 @@ func _on_body_entered(body: Node3D) -> void:
 		print("Player is Detected!")
 		parent.player_in_detection_area = true
 		is_detected.emit(target)
+	
+	# Detect if there is a weapon available for the enemy to grab
+	if body.is_in_group("weapon"):
+		var location = body.global_position
+		new_weapon_found.emit(location)
 	
 	
 	## Handle raycast query
