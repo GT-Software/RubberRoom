@@ -6,8 +6,15 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		return FAILURE
 	
 	if actor.nav_agent.is_target_reached():
+		actor.is_walking = false
+		
 		return SUCCESS
 	else:
 		var location = blackboard.get_value("new weapon location")
-		actor.nav_agent.update_target_location(location)
+		actor.update_target_location(location)
+		actor.current_speed = actor.SPEED
+		
+		actor.is_walking = true
+		actor.is_running = false
+		actor.is_idle = false
 		return RUNNING

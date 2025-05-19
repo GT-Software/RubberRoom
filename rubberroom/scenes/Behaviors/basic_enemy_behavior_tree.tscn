@@ -45,7 +45,7 @@
 script = ExtResource("1_76n11")
 blackboard = NodePath("@Node@48993")
 custom_monitor = true
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="SelectorReactiveComposite" type="Node" parent="."]
 script = ExtResource("2_en11p")
@@ -60,16 +60,16 @@ script = ExtResource("21_yenr8")
 [node name="Die" type="Node" parent="SelectorReactiveComposite/Death"]
 script = ExtResource("22_pgfsb")
 
-[node name="PickupItem" type="Node" parent="SelectorReactiveComposite"]
+[node name="Pickup Item" type="Node" parent="SelectorReactiveComposite"]
 script = ExtResource("3_ce14b")
 
-[node name="IsBetterItemInRange" type="Node" parent="SelectorReactiveComposite/PickupItem"]
+[node name="IsBetterItemInRange" type="Node" parent="SelectorReactiveComposite/Pickup Item"]
 script = ExtResource("32_oa5jo")
 
-[node name="MoveToItem" type="Node" parent="SelectorReactiveComposite/PickupItem"]
+[node name="MoveToItem" type="Node" parent="SelectorReactiveComposite/Pickup Item"]
 script = ExtResource("35_bibpj")
 
-[node name="PickupItem" type="Node" parent="SelectorReactiveComposite/PickupItem"]
+[node name="PickupItem" type="Node" parent="SelectorReactiveComposite/Pickup Item"]
 script = ExtResource("20_nv5xh")
 
 [node name="Hurt" type="Node" parent="SelectorReactiveComposite"]
