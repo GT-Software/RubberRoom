@@ -2,6 +2,6 @@ extends ConditionLeaf
 
 
 func tick(actor, blackboard: Blackboard):
-	if actor.current_weapon.classification == 3:
+	if actor.current_weapon.classification == Item.Classification.RANGED:
 		return SUCCESS
 	return FAILURE
