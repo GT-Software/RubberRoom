@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=43 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="2_en11p"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dmm17ott1q8qv" path="res://scripts/Enemy/Behaviors/is_player_melee_attacking.gd" id="7_bdjyc"]
 [ext_resource type="Script" uid="uid://dorri1tul8gfx" path="res://addons/beehave/nodes/decorators/delayer.gd" id="7_t85qk"]
 [ext_resource type="Script" uid="uid://bptbmkmqrsha" path="res://scripts/Enemy/Behaviors/Enemy/is_at_cover.gd" id="7_v4q1j"]
+[ext_resource type="Script" uid="uid://cyqbfap0hedgo" path="res://scripts/Enemy/Behaviors/Enemy/pickup_item.gd" id="8_4pt63"]
 [ext_resource type="Script" uid="uid://bm5c5kstyxbm" path="res://scripts/Enemy/Behaviors/Enemy/is_player_ranged_attacking.gd" id="9_bibpj"]
 [ext_resource type="Script" uid="uid://m5w0iejvnx82" path="res://scripts/Enemy/Behaviors/Enemy/is_shot_at.gd" id="9_xrjo8"]
 [ext_resource type="Script" uid="uid://684kwgg0yp6y" path="res://scripts/Enemy/Behaviors/Enemy/get_shot.gd" id="10_4pt63"]
@@ -29,10 +30,11 @@
 [ext_resource type="Script" uid="uid://dlfl3n8adcrnq" path="res://scripts/Enemy/Behaviors/Enemy/fire_pistol.gd" id="15_u2fx1"]
 [ext_resource type="Script" uid="uid://cdqvfjj6sc2la" path="res://scripts/Enemy/Behaviors/Enemy/Patrol/await_arrival_chase.gd" id="16_fkeik"]
 [ext_resource type="Script" uid="uid://dsf3a8vlolhx8" path="res://addons/beehave/nodes/decorators/succeeder.gd" id="20_5lpqk"]
-[ext_resource type="Script" uid="uid://c7jy37oi68akq" path="res://addons/beehave/nodes/leaves/action.gd" id="20_nv5xh"]
 [ext_resource type="Script" uid="uid://dhrt1u8haimpv" path="res://scripts/Enemy/Behaviors/Enemy/get_attacked.gd" id="21_shy7s"]
 [ext_resource type="Script" uid="uid://yen27s72syuk" path="res://scripts/Enemy/Behaviors/Enemy/is_hp_gone.gd" id="21_yenr8"]
 [ext_resource type="Script" uid="uid://d4awh42fa6oi1" path="res://scripts/Enemy/Behaviors/Enemy/die.gd" id="22_pgfsb"]
+[ext_resource type="Script" uid="uid://dvnmhlldp23hg" path="res://addons/beehave/nodes/composites/selector_random.gd" id="25_gtc11"]
+[ext_resource type="Script" uid="uid://we22430vcb44" path="res://addons/beehave/nodes/decorators/time_limiter.gd" id="25_merug"]
 [ext_resource type="Script" uid="uid://6f84fub3u2dd" path="res://scripts/Enemy/Behaviors/Enemy/is_throwable_item.gd" id="30_5lpqk"]
 [ext_resource type="Script" uid="uid://dwfdg523bk776" path="res://addons/beehave/nodes/decorators/failer.gd" id="30_ydldi"]
 [ext_resource type="Script" uid="uid://c3lhr6ob84x0c" path="res://scripts/Enemy/Behaviors/Enemy/throw.gd" id="31_ydldi"]
@@ -43,9 +45,9 @@
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
-blackboard = NodePath("@Node@21800")
+blackboard = NodePath("@Node@21876")
 custom_monitor = true
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="SelectorReactiveComposite" type="Node" parent="."]
 script = ExtResource("2_en11p")
@@ -70,7 +72,7 @@ script = ExtResource("32_oa5jo")
 script = ExtResource("35_bibpj")
 
 [node name="PickupItem" type="Node" parent="SelectorReactiveComposite/Pickup Item"]
-script = ExtResource("20_nv5xh")
+script = ExtResource("8_4pt63")
 
 [node name="Hurt" type="Node" parent="SelectorReactiveComposite"]
 script = ExtResource("2_ioc84")
@@ -152,80 +154,83 @@ script = ExtResource("15_pcgyu")
 [node name="Await Arrival" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Chase"]
 script = ExtResource("16_fkeik")
 
-[node name="Attack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack"]
-script = ExtResource("3_ce14b")
+[node name="TimeLimiterDecorator" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack"]
+script = ExtResource("25_merug")
+wait_time = 5.0
+metadata/_custom_type_script = "uid://we22430vcb44"
 
-[node name="AttackType" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack"]
-script = ExtResource("2_ioc84")
+[node name="Select Attack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator"]
+script = ExtResource("25_gtc11")
+metadata/_custom_type_script = "uid://dvnmhlldp23hg"
 
-[node name="Melee" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
+[node name="Melee" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack"]
 script = ExtResource("2_en11p")
 metadata/_custom_type_script = "uid://cw22yurt5l74k"
 
-[node name="Walk Up" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee"]
+[node name="Walk Up" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Melee"]
 script = ExtResource("3_ce14b")
 metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 
-[node name="InverterDecorator" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee/Walk Up"]
+[node name="InverterDecorator" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Melee/Walk Up"]
 script = ExtResource("32_bibpj")
 metadata/_custom_type_script = "uid://crkjak4kyv56m"
 
-[node name="IsInMeleeRange" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee/Walk Up/InverterDecorator"]
+[node name="IsInMeleeRange" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Melee/Walk Up/InverterDecorator"]
 script = ExtResource("6_rh4pm")
 
-[node name="Walk to Player" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee/Walk Up"]
+[node name="Walk to Player" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Melee/Walk Up"]
 script = ExtResource("33_4pt63")
 
-[node name="Melee Delay" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee"]
+[node name="Melee Delay" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Melee"]
 script = ExtResource("7_t85qk")
 wait_time = 0.25
 metadata/_custom_type_script = "uid://dorri1tul8gfx"
 
-[node name="Melee Attack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee/Melee Delay"]
+[node name="Melee Attack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Melee/Melee Delay"]
 script = ExtResource("3_ce14b")
 metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 
-[node name="IsInMeleeRange" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee/Melee Delay/Melee Attack"]
+[node name="IsInMeleeRange" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Melee/Melee Delay/Melee Attack"]
 script = ExtResource("6_rh4pm")
 
-[node name="MeleeAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Melee/Melee Delay/Melee Attack"]
+[node name="MeleeAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Melee/Melee Delay/Melee Attack"]
 script = ExtResource("13_1jjdt")
 
-[node name="RifleAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
+[node name="RifleAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack"]
 script = ExtResource("3_ce14b")
 
-[node name="IsRanged" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
+[node name="IsRanged" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/RifleAttack"]
 script = ExtResource("10_pkjsf")
 
-[node name="HasRifleAmmo" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
+[node name="HasRifleAmmo" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/RifleAttack"]
 script = ExtResource("11_hm4ar")
 
-[node name="FireRifle" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/RifleAttack"]
+[node name="FireRifle" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/RifleAttack"]
 script = ExtResource("12_01lqm")
 
-[node name="PistolAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
+[node name="PistolAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack"]
 script = ExtResource("3_ce14b")
 
-[node name="IsRanged" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
+[node name="IsRanged" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/PistolAttack"]
 script = ExtResource("10_pkjsf")
 
-[node name="HasPistolAmmo" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
+[node name="HasPistolAmmo" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/PistolAttack"]
 script = ExtResource("14_5hccb")
 
-[node name="FirePistol" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/PistolAttack"]
+[node name="FirePistol" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/PistolAttack"]
 script = ExtResource("15_u2fx1")
 
-[node name="Throwable" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType"]
+[node name="Throwable" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack"]
 script = ExtResource("30_ydldi")
 metadata/_custom_type_script = "uid://dwfdg523bk776"
 
-[node name="ThrowableAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable"]
+[node name="ThrowableAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Throwable"]
 script = ExtResource("3_ce14b")
 
-[node name="IsThrowableItem" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable/ThrowableAttack"]
+[node name="IsThrowableItem" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Throwable/ThrowableAttack"]
 script = ExtResource("30_5lpqk")
 
-[node name="Throw" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/Attack/AttackType/Throwable/ThrowableAttack"]
+[node name="Throw" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Throwable/ThrowableAttack"]
 script = ExtResource("31_ydldi")
 
 [node name="Idle" type="Node" parent="SelectorReactiveComposite"]

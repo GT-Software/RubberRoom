@@ -25,9 +25,14 @@ var curAnim = IDLE
 @onready var anim_player = $"Animation Control/AnimationPlayer"
 @onready var right_arm_collision: CollisionShape3D = $AuxScene/Node/Skeleton3D/RightArm/Area3D/RightArmCollision
 @onready var left_arm_collision: CollisionShape3D = $AuxScene/Node/Skeleton3D/LeftArm/Area3D/LeftArmCollision
-# Export variables
+@onready var weapon_attachment: BoneAttachment3D = $AuxScene/Node/Skeleton3D/RightArm
 @onready var punch_sound = $AudioStreamPlayer3D
+@onready var projectile_container = $"../ProjectileContainer"  # Add this Node to your scene
+@onready var firing_sound = $FiringSound  # Add AudioStreamPlayer3D to your scene
 var vision_cone
+
+# Custom Hitbox
+var current_hitbox: Area3D
 
 @export var SPEED = 1.5
 @export var RUN_SPEED = 5.0
@@ -91,6 +96,9 @@ var ammo_manager = AmmoManager
 
 @export var current_weapon_model: Node3D = null
 
+@onready var equip_sound = AudioStream
+@onready var muzzle_position: Node3D = null
+
 
 # This function now sets curAnim based on your boolean animation variables.
 func update_animation_state():
@@ -148,6 +156,7 @@ func _ready():
 	
 	vision_cone = eyes.get_child(0)
 	inventory = Inventory.new(1)
+	ammo_manager = AmmoManager.new()
 
 
 func _physics_process(delta: float):
@@ -469,58 +478,52 @@ func pickup_weapon(new_weapon : WeaponResource):
 	else:
 		inventory.add_item(new_weapon)
 		print(new_weapon.name, " added to Enemy inventory.")
-		#equip_weapon(new_weapon)
+		equip_weapon(new_weapon)
 
 
-#func equip_weapon(new_weapon : WeaponResource):
-	#if current_weapon_model:
-		#weapon_attachment.remove_child(current_weapon_model)
-		#current_weapon_model.queue_free()
-		#current_weapon_model = null
-	#current_weapon = new_weapon
-	#emit_signal("weapon_changed", current_weapon)
-	#
-	## Set hitbox based on weapon state
-	#if new_weapon.classification == Item.Classification.UNARMED:
-		#current_hitbox = right_arm_collision  # Use arm hitbox for unarmed
-	#else:
+func equip_weapon(new_weapon : WeaponResource):
+	if current_weapon_model:
+		weapon_attachment.remove_child(current_weapon_model)
+		current_weapon_model.queue_free()
+		current_weapon_model = null
+	current_weapon = new_weapon
+	emit_signal("weapon_changed", current_weapon)
+	
+	if new_weapon.model_scene:
+		current_weapon_model = new_weapon.model_scene.instantiate()
+		print("Instantiated model: ", current_weapon_model)  # Debug: Is it instantiated?
+		weapon_attachment.add_child(current_weapon_model)
+		current_weapon_model.rotation_degrees = Vector3(90, 90, 0)  # Adjust rotation to align with hand
+		current_weapon_model.position = Vector3(0, 10, 5)  # Fine-tune position if needed
+		current_weapon_model.scale = Vector3(20, 20, 20)
+		print("Parent after add: ", current_weapon_model.get_parent())  # Debug: Is it attached?
+		current_hitbox = current_weapon_model.get_node("Hitbox")
+		# Find muzzle position in the weapon model
+		muzzle_position = current_weapon_model.get_node("MuzzlePosition") if current_weapon_model.has_node("MuzzlePosition") else null
+		if not muzzle_position:
+			print("Warning: MuzzlePosition not found in weapon model!")
+	
+	# Initialize ammo for ranged weapons
+	if new_weapon is Ranged:
+		ammo_manager.set_current_weapon(new_weapon)
+		# Optional: If it's a new weapon type, you might want to auto-reload here
+		if ammo_manager.current_magazine <= 0:
+			ammo_manager.reload()
+	
+	#Make Equip Sound on equip
+	# Check and play equip sound
+	# Update the equip_sound_stream when equipping a new weapon
+	if current_weapon.sound_equip:
+		firing_sound.stream = current_weapon.sound_equip  # Assign the AudioStream to the player
+		firing_sound.play()  # Play the sound
+	else:
+		equip_sound = null
+	
+	#if new_weapon.classification != WeaponResource.Classification.UNARMED:
 		#if new_weapon.model_scene:
 			#current_weapon_model = new_weapon.model_scene.instantiate()
-			#print("Instantiated model: ", current_weapon_model)  # Debug: Is it instantiated?
 			#weapon_attachment.add_child(current_weapon_model)
-			#current_weapon_model.rotation_degrees = Vector3(90, 90, 0)  # Adjust rotation to align with hand
-			#current_weapon_model.position = Vector3(0, 10, 5)  # Fine-tune position if needed
-			#current_weapon_model.scale = Vector3(20, 20, 20)
-			#print("Parent after add: ", current_weapon_model.get_parent())  # Debug: Is it attached?
-			#current_hitbox = current_weapon_model.get_node("Hitbox")
-			## Find muzzle position in the weapon model
-			#muzzle_position = current_weapon_model.get_node("MuzzlePosition") if current_weapon_model.has_node("MuzzlePosition") else null
-			#if not muzzle_position:
-				#print("Warning: MuzzlePosition not found in weapon model!")
-		## Initialize ammo for ranged weapons
-	#if new_weapon is Ranged:
-		#ammo_manager.set_current_weapon(new_weapon)
-		## Optional: If it's a new weapon type, you might want to auto-reload here
-		#if ammo_manager.current_magazine <= 0:
-			#ammo_manager.reload()
-	#
-	##Make Equip Sound on equip
-		## Check and play equip sound
-	## Update the equip_sound_stream when equipping a new weapon
-	#if current_weapon.sound_equip:
-		#firing_sound.stream = current_weapon.sound_equip  # Assign the AudioStream to the player
-		#firing_sound.play()  # Play the sound
-	#else:
-		#equip_sound = null
-	## Connect hitbox signal
-	#if current_hitbox:
-		#current_hitbox.body_entered.connect(_on_hitbox_entered)
-	#
-	##if new_weapon.classification != WeaponResource.Classification.UNARMED:
-		##if new_weapon.model_scene:
-			##current_weapon_model = new_weapon.model_scene.instantiate()
-			##weapon_attachment.add_child(current_weapon_model)
-	#print("Equipped weapon: ", new_weapon.name)
+	print("Equipped weapon: ", new_weapon.name)
 
 
 func _on_detection_area_new_weapon_found(location: Vector3) -> void:
