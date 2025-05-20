@@ -337,6 +337,8 @@ func inv_switch_weapons(slot : int):
 	equip_weapon(new_weapon)
 
 func _physics_process(delta):
+	
+	#print("is_attacking: ", is_attacking)
 	if is_hitstunned:
 		velocity = Vector3.ZERO
 		return  # Skip the rest of the process function
@@ -758,9 +760,9 @@ func _input(event: InputEvent) -> void:
 		
 	# Light attack input
 	if Input.is_action_just_pressed("light_attack"):
-		#if is_aiming and current_weapon is Ranged and can_fire and not is_reloading:
-			#fire_weapon()
-		if can_buffer_attack and is_attacking:
+		if is_aiming and current_weapon is Ranged and can_fire and not is_reloading:
+			fire_weapon()
+		if can_buffer_attack and is_attacking and current_attack_type == AttackType.LIGHT:
 			buffered_attack = true
 			print("Buffered light attack")
 		elif not is_attacking:
@@ -769,7 +771,7 @@ func _input(event: InputEvent) -> void:
 			attack_queue.append("light")
 			print("Queued light attack")
 	elif Input.is_action_just_pressed("heavy_attack"):
-		if can_buffer_attack and is_attacking:
+		if can_buffer_attack and is_attacking and current_attack_type == AttackType.HEAVY:
 			buffered_attack = true
 			print("Buffered heavy attack")
 		elif not is_attacking:
@@ -1177,11 +1179,13 @@ func _on_reload_complete() -> void:
 func start_attack(attack_type: int, new_combo: bool = true) -> void:
 	if is_attacking and not new_combo:
 		return
+	was_buffered_canceled = false  # Add this line
 	is_attacking = true
 	current_attack_type = attack_type
 	if new_combo:
 		combo_index = 1
 	current_one_shot_path = "parameters/attacks/" + ("light" if attack_type == AttackType.LIGHT else "heavy") + str(combo_index) + "/request"
+	print("current one shot path! : ",current_one_shot_path )
 	ap_tree_2.set(current_one_shot_path, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	print("Started attack: ", attack_type, " (index: ", combo_index, ")")
 	print("Start attack - Type: ", attack_type, " Combo Index: ", combo_index, " New Combo: ", new_combo)
@@ -1204,9 +1208,9 @@ func start_attack(attack_type: int, new_combo: bool = true) -> void:
 # Helper function to get the one-shot node path based on attack type and index
 func get_one_shot_path(attack_type: int, index: int) -> String:
 	if attack_type == AttackType.LIGHT:
-		return "parameters/LightAttack" + str(index)
+		return "parameters/LightAttack" + str(index) 
 	elif attack_type == AttackType.HEAVY:
-		return "parameters/HeavyAttack" + str(index)
+		return "parameters/HeavyAttack" + str(index) 
 	return ""
 
 
