@@ -3,5 +3,5 @@ extends ActionLeaf
 
 func tick(actor, blackboard: Blackboard):
 	# Fire Weapon
-	
-	return SUCCESS
+	print("Fired Rifle")
+	return RUNNING

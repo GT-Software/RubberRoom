@@ -7,11 +7,11 @@ signal reload_complete
 
 # Ammo types match those in WeaponResource
 enum AmmoType {
-	NONE,
-	PISTOL,
-	SHOTGUN,
-	RIFLE,
-	ENERGY
+	NONE = 0,
+	PISTOL = 1,
+	SHOTGUN = 2,
+	RIFLE = 3,
+	ENERGY = 4
 }
 
 # Total ammo by type
@@ -45,6 +45,10 @@ func get_ammo(type: int) -> int:
 # Get current magazine ammo
 func get_magazine() -> int:
 	return current_magazine
+
+
+func get_ammo_type() -> AmmoType:
+	return current_ammo_type
 
 # Set current weapon's ammo parameters
 func set_current_weapon(weapon: WeaponResource) -> void:

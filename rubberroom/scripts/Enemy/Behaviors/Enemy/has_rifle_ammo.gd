@@ -2,6 +2,6 @@ extends ConditionLeaf
 
 
 func tick(actor, blackboard: Blackboard):
-	if actor.current_weapon.ammo_type == Item.AmmoType.RIFLE:
+	if actor.ammo_manager.get_ammo_type == AmmoManager.AmmoType.RIFLE:
 		return SUCCESS
 	return FAILURE

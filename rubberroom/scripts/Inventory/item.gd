@@ -1,19 +1,19 @@
 class_name Item extends Resource
 
 enum Classification {
-	UNARMED,
-	BLUNT,
-	BLADED,
-	RANGED,
-	SPECIAL
+	UNARMED = 0,
+	BLUNT = 1,
+	BLADED = 2,
+	RANGED = 3,
+	SPECIAL = 4
 }
 
 enum AmmoType {
-	NONE,
-	PISTOL,
-	SHOTGUN,
-	RIFLE,
-	ENERGY
+	NONE = 0,
+	PISTOL = 1,
+	SHOTGUN = 2,
+	RIFLE = 3,
+	ENERGY = 4
 }
 
 @export var name: String = ""

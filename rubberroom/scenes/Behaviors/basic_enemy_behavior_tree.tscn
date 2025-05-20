@@ -45,6 +45,7 @@
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
+tick_rate = 10
 blackboard = NodePath("@Node@21876")
 custom_monitor = true
 actor = NodePath("..")
@@ -195,6 +196,10 @@ script = ExtResource("6_rh4pm")
 
 [node name="MeleeAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Melee/Melee Delay/Melee Attack"]
 script = ExtResource("13_1jjdt")
+
+[node name="Shotgun Attack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack"]
+script = ExtResource("3_ce14b")
+metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 
 [node name="RifleAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack"]
 script = ExtResource("3_ce14b")
