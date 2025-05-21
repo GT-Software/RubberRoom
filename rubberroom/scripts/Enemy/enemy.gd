@@ -513,11 +513,11 @@ func equip_weapon(new_weapon : WeaponResource):
 	#Make Equip Sound on equip
 	# Check and play equip sound
 	# Update the equip_sound_stream when equipping a new weapon
-	if current_weapon.sound_equip:
-		firing_sound.stream = current_weapon.sound_equip  # Assign the AudioStream to the player
-		firing_sound.play()  # Play the sound
-	else:
-		equip_sound = null
+	#if current_weapon.sound_equip:
+		#firing_sound.stream = current_weapon.sound_equip  # Assign the AudioStream to the player
+		#firing_sound.play()  # Play the sound
+	#else:
+		#equip_sound = null
 	
 	#if new_weapon.classification != WeaponResource.Classification.UNARMED:
 		#if new_weapon.model_scene:

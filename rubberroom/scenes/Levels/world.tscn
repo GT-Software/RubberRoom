@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bbcojlsg6u4g2"]
+[gd_scene load_steps=39 format=3 uid="uid://bbcojlsg6u4g2"]
 
 [ext_resource type="PackedScene" uid="uid://cdra3qby8c8bm" path="res://scenes/Player/player.tscn" id="1_7wmbq"]
 [ext_resource type="Script" uid="uid://cse0p7wulch6r" path="res://scripts/Levels/world.gd" id="1_ot05e"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://3e3pvfdco7mt" path="res://scenes/Agents/basic_npc.tscn" id="14_ec1jr"]
 [ext_resource type="Script" uid="uid://bg6wsh4583oxu" path="res://scenes/Levels/ammo_display.gd" id="15_2jwce"]
 [ext_resource type="PackedScene" uid="uid://brt856gi83iuc" path="res://scenes/Interact/actionable.tscn" id="15_p00jr"]
+[ext_resource type="PackedScene" uid="uid://d16fegbyhbmq2" path="res://scenes/UI/Inventory_UI.tscn" id="16_t3ks8"]
 [ext_resource type="Script" uid="uid://cakou78whrnpg" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="17_kaabt"]
 [ext_resource type="Script" uid="uid://bddatxcyjbvur" path="res://scripts/Weapons/WeaponPickup.gd" id="17_trjwt"]
 [ext_resource type="Script" uid="uid://dk5vo3njrfd0y" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="18_10yq7"]
@@ -370,6 +371,9 @@ text = "Magazine Text"
 [node name="Reserve" type="Label" parent="CanvasLayer/AmmoDisplay/AmmoContainer"]
 layout_mode = 2
 text = "Reserve Text"
+
+[node name="InventoryUI" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("16_t3ks8")]
+player = NodePath("../../Player")
 
 [node name="Basic_NPC" parent="." instance=ExtResource("14_ec1jr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.78793, 1.29538, 45.1744)

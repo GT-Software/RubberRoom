@@ -118,11 +118,6 @@ const MAX_COMBO_WINDOW = 1.6
 const MAX_LIGHT_COMBO_HITS = 3
 const MAX_HEAVY_COMBO_HITS = 2
 
-
-
-
-
-
 # Combo queue system
 var attack_queue = []
 var buffered_attack: bool = false
@@ -152,6 +147,8 @@ var curAnim = IDLE
 
 # Inventory
 var inventory : Inventory
+@onready var inventory_ui: InventoryUI = $"../CanvasLayer/InventoryUI"
+
 
 
 func update_animation_state():
@@ -253,6 +250,7 @@ func _ready():
 		print("Error: AmmoDisplay node not found!")
 	# Test with pistol
 	inventory = Inventory.new()
+	inventory_ui.inventory = inventory
 	var pistol = load("res://scenes/Weapons/WeaponRes/Pistol.tres")
 	var result = inventory.add_item(pistol)
 	if result.keys()[0] == false:
@@ -630,6 +628,12 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("fists"):
 		equip_weapon(unarmed_weapon)
 
+	# Inventory UI
+	if Input.is_action_just_pressed("inventory"):
+		if !inventory_ui.visible:
+			inventory_ui.open_inventory()
+		else:
+			inventory_ui.close_inventory()
 
 func _on_hitbox_entered(body):
 	if hitbox_active and body.is_in_group("enemies"):
