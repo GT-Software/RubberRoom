@@ -48,9 +48,9 @@
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
 tick_rate = 10
-blackboard = NodePath("@Node@21876")
+blackboard = NodePath("@Node@21800")
 custom_monitor = true
-actor = NodePath("..")
+actor = NodePath("")
 
 [node name="SelectorReactiveComposite" type="Node" parent="."]
 script = ExtResource("2_en11p")
@@ -97,11 +97,9 @@ metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 
 [node name="Is Player Ranged Attacking" type="Node" parent="SelectorReactiveComposite/Hurt/Range Attack"]
 script = ExtResource("9_bibpj")
-metadata/_custom_type_script = "uid://cbnbvj8prv63i"
 
 [node name="Get Shot" type="Node" parent="SelectorReactiveComposite/Hurt/Range Attack"]
 script = ExtResource("10_4pt63")
-metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Suppressed" type="Node" parent="SelectorReactiveComposite"]
 script = ExtResource("3_ce14b")
@@ -208,11 +206,9 @@ script = ExtResource("10_pkjsf")
 
 [node name="Has Shotgun Ammo" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Shotgun Attack"]
 script = ExtResource("33_ap5f6")
-metadata/_custom_type_script = "uid://cbnbvj8prv63i"
 
 [node name="Fire Shotgun" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Shotgun Attack"]
 script = ExtResource("34_10qgd")
-metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="RifleAttack" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack"]
 script = ExtResource("3_ce14b")

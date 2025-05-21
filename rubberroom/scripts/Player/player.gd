@@ -1178,13 +1178,14 @@ func _on_reload_complete() -> void:
 # Attack Functions
 func start_attack(attack_type: int, new_combo: bool = true) -> void:
 	if is_attacking and not new_combo:
+		print("Debug statement ftw")
 		return
 	was_buffered_canceled = false  # Add this line
 	is_attacking = true
 	current_attack_type = attack_type
 	if new_combo:
 		combo_index = 1
-	current_one_shot_path = "parameters/attacks/" + ("light" if attack_type == AttackType.LIGHT else "heavy") + str(combo_index) + "/request"
+	current_one_shot_path = "parameters/" + ("LightAttack" if attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index) + "/request"
 	print("current one shot path! : ",current_one_shot_path )
 	ap_tree_2.set(current_one_shot_path, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	print("Started attack: ", attack_type, " (index: ", combo_index, ")")
