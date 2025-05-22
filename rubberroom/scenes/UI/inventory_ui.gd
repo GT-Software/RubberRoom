@@ -141,7 +141,7 @@ func open_inventory():
 	if tween:
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property(self, "modulate", Color(1, 1, 1, 1), 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(self, "modulate", Color(1, 1, 1, 1), 0.3).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func close_inventory():
