@@ -116,7 +116,7 @@ func update_selected_item():
 		var item = inventory.get_item(selected_slot)
 		if item is Ranged:
 			item_name_label.text = item.name if item else ""
-			item_ammo_label.text = str(player.ammo_manager.get_magazine()) + " / " + str(player.ammo_manager.get_ammo())
+			item_ammo_label.text = str(player.ammo_manager.get_magazine()) + " / " + str(player.ammo_manager.get_ammo(item.ammo_type))
 	else:
 		item_name_label.text = ""
 		item_ammo_label.text = ""
