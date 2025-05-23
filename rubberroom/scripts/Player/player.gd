@@ -703,6 +703,7 @@ func reset_combo() -> void:
 	combo_index = 0
 	current_attack_type = AttackType.NONE
 	is_attacking = false
+	attack_queue.clear() 
 	print("Combo reset")
 	
 	
@@ -727,6 +728,7 @@ func open_buffer_window() -> void:
 	print("Buffer window opened - can_buffer_attack: ", can_buffer_attack)
 	# If the input was already buffered, immediately chain the next attack
 	if buffered_attack:
+		print("Attack finished, popping next queue")
 		attack_finished()
 
 
@@ -1182,7 +1184,10 @@ func _on_reload_complete() -> void:
 # Attack Functions
 func start_attack(attack_type: int, new_combo: bool = true) -> void:
 	if is_attacking and not new_combo:
-		print("Debug statement ftw")
+		current_one_shot_path = "parameters/" + ("LightAttack" if attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index) + "/request"
+		print("current one shot path! : ",current_one_shot_path )
+		ap_tree_2.set(current_one_shot_path, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+		print("Buffered attack - Type: ", attack_type, " Combo Index: ", combo_index, " New Combo: ", new_combo)
 		return
 	was_buffered_canceled = false  # Add this line
 	is_attacking = true
