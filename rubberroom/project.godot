@@ -23,6 +23,7 @@ PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_came
 RoomManager="*res://scripts/Managers/RoomManager.gd"
 SceneManager="*res://scripts/Managers/SceneManager.gd"
 EnemySpawnManager="*res://scripts/Managers/EnemySpawnManager.gd"
+PlayerManager="*res://scripts/Managers/PlayerManager.gd"
 
 [dialogue_manager]
 

@@ -155,11 +155,11 @@ func update_animation_state():
 	if curAnim == ATTACKLight:
 		return
 	# Set state based on priority: running > walking > idle.
-	if is_running:
+	if PlayerManager.is_running:
 		curAnim = RUN
-	elif is_walking:
+	elif PlayerManager.is_walking:
 		curAnim = WALK
-	elif is_idle:
+	elif PlayerManager.is_idle:
 		curAnim = IDLE
 	elif in_light_combo:
 		curAnim = ATTACKLight
@@ -259,6 +259,7 @@ func _ready():
 		equip_sound = current_weapon.sound_equip
 	else:
 		equip_sound = null  # Default to null if no weapon or sound
+		
 
 
 func pickup_weapon(new_weapon: WeaponResource):
@@ -383,8 +384,8 @@ func _physics_process(delta):
 	# Decide if run, crouch, or normal speed
 	if Input.is_action_pressed("run") and not is_crouched and stamina_component.stamina > 1:
 		current_speed = RUN_SPEED
-		is_walking    = false
-		is_running    = true
+		PlayerManager.is_walking = false
+		PlayerManager.is_running = true
 		##For Stamina
 		stamina_component.stamina_drain()
 		#emit_signal("stamina_change", stamina_component.stamina)
@@ -398,21 +399,21 @@ func _physics_process(delta):
 		
 	elif locked_on:
 		current_speed = FIGHTSPEED
-		is_walking    = true
-		is_running    = false
-		can_jump      = false
+		PlayerManager.is_walking    = true
+		PlayerManager.is_running    = false
+		PlayerManager.can_jump      = false
 	else:
 		current_speed = SPEED
-		is_walking    = true
-		is_running    = false
-		can_jump      = false
+		PlayerManager.is_walking    = true
+		PlayerManager.is_running    = false
+		PlayerManager.can_jump      = false
 	
 	
 # If stamina is exhausted, force walking mode (non-running)
 		if stamina_component.stamina <= 0:
 			current_speed = SPEED
-			is_running = false
-			is_walking = true
+			PlayerManager.is_running = false
+			PlayerManager.is_walking = true
 	
 		# Stamina Regeneration Logic:
 	# Only regenerate when the player is not running
@@ -477,11 +478,11 @@ func _physics_process(delta):
 	# 8) Idle/walking/running detection
 	#---------------------------------
 	if move_direction.x == 0 and move_direction.z == 0:
-		is_idle     = true
-		is_walking  = false
-		is_running  = false
+		PlayerManager.is_idle     = true
+		PlayerManager.is_walking  = false
+		PlayerManager.is_running  = false
 	else:
-		is_idle = false
+		PlayerManager.is_idle = false
 	
 	#---------------------------------
 	# 9) Animations
@@ -855,11 +856,11 @@ func _on_enemy_attacking(attack: Attack) -> void:
 
 
 func animation_updates(current_speed, move_direction):
-	if is_idle:
+	if PlayerManager.is_idle:
 		ap.play("Idle(1)0")
-	elif is_walking:
+	elif PlayerManager.is_walking:
 		ap.play("Walking(2)0")
-	elif is_running:
+	elif PlayerManager.is_running:
 		ap.play("Running(1)0")
 		
 
@@ -971,15 +972,15 @@ func _on_block_cooldown_timeout() -> void:
 	blocking_on_cooldown = false
 
 func current_action() -> String:
-	if is_blocking:
+	if PlayerManager.is_blocking:
 		return "blocking"
-	elif is_crouched:
+	elif PlayerManager.is_crouched:
 		return "crouched"
-	elif is_dodging:
+	elif PlayerManager.is_dodging:
 		return "dodging"
-	elif is_running:
+	elif PlayerManager.is_running:
 		return "running"
-	elif is_walking:
+	elif PlayerManager.is_walking:
 		return "walking"
 	else:
 		return "no action"
@@ -1303,9 +1304,9 @@ func print_debug_statements(content: Array[String] = []):
 			"animation":
 				print("can buffer attack: ", can_buffer_attack)
 				print("buffered_attack: ", buffered_attack)
-				print("States: is_walking: ", is_walking)
-				print("States: is_running: ", is_running)
-				print("States: can_jump: ", can_jump)
+				print("States: is_walking: ", PlayerManager.is_walking)
+				print("States: is_running: ", PlayerManager.is_running)
+				print("States: can_jump: ", PlayerManager.can_jump)
 				print("States: Is_In_Range: ", is_in_range)
 				print("States: combat: ", is_in_combat)
 # Start an attack and play its animation

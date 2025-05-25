@@ -1,8 +1,5 @@
 extends Node
-
 ## The Finite State Machine
-
-class_name PlayerManager
 
 # boolean variables
 var is_idle     = false
