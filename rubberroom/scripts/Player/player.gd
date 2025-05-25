@@ -16,7 +16,6 @@ signal weapon_changed(weapon)
 @onready var ap = $AuxScene/AnimationPlayer
 @onready var ap_tree = $"Animation Control/AnimationTree"
 @onready var ap_tree_2: AnimationTree = $"Animation Control/AnimationTree2"
-
 @onready var player_stat_bars = $"../CanvasLayer/Player Stat Bars"
 @onready var health_bar     = $"../CanvasLayer/Player Stat Bars/HealthBar"
 @onready var stun_bar       = $"../CanvasLayer/Player Stat Bars/StunBar"
