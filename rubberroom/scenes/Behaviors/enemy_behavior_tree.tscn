@@ -16,7 +16,7 @@
 
 [node name="BeehaveTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_snbe8")
-blackboard = NodePath("@Node@21816")
+blackboard = NodePath("@Node@21791")
 actor = NodePath("")
 
 [node name="SelectorComposite" type="Node" parent="."]

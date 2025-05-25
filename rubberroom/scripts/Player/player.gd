@@ -119,7 +119,7 @@ const MAX_LIGHT_COMBO_HITS = 3
 const MAX_HEAVY_COMBO_HITS = 2
 
 # Combo queue system
-var attack_queue = []
+
 var buffered_attack: bool = false
 var can_buffer_attack: bool = false
 var was_buffered_canceled: bool = false
@@ -335,8 +335,8 @@ func inv_switch_weapons(slot : int):
 	equip_weapon(new_weapon)
 
 func _physics_process(delta):
-	
-	#print("is_attacking: ", is_attacking)
+
+
 	if is_hitstunned:
 		velocity = Vector3.ZERO
 		return  # Skip the rest of the process function
@@ -357,7 +357,6 @@ func _physics_process(delta):
 	else:
 		_player_pcam.fov = lerp(_player_pcam.fov, default_fov, 0.1)
 
-	#print_debug()
 	#---------------------------------
 	# 1) Gravity + Death check
 	#---------------------------------
@@ -703,21 +702,12 @@ func reset_combo() -> void:
 	combo_index = 0
 	current_attack_type = AttackType.NONE
 	is_attacking = false
-	attack_queue.clear() 
 	print("Combo reset")
 	
 	
 	
 	
-	
-	
-	#current_attack_type = AttackType.NONE
-	#combo_index = 0
-	#combo_timer = 0.0
-	#buffered_attack = false
-	#can_buffer_attack = false
-	#attack_queue.clear()
-	#print("Combo reset")
+
 
 ## -------------------------------
 ## Buffer Window Functions
@@ -773,18 +763,14 @@ func _input(event: InputEvent) -> void:
 			print("Buffered light attack")
 		elif not is_attacking:
 			start_attack(AttackType.LIGHT, true)
-		else:
-			attack_queue.append("light")
-			print("Queued light attack")
+
 	elif Input.is_action_just_pressed("heavy_attack"):
 		if can_buffer_attack and is_attacking and current_attack_type == AttackType.HEAVY:
 			buffered_attack = true
 			print("Buffered heavy attack")
 		elif not is_attacking:
 			start_attack(AttackType.HEAVY, true)
-		else:
-			attack_queue.append("heavy")
-			print("Queued heavy attack")
+
 			
 			
 	if event is InputEventMouseMotion:
@@ -1194,6 +1180,7 @@ func start_attack(attack_type: int, new_combo: bool = true) -> void:
 	current_attack_type = attack_type
 	if new_combo:
 		combo_index = 1
+		combo_timer += 1.5
 	current_one_shot_path = "parameters/" + ("LightAttack" if attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index) + "/request"
 	print("current one shot path! : ",current_one_shot_path )
 	ap_tree_2.set(current_one_shot_path, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
@@ -1255,34 +1242,8 @@ func attack_finished() -> void:
 	if was_buffered_canceled:
 		was_buffered_canceled = false
 		return
-	is_attacking = false
-	if not attack_queue.is_empty():
-		var next_attack = attack_queue.pop_front()
-		var attack_type = AttackType.LIGHT if next_attack == "light" else AttackType.HEAVY
-		start_attack(attack_type, true)
-		print("Processing queued attack: ", next_attack)
-	else:
-		reset_combo()
+
 	
-	
-	
-	
-	
-	
-	
-	
-	#print("Attack animation finished (type: ", get_current_attack_type(), ", index: ", combo_index, ")")
-	#is_attacking = false
-	#if buffered_attack and can_buffer_attack:
-		#var next_type = AttackType.LIGHT if current_attack_type == AttackType.LIGHT else AttackType.HEAVY
-		#start_attack(next_type)
-	#elif not attack_queue.is_empty():
-		#var next_attack = attack_queue.pop_front()
-		#var attack_type = AttackType.LIGHT if next_attack == "light" else AttackType.HEAVY
-		#print("Processing queued attack: ", next_attack, " (queue: ", attack_queue, ")")
-		#start_attack(attack_type)
-	#else:
-		#reset_combo()
 
 
 func trigger_buffered_attack() -> void:
@@ -1293,6 +1254,7 @@ func trigger_buffered_attack() -> void:
 		print("Aborted current attack: ", current_one_shot_path)
 	was_buffered_canceled = true
 	combo_index = clamp(combo_index + 1, 1, MAX_LIGHT_COMBO_HITS if current_attack_type == AttackType.LIGHT else MAX_HEAVY_COMBO_HITS)
+	combo_timer+= 0.75
 	start_attack(current_attack_type, false)
 	buffered_attack = false
 	print("Triggered buffered attack: ", current_attack_type, " (index: ", combo_index, ")")
@@ -1324,7 +1286,7 @@ func get_current_attack_type():
 			return "unknown"
 
 # Add an array of topics for the print_debug function to print out
-func print_debug(content: Array[String] = []):
+func print_debug_statements(content: Array[String] = []):
 	for c in content:
 		match c:
 			"stamina":
