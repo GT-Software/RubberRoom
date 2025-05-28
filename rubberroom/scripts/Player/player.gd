@@ -1173,6 +1173,7 @@ func start_attack(attack_type: int, new_combo: bool = true) -> void:
 		current_one_shot_path = "parameters/" + ("LightAttack" if attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index) + "/request"
 		print("current one shot path! : ",current_one_shot_path )
 		ap_tree_2.set(current_one_shot_path, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+		#animation_player.seek(buffer_entry_time, true)  # Jump to the custom start time
 		print("Buffered attack - Type: ", attack_type, " Combo Index: ", combo_index, " New Combo: ", new_combo)
 		return
 	was_buffered_canceled = false  # Add this line
@@ -1190,16 +1191,22 @@ func start_attack(attack_type: int, new_combo: bool = true) -> void:
 	
 	
 	
+func get_buffer_entry_time(anim_name: String) -> float:
+	var animation = ap.get_animation(anim_name)
+	if animation == null:
+		print("Animation not found: ", anim_name)
+		return 0.0
+	# Search for the Marker track
+	for track_idx in animation.get_track_count():
+		if animation.track_get_type(track_idx) == Animation.TYPE_MARKER:
+			for key_idx in animation.track_get_key_count(track_idx):
+				var key_value = animation.track_get_key_value(track_idx, key_idx)
+				if key_value == "BufferEntry":
+					return animation.track_get_key_time(track_idx, key_idx)
 	
-	
-	#is_attacking = true
-	#current_attack_type = attack_type
-	#combo_index = clamp(combo_index + 1, 1, MAX_LIGHT_COMBO_HITS if attack_type == AttackType.LIGHT else MAX_HEAVY_COMBO_HITS)
-	#combo_timer = MAX_COMBO_WINDOW
-	#buffered_attack = false
-	#can_buffer_attack = false
-	#play_attack_animation(attack_type)
-	#print("Starting attack: ", get_current_attack_type(), " (combo_index: ", combo_index, ")")
+	print("No BufferEntry marker found in animation: ", anim_name)
+	return 0.0  # Default to start if marker is missing
+
 
 
 # Helper function to get the one-shot node path based on attack type and index
@@ -1249,15 +1256,28 @@ func attack_finished() -> void:
 func trigger_buffered_attack() -> void:
 	if not buffered_attack or current_attack_type == AttackType.NONE:
 		return
-	if current_one_shot_path != "":
-		ap_tree_2.set(current_one_shot_path + "/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
-		print("Aborted current attack: ", current_one_shot_path)
-	was_buffered_canceled = true
+	
+	# Cancel the current animation
+	var current_anim = ("LightAttack" if current_attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index)
+	var current_one_shot_path = "parameters/" + current_anim + "/request"
+	ap_tree_2.set(current_one_shot_path, AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
+	
+	# Increment combo index
 	combo_index = clamp(combo_index + 1, 1, MAX_LIGHT_COMBO_HITS if current_attack_type == AttackType.LIGHT else MAX_HEAVY_COMBO_HITS)
-	combo_timer+= 0.75
-	start_attack(current_attack_type, false)
+	
+	# Determine next animation
+	var next_anim = ("LightAttack" if current_attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index)
+	
+	# Get the buffer entry time from the "BufferEntry" marker
+	var buffer_entry_time = get_buffer_entry_time(next_anim)
+	
+	# Fire the next animation and seek to the buffer entry time
+	ap_tree_2.set("parameters/" + next_anim + "/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	ap.seek(buffer_entry_time, true)
+	
 	buffered_attack = false
-	print("Triggered buffered attack: ", current_attack_type, " (index: ", combo_index, ")")
+	print("Buffered attack triggered: ", next_anim, " at time ", buffer_entry_time)
+
 	
 	
 	
