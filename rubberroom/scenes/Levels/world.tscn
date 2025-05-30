@@ -372,8 +372,8 @@ text = "Magazine Text"
 layout_mode = 2
 text = "Reserve Text"
 
-[node name="InventoryUI" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("16_t3ks8")]
-player = NodePath("../../Player")
+[node name="InventoryUI" parent="CanvasLayer" instance=ExtResource("16_t3ks8")]
+visible = false
 
 [node name="Basic_NPC" parent="." instance=ExtResource("14_ec1jr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.78793, 1.29538, 45.1744)

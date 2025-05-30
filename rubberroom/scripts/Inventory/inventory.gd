@@ -14,6 +14,8 @@ var content : Dictionary[int, Item]
 ## The number of slots available
 var size
 
+signal inventory_changed
+
 ## Initialize content with null values for all [member Inventory.max_slots].
 ## [param max_slots],default value of [code]2[/code], allows for inventories with
 ## varying sizes 
@@ -42,7 +44,9 @@ func add_item(item : Item) -> Dictionary[bool, String]:
 		if content[i] == null or !content.has(i):
 			content[i] = item
 			size -= 1
+			inventory_changed.emit()
 			return {true : ""}
+			
 	
 	return {false : "Inventory: Failed to add item."}
 
@@ -68,6 +72,7 @@ func add_item_to_slot(item : Item, slot : int) -> Dictionary[bool, String]:
 		return {false : "Inventory: Item is already in that slot"}
 	
 	content.set(slot, item)
+	inventory_changed.emit()
 	return {true : ""}
 
 ## Removes an item ([Item]) from [member Inventory.content]
@@ -79,12 +84,14 @@ func remove_item(index : int) -> Dictionary[bool, String]:
 		return {false : "Inventory: Item does not exist"}
 	
 	content.erase(index)
+	inventory_changed.emit()
 	return {true : ""}
 
 ## Clear the inventory of items for any reason (i.e. Player dies)
 func clear_inventory():
 	content.clear()
 	size = max_slots
+	inventory_changed.emit()
 
 ## Get all inventory items in the form of an array
 func get_items() -> Array[Item]:
@@ -112,6 +119,8 @@ func swap_items(slot_a : int, slot_b : int):
 	# Swap the values
 	content.set(slot_a, item_b)
 	content.set(slot_b, item_a)
+	
+	inventory_changed.emit()
 
 ## Increase the maximum number of slots the inventory can hold.
 func increase_max_slots(add_value : int):
@@ -120,6 +129,7 @@ func increase_max_slots(add_value : int):
 
 	max_slots += add_value
 	size += add_value
+	inventory_changed.emit()
 
 
 # ----------------------
