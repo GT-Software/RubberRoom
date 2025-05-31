@@ -27,6 +27,7 @@ func _ready() -> void:
 		# Update UI when inventory changes
 		inventory = player.inventory
 		inventory.connect("inventory_changed", Callable(self, "update_inventory_ui"))
+		update_inventory_ui()
 	else:
 		print("InventoryUI: Inventory not found in player!")
 	
@@ -38,7 +39,7 @@ func open_inventory():
 	if tween:
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property(panel, "modulate", Color(44, 44, 44, 182), 1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(panel, "modulate", Color(0.173, 0.173, 0.173, 0.850), 1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	Engine.time_scale = 0.5
 	
@@ -46,16 +47,18 @@ func close_inventory():
 	if tween:
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property(self, "modulate", Color(44, 44, 44, 0), 1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(self, "modulate", Color(0.173, 0.173, 0.173, 1), 1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	Engine.time_scale = 1.0
 	
 	if selection_changed and player.has_method("equip_weapon"):
 		player.equip_weapon(player.inventory.get_item(selected_slot))
 		selection_changed = false
+		
+	visible = false
 
 
-func update_inventoryui():
+func update_inventory_ui():
 	# Clear existing slots
 	for child in grid_container.get_children():
 		child.queue_free()
@@ -64,6 +67,19 @@ func update_inventoryui():
 	if inventory:
 		var item_count = inventory.get_max_slots()
 		grid_container.columns = clamp(ceil(sqrt(item_count)), 2, 6)
+	
+	# Create a slot for each item
+	var index = 0
+	for item in inventory.get_items():
+		var slot = create_inventory_slot(item, index)
+		grid_container.add_child(slot)
+		index += 1
+	
+	# Ensure valid slots
+	if selected_slot >= inventory.get_size():
+		selected_slot = -1
+	
+	update_selected_item()
 
 
 func create_inventory_slot(item, index: int) -> Control:
@@ -124,9 +140,9 @@ func update_selected_item():
 		var slot = grid_container.get_child(i)
 		
 		if i == selected_slot:
-			slot.add_theme_stylebox_override(style_selected)
+			slot.add_theme_stylebox_override("panel", style_selected)
 		else:
-			slot.add_theme_stylebox_override(style_unselected)
+			slot.add_theme_stylebox_override("panel", style_unselected)
 
 func _input(event: InputEvent):
 	# Keyboard/controller navigation

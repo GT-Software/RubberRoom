@@ -24,6 +24,8 @@ var can_fire = true
 var is_reloading = false
 var is_aiming = false
 
+var is_blocking = false
+
 var is_dodging = false
 var dodging_on_cooldown = false
 var cannot_take_damage = false

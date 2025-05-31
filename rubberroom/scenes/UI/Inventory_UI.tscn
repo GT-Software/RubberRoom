@@ -13,7 +13,7 @@ grow_vertical = 2
 script = ExtResource("1_3ahyt")
 
 [node name="Panel" type="Panel" parent="."]
-modulate = Color(0.172549, 0.172549, 0.172549, 0)
+modulate = Color(0.173, 0.173, 0.071, 0.89)
 self_modulate = Color(0.219608, 0.219608, 0.219608, 0.352941)
 layout_mode = 1
 anchors_preset = 15
@@ -23,6 +23,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="GridContainer" type="GridContainer" parent="."]
+z_index = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -40,6 +41,7 @@ theme_override_constants/v_separation = 10
 columns = 4
 
 [node name="Item Name" type="Label" parent="."]
+z_index = 1
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -50,6 +52,7 @@ offset_bottom = 23.0
 grow_horizontal = 2
 
 [node name="Item Ammo" type="Label" parent="."]
+z_index = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
