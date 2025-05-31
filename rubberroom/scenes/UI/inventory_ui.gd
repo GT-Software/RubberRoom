@@ -1,42 +1,61 @@
 extends Control
-
 class_name InventoryUI
 
+@onready var panel: Panel = $Panel
+@onready var grid_container: GridContainer = $GridContainer
+@onready var player : CharacterBody3D = %Player
+@onready var item_ammo: Label = $"Item Ammo"
+@onready var item_name: Label = $"Item Name"
 
-@export var player : CharacterBody3D = null
-@export var columns : int = 4 # Number of columns in the grid
-@export var slot_size : Vector2 = Vector2(64, 64) # Size of each slot
-@export var slot_spacing : int = 10 # Spacing between slots
-@export var selected_scale : float = 1.2 # Scale factor for selected slot
-@export var animation_duration : float = 0.2 # Duration for slot highlight animation
+## Reference to the player inventory resource
+var inventory : Inventory
+## Index of current selected slot
+var selected_slot : int = -1 
+## Boolean to check if the selected_slot variable has been changed
+var selection_changed : bool = false
+## Tween for smooth animations
+var tween: Tween
 
-var inventory : Inventory # Reference to the player inventory resource
-var selected_slot : int = -1 # Index of current selected slot
-var tween: Tween # For smooth anim
+var style_unselected = preload("res://assets/materials/Styles/slot_unselected.tres")
+var style_selected = preload("res://assets/materials/Styles/slot_selected.tres")
 
-@onready var grid_container = $GridContainer
-@onready var item_name_label = $ItemNameLabel
-@onready var item_ammo_label = $ItemAmmoLabel
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	# Configure GridContainer
-	grid_container.columns = 4
-	grid_container.add_theme_constant_override("h_separation", slot_spacing)
-	grid_container.add_theme_constant_override("v_separation", slot_spacing)
+	
+	grid_container.columns = 2
 	
 	if player.inventory:
 		# Update UI when inventory changes
-		if inventory:
-			inventory = player.inventory
-			inventory.connect("inventory_changed", Callable(self, "update_inventory_ui"))
-			update_inventory_ui()
-		else: 
-			push_error("InventoryUI: Inventory not found in player!")
+		inventory = player.inventory
+		inventory.connect("inventory_changed", Callable(self, "update_inventory_ui"))
 	else:
-		push_error("InventoryUI: player not assigned or invalid!")
+		print("InventoryUI: Inventory not found in player!")
+	
 
-func update_inventory_ui():
+func open_inventory():
+	inventory = player.inventory
+	visible = true
+	
+	if tween:
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property(panel, "modulate", Color(44, 44, 44, 182), 1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	Engine.time_scale = 0.5
+	
+func close_inventory():
+	if tween:
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property(self, "modulate", Color(44, 44, 44, 0), 1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	Engine.time_scale = 1.0
+	
+	if selection_changed and player.has_method("equip_weapon"):
+		player.equip_weapon(player.inventory.get_item(selected_slot))
+		selection_changed = false
+
+
+func update_inventoryui():
 	# Clear existing slots
 	for child in grid_container.get_children():
 		child.queue_free()
@@ -44,41 +63,15 @@ func update_inventory_ui():
 	# Dynamically adjust columns based on inventory size
 	if inventory:
 		var item_count = inventory.get_max_slots()
-		columns = clamp(ceil(sqrt(item_count)), 2, 6) # Dynamic columns
-		grid_container.columns = columns
-	
-	# Create a slot for each item
-	var index = 0
-	for item in inventory.get_items():
-		var slot = create_inventory_slot(item, index)
-		grid_container.add_child(slot)
-		index += 1
-	
-	# Ensure selected slot is valid
-	if selected_slot >= inventory.get_size():
-		selected_slot = -1
-	# Update selected item details
-	update_selected_item()
+		grid_container.columns = clamp(ceil(sqrt(item_count)), 2, 6)
 
-func create_inventory_slot(item, index : int)  -> Control:
-	var slot = PanelContainer.new()
-	slot.custom_minimum_size = slot_size
+
+func create_inventory_slot(item, index: int) -> Control:
+	var slot = Slot.new()
 	slot.name = "Slot_" + str(index)
 	
-	var style = StyleBoxFlat.new()
-	style.bg_color = Color(0.1, 0.1, 0.1, 0.8) # Dark, semi-transparent background
-	style.border_color = Color(1, 1, 1, 0.5) # Light border
-	style.border_width_top = 2
-	style.border_width_bottom = 2
-	style.border_width_left = 2
-	style.border_width_right = 2
-	style.shadow_color = Color(0, 0, 0, 0.3)
-	style.shadow_size = 5
-	slot.add_theme_stylebox_override("panel", style)
-	
-	# Add item icon (placeholder for now)
 	var icon = TextureRect.new()
-	icon.texture = preload("res://assets/images/icon.svg") #item.icon if item and item.icon else 
+	icon.texture = preload("res://assets/images/icon.svg") # default godot icon
 	icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -91,87 +84,69 @@ func create_inventory_slot(item, index : int)  -> Control:
 	
 	return slot
 
-func _on_slot_mouse_entered(index : int):
+
+func _on_slot_mouse_entered(index: int):
 	# Highlight slot on hover
 	var slot = grid_container.get_child(index)
 	if tween:
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property(slot, "scale", Vector2(selected_scale, selected_scale), animation_duration).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(slot, "scale", Vector2(72, 72), 1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	
 	# Reset other slots
 	for i in range(grid_container.get_child_count()):
 		if i != index:
 			var other_slot = grid_container.get_child(i)
-			tween.parallel().tween_property(other_slot, "scale", Vector2(1, 1), animation_duration).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+			tween.parallel().tween_property(other_slot, "scale", Vector2(1, 1), 1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 
-func _on_slot_gui_input(event : InputEvent, index : int):
+
+func _on_slot_gui_input(event: InputEvent, index: int):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		# Select slot on click
+		#S Select slot on click
 		selected_slot = index
+		selection_changed = true
 		update_selected_item()
 
 func update_selected_item():
 	if selected_slot >= 0 and selected_slot < inventory.get_max_slots():
 		var item = inventory.get_item(selected_slot)
+		
+		item_name.text = item.name if item else ""
 		if item is Ranged:
-			item_name_label.text = item.name if item else ""
-			item_ammo_label.text = str(player.ammo_manager.get_magazine()) + " / " + str(player.ammo_manager.get_ammo(item.ammo_type))
+			item_ammo.text = str(player.ammo_manager.get_magazine()) + " / " + str(player.ammo_manager.get_ammo(item.ammo_type))
 	else:
-		item_name_label.text = ""
-		item_ammo_label.text = ""
+		item_name.text = ""
+		item_ammo.text = ""
 		selected_slot = -1
-	
+		
 	# Update slot highlights
 	for i in range(grid_container.get_child_count()):
 		var slot = grid_container.get_child(i)
-		var style = slot.get_theme_stylebox("panel").duplicate()
+		
 		if i == selected_slot:
-			style.border_color = Color(1, 0.5, 0, 1) # Orange highlight for selected slot
-			style.shadow_color = Color(1, 0.5, 0, 0.5)
+			slot.add_theme_stylebox_override(style_selected)
 		else:
-			style.border_color = Color(1, 1, 1, 0.5) # Default Border
-			style.shadow_color = Color(0, 0, 0, 0.3)
-		slot.add_theme_stylebox_override("panel", style)
+			slot.add_theme_stylebox_override(style_unselected)
 
-func open_inventory():
-	# Fade-in animation
-	modulate = Color(1, 1, 1, 0)
-	visible = true
-	if tween:
-		tween.kill()
-	tween = create_tween()
-	tween.tween_property(self, "modulate", Color(1, 1, 1, 1), 0.3).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-func close_inventory():
-	# Fade-out animation
-	if tween:
-		tween.kill()
-	tween = create_tween()
-	tween.tween_property(self, "modulate", Color(1, 1, 1, 0), 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
-	tween.tween_callback(self.set.bind("visible", false))
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-func _exit_tree():
-	if tween:
-		tween.kill()
-
-func _input(event : InputEvent):
+func _input(event: InputEvent):
 	# Keyboard/controller navigation
 	if event.is_action_pressed("ui_right"):
 		if selected_slot < grid_container.get_child_count() - 1:
 			selected_slot += 1
+			selection_changed = true
 			update_selected_item()
 	elif event.is_action_pressed("ui_left"):
 		if selected_slot > 0:
 			selected_slot -= 1
+			selection_changed = true
 			update_selected_item()
 	elif event.is_action_pressed("ui_down"):
-		if selected_slot + columns < grid_container.get_child_count():
-			selected_slot += columns
+		if selected_slot + grid_container.columns < grid_container.get_child_count():
+			selected_slot += grid_container.columns
+			selection_changed = true
 			update_selected_item()
 	elif event.is_action_pressed("ui_up"):
-		if selected_slot - columns >= 0:
-			selected_slot -= columns
+		if selected_slot - grid_container.columns >= 0:
+			selected_slot -= grid_container.columns
+			selection_changed = true
 			update_selected_item()
