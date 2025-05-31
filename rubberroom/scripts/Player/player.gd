@@ -111,6 +111,7 @@ var hitbox_active = false  # Only allow hits if this is true
 
 enum AttackType { NONE, LIGHT, HEAVY, RANGED, THROWABLE }
 var current_attack_type: int = AttackType.NONE
+var current_phase: String = "none"
 var combo_index: int = 1
 var combo_timer: float = 0.0
 const MAX_COMBO_WINDOW = 1.6
@@ -128,6 +129,9 @@ var current_one_shot_path: String = ""  # New variable to track current one-shot
 # New variable for dynamic hitbox
 var current_hitbox: Area3D
 
+# Store buffer entry times for each animation
+var buffer_entry_times: Dictionary = {}
+var current_animation: String = ""
 
 var default_fov : float = 75.0
 var locked_on_fov : float = 60.0
@@ -473,7 +477,9 @@ func _physics_process(delta):
 		#print("Emitting player_attacking signal with: ", attack_instance)
 		#player_attacking.emit(attack_instance, is_in_range)
 	
-
+	# Trigger buffered attack during recovery
+	if current_phase == "recovery" and buffered_attack:
+		trigger_buffered_attack()
 	#---------------------------------
 	# 8) Idle/walking/running detection
 	#---------------------------------
@@ -708,32 +714,32 @@ func reset_combo() -> void:
 	
 	
 
-
-## -------------------------------
-## Buffer Window Functions
-## (These will be called from the animation timeline via Call Method tracks)
-## -------------------------------
-func open_buffer_window() -> void:
-	can_buffer_attack = true
-	print("Buffer window opened - can_buffer_attack: ", can_buffer_attack)
-	# If the input was already buffered, immediately chain the next attack
-	if buffered_attack:
-		print("Attack finished, popping next queue")
-		attack_finished()
-
-
-func close_buffer_window() -> void:
-	can_buffer_attack = false
-	print("Buffer window closed - can_buffer_attack: ", can_buffer_attack)
-	# Optionally, if no input was buffered at this point, you could reset here
-	# if not buffered_attack:
-	#     reset_combo()
-
-
-# Check for buffered attack (called at 1.5s)
-func check_buffered_attack() -> void:
-	if buffered_attack:
-		trigger_buffered_attack()
+#
+### -------------------------------
+### Buffer Window Functions
+### (These will be called from the animation timeline via Call Method tracks)
+### -------------------------------
+#func open_buffer_window() -> void:
+	#can_buffer_attack = true
+	#print("Buffer window opened - can_buffer_attack: ", can_buffer_attack)
+	## If the input was already buffered, immediately chain the next attack
+	#if buffered_attack:
+		#print("Attack finished, popping next queue")
+		#attack_finished()
+#
+#
+#func close_buffer_window() -> void:
+	#can_buffer_attack = false
+	#print("Buffer window closed - can_buffer_attack: ", can_buffer_attack)
+	## Optionally, if no input was buffered at this point, you could reset here
+	## if not buffered_attack:
+	##     reset_combo()
+#
+#
+## Check for buffered attack (called at 1.5s)
+#func check_buffered_attack() -> void:
+	#if buffered_attack:
+		#trigger_buffered_attack()
 
 
 # -------------------------------
@@ -758,11 +764,12 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("light_attack"):
 		if is_aiming and current_weapon is Ranged and can_fire and not is_reloading:
 			fire_weapon()
-		if can_buffer_attack and is_attacking and current_attack_type == AttackType.LIGHT:
+		elif can_buffer_attack and is_attacking and current_attack_type == AttackType.LIGHT:
 			buffered_attack = true
 			print("Buffered light attack")
 		elif not is_attacking:
 			start_attack(AttackType.LIGHT, true)
+			combo_timer = MAX_COMBO_WINDOW  # Start the combo timer for new attacks
 
 	elif Input.is_action_just_pressed("heavy_attack"):
 		if can_buffer_attack and is_attacking and current_attack_type == AttackType.HEAVY:
@@ -770,6 +777,7 @@ func _input(event: InputEvent) -> void:
 			print("Buffered heavy attack")
 		elif not is_attacking:
 			start_attack(AttackType.HEAVY, true)
+			combo_timer = MAX_COMBO_WINDOW  # Start the combo timer for new attacks
 
 			
 			
@@ -1170,42 +1178,76 @@ func _on_reload_complete() -> void:
 # Attack Functions
 func start_attack(attack_type: int, new_combo: bool = true) -> void:
 	if is_attacking and not new_combo:
-		current_one_shot_path = "parameters/" + ("LightAttack" if attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index) + "/request"
-		print("current one shot path! : ",current_one_shot_path )
-		ap_tree_2.set(current_one_shot_path, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-		#animation_player.seek(buffer_entry_time, true)  # Jump to the custom start time
-		print("Buffered attack - Type: ", attack_type, " Combo Index: ", combo_index, " New Combo: ", new_combo)
 		return
-	was_buffered_canceled = false  # Add this line
 	is_attacking = true
 	current_attack_type = attack_type
 	if new_combo:
 		combo_index = 1
-		combo_timer += 1.5
-	current_one_shot_path = "parameters/" + ("LightAttack" if attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index) + "/request"
-	print("current one shot path! : ",current_one_shot_path )
-	ap_tree_2.set(current_one_shot_path, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-	print("Started attack: ", attack_type, " (index: ", combo_index, ")")
-	print("Start attack - Type: ", attack_type, " Combo Index: ", combo_index, " New Combo: ", new_combo)
+	var anim_name = ("LightAttack" if attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index)
+	current_animation = anim_name  # Track the current animation
+	ap_tree_2.set("parameters/" + anim_name + "/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	print("Started attack: ", anim_name)
+	
+
+
+# --- Animation Phase Functions (Called from Timeline) ---
+
+func start_startup() -> void:
+	current_phase = "startup"
+	is_attacking = true
+	print("Startup phase started")
+
+
+func start_action() -> void:
+	current_phase = "action"
+	open_buffer_window()  # Open buffer window during action phase
+	hitbox_active = true
+	print("Action phase started")
+
+	
+func start_recovery() -> void:
+	current_phase = "recovery"
+	print("Recovery phase started")
+	
+	
+func animation_finished() -> void:
+	current_phase = "none"
+	if not buffered_attack:
+		reset_combo()
+	is_attacking = false
+	close_buffer_window()
+	hitbox_active = false
+	print("Animation finished")
 	
 	
 	
-	
+# --- Buffer Entry Time Setting (Called from Timeline) ---
+func set_buffer_entry_time(anim_name: String) -> void:
+	# Store the current playback position as the buffer entry time for this animation
+	var current_time = ap.current_animation_position
+	buffer_entry_times[anim_name] = current_time
+	print("Buffer entry time set for ", anim_name, " at ", current_time)
+
+
+
+
+
+func open_buffer_window() -> void:
+	can_buffer_attack = true
+	print("Buffer window opened")
+
+func close_buffer_window() -> void:
+	can_buffer_attack = false
+	print("Buffer window closed")
+
+
+
+
 func get_buffer_entry_time(anim_name: String) -> float:
-	var animation = ap.get_animation(anim_name)
-	if animation == null:
-		print("Animation not found: ", anim_name)
-		return 0.0
-	# Search for the Marker track
-	for track_idx in animation.get_track_count():
-		if animation.track_get_type(track_idx) == Animation.TYPE_MARKER:
-			for key_idx in animation.track_get_key_count(track_idx):
-				var key_value = animation.track_get_key_value(track_idx, key_idx)
-				if key_value == "BufferEntry":
-					return animation.track_get_key_time(track_idx, key_idx)
-	
-	print("No BufferEntry marker found in animation: ", anim_name)
-	return 0.0  # Default to start if marker is missing
+	if buffer_entry_times.has(anim_name):
+		return buffer_entry_times[anim_name]
+	print("No buffer entry time set for ", anim_name, ", defaulting to 0.0")
+	return 0.0  # Default to start if not set
 
 
 
@@ -1275,6 +1317,7 @@ func trigger_buffered_attack() -> void:
 	ap_tree_2.set("parameters/" + next_anim + "/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	ap.seek(buffer_entry_time, true)
 	
+	current_animation = next_anim  # Update the current animation
 	buffered_attack = false
 	print("Buffered attack triggered: ", next_anim, " at time ", buffer_entry_time)
 
