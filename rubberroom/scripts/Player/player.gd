@@ -26,6 +26,7 @@ signal weapon_changed(weapon)
 @onready var right_arm_collision = $AuxScene/Node/Skeleton3D/RightArm/Area3D/RightArmCollision
 @onready var left_arm_collision = $AuxScene/Node/Skeleton3D/LeftArm/Area3D/LeftArmCollision
 @onready var ammo_display = $"../CanvasLayer/AmmoDisplay"
+@onready var buffer_visual = $BufferVisual
 
 @onready var punch_sound = $AudioStreamPlayer3D
 
@@ -147,9 +148,9 @@ var animation_mapping: Dictionary = {
 var buffer_entry_times: Dictionary = {
 	"Jab(LeftForward)0": 0.4,  # Buffer entry time in seconds
 	"CrossPunch(LeftForward)0": 0.7,
-	"HookPunch(LeftForward)0": 0.86,
+	"RegularKick(LeftForward)0": 0.86,
 	# Add more entries as needed
-	"SomeHeavyAnimation1": 0.5,  # Add times for heavy attacks
+	"HookPunch(LeftForward)0": 0.5,  # Add times for heavy attacks
 	"SomeHeavyAnimation2": 0.6
 }
 
@@ -294,7 +295,8 @@ func _ready():
 		equip_sound = current_weapon.sound_equip
 	else:
 		equip_sound = null  # Default to null if no weapon or sound
-		
+	if buffer_visual:
+		buffer_visual.visible = false  # For Sprite3D
 
 
 func pickup_weapon(new_weapon: WeaponResource):
@@ -1212,9 +1214,13 @@ func set_buffer_entry_time(anim_name: String, time: float) -> void:
 func open_buffer_window() -> void:
 	can_buffer_attack = true
 	print("Buffer window opened")
+	if buffer_visual:
+		buffer_visual.visible = true  # Turn on the visual for Sprite3D
 
 func close_buffer_window() -> void:
 	can_buffer_attack = false
+	if buffer_visual:
+		buffer_visual.visible = false  # Turn off the visual for Sprite3D
 	print("Buffer window closed")
 
 
