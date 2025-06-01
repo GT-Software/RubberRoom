@@ -48,7 +48,7 @@
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
 tick_rate = 10
-blackboard = NodePath("@Node@27527")
+blackboard = NodePath("@Node@21786")
 custom_monitor = true
 actor = NodePath("")
 

@@ -130,8 +130,39 @@ var current_one_shot_path: String = ""  # New variable to track current one-shot
 var current_hitbox: Area3D
 
 # Store buffer entry times for each animation
-var buffer_entry_times: Dictionary = {}
 var current_animation: String = ""
+
+# Mapping from AnimationTree node names to AnimationPlayer animation names
+var animation_mapping: Dictionary = {
+	"LightAttack1": "Jab(LeftForward)0",
+	"LightAttack2": "CrossPunch(LeftForward)0",
+	"LightAttack3": "HookPunch(LeftForward)0",
+	# Add heavy attack mappings
+	"HeavyAttack1": "SomeHeavyAnimation1",  # Replace with actual animation names
+	"HeavyAttack2": "SomeHeavyAnimation2"
+	# Add more mappings as needed
+}
+
+# Dictionary to store buffer entry times for AnimationPlayer animations
+var buffer_entry_times: Dictionary = {
+	"Jab(LeftForward)0": 0.4,  # Buffer entry time in seconds
+	"CrossPunch(LeftForward)0": 0.7,
+	"HookPunch(LeftForward)0": 0.86,
+	# Add more entries as needed
+	"SomeHeavyAnimation1": 0.5,  # Add times for heavy attacks
+	"SomeHeavyAnimation2": 0.6
+}
+
+
+# New dictionary for time scales (adjust values as needed for pacing)
+var animation_time_scales: Dictionary = {
+	"LightAttack1": 1.5,  
+	"LightAttack2": 1.5,  
+	"LightAttack3": 1.5,  
+	"HeavyAttack1": 0.8, 
+	"HeavyAttack2": 0.9
+}
+
 
 var default_fov : float = 75.0
 var locked_on_fov : float = 60.0
@@ -647,60 +678,6 @@ func _on_hitbox_entered(body):
 		print("Hitbox hit enemy, dealing damage: ", current_weapon.damage)
 		punch_sound.play()
 		hitbox_active = false
-# -------------------------------
-# Attack Functions
-# -------------------------------
-
-## Called when an attack input is first detected
-#func start_combo(attack_type: int) -> void:
-	#current_attack_type = attack_type
-	#combo_index = 1
-	#combo_timer = MAX_COMBO_WINDOW
-	#buffered_attack = false
-	#play_attack(combo_index)
-### Called when a new input is detected during an active combo
-#
-#func trigger_next_attack() -> void:
-	#if current_attack_type == AttackType.LIGHT:
-		#if combo_index < MAX_LIGHT_COMBO_HITS:
-			#combo_index += 1
-			#buffered_attack = false
-			#combo_timer = MAX_COMBO_WINDOW
-			#play_attack(combo_index)
-			#print("Buffered Light Played")
-		#else:
-			#reset_combo()
-	#elif current_attack_type == AttackType.HEAVY:
-		#if combo_index < MAX_HEAVY_COMBO_HITS:
-			#combo_index += 1
-			#buffered_attack = false
-			#combo_timer = MAX_COMBO_WINDOW
-			#play_attack(combo_index)
-			#print("Buffered Heavy Played")
-		#else:
-			#reset_combo()
-
-# Play the proper animation based on the current attack type and hit index
-#func play_attack(hit_index: int) -> void:
-	#if current_attack_type == AttackType.LIGHT:
-		#match hit_index:
-			#1:
-				#ap_tree_2.set("parameters/LightAttack1/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-				#print("light_attack1")
-			#2:
-				#ap_tree_2.set("parameters/LightAttack2/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-				#print("light_attack2")
-			#3:
-				#ap_tree_2.set("parameters/LightAttack3/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-				#print("light_attack3")
-	#elif current_attack_type == AttackType.HEAVY:
-		#match hit_index:
-			#1:
-				#ap_tree_2.set("parameters/HeavyAttack1/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-				#print("heavy_attack1")
-			#2:
-				#ap_tree_2.set("parameters/HeavyAttack2/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-				#print("heavy_attack2")
 
 
 # Reset the combo once the timer expires or the max hit is reached
@@ -1207,6 +1184,7 @@ func start_action() -> void:
 	
 func start_recovery() -> void:
 	current_phase = "recovery"
+	close_buffer_window()
 	print("Recovery phase started")
 	
 	
@@ -1215,18 +1193,17 @@ func animation_finished() -> void:
 	if not buffered_attack:
 		reset_combo()
 	is_attacking = false
-	close_buffer_window()
 	hitbox_active = false
 	print("Animation finished")
 	
 	
 	
 # --- Buffer Entry Time Setting (Called from Timeline) ---
-func set_buffer_entry_time(anim_name: String) -> void:
+func set_buffer_entry_time(anim_name: String, time: float) -> void:
 	# Store the current playback position as the buffer entry time for this animation
-	var current_time = ap.current_animation_position
-	buffer_entry_times[anim_name] = current_time
-	print("Buffer entry time set for ", anim_name, " at ", current_time)
+	var current_time = ap.get_current_animation_position()
+	buffer_entry_times[anim_name] = time
+	print("Buffer entry time set for ", anim_name, " at ", time)
 
 
 
@@ -1244,9 +1221,10 @@ func close_buffer_window() -> void:
 
 
 func get_buffer_entry_time(anim_name: String) -> float:
-	if buffer_entry_times.has(anim_name):
-		return buffer_entry_times[anim_name]
-	print("No buffer entry time set for ", anim_name, ", defaulting to 0.0")
+	var ap_anim_name = animation_mapping.get(anim_name, "")
+	if buffer_entry_times.has(ap_anim_name):
+		return buffer_entry_times[ap_anim_name]
+	print("No buffer entry time set for ", anim_name, " (mapped to ", ap_anim_name, "), defaulting to 0.0")
 	return 0.0  # Default to start if not set
 
 
@@ -1310,16 +1288,30 @@ func trigger_buffered_attack() -> void:
 	# Determine next animation
 	var next_anim = ("LightAttack" if current_attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index)
 	
-	# Get the buffer entry time from the "BufferEntry" marker
+	# Get the buffer entry time
 	var buffer_entry_time = get_buffer_entry_time(next_anim)
 	
-	# Fire the next animation and seek to the buffer entry time
-	ap_tree_2.set("parameters/" + next_anim + "/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-	ap.seek(buffer_entry_time, true)
+		# Set the seek time for the TimeSeek node
+	var time_seek_node = "TimeSeek_" + next_anim
+	var seek_path = "parameters/" + time_seek_node + "/seek_request"
+	ap_tree_2.set(seek_path, buffer_entry_time)
 	
+	# Set the time scale for the TimeScale node
+	var time_scale_node = "TimeScale_" + next_anim
+	var scale_path = "parameters/" + time_scale_node + "/scale"
+	var time_scale = animation_time_scales.get(next_anim, 1.0)  # Default to 1.0 if not found
+	ap_tree_2.set(scale_path, time_scale)
+	
+	
+	# Fire the next animation and seek to the buffer entry time
+	var oneshot_path = "parameters/" + next_anim + "/request"
+	ap_tree_2.set(oneshot_path, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	
+	
+	# Update state
 	current_animation = next_anim  # Update the current animation
 	buffered_attack = false
-	print("Buffered attack triggered: ", next_anim, " at time ", buffer_entry_time)
+	print("Buffered attack triggered: ", next_anim, " at time ", buffer_entry_time, " with time scale ", time_scale)
 
 	
 	
