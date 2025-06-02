@@ -139,8 +139,8 @@ var animation_mapping: Dictionary = {
 	"LightAttack2": "CrossPunch(LeftForward)0",
 	"LightAttack3": "HookPunch(LeftForward)0",
 	# Add heavy attack mappings
-	"HeavyAttack1": "SomeHeavyAnimation1",  # Replace with actual animation names
-	"HeavyAttack2": "SomeHeavyAnimation2"
+	"HeavyAttack1": "HookPunch(LeftForward)0",  # Replace with actual animation names
+	"HeavyAttack2": "RoundhouseKick(LeftForward)0"
 	# Add more mappings as needed
 }
 
@@ -151,7 +151,7 @@ var buffer_entry_times: Dictionary = {
 	"RegularKick(LeftForward)0": 0.86,
 	# Add more entries as needed
 	"HookPunch(LeftForward)0": 0.5,  # Add times for heavy attacks
-	"SomeHeavyAnimation2": 0.6
+	"RoundhouseKick(LeftForward)0": 0.5
 }
 
 
@@ -160,8 +160,8 @@ var animation_time_scales: Dictionary = {
 	"LightAttack1": 1.5,  
 	"LightAttack2": 1.5,  
 	"LightAttack3": 1.5,  
-	"HeavyAttack1": 0.8, 
-	"HeavyAttack2": 0.9
+	"HeavyAttack1": 1.0, 
+	"HeavyAttack2": 1.0
 }
 
 
