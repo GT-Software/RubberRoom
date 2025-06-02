@@ -1,9 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cgy256qc1gsql"]
+[gd_scene load_steps=2 format=3 uid="uid://cgy256qc1gsql"]
 
 [ext_resource type="Script" uid="uid://dafyafl4xmllt" path="res://scripts/UI/slot.gd" id="1_516po"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xjcww"]
-bg_color = Color(0.18359, 0.18359, 0.18359, 1)
 
 [node name="Slot" type="PanelContainer"]
 custom_minimum_size = Vector2(64, 64)
@@ -12,9 +9,4 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_xjcww")
 script = ExtResource("1_516po")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 2
-color = Color(0, 0, 0, 1)

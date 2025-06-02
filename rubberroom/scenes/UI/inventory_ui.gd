@@ -6,6 +6,7 @@ class_name InventoryUI
 @onready var player : CharacterBody3D = %Player
 @onready var item_ammo: Label = $"Item Ammo"
 @onready var item_name: Label = $"Item Name"
+@onready var slot_scene : PackedScene = preload("res://scenes/UI/slot.tscn")
 
 ## Reference to the player inventory resource
 var inventory : Inventory
@@ -20,7 +21,7 @@ var style_unselected = preload("res://assets/materials/Styles/slot_unselected.tr
 var style_selected = preload("res://assets/materials/Styles/slot_selected.tres")
 
 func _ready() -> void:
-	
+	visible = false
 	grid_container.columns = 2
 	
 	if player.inventory:
@@ -83,16 +84,20 @@ func update_inventory_ui():
 
 
 func create_inventory_slot(item, index: int) -> Control:
-	var slot = Slot.new()
+	var slot = slot_scene.instantiate()
 	slot.name = "Slot_" + str(index)
 	
-	var icon = TextureRect.new()
-	icon.texture = preload("res://assets/images/icon.svg") # default godot icon
-	icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	icon.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	slot.add_child(icon)
+	# If theres an item at that index, get the icon for it.
+	# Otherwise, placeholder for now
+	var icon
+	if inventory.get_item(index) != null:
+		icon = TextureRect.new()
+		icon.texture = preload("res://assets/images/icon.svg") # default godot icon
+		icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		icon.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		slot.add_child(icon)
 	
 	# Connect input events
 	slot.mouse_entered.connect(Callable(self, "_on_slot_mouse_entered").bind(index))
@@ -107,13 +112,13 @@ func _on_slot_mouse_entered(index: int):
 	if tween:
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property(slot, "scale", Vector2(72, 72), 1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(slot, "scale", Vector2(1.2, 1.2), 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	
 	# Reset other slots
 	for i in range(grid_container.get_child_count()):
 		if i != index:
 			var other_slot = grid_container.get_child(i)
-			tween.parallel().tween_property(other_slot, "scale", Vector2(1, 1), 1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+			tween.parallel().tween_property(other_slot, "scale", Vector2(1, 1), 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 
 
 func _on_slot_gui_input(event: InputEvent, index: int):
@@ -145,24 +150,25 @@ func update_selected_item():
 			slot.add_theme_stylebox_override("panel", style_unselected)
 
 func _input(event: InputEvent):
-	# Keyboard/controller navigation
-	if event.is_action_pressed("ui_right"):
-		if selected_slot < grid_container.get_child_count() - 1:
-			selected_slot += 1
-			selection_changed = true
-			update_selected_item()
-	elif event.is_action_pressed("ui_left"):
-		if selected_slot > 0:
-			selected_slot -= 1
-			selection_changed = true
-			update_selected_item()
-	elif event.is_action_pressed("ui_down"):
-		if selected_slot + grid_container.columns < grid_container.get_child_count():
-			selected_slot += grid_container.columns
-			selection_changed = true
-			update_selected_item()
-	elif event.is_action_pressed("ui_up"):
-		if selected_slot - grid_container.columns >= 0:
-			selected_slot -= grid_container.columns
-			selection_changed = true
-			update_selected_item()
+	pass
+	## Keyboard/controller navigation
+	#if event.is_action_pressed("ui_right"):
+		#if selected_slot < grid_container.get_child_count() - 1:
+			#selected_slot += 1
+			#selection_changed = true
+			#update_selected_item()
+	#elif event.is_action_pressed("ui_left"):
+		#if selected_slot > 0:
+			#selected_slot -= 1
+			#selection_changed = true
+			#update_selected_item()
+	#elif event.is_action_pressed("ui_down"):
+		#if selected_slot + grid_container.columns < grid_container.get_child_count():
+			#selected_slot += grid_container.columns
+			#selection_changed = true
+			#update_selected_item()
+	#elif event.is_action_pressed("ui_up"):
+		#if selected_slot - grid_container.columns >= 0:
+			#selected_slot -= grid_container.columns
+			#selection_changed = true
+			#update_selected_item()
