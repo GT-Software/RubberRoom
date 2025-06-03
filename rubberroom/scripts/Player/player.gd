@@ -35,8 +35,10 @@ signal weapon_changed(weapon)
 @onready var rotation_point: Node3D = $RotationPoint
 @onready var tween: Tween = Tween.new()
 @onready var weapon_attachment: BoneAttachment3D = $AuxScene/Node/Skeleton3D/RightArm
-
-
+@export var randomShakeStrength : float = 30.0
+@export var ShakeFade : float = 5.0
+var rng = RandomNumberGenerator.new()
+var shake_strength : float = 0.0
 # Weapon system
 @export var unarmed_weapon: WeaponResource
 var current_weapon: WeaponResource
@@ -184,7 +186,11 @@ var curAnim = IDLE
 var inventory : Inventory
 @onready var inventory_ui: InventoryUI = $"../CanvasLayer/InventoryUI"
 
-
+func apply_shake():
+	shake_strength = randomShakeStrength
+	
+func random_offset() -> Vector2:
+	return Vector2(rng.randf_range(-shake_strength,shake_strength), rng.randf_range(-shake_strength,shake_strength))
 
 func update_animation_state():
 	# If currently attacking, keep that state until it finishes.
@@ -373,7 +379,17 @@ func inv_switch_weapons(slot : int):
 
 func _physics_process(delta):
 
-
+	if shake_strength > 0:
+		shake_strength = lerpf(shake_strength, 0, ShakeFade * delta)
+		# Apply the shake to camera_anchor's position
+		var shake_offset = random_offset()  # Get Vector2 offset
+		# Map 2D offset to 3D local space (X and Y in camera's local space)
+		var local_offset = Vector3(shake_offset.x, shake_offset.y, 0) * 0.01  # Scale down for subtle effect
+		camera_anchor.position = default_anchor_offset + camera_anchor.transform.basis * local_offset
+	else:
+		# Reset to default position when shake is done
+		camera_anchor.position = default_anchor_offset
+			
 	if is_hitstunned:
 		velocity = Vector3.ZERO
 		return  # Skip the rest of the process function
@@ -680,6 +696,7 @@ func _on_hitbox_entered(body):
 		print("Hitbox hit enemy, dealing damage: ", current_weapon.damage)
 		punch_sound.play()
 		hitbox_active = false
+		apply_shake()
 
 
 # Reset the combo once the timer expires or the max hit is reached
@@ -758,7 +775,9 @@ func _input(event: InputEvent) -> void:
 			start_attack(AttackType.HEAVY, true)
 			combo_timer = MAX_COMBO_WINDOW  # Start the combo timer for new attacks
 
-			
+	if Input.is_action_just_pressed("Shake"):
+		apply_shake()
+		print("Shake Screen NOWWWW")
 			
 	if event is InputEventMouseMotion:
 		if _player_pcam.get_priority() > _aim_pcam.get_priority():
@@ -839,6 +858,7 @@ func _on_enemy_attacking(attack: Attack) -> void:
 	apply_hitstun(hitstun_duration)
 	punch_sound.play()
 	health_bar._on_health_changed(health_component.health)
+	apply_shake()
 
 
 
