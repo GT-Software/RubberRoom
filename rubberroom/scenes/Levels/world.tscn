@@ -516,6 +516,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.7043, 1, -9.13174)
 
 [node name="ProjectileContainer" type="Node3D" parent="."]
 
+[node name="ShotGunPickup" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7079, 1.11535, -13.8871)
+collision_layer = 7
+collision_mask = 7
+script = ExtResource("17_trjwt")
+weapon_resource = ExtResource("23_xj1ya")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShotGunPickup"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.212579, 0)
+shape = SubResource("BoxShape3D_rij1k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ShotGunPickup"]
+transform = Transform3D(-8.74228e-07, 8.74228e-07, 20, 20, -8.74228e-07, 8.74228e-07, 8.74228e-07, 20, -8.74228e-07, -0.262205, 0, 1.27805)
+mesh = ExtResource("25_dd80d")
+
 [connection signal="Fear_Down" from="NavigationRegion3D/Base World/Interactables/Fear Decrease Button" to="NavigationRegion3D/Base World/Interactables/Fear Decrease Button" method="_on_fear_down"]
 [connection signal="Fear_Up" from="NavigationRegion3D/Base World/Interactables/Fear Increase Button" to="NavigationRegion3D/Base World/Interactables/Fear Increase Button" method="_on_fear_up"]
 [connection signal="Stamina_Hurt" from="NavigationRegion3D/Base World/Interactables/Stamina Damage Button" to="NavigationRegion3D/Base World/Interactables/Stamina Damage Button" method="_on_stamina_hurt"]
