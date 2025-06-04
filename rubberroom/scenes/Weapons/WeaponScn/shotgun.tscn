@@ -11,3 +11,7 @@ skeleton = NodePath("")
 
 [node name="MuzzlePosition" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.34439, 0.222216, -0.00366435)
+
+[node name="projectile path" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.344, 0.222, -0.004)
+target_position = Vector3(1, 0, 0)
