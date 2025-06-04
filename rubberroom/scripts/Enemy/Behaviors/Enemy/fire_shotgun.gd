@@ -30,6 +30,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	for i in range(projectile_count):
 		# Create projectile instance
 		var projectile = weapon.projectile_scene.instantiate()
+		projectile.set_collision_mask_value(3, false)
 		actor.projectile_container.add_child(projectile)
 		
 	# Set projectile position to muzzle or fallback to weapon attachment
@@ -53,7 +54,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		projectile.setup(
 			weapon.damage,
 			weapon.projectile_speed,
-			actor.velocity,
+			blackboard.get_value("player_pos"),
 			actor.global_position,
 			actor
 		)
