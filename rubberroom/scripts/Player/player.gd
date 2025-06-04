@@ -742,6 +742,10 @@ func reset_combo() -> void:
 # Input & Timer Handling
 # -------------------------------
 func _input(event: InputEvent) -> void:
+	
+	if Input.is_action_just_pressed("AnimationInput"):
+		ap_tree_2.set("parameters/NewAnimation/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+		print("Playing NewAnim/new_animation")
 		# Aim toggle handling
 	if event.is_action_pressed("aim_toggle") and current_weapon is Ranged:
 		_aim_pcam.set_third_person_rotation_degrees(_player_pcam.get_third_person_rotation_degrees())
