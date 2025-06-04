@@ -59,6 +59,10 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 			actor
 		)
 		
+		if actor.firing_sound:
+			actor.firing_sound.stream = weapon.sound_fire
+			actor.firing_sound.play()
+		
 		# Optional: Spawn muzzle flash effect
 		if weapon.muzzle_flash_scene:
 			var muzzle_flash = weapon.muzzle_flash_scene.instantiate()
