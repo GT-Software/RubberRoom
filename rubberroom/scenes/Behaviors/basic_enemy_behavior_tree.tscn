@@ -49,7 +49,7 @@
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
 tick_rate = 10
-blackboard = NodePath("@Node@21799")
+blackboard = NodePath("@Node@21789")
 custom_monitor = true
 actor = NodePath("")
 
@@ -171,7 +171,6 @@ metadata/_custom_type_script = "uid://cw22yurt5l74k"
 
 [node name="IsUnarmed" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Melee"]
 script = ExtResource("27_0uwq4")
-metadata/_custom_type_script = "uid://cbnbvj8prv63i"
 
 [node name="Walk Up" type="Node" parent="SelectorReactiveComposite/Combat/Combat/Chase or Attack/TimeLimiterDecorator/Select Attack/Melee"]
 script = ExtResource("3_ce14b")

@@ -45,7 +45,7 @@ func _on_body_entered(body):
 			#body.take_damage(attack)
 		# Check and trigger _on_player_attacking if it exists
 		if body.has_method("_on_player_attacking"):
-			body._on_player_attacking(attack, true)
+			body._on_player_attacking(attack, true, shooter.current_weapon)
 		# Emit hit signal
 		hit_something.emit(body, global_position)
 		print("Hit something with projectile!!")

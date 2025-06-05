@@ -1,4 +1,4 @@
-xtends ActionLeaf
+extends ActionLeaf
 
 
 func tick(actor, blackboard: Blackboard):
