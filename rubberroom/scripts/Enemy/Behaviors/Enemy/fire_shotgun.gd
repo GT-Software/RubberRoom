@@ -54,7 +54,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		projectile.setup(
 			weapon.damage,
 			weapon.projectile_speed,
-			blackboard.get_value("player_pos"),
+			direction,
 			actor.global_position,
 			actor
 		)

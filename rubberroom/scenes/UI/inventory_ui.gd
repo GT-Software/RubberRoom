@@ -150,25 +150,24 @@ func update_selected_item():
 			slot.add_theme_stylebox_override("panel", style_unselected)
 
 func _input(event: InputEvent):
-	pass
-	## Keyboard/controller navigation
-	#if event.is_action_pressed("ui_right"):
-		#if selected_slot < grid_container.get_child_count() - 1:
-			#selected_slot += 1
-			#selection_changed = true
-			#update_selected_item()
-	#elif event.is_action_pressed("ui_left"):
-		#if selected_slot > 0:
-			#selected_slot -= 1
-			#selection_changed = true
-			#update_selected_item()
-	#elif event.is_action_pressed("ui_down"):
-		#if selected_slot + grid_container.columns < grid_container.get_child_count():
-			#selected_slot += grid_container.columns
-			#selection_changed = true
-			#update_selected_item()
-	#elif event.is_action_pressed("ui_up"):
-		#if selected_slot - grid_container.columns >= 0:
-			#selected_slot -= grid_container.columns
-			#selection_changed = true
-			#update_selected_item()
+	# Keyboard/controller navigation
+	if event.is_action_pressed("ui_right"):
+		if selected_slot < grid_container.get_child_count() - 1:
+			selected_slot += 1
+			selection_changed = true
+			update_selected_item()
+	elif event.is_action_pressed("ui_left"):
+		if selected_slot > 0:
+			selected_slot -= 1
+			selection_changed = true
+			update_selected_item()
+	elif event.is_action_pressed("ui_down"):
+		if selected_slot + grid_container.columns < grid_container.get_child_count():
+			selected_slot += grid_container.columns
+			selection_changed = true
+			update_selected_item()
+	elif event.is_action_pressed("ui_up"):
+		if selected_slot - grid_container.columns >= 0:
+			selected_slot -= grid_container.columns
+			selection_changed = true
+			update_selected_item()
