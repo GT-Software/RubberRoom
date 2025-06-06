@@ -2,6 +2,10 @@ extends ActionLeaf
 
 
 func tick(actor: Node, blackboard: Blackboard) -> int:
+	actor.is_walking = false
+	actor.is_running = false
+	actor.is_idle = true
+	
 	var weapon = actor.current_weapon
 	var weapon_model = actor.current_weapon_model
 	var muzzle_position = weapon_model.get_node("MuzzlePosition")

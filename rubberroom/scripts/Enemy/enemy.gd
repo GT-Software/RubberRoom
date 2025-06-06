@@ -29,6 +29,8 @@ var curAnim = IDLE
 @onready var punch_sound = $AudioStreamPlayer3D
 @onready var projectile_container = $"../ProjectileContainer"  # Add this Node to your scene
 @onready var firing_sound = $FiringSound  # Add AudioStreamPlayer3D to your scene
+@onready var shot_at_timer: Timer = $"Shot At Timer"
+
 var vision_cone
 
 # Custom Hitbox
@@ -469,6 +471,7 @@ func apply_hitstun(duration: float) -> void:
 # shot at, set a blackboard value for it to true.
 func on_shot_at(is_shot : bool) -> void:
 	behavior_tree.blackboard.set_value("is shot at" , true)
+	shot_at_timer.start()
 
 
 func pickup_weapon(new_weapon : WeaponResource):
@@ -529,3 +532,7 @@ func equip_weapon(new_weapon : WeaponResource):
 func _on_detection_area_new_weapon_found(location: Vector3) -> void:
 	behavior_tree.blackboard.set_value("new weapon location", location)
 	behavior_tree.blackboard.set_value("new weapon found", true)
+
+
+func _on_shot_at_timer_timeout() -> void:
+	behavior_tree.blackboard.set_value("is shot at", false)
