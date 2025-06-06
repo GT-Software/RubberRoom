@@ -85,3 +85,8 @@ func setup(new_damage: float, new_speed: float, new_direction: Vector3, new_shoo
 	direction = new_direction.normalized()
 	shooter_position = new_shooter_position
 	shooter = new_shooter
+	
+	if shooter.is_in_group("enemies"):
+		collision_layer = 3
+	elif shooter.is_in_group("player"):
+		collision_layer = 1
