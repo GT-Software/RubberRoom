@@ -518,8 +518,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.7043, 1, -9.13174)
 
 [node name="ShotGunPickup" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7079, 1.11535, -13.8871)
-collision_layer = 7
-collision_mask = 7
+collision_layer = 32
+collision_mask = 5
 script = ExtResource("17_trjwt")
 weapon_resource = ExtResource("23_xj1ya")
 

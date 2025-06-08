@@ -87,6 +87,10 @@ func setup(new_damage: float, new_speed: float, new_direction: Vector3, new_shoo
 	shooter = new_shooter
 	
 	if shooter.is_in_group("enemies"):
-		collision_layer = 3
+		set_collision_layer_value(3, true)	# Enemy layer
+		set_collision_layer_value(2, false)	# Environment layer is turned off
+		set_collision_layer_value(1, false)	# The Player layer is turned off
 	elif shooter.is_in_group("player"):
-		collision_layer = 1
+		set_collision_layer_value(1, true)	# Player layer
+		set_collision_layer_value(2, false)	# Environment layer is turned off
+		set_collision_layer_value(3, false)	# Enemy layer is turned off

@@ -93,7 +93,7 @@ var check_timer: float = 0.0 # Timer for vision cone checks
 var inventory : Inventory
 
 # Weapon System
-@export var current_weapon : WeaponResource
+@export var current_weapon : WeaponResource = preload("res://scenes/Weapons/WeaponRes/unarmed.tres")
 var ammo_manager = AmmoManager
 
 @export var current_weapon_model: Node3D = null
@@ -460,7 +460,7 @@ func _on_enemy_melee_range_exited(body):
 		#emit_signal("attacking", attack)
 		#print("Right arm collided with Enemy! Dealing damage once.")
 		#hitbox_active = false  # no more hits this swing
-		
+	
 func apply_hitstun(duration: float) -> void:
 	is_hitstunned = true
 	# Optionally: play a hitstun animation or effect here.
