@@ -20,6 +20,7 @@ projectile_count = 1
 damage = 0.5
 sound_fire = ExtResource("5_jhy6a")
 sound_equip = ExtResource("4_nqhtm")
+attack_animations = {}
 name = "Pistol"
 classification = 3
 model_scene = ExtResource("1_dlfh1")

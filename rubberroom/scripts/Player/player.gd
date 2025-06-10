@@ -129,6 +129,9 @@ var was_buffered_canceled: bool = false
 var is_attacking = false
 var current_one_shot_path: String = ""  # New variable to track current one-shot
 
+
+# Define attack nodes for scalability
+const ATTACK_NODES = ["LightAttack1", "LightAttack2", "LightAttack3", "HeavyAttack1", "HeavyAttack2"]
 # New variable for dynamic hitbox
 var current_hitbox: Area3D
 
@@ -136,7 +139,7 @@ var current_hitbox: Area3D
 var current_animation: String = ""
 
 # Mapping from AnimationTree node names to AnimationPlayer animation names
-var animation_mapping: Dictionary = {
+var default_attack_animations: Dictionary = {
 	"LightAttack1": "Jab(LeftForward)0",
 	"LightAttack2": "CrossPunch(LeftForward)0",
 	"LightAttack3": "HookPunch(LeftForward)0",
@@ -153,7 +156,16 @@ var buffer_entry_times: Dictionary = {
 	"RegularKick(LeftForward)0": 0.86,
 	# Add more entries as needed
 	"HookPunch(LeftForward)0": 0.5,  # Add times for heavy attacks
-	"RoundhouseKick(LeftForward)0": 0.5
+	"RoundhouseKick(LeftForward)0": 0.5,
+	"NewAnim/Stabbing": 0.65,
+	"NewAnim/StableSwordOutwardSlash": 0.81,
+	"NewAnim/StableSwordInwardSlash": 1.12,
+	"NewAnim/ThrustSlash": 0.7
+	
+	
+	
+	
+	
 }
 
 
@@ -305,6 +317,7 @@ func _ready():
 		buffer_visual.visible = false  # For Sprite3D
 
 
+
 func pickup_weapon(new_weapon: WeaponResource):
 	if inventory.get_size() == 0:
 		print("Inventory Full!")
@@ -322,6 +335,16 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 		current_weapon_model = null
 	current_weapon = new_weapon
 	emit_signal("weapon_changed", current_weapon)
+	
+	# Update AnimationTree with weapon-specific animations
+	print("Equipping weapon: ", new_weapon.name)
+	print("Attack animations: ", new_weapon.attack_animations)
+	for node_name in ATTACK_NODES:
+		var anim_name = current_weapon.attack_animations.get(node_name, default_attack_animations[node_name])
+		if ap.has_animation(anim_name):
+			ap_tree_2.set("parameters/" + node_name + "/animation", anim_name)
+		else:
+			print("Warning: Animation '%s' not found for '%s'" % [anim_name, node_name])
 	
 	# Set hitbox based on weapon state
 	if new_weapon.classification == Item.Classification.UNARMED:
@@ -1251,10 +1274,10 @@ func close_buffer_window() -> void:
 
 
 func get_buffer_entry_time(anim_name: String) -> float:
-	var ap_anim_name = animation_mapping.get(anim_name, "")
-	if buffer_entry_times.has(ap_anim_name):
-		return buffer_entry_times[ap_anim_name]
-	print("No buffer entry time set for ", anim_name, " (mapped to ", ap_anim_name, "), defaulting to 0.0")
+	var current_anim = ap_tree_2.get("parameters/" + anim_name + "/animation")
+	if buffer_entry_times.has(current_anim):
+		return buffer_entry_times[current_anim]
+	print("No buffer entry time set for ", anim_name, " (mapped to ", current_anim, "), defaulting to 0.0")
 	return 0.0  # Default to start if not set
 
 
