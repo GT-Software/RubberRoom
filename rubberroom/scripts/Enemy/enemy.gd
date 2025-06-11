@@ -30,6 +30,7 @@ var curAnim = IDLE
 @onready var projectile_container = $"../ProjectileContainer"  # Add this Node to your scene
 @onready var firing_sound = $FiringSound  # Add AudioStreamPlayer3D to your scene
 @onready var shot_at_timer: Timer = $"Shot At Timer"
+@onready var blackboard: Blackboard = $Blackboard
 
 var vision_cone
 
@@ -153,8 +154,22 @@ func _ready():
 	if behavior_tree == null:
 		print(self.name, ": behavior tree is null on ready.")
 	else:
-		behavior_tree.blackboard.set_value("player", player)
-		behavior_tree.blackboard.set_value("can_see_player", can_see_player)
+		# In your enemy's _ready() function or behavior tree setup
+		blackboard.set_value("player_position", Vector3.ZERO)
+		blackboard.set_value("last_known_player_position", Vector3.ZERO)
+		blackboard.set_value("can_see_player", false)
+		blackboard.set_value("player_distance", 999.0)
+		blackboard.set_value("current_weapon", null)
+		blackboard.set_value("health", health_component.get_max_health())
+		blackboard.set_value("is_hurt", false)
+		blackboard.set_value("hurt_timer", 0.0)
+		blackboard.set_value("dodge_cooldown", 0.0)
+		blackboard.set_value("alert_timer", 0.0)
+		blackboard.set_value("idle_movement_timer", 0.0)
+		blackboard.set_value("suppression_timer", 0.0)
+		blackboard.set_value("nearby_weapons", [])
+		blackboard.set_value("nearby_cover_points", [])
+		blackboard.set_value("incoming_projectiles", [])
 	
 	vision_cone = eyes.get_child(0)
 	inventory = Inventory.new(1)
