@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=10 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="2_en11p"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://kamqixahj3iy" path="res://scripts/Enemy/Behaviors/Death Check/death_check.gd" id="4_tt2jp"]
 [ext_resource type="Script" uid="uid://djsj1ew44ghwd" path="res://scripts/Enemy/Behaviors/Death Check/death_behavior.gd" id="5_tt2jp"]
 [ext_resource type="Script" uid="uid://bbaojjriq676j" path="res://addons/beehave/nodes/composites/sequence_star.gd" id="6_e1sri"]
+[ext_resource type="Script" uid="uid://iv7uctfcd6s0" path="res://scripts/Enemy/Behaviors/Hurt Reaction/was_recently_hit.gd" id="6_wrqsd"]
+[ext_resource type="Script" uid="uid://bm7dbqcp3dd3r" path="res://scripts/Enemy/Behaviors/Hurt Reaction/hurt_behavior.gd" id="7_wrqsd"]
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
@@ -34,6 +36,14 @@ metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 [node name="Hurt Reaction" type="Node" parent="ROOT"]
 script = ExtResource("3_ce14b")
 metadata/_custom_type_script = "uid://cg016dbe7gs1x"
+
+[node name="Was Recently Hit?" type="Node" parent="ROOT/Hurt Reaction"]
+script = ExtResource("6_wrqsd")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Hurt Behavior" type="Node" parent="ROOT/Hurt Reaction"]
+script = ExtResource("7_wrqsd")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Dodge Check" type="Node" parent="ROOT"]
 script = ExtResource("3_ce14b")
