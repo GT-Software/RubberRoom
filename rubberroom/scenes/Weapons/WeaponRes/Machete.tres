@@ -6,13 +6,7 @@
 [resource]
 script = ExtResource("2_bocsp")
 damage = 4.2
-attack_animations = {
-"HeavyHit1": "NewAnim/StableSwordOutwardSlash",
-"HeavyHit2": "NewAnim/StableSwordInwardSlash",
-"LightHit1": "NewAnim/StableSwordInwardSlash",
-"LightHit2": "NewAnim/StableSwordOutwardSlash",
-"LightHit3": "NewAnim/StableSwordInwardSlash"
-}
+attack_animations = {}
 name = "Machete"
 classification = 2
 model_scene = ExtResource("1_bocsp")

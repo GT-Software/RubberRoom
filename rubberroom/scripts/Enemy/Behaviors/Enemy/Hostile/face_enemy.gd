@@ -4,6 +4,7 @@ extends ActionLeaf
 func tick(actor: Node, blackboard: Blackboard) -> int:
 	if actor.is_in_range:
 		actor.rotate_node = null
+		return FAILURE
 	else:
 		actor.rotate_self = true
 		actor.rotate_target = blackboard.get_value("player_pos")
@@ -12,6 +13,4 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	return SUCCESS
 
 func interrupt(actor: Node, blackboard: Blackboard) -> void:
-	var enemy = actor as Enemy
-	enemy.rotate_self = false # Stop rotation
 	print("Face enemy interrupted")

@@ -23,6 +23,8 @@ func _process(delta: float) -> void:
 	if !enemies_spawned:
 		start_enemy_spawning()
 		enemies_spawned = true
+		
+	print(player.global_position.distance_to(get_tree().get_nodes_in_group("enemies")[0].global_position))
 
 
 func spawn_player_controller():

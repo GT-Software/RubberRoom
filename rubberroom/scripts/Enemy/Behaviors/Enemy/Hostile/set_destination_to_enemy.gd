@@ -8,14 +8,10 @@ extends ActionLeaf
 # Set target to player, look at player
 func tick(actor, blackboard):
 	print("Enemy: Chasing Player")
-	actor.update_target_location(blackboard.get_value("player_pos"))
+	actor.update_target_location(blackboard.get_value("player_pos"), 5.0)
 		
 	#actor.update_nav_agent()
 	return SUCCESS
 
 func interrupt(actor: Node, blackboard: Blackboard) -> void:
-	var enemy = actor as Enemy
-	enemy.is_walking = false  # Stop walking animation
-	enemy.is_running = false
-	enemy.update_animation_state()
 	print("Chase destination interrupted!")
