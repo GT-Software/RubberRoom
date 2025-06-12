@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=12 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="2_en11p"]
@@ -9,11 +9,13 @@
 [ext_resource type="Script" uid="uid://bbaojjriq676j" path="res://addons/beehave/nodes/composites/sequence_star.gd" id="6_e1sri"]
 [ext_resource type="Script" uid="uid://iv7uctfcd6s0" path="res://scripts/Enemy/Behaviors/Hurt Reaction/was_recently_hit.gd" id="6_wrqsd"]
 [ext_resource type="Script" uid="uid://bm7dbqcp3dd3r" path="res://scripts/Enemy/Behaviors/Hurt Reaction/hurt_behavior.gd" id="7_wrqsd"]
+[ext_resource type="Script" uid="uid://cnpyj2gqe7r5s" path="res://scripts/Enemy/Behaviors/Dodge Check/is_melee_attack_incoming.gd" id="8_aubws"]
+[ext_resource type="Script" uid="uid://cbnbvj8prv63i" path="res://addons/beehave/nodes/leaves/condition.gd" id="9_5tpd2"]
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
 tick_rate = 10
-blackboard = NodePath("@Node@38727")
+blackboard = NodePath("@Node@21881")
 custom_monitor = true
 actor = NodePath("..")
 
@@ -48,6 +50,18 @@ metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 [node name="Dodge Check" type="Node" parent="ROOT"]
 script = ExtResource("3_ce14b")
 metadata/_custom_type_script = "uid://cg016dbe7gs1x"
+
+[node name="Is Melee Attack Incoming?" type="Node" parent="ROOT/Dodge Check"]
+script = ExtResource("8_aubws")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Can See Player?" type="Node" parent="ROOT/Dodge Check"]
+script = ExtResource("9_5tpd2")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Dodge Behavior" type="Node" parent="ROOT/Dodge Check"]
+script = ExtResource("9_5tpd2")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
 
 [node name="Suppression Behavior" type="Node" parent="ROOT"]
 script = ExtResource("3_ce14b")

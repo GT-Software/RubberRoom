@@ -170,6 +170,7 @@ func _ready():
 		blackboard.set_value("nearby_weapons", [])
 		blackboard.set_value("nearby_cover_points", [])
 		blackboard.set_value("incoming_projectiles", [])
+		blackboard.set_value("attack", null)
 	
 	vision_cone = eyes.get_child(0)
 	inventory = Inventory.new(1)
@@ -454,12 +455,8 @@ func update_lock_on_status():
 
 
 func _on_player_attacking(attack: Attack, in_range : bool, weapon : Item):
-	if behavior_tree:
-		behavior_tree.blackboard.set_value("is attacked", true)
-		behavior_tree.blackboard.set_value("player attack", attack)
-		
-		if weapon.classification == Item.Classification.RANGED:
-			behavior_tree.blackboard.set_value("is shot", true)
+	blackboard.set_value("is hurt", true)
+	blackboard.set_value("last_known_player_position", player.global_position)
 
 
 func _on_enemy_melee_range_exited(body):
