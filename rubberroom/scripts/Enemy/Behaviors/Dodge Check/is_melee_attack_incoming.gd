@@ -40,4 +40,10 @@ func detect_player_attack_telegraph(actor: Node, blackboard: Blackboard) -> bool
 		return true
 		
 	return false
-	
+
+
+func calculate_attack_direction(actor: Node, blackboard:Blackboard) -> Vector3:
+	var player_position = blackboard.get_value("player_position", Vector3.ZERO)
+	var direction = (actor.global_position - player_position).normalized()
+	direction.y = 0 # Keep horizontal
+	return direction
