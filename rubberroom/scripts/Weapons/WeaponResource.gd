@@ -13,7 +13,10 @@ extends Item
 
 @export var sound_hit: AudioStream = null
 # Dictionary to map AnimationTree node names to AnimationPlayer animation names
-@export var attack_animations: Dictionary = {}
+
+@export var animation_mapping: Dictionary = {}  # AttackType -> Animation Name
+@export var node_mapping: Dictionary = {}      # AttackType -> AnimationTree Node Path
+@export var buffer_times: Dictionary = {}      # AttackType -> Buffer Time
 
 ## Return a group of all the class member variables as a [Dictionary]
 func to_dict() -> Dictionary:
@@ -24,7 +27,7 @@ func to_dict() -> Dictionary:
 	base_dict["sound_reload"] = sound_reload.resource_path if sound_reload else ""
 	base_dict["sound_empty"] = sound_empty.resource_path if sound_empty else ""
 	base_dict["sound_equip"] = sound_equip.resource_path if sound_equip else ""
-	base_dict["attack_animations"] = attack_animations
+	base_dict["animation_mapping"] = animation_mapping
 	return base_dict
 
 ## Load the [param data] ([Dictionary]) into a new instance of a [WeaponResource]
