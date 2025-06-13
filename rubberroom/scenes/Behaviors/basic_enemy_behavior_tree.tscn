@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=18 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="2_en11p"]
@@ -13,6 +13,10 @@
 [ext_resource type="Script" uid="uid://dani1hikxm1x1" path="res://scripts/Enemy/Behaviors/Dodge Check/can_see_player.gd" id="9_oasew"]
 [ext_resource type="Script" uid="uid://bfgqbf2juog3w" path="res://scripts/Enemy/Behaviors/Dodge Check/is_dodge_timer_ready.gd" id="10_5tpd2"]
 [ext_resource type="Script" uid="uid://cid8heu0k260o" path="res://scripts/Enemy/Behaviors/Dodge Check/dodge_behavior.gd" id="11_oasew"]
+[ext_resource type="Script" uid="uid://repdaptnacly" path="res://scripts/Enemy/Behaviors/Suppression Behavior/is_being_shot_at.gd" id="12_ndjty"]
+[ext_resource type="Script" uid="uid://bas4q3utdn6cv" path="res://scripts/Enemy/Behaviors/Suppression Behavior/cover_available.gd" id="14_ndjty"]
+[ext_resource type="Script" uid="uid://vxc65im4qtt2" path="res://scripts/Enemy/Behaviors/Suppression Behavior/move_to_cover.gd" id="15_getjb"]
+[ext_resource type="Script" uid="uid://blwj0ossh5e1i" path="res://scripts/Enemy/Behaviors/Suppression Behavior/take_evasive_action.gd" id="16_getjb"]
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
@@ -72,6 +76,33 @@ metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 [node name="Suppression Behavior" type="Node" parent="ROOT"]
 script = ExtResource("3_ce14b")
 metadata/_custom_type_script = "uid://cg016dbe7gs1x"
+
+[node name="Is Being Shot At?" type="Node" parent="ROOT/Suppression Behavior"]
+script = ExtResource("12_ndjty")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Find Cover" type="Node" parent="ROOT/Suppression Behavior"]
+script = ExtResource("2_ioc84")
+metadata/_custom_type_script = "uid://8hn4kne15ac5"
+
+[node name="Move to Nearest Cover" type="Node" parent="ROOT/Suppression Behavior/Find Cover"]
+script = ExtResource("3_ce14b")
+metadata/_custom_type_script = "uid://cg016dbe7gs1x"
+
+[node name="Cover Available?" type="Node" parent="ROOT/Suppression Behavior/Find Cover/Move to Nearest Cover"]
+script = ExtResource("14_ndjty")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Move To Cover" type="Node" parent="ROOT/Suppression Behavior/Find Cover/Move to Nearest Cover"]
+script = ExtResource("15_getjb")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+
+[node name="Take Evasive Action" type="Node" parent="ROOT/Suppression Behavior/Find Cover"]
+script = ExtResource("16_getjb")
+evasion_speed = null
+evasion_duration = null
+direction_change_interval = null
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Combat System" type="Node" parent="ROOT"]
 script = ExtResource("3_ce14b")
