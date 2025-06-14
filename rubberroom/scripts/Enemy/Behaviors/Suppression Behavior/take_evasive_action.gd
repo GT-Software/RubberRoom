@@ -30,9 +30,9 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	
 	# Move in evasive pattern
 	if actor.has_method("set_velocity"):
-		actor.set_velocity(current_direction * evasive_speed)
+		actor.set_velocity(current_direction * evasion_speed)
 		actor.move_and_slide()
-	elif actor.has_method("move_toward"):
+	elif actor.has_method("ove_toward"):
 		var target_pos = actor_position + current_direction * evasion_speed * delta
 		actor.move_toward(target_pos, evasion_speed * delta)
 	
