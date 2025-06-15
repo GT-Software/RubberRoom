@@ -6,7 +6,9 @@
 [resource]
 script = ExtResource("1_lkr37")
 damage = 5.0
-attack_animations = {}
+animation_mapping = {}
+node_mapping = {}
+buffer_times = {}
 name = "Sledge"
 classification = 1
 model_scene = ExtResource("1_5yxpn")

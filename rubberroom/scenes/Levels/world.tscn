@@ -436,6 +436,7 @@ script = ExtResource("17_trjwt")
 weapon_resource = ExtResource("21_2jwce")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Basic_NPC/MachetePickup"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -26.7622)
 shape = SubResource("BoxShape3D_rij1k")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Basic_NPC/MachetePickup"]

@@ -345,6 +345,9 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 	current_weapon = new_weapon
 	emit_signal("weapon_changed", current_weapon)
 	
+
+	set_weapon_animations(new_weapon["animation_mapping"])
+
 	# Update AnimationTree with weapon-specific animations
 	print("Equipping weapon: ", new_weapon.name)
 	print("Attack animations: ", new_weapon.animation_mapping)
@@ -366,7 +369,7 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 			weapon_attachment.add_child(current_weapon_model)
 			current_weapon_model.rotation_degrees = Vector3(90, 90, 0)  # Adjust rotation to align with hand
 			current_weapon_model.position = Vector3(0, 10, 5)  # Fine-tune position if needed
-			current_weapon_model.scale = Vector3(20, 20, 20)
+			current_weapon_model.scale = Vector3(120, 120, 120)
 			print("Parent after add: ", current_weapon_model.get_parent())  # Debug: Is it attached?
 			current_hitbox = current_weapon_model.get_node("Hitbox")
 			# Find muzzle position in the weapon model
@@ -1216,8 +1219,6 @@ func start_attack(attack_type: int, new_combo: bool = true) -> void:
 	if is_attacking and not new_combo:
 		return
 	is_attacking = true
-	
-	
 	# Update combo index
 	if new_combo:
 		combo_index = 1
@@ -1229,6 +1230,7 @@ func start_attack(attack_type: int, new_combo: bool = true) -> void:
 	var node_name = ("LightAttack" if attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index)
 		# Get animation and node details from weapon
 	# Trigger the attack animation via AnimationTree
+			
 	if node_name in ATTACK_NODES:
 		ap_tree_2.set("parameters/" + node_name + "/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 		current_animation = node_name
@@ -1241,7 +1243,19 @@ func start_attack(attack_type: int, new_combo: bool = true) -> void:
 	
 
 	
-
+# Update animation nodes based on the weapon's dictionary
+func set_weapon_animations(animation_dict: Dictionary):
+	var root = ap_tree_2.tree_root  # Get the AnimationNodeBlendTree
+	for node_name in animation_dict:
+		var node = root.get_node(node_name)
+		if node and node is AnimationNodeAnimation:
+			var anim_name = animation_dict[node_name]
+			if ap.has_animation(anim_name):
+				node.animation = anim_name
+			else:
+				print("Warning: Animation '%s' not found in AnimationPlayer" % anim_name)
+		else:
+			print("Warning: Animation node '%s' not found or not an AnimationNodeAnimation" % node_name)
 
 # --- Animation Phase Functions (Called from Timeline) ---
 
