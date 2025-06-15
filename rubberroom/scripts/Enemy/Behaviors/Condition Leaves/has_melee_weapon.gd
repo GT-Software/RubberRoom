@@ -3,9 +3,8 @@ extends ConditionLeaf
 
 func tick(actor: Node, blackboard: Blackboard) -> int:
 	var current_weapon = blackboard.get_value("current_weapon", null)
-	var ammo_manager = blackboard.get_value("ammo_manager", null)
 	
-	if current_weapon and ammo_manager.get_ammo[ammo_manager.get_ammo_type()] > 0:
+	if current_weapon and current_weapon.has_method("is_melee") and current_weapon.is_melee():
 		return SUCCESS
 	else:
 		return FAILURE

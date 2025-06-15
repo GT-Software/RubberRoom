@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=30 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="2_en11p"]
@@ -17,19 +17,23 @@
 [ext_resource type="Script" uid="uid://bas4q3utdn6cv" path="res://scripts/Enemy/Behaviors/Suppression Behavior/cover_available.gd" id="14_ndjty"]
 [ext_resource type="Script" uid="uid://vxc65im4qtt2" path="res://scripts/Enemy/Behaviors/Suppression Behavior/move_to_cover.gd" id="15_getjb"]
 [ext_resource type="Script" uid="uid://blwj0ossh5e1i" path="res://scripts/Enemy/Behaviors/Suppression Behavior/take_evasive_action.gd" id="16_getjb"]
-[ext_resource type="Script" uid="uid://cbnbvj8prv63i" path="res://addons/beehave/nodes/leaves/condition.gd" id="17_2icas"]
 [ext_resource type="Script" uid="uid://cki4kpcr82jl" path="res://scripts/Enemy/Behaviors/Condition Leaves/is_in_combat_range.gd" id="17_yd40q"]
 [ext_resource type="Script" uid="uid://bkr7qj44253ue" path="res://addons/beehave/nodes/composites/simple_parallel.gd" id="18_yynuf"]
 [ext_resource type="Script" uid="uid://c5kw158cpkrg0" path="res://scripts/Enemy/Behaviors/Condition Leaves/has_ranged_weapon.gd" id="19_6bt4c"]
 [ext_resource type="Script" uid="uid://cv74jjdrwevpr" path="res://addons/beehave/nodes/leaves/action.gd" id="19_yd40q"]
 [ext_resource type="Script" uid="uid://doqgfjw53d1l4" path="res://addons/beehave/nodes/composites/randomized_composite.gd" id="20_6bt4c"]
 [ext_resource type="Script" uid="uid://5bfy51d8tb8q" path="res://scripts/Enemy/Behaviors/Condition Leaves/has_ammo.gd" id="20_cgemj"]
+[ext_resource type="Script" uid="uid://bn4ysa0phobp8" path="res://scripts/Enemy/Behaviors/Condition Leaves/is_in_ranged_range.gd" id="21_f48sx"]
 [ext_resource type="Script" uid="uid://dcojdhvj8qcw0" path="res://addons/beehave/nodes/composites/sequence_reactive.gd" id="21_yynuf"]
+[ext_resource type="Script" uid="uid://c3ys1pk5rx46k" path="res://scripts/Enemy/Behaviors/Combat/firearm_attack.gd" id="22_g5b51"]
+[ext_resource type="Script" uid="uid://qvjakscxnj0r" path="res://scripts/Enemy/Behaviors/Combat/throwable_attack.gd" id="23_mobdp"]
+[ext_resource type="Script" uid="uid://cgr20lgsxy1ej" path="res://scripts/Enemy/Behaviors/Condition Leaves/is_in_melee_range.gd" id="24_6bmo8"]
+[ext_resource type="Script" uid="uid://c8rhhtynrid70" path="res://scripts/Enemy/Behaviors/Condition Leaves/has_melee_weapon.gd" id="26_6bmo8"]
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
 tick_rate = 10
-blackboard = NodePath("@Node@21883")
+blackboard = NodePath("@Node@21891")
 custom_monitor = true
 actor = NodePath("..")
 
@@ -142,7 +146,7 @@ script = ExtResource("20_cgemj")
 metadata/_custom_type_script = "uid://cbnbvj8prv63i"
 
 [node name="Is In Ranged Range?" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Ranged Combat"]
-script = ExtResource("17_2icas")
+script = ExtResource("21_f48sx")
 metadata/_custom_type_script = "uid://cbnbvj8prv63i"
 
 [node name="Ranged Attack Selector" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Ranged Combat"]
@@ -150,11 +154,11 @@ script = ExtResource("2_ioc84")
 metadata/_custom_type_script = "uid://8hn4kne15ac5"
 
 [node name="Firearm Attack" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Ranged Combat/Ranged Attack Selector"]
-script = ExtResource("19_yd40q")
+script = ExtResource("22_g5b51")
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Throwable Attack" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Ranged Combat/Ranged Attack Selector"]
-script = ExtResource("19_yd40q")
+script = ExtResource("23_mobdp")
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Melee Combat" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision"]
@@ -162,7 +166,7 @@ script = ExtResource("3_ce14b")
 metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 
 [node name="Is In Melee Range?" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Melee Combat"]
-script = ExtResource("17_2icas")
+script = ExtResource("24_6bmo8")
 metadata/_custom_type_script = "uid://cbnbvj8prv63i"
 
 [node name="Melee Attack Choice" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Melee Combat"]
@@ -174,7 +178,7 @@ script = ExtResource("3_ce14b")
 metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 
 [node name="Has Melee Weapon?" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Melee Combat/Melee Attack Choice/Weapon Melee"]
-script = ExtResource("17_2icas")
+script = ExtResource("26_6bmo8")
 metadata/_custom_type_script = "uid://cbnbvj8prv63i"
 
 [node name="Weapon Attack variants" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Melee Combat/Melee Attack Choice/Weapon Melee"]
