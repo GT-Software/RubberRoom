@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=33 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="2_en11p"]
@@ -29,6 +29,9 @@
 [ext_resource type="Script" uid="uid://qvjakscxnj0r" path="res://scripts/Enemy/Behaviors/Combat/throwable_attack.gd" id="23_mobdp"]
 [ext_resource type="Script" uid="uid://cgr20lgsxy1ej" path="res://scripts/Enemy/Behaviors/Condition Leaves/is_in_melee_range.gd" id="24_6bmo8"]
 [ext_resource type="Script" uid="uid://c8rhhtynrid70" path="res://scripts/Enemy/Behaviors/Condition Leaves/has_melee_weapon.gd" id="26_6bmo8"]
+[ext_resource type="Script" uid="uid://crjdyc6drmjut" path="res://scripts/Enemy/Behaviors/Combat/heavy_attack.gd" id="27_bdjyc"]
+[ext_resource type="Script" uid="uid://cutrdkkf1rb52" path="res://scripts/Enemy/Behaviors/Combat/quick_attack.gd" id="28_ntekc"]
+[ext_resource type="Script" uid="uid://bnnn4p6624mg0" path="res://scripts/Enemy/Behaviors/Combat/combo_attack.gd" id="29_oa5jo"]
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
@@ -186,15 +189,15 @@ script = ExtResource("20_6bt4c")
 metadata/_custom_type_script = "uid://doqgfjw53d1l4"
 
 [node name="Heavy Attack" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Melee Combat/Melee Attack Choice/Weapon Melee/Weapon Attack variants"]
-script = ExtResource("19_yd40q")
+script = ExtResource("27_bdjyc")
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Quick Attack" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Melee Combat/Melee Attack Choice/Weapon Melee/Weapon Attack variants"]
-script = ExtResource("19_yd40q")
+script = ExtResource("28_ntekc")
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Combo Attack" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Melee Combat/Melee Attack Choice/Weapon Melee/Weapon Attack variants"]
-script = ExtResource("19_yd40q")
+script = ExtResource("29_oa5jo")
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Unarmed Combat" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Melee Combat/Melee Attack Choice"]
