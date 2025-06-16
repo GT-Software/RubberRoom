@@ -8,10 +8,11 @@ script = ExtResource("2_bocsp")
 damage = 4.2
 animation_mapping = {
 "HeavyHit1": "NewAnim/ThrustSlash",
-"HeavyHit2": "NewAnim/ThrustSlash",
-"LightHit1": "NewAnim/Stabbing",
+"HeavyHit2": "NewAnim/Stabbing",
+"Idle": "NewAnim/BaseballIdle",
+"LightHit1": "NewAnim/StableSwordInwardSlash",
 "LightHit2": "NewAnim/Stabbing",
-"LightHit3": "NewAnim/Stabbing"
+"LightHit3": "NewAnim/StableSwordOutwardSlash"
 }
 node_mapping = {}
 buffer_times = {}
