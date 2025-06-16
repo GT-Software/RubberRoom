@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=38 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="2_en11p"]
@@ -20,7 +20,6 @@
 [ext_resource type="Script" uid="uid://cki4kpcr82jl" path="res://scripts/Enemy/Behaviors/Condition Leaves/is_in_combat_range.gd" id="17_yd40q"]
 [ext_resource type="Script" uid="uid://bkr7qj44253ue" path="res://addons/beehave/nodes/composites/simple_parallel.gd" id="18_yynuf"]
 [ext_resource type="Script" uid="uid://c5kw158cpkrg0" path="res://scripts/Enemy/Behaviors/Condition Leaves/has_ranged_weapon.gd" id="19_6bt4c"]
-[ext_resource type="Script" uid="uid://cv74jjdrwevpr" path="res://addons/beehave/nodes/leaves/action.gd" id="19_yd40q"]
 [ext_resource type="Script" uid="uid://doqgfjw53d1l4" path="res://addons/beehave/nodes/composites/randomized_composite.gd" id="20_6bt4c"]
 [ext_resource type="Script" uid="uid://5bfy51d8tb8q" path="res://scripts/Enemy/Behaviors/Condition Leaves/has_ammo.gd" id="20_cgemj"]
 [ext_resource type="Script" uid="uid://bn4ysa0phobp8" path="res://scripts/Enemy/Behaviors/Condition Leaves/is_in_ranged_range.gd" id="21_f48sx"]
@@ -32,11 +31,17 @@
 [ext_resource type="Script" uid="uid://crjdyc6drmjut" path="res://scripts/Enemy/Behaviors/Combat/heavy_attack.gd" id="27_bdjyc"]
 [ext_resource type="Script" uid="uid://cutrdkkf1rb52" path="res://scripts/Enemy/Behaviors/Combat/quick_attack.gd" id="28_ntekc"]
 [ext_resource type="Script" uid="uid://bnnn4p6624mg0" path="res://scripts/Enemy/Behaviors/Combat/combo_attack.gd" id="29_oa5jo"]
+[ext_resource type="Script" uid="uid://k0klx6onndp" path="res://scripts/Enemy/Behaviors/Combat/punch_combo.gd" id="30_5lpqk"]
+[ext_resource type="Script" uid="uid://yx4nnccundcj" path="res://scripts/Enemy/Behaviors/Combat/kick_attack.gd" id="31_ydldi"]
+[ext_resource type="Script" uid="uid://cb2oa8vuqnvfr" path="res://scripts/Enemy/Behaviors/Combat/grapple_attempt.gd" id="32_en11p"]
+[ext_resource type="Script" uid="uid://da5uk4vwot4ar" path="res://scripts/Enemy/Behaviors/Combat/approach_player.gd" id="33_ydldi"]
+[ext_resource type="Script" uid="uid://bmj82ftr3o4uk" path="res://scripts/Enemy/Behaviors/Combat/Combat Awareness/monitor_threats.gd" id="35_en11p"]
+[ext_resource type="Script" uid="uid://cy5ejo7jenfyr" path="res://scripts/Enemy/Behaviors/Combat/Combat Awareness/adjust_position.gd" id="36_shy7s"]
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
 tick_rate = 10
-blackboard = NodePath("@Node@21891")
+blackboard = NodePath("@Node@21881")
 custom_monitor = true
 actor = NodePath("..")
 
@@ -205,31 +210,31 @@ script = ExtResource("20_6bt4c")
 metadata/_custom_type_script = "uid://doqgfjw53d1l4"
 
 [node name="Punch Combo" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Melee Combat/Melee Attack Choice/Unarmed Combat"]
-script = ExtResource("19_yd40q")
+script = ExtResource("30_5lpqk")
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Kick Attack" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Melee Combat/Melee Attack Choice/Unarmed Combat"]
-script = ExtResource("19_yd40q")
+script = ExtResource("31_ydldi")
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Grapple Attempt" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision/Melee Combat/Melee Attack Choice/Unarmed Combat"]
-script = ExtResource("19_yd40q")
+script = ExtResource("32_en11p")
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Approach Player" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Decision"]
-script = ExtResource("19_yd40q")
+script = ExtResource("33_ydldi")
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
-[node name="SequenceReactiveComposite" type="Node" parent="ROOT/Combat System/Combat Actions"]
+[node name="Combat Awareness System" type="Node" parent="ROOT/Combat System/Combat Actions"]
 script = ExtResource("21_yynuf")
 metadata/_custom_type_script = "uid://dcojdhvj8qcw0"
 
-[node name="Monitor Threats" type="Node" parent="ROOT/Combat System/Combat Actions/SequenceReactiveComposite"]
-script = ExtResource("19_yd40q")
+[node name="Monitor Threats" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Awareness System"]
+script = ExtResource("35_en11p")
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
-[node name="Adjust Position" type="Node" parent="ROOT/Combat System/Combat Actions/SequenceReactiveComposite"]
-script = ExtResource("19_yd40q")
+[node name="Adjust Position" type="Node" parent="ROOT/Combat System/Combat Actions/Combat Awareness System"]
+script = ExtResource("36_shy7s")
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="Item Management" type="Node" parent="ROOT"]
