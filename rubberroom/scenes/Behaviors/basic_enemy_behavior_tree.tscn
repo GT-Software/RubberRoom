@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://cvqoxt5jwrw8e"]
+[gd_scene load_steps=40 format=3 uid="uid://cvqoxt5jwrw8e"]
 
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_76n11"]
 [ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="2_en11p"]
@@ -37,6 +37,8 @@
 [ext_resource type="Script" uid="uid://da5uk4vwot4ar" path="res://scripts/Enemy/Behaviors/Combat/approach_player.gd" id="33_ydldi"]
 [ext_resource type="Script" uid="uid://bmj82ftr3o4uk" path="res://scripts/Enemy/Behaviors/Combat/Combat Awareness/monitor_threats.gd" id="35_en11p"]
 [ext_resource type="Script" uid="uid://cy5ejo7jenfyr" path="res://scripts/Enemy/Behaviors/Combat/Combat Awareness/adjust_position.gd" id="36_shy7s"]
+[ext_resource type="Script" uid="uid://cbnbvj8prv63i" path="res://addons/beehave/nodes/leaves/condition.gd" id="37_bibpj"]
+[ext_resource type="Script" uid="uid://cv74jjdrwevpr" path="res://addons/beehave/nodes/leaves/action.gd" id="38_4pt63"]
 
 [node name="BasicEnemyBehaviorTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_76n11")
@@ -241,10 +243,86 @@ metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 script = ExtResource("2_en11p")
 metadata/_custom_type_script = "uid://cw22yurt5l74k"
 
+[node name="Pickup Weapon" type="Node" parent="ROOT/Item Management"]
+script = ExtResource("3_ce14b")
+metadata/_custom_type_script = "uid://cg016dbe7gs1x"
+
+[node name="Weapon Detected Nearby?" type="Node" parent="ROOT/Item Management/Pickup Weapon"]
+script = ExtResource("37_bibpj")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Need Better Weapon?" type="Node" parent="ROOT/Item Management/Pickup Weapon"]
+script = ExtResource("37_bibpj")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Move to Pickup" type="Node" parent="ROOT/Item Management/Pickup Weapon"]
+script = ExtResource("38_4pt63")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+
+[node name="Reload Weapon" type="Node" parent="ROOT/Item Management"]
+script = ExtResource("3_ce14b")
+metadata/_custom_type_script = "uid://cg016dbe7gs1x"
+
+[node name="Has Weapon?" type="Node" parent="ROOT/Item Management/Reload Weapon"]
+script = ExtResource("37_bibpj")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Is Weapon Empty?" type="Node" parent="ROOT/Item Management/Reload Weapon"]
+script = ExtResource("37_bibpj")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Has Ammo?" type="Node" parent="ROOT/Item Management/Reload Weapon"]
+script = ExtResource("37_bibpj")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Reload Action" type="Node" parent="ROOT/Item Management/Reload Weapon"]
+script = ExtResource("38_4pt63")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+
 [node name="Alert Behavior" type="Node" parent="ROOT"]
 script = ExtResource("6_e1sri")
 metadata/_custom_type_script = "uid://bbaojjriq676j"
 
+[node name="Player Sensed?" type="Node" parent="ROOT/Alert Behavior"]
+script = ExtResource("37_bibpj")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Cannot See Player?" type="Node" parent="ROOT/Alert Behavior"]
+script = ExtResource("37_bibpj")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Search Behavior" type="Node" parent="ROOT/Alert Behavior"]
+script = ExtResource("20_6bt4c")
+metadata/_custom_type_script = "uid://doqgfjw53d1l4"
+
+[node name="Look Around" type="Node" parent="ROOT/Alert Behavior/Search Behavior"]
+script = ExtResource("38_4pt63")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+
+[node name="Move to Last Known Position" type="Node" parent="ROOT/Alert Behavior/Search Behavior"]
+script = ExtResource("38_4pt63")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+
+[node name="Investigate Sound" type="Node" parent="ROOT/Alert Behavior/Search Behavior"]
+script = ExtResource("38_4pt63")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+
 [node name="Idle Behavior" type="Node" parent="ROOT"]
 script = ExtResource("2_ioc84")
 metadata/_custom_type_script = "uid://8hn4kne15ac5"
+
+[node name="Random Movement" type="Node" parent="ROOT/Idle Behavior"]
+script = ExtResource("3_ce14b")
+metadata/_custom_type_script = "uid://cg016dbe7gs1x"
+
+[node name="Should Move?" type="Node" parent="ROOT/Idle Behavior/Random Movement"]
+script = ExtResource("37_bibpj")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Move to Random Point" type="Node" parent="ROOT/Idle Behavior/Random Movement"]
+script = ExtResource("38_4pt63")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+
+[node name="Wait Idle Animation" type="Node" parent="ROOT/Idle Behavior"]
+script = ExtResource("38_4pt63")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
