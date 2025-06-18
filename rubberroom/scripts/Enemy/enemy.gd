@@ -178,6 +178,10 @@ func _ready():
 
 
 func _physics_process(delta: float):
+	blackboard.set_value("player_position", player.global_position)
+	blackboard.set_value("player_distance", (global_position.distance_to(player.global_position)))
+	blackboard.set_value("health", health_component.get_health())
+	
 	update_animation_state()
 	#Only Change animation on state change
 	if curAnim != lastAnim:

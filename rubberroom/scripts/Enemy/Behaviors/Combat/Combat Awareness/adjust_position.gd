@@ -19,7 +19,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		adjustment_direction = (player_position - actor.global_position).normalized()
 	else:
 		# Strafe to avoid being a sitting duck
-		var perpendicular = Vector3(player_position.z - actor.global_positiion.z, 0, actor.global_position.x - player_position.x).normalized()
+		var perpendicular = Vector3(player_position.z - actor.global_position.z, 0, actor.global_position.x - player_position.x).normalized()
 		adjustment_direction = perpendicular * (1.0 if randf() > 0.5 else -1.0)
 	
 	# Apply movement

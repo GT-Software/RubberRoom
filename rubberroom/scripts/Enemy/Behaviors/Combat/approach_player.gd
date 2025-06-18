@@ -18,12 +18,12 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	
 	# Move towards player
 	if not navigation_agent.is_navigation_finished():
-		var next_position = navigation_agent.get_next_path_position()
-		var direction = (next_position - actor.global_position).normalized()
-		
-		if actor.has_method("set_velocity"):
-			actor.set_velocity(direction * approach_speed)
-			actor.move_and_slide()
+		#var next_position = navigation_agent.get_next_path_position()
+		#var direction = (next_position - actor.global_position).normalized()
+		#
+		#if actor.has_method("set_velocity"):
+			#actor.set_velocity(direction * approach_speed)
+			#actor.move_and_slide()
 		
 		return RUNNING
 	
