@@ -5,6 +5,18 @@
 [resource]
 script = ExtResource("1_n4vd5")
 damage = 1.0
+animation_mapping = {
+"HeavyAttack1": "HookPunch(LeftForward)0",
+"HeavyAttack2": "RoundhouseKick(LeftForward)0",
+"LightAttack1": "Jab(LeftForward)0",
+"LightAttack2": "CrossPunch(LeftForward)0",
+"LightAttack3": "HookPunch(LeftForward)0"
+}
+node_mapping = {}
+buffer_times = {
+"CrossPunch(LeftForward)0": 0.7,
+"Jab(LeftForward)0": 0.4
+}
 name = "Unarmed"
 classification = 0
 type = "WeaponResource"

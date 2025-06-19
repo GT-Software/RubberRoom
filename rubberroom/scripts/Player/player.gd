@@ -158,23 +158,10 @@ var default_attack_animations: Dictionary = {
 	# Add more mappings as needed
 }
 
+
 # Dictionary to store buffer entry times for AnimationPlayer animations
 var buffer_entry_times: Dictionary = {
-	"Jab(LeftForward)0": 0.4,  # Buffer entry time in seconds
-	"CrossPunch(LeftForward)0": 0.7,
-	"RegularKick(LeftForward)0": 0.86,
-	# Add more entries as needed
-	"HookPunch(LeftForward)0": 0.5,  # Add times for heavy attacks
-	"RoundhouseKick(LeftForward)0": 0.5,
-	"NewAnim/Stabbing": 0.65,
-	"NewAnim/StableSwordOutwardSlash": 0.81,
-	"NewAnim/StableSwordInwardSlash": 1.12,
-	"NewAnim/ThrustSlash": 0.7
-	
-	
-	
-	
-	
+
 }
 
 
@@ -345,7 +332,8 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 	current_weapon = new_weapon
 	emit_signal("weapon_changed", current_weapon)
 	
-
+	# Load buffer times from the weapon resource
+	buffer_entry_times = new_weapon.buffer_times.duplicate()
 	set_weapon_animations(new_weapon["animation_mapping"])
 
 	# Update AnimationTree with weapon-specific animations
@@ -1216,8 +1204,39 @@ func _on_reload_complete() -> void:
 
 # Attack Functions
 func start_attack(attack_type: int, new_combo: bool = true) -> void:
-	if is_attacking and not new_combo:
-		return
+	if is_attacking and not new_combo: #This path is for buffered attacks
+		# Cancel the current animation
+		var current_anim = ("LightAttack" if current_attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index)
+		var current_one_shot_path = "parameters/" + current_anim + "/request"
+		ap_tree_2.set(current_one_shot_path, AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
+		# Increment combo index
+		combo_index = clamp(combo_index + 1, 1, MAX_LIGHT_COMBO_HITS if current_attack_type == AttackType.LIGHT else MAX_HEAVY_COMBO_HITS)
+
+		# Determine next animation
+		var next_anim = ("LightAttack" if current_attack_type == AttackType.LIGHT else "HeavyAttack") + str(combo_index)
+		# Get the buffer entry time
+		var buffer_entry_time = get_buffer_entry_time(next_anim)
+	
+		# Set the seek time for the TimeSeek node
+		var time_seek_node = "TimeSeek_" + next_anim
+		var seek_path = "parameters/" + time_seek_node + "/seek_request"
+		ap_tree_2.set(seek_path, buffer_entry_time)
+	
+		# Set the time scale for the TimeScale node
+		var time_scale_node = "TimeScale_" + next_anim
+		var scale_path = "parameters/" + time_scale_node + "/scale"
+		var time_scale = animation_time_scales.get(next_anim, 1.0)  # Default to 1.0 if not found
+		ap_tree_2.set(scale_path, time_scale)
+
+		# Fire the next animation and seek to the buffer entry time
+		var oneshot_path = "parameters/" + next_anim + "/request"
+		ap_tree_2.set(oneshot_path, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+		# Update state
+		current_animation = next_anim  # Update the current animation
+		buffered_attack = false
+		print("Buffered attack triggered: ", next_anim, " at time ", buffer_entry_time, " with time scale ", time_scale)
+
+
 	is_attacking = true
 	# Update combo index
 	if new_combo:

@@ -28,6 +28,8 @@ func to_dict() -> Dictionary:
 	base_dict["sound_empty"] = sound_empty.resource_path if sound_empty else ""
 	base_dict["sound_equip"] = sound_equip.resource_path if sound_equip else ""
 	base_dict["animation_mapping"] = animation_mapping
+	base_dict["node_mapping"] = node_mapping
+	base_dict["buffer_times"] = buffer_times  # Ensure buffer_times is included
 	return base_dict
 
 ## Load the [param data] ([Dictionary]) into a new instance of a [WeaponResource]
@@ -50,4 +52,6 @@ static func from_dict(data : Dictionary) -> WeaponResource:
 	if data.has("sound_equip") and data["sound_equip"] != "":
 		instance.sound_equip = load(data["sound_equip"])
 	instance.attack_animations = data["attack_animations"]
+	instance.node_mapping = data["node_mapping"]
+	instance.buffer_times = data["buffer_times"]  # Load buffer_times
 	return instance
