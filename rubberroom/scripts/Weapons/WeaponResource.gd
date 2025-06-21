@@ -18,6 +18,11 @@ extends Item
 @export var node_mapping: Dictionary = {}      # AttackType -> AnimationTree Node Path
 @export var buffer_times: Dictionary = {}      # AttackType -> Buffer Time
 
+# New properties for attachment point customization
+@export var attachment_bone: String = "RightHand"  # Default bone name
+@export var attachment_offset: Vector3 = Vector3.ZERO  # Position offset from the bone
+@export var attachment_rotation: Vector3 = Vector3.ZERO  # Rotation in degrees relative to the bone
+
 ## Return a group of all the class member variables as a [Dictionary]
 func to_dict() -> Dictionary:
 	var base_dict = super.to_dict()
@@ -30,6 +35,9 @@ func to_dict() -> Dictionary:
 	base_dict["animation_mapping"] = animation_mapping
 	base_dict["node_mapping"] = node_mapping
 	base_dict["buffer_times"] = buffer_times  # Ensure buffer_times is included
+	base_dict["attachment_bone"] = attachment_bone
+	base_dict["attachment_offset"] = attachment_offset
+	base_dict["attachment_rotation"] = attachment_rotation
 	return base_dict
 
 ## Load the [param data] ([Dictionary]) into a new instance of a [WeaponResource]
@@ -54,4 +62,7 @@ static func from_dict(data : Dictionary) -> WeaponResource:
 	instance.attack_animations = data["attack_animations"]
 	instance.node_mapping = data["node_mapping"]
 	instance.buffer_times = data["buffer_times"]  # Load buffer_times
+	instance.attachment_bone = data["attachment_bone"]
+	instance.attachment_offset = data["attachment_offset"]
+	instance.attachment_rotation = data["attachment_rotation"]
 	return instance

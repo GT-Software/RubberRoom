@@ -331,7 +331,8 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 		current_weapon_model = null
 	current_weapon = new_weapon
 	emit_signal("weapon_changed", current_weapon)
-	
+	# Set the attachment bone dynamically
+	weapon_attachment.bone_name = current_weapon.attachment_bone
 	# Load buffer times from the weapon resource
 	buffer_entry_times = new_weapon.buffer_times.duplicate()
 	#set_weapon_animations(new_weapon["animation_mapping"])
@@ -358,8 +359,9 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 			current_weapon_model = new_weapon.model_scene.instantiate()
 			print("Instantiated model: ", current_weapon_model)  # Debug: Is it instantiated?
 			weapon_attachment.add_child(current_weapon_model)
-			current_weapon_model.rotation_degrees = Vector3(90, 90, 0)  # Adjust rotation to align with hand
-			current_weapon_model.position = Vector3(0, 10, 5)  # Fine-tune position if needed
+			current_weapon_model.position = current_weapon.attachment_offset
+			current_weapon_model.rotation_degrees = current_weapon.attachment_rotation
+			# Optionally keep scale if consistent across weapons, or add to WeaponResource
 			current_weapon_model.scale = Vector3(120, 120, 120)
 			print("Parent after add: ", current_weapon_model.get_parent())  # Debug: Is it attached?
 			current_hitbox = current_weapon_model.get_node("Hitbox")
@@ -1244,8 +1246,8 @@ func start_attack(attack_type: int, new_combo: bool = true) -> void:
 	# Update combo index
 	if new_combo:
 		combo_index = 1
-	else:
-		combo_index = min(combo_index + 1, MAX_LIGHT_COMBO_HITS if attack_type == AttackType.LIGHT else MAX_HEAVY_COMBO_HITS)
+	#else:
+		#combo_index = min(combo_index + 1, MAX_LIGHT_COMBO_HITS if attack_type == AttackType.LIGHT else MAX_HEAVY_COMBO_HITS)
 		
 		
 	# Determine the OneShot node name

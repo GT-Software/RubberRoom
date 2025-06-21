@@ -17,3 +17,6 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Machete/Area3D"]
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 1.76325e-06, -6.79016e-05, 0.000704015)
 shape = SubResource("BoxShape3D_xfigm")
+
+[node name="Attatchment Point" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.205807, 0.00174755)

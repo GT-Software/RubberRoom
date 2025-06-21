@@ -16,6 +16,9 @@ animation_mapping = {
 }
 node_mapping = {}
 buffer_times = {}
+attachment_bone = "RightHand"
+attachment_offset = Vector3(0, 0, 0)
+attachment_rotation = Vector3(0, 0, 0)
 name = "Machete"
 classification = 2
 model_scene = ExtResource("1_bocsp")
