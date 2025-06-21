@@ -10,12 +10,15 @@ animation_mapping = {
 "HeavyAttack2": "RoundhouseKick(LeftForward)0",
 "LightAttack1": "Jab(LeftForward)0",
 "LightAttack2": "CrossPunch(LeftForward)0",
-"LightAttack3": "HookPunch(LeftForward)0"
+"LightAttack3": "RegularKick(LeftForward)0"
 }
 node_mapping = {}
 buffer_times = {
 "CrossPunch(LeftForward)0": 0.7,
-"Jab(LeftForward)0": 0.4
+"HookPunch(LeftForward)0": 0.85,
+"Jab(LeftForward)0": 0.4,
+"RegularKick(LeftForward)0": 0.6,
+"RoundhouseKick(LeftForward)0": 0.65
 }
 name = "Unarmed"
 classification = 0
