@@ -334,8 +334,11 @@ func equip_weapon(new_weapon: WeaponResource) -> void:
 	
 	# Load buffer times from the weapon resource
 	buffer_entry_times = new_weapon.buffer_times.duplicate()
-	set_weapon_animations(new_weapon["animation_mapping"])
-
+	#set_weapon_animations(new_weapon["animation_mapping"])
+	set_weapon_animations(new_weapon.animation_mapping)
+	
+	# Print buffer times to verify they're loaded correctly
+	print("Equipped weapon buffer times: ", new_weapon.buffer_times)
 	# Update AnimationTree with weapon-specific animations
 	print("Equipping weapon: ", new_weapon.name)
 	print("Attack animations: ", new_weapon.animation_mapping)
@@ -1335,11 +1338,12 @@ func close_buffer_window() -> void:
 
 
 func get_buffer_entry_time(anim_name: String) -> float:
-	var current_anim = ap_tree_2.get("parameters/" + anim_name + "/animation")
-	if buffer_entry_times.has(current_anim):
-		return buffer_entry_times[current_anim]
-	print("No buffer entry time set for ", anim_name, " (mapped to ", current_anim, "), defaulting to 0.0")
-	return 0.0  # Default to start if not set
+	var current_anim = current_weapon.animation_mapping.get(anim_name, "")
+	if current_anim and current_weapon.buffer_times.has(current_anim):
+		return current_weapon.buffer_times[current_anim]
+	print("No buffer entry time for ", anim_name, " (mapped to ", current_anim, "), defaulting to 0.0")
+	return 0.0
+
 
 
 
